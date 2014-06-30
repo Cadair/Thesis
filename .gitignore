@@ -87,3 +87,7 @@ sympy-plots-for-*.tex/
 
 # xindy
 *.xdy
+
+# Randoms
+*.nls
+*smumford_thesis.pdf
