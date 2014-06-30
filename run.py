@@ -19,20 +19,9 @@ import sys
 import bz2
 import subprocess
 
-try:
-    import docopt
-except ImportError:
-    from scripts.extern import docopt
-
-try:
-    import progressbar
-except ImportError:
-    from scripts.extern import progressbar
-
-try:
-    import requests
-except ImportError:
-    from scripts.extern import requests
+import docopt
+import progressbar
+import requests
 
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
