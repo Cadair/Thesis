@@ -4,21 +4,60 @@
 
 \chapter{Introduction}  %Title of the First Chapter
 
-\ifpdf
-    \graphicspath{{Chapter1/Figs/Raster/}{Chapter1/Figs/PDF/}{Chapter1/Figs/}}
-\else
-    \graphicspath{{Chapter1/Figs/Vector/}{Chapter1/Figs/}}
-\fi
+\begin{pycode}[chapter1]
+ch1 = Chapter(pytex, 1, './Chapter1/')
+\end{pycode}
 
+\graphicspath{\py|ch1.fig_path|}
 
 %********************************** %First Section  **************************************
 \section{The Sun} %Section - 1.1 
 The Sun has been the subject of study by humanity since the dawn of civilisation.
 The processes in the Sun and in its atmosphere have a direct impact on life on Earth.
-The radiation that reaches the Earth provides the energy life needs to flourish and the interaction of the solar wind with the upper atmosphere generates the aurora.
-Modern study of the Sun focuses on understanding the processes that drive changes in the Sun such as total radiation output and dramatic events such as solar flares or coronal mass ejections.
+The radiation that reaches the Earth provides the energy life needs to flourish and interactions of the solar wind and the Earth's magnetosphere generate aurora and disrupt technology.
+Modern study of the Sun focuses on understanding the processes that drive changes such as total radiation output and dramatic events such as solar flares or coronal mass ejections.
 
 The properties and behaviour of the Sun change dramatically with distance from the centre of the Sun.
-The core of the Sun is where the nuclear fusion reaction occurs, above this there is a region of plasma where energy transport by radiation dominates.
+The core of the Sun is where the nuclear fusion reaction occurs, the fundamental energy source for the whole solar system.
+Above this there is a region of plasma where energy transport by radiation dominates.
 This radiative zone extends out to XXX, at that point a narrow region called the tachocline exists, where the plasma stops rotating as a solid body, and starts rotating with different velocities at different latitudes.
 Above this tachocline radial energy transport is dominated by convective motions, this convective zone extends out to the visible surface or photosphere.
+
+While the layers below the photosphere are the energy source for the solar atmosphere, it is in this atmosphere, above the solar photosphere where most of the events that have a direct impact on the Earth occur.
+The solar atmosphere is often described by various distinctive vertically stratified layers, the lowest of which is the photosphere.
+Above the photosphere, there is a region called the chromosphere, so named because of the colourful emission lines, such as H$\alpha$ which dominate it's emission.
+From the chromosphere upwards a drastic change in plasma properties occur.
+The plasma density drops rapidly and the temperature increases
+
+\begin{pycode}[chapter1]
+from astropy.table import Table, vstack
+from astropy.io import ascii
+"""
+Load in data from Table 12 in Vernazza 1981,
+data is:
+    H(km) | \rho (g cm^-3) | Ptot (dyn cm^-2) | T (K) | Pgas / Ptot
+and in McWhirter 1975 data is:  
+    H(km) | T (K)          | Ptot (dyn cm^-2) | Pgas / Ptot (?)
+"""
+
+val3c = Table.read(ch1.data_file("VALIIIC.dat"),
+				  names=('H', r'\rho', 'Ptot', 'T', 'Pgas / Ptot'),
+				  format='ascii')
+tunits=(u.km, u.Unit('g cm^-3'), u.Unit('dyn cm^-2'), u.K, None)
+[setattr(val3c[col], 'unit', tunits[i]) for i, col in enumerate(val3c.colnames)]
+
+mwdata = Table.read(ch1.data_file("mcwhirter.dat"),
+				  names=('H', 'T', 'Ptot', 'Pgas / Ptot'),
+				  format='ascii', comment='#')
+tunits=(u.km, u.K, u.Unit('dyn cm^-2'), None)
+[setattr(mwdata[col], 'unit', tunits[i]) for i, col in enumerate(mwdata.colnames)]
+
+data = vstack([val3c, mwdata])
+
+fig, ax = plt.subplots()
+ax.plot(data['H'], data['Ptot'])
+ch1.save_figure('atmos', fig)
+\end{pycode}
+
+\py[chapter1]|ch1.include_figure('atmos')|
+

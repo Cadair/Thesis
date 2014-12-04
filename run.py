@@ -3,7 +3,7 @@
 Run code, analyis or build documents related to this repository
 
 Usage:
-    run.py thesis [--rerun=RR] [--view] [--viewer=PDF]
+    run.py paper [--rerun=RR] [--view] [--viewer=PDF]
     run.py download
 
 Options:
@@ -33,7 +33,7 @@ if arguments['--rerun'] is None:
 
 file_prefix = 'smumford_thesis'
 #Compile Paper
-if arguments['thesis']:
+if arguments['paper']:
     os.chdir('thesis')
     os.system('pdflatex -shell-escape -interaction=batchmode {}.tex'.format(file_prefix))
     os.system('pythontex.py --interpreter python:python2 {}.tex --rerun={}'.format(file_prefix, arguments['--rerun']))
