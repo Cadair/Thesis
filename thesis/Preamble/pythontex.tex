@@ -1,0 +1,32 @@
+% *********************** PythonTeX Conifg **********************************
+\usepackage{pythontex}
+
+% This is the global Python setup for the whole Thesis.
+% Each chapter should use a seperate session to make it quicker to run, possibly more than one.
+\begin{pythontexcustomcode}[begin]{py}
+import os
+import sys
+import itertools
+
+import numpy as np
+
+import matplotlib
+matplotlib.use('pgf')
+
+matplotlib.rc('text', usetex=True)
+matplotlib.rc('font', family='serif')
+matplotlib.rc('font', size=14.0)
+matplotlib.rc('font', weight='normal')
+matplotlib.rc('legend', fontsize=14.0)
+matplotlib.rc("pgf", texsystem="pdflatex")
+import matplotlib.pyplot as plt
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+
+import astropy.units as u
+
+# Add the global thesis Python directory to the path
+sys.path.append('./Python/')
+from chapter import Chapter
+from plotting_helpers import *
+
+\end{pythontexcustomcode}

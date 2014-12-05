@@ -91,3 +91,6 @@ sympy-plots-for-*.tex/
 # Randoms
 *.nls
 *smumford_thesis.pdf
+
+#Python
+*.pyc
