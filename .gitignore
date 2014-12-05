@@ -94,3 +94,5 @@ sympy-plots-for-*.tex/
 
 #Python
 *.pyc
+*.pytxcode
+*pythontex-*
