@@ -38,7 +38,7 @@ class Chapter(object):
         if not os.path.exists(self.fig_dir):
             os.makedirs(self.fig_dir)
         
-        self.fig_count = 0
+        self.fig_count = 1
         self._figure_registry = OrderedDict()
     
     @property
@@ -110,7 +110,7 @@ class Chapter(object):
         fname = self.get_figure(ref)
     
         default_kwargs = {'placement':'H', 'caption':'Figure {}'.format(ref),
-                          'label':'fig_{}'.format(ref)}
+                          'label':'fig:{}'.format(ref)}
         default_kwargs.update(kwargs)
         
         myfig = get_pgf_include(fname)
