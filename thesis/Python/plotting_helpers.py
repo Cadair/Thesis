@@ -16,8 +16,7 @@ fig_str = r"""
 \end{{figure*}}
 """
 
-sub_fig_str = r"""
-\begin{{subfigure}}[{placement}]{{{width}}}
+sub_fig_str = r"""\begin{{subfigure}}[{placement}]{{{width}}}
     {myfig}
     \caption{{{caption}}}
     \label{{{label}}}

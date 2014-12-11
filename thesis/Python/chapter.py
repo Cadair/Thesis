@@ -85,7 +85,7 @@ class Chapter(object):
     
         return fname
     
-    def get_figure(self, ref):
+    def get_figure_filename(self, ref):
         """
         Get the filename of a figure that has already been saved
         
@@ -102,12 +102,12 @@ class Chapter(object):
 
         return self._figure_registry[ref]['fname']
     
-    def include_figure(self, ref, width=r"\columnwidth", **kwargs):
+    def build_figure(self, ref, width=r"\columnwidth", **kwargs):
         """
         Print a whole figure environment
         """
         
-        fname = self.get_figure(ref)
+        fname = self.get_figure_filename(ref)
     
         default_kwargs = {'placement':'H', 'caption':'Figure {}'.format(ref),
                           'label':'fig:{}'.format(ref)}
@@ -115,4 +115,19 @@ class Chapter(object):
         
         myfig = get_pgf_include(fname)
 
-        return fig_str.format(myfig=myfig, **default_kwargs)
+        return fig_str.format(myfig=myfig, **default_kwargs)   
+
+    def build_subfigure(self, ref, **kwargs):
+        """
+        Print a whole figure environment
+        """
+        
+        fname = self.get_figure_filename(ref)
+    
+        default_kwargs = {'placement':'b', 'caption':'Figure {}'.format(ref),
+                          'label':'fig:{}'.format(ref), 'width':r'\columnwidth'}
+        default_kwargs.update(kwargs)
+        
+        myfig = get_pgf_include(fname)
+
+        return sub_fig_str.format(myfig=myfig, **default_kwargs)

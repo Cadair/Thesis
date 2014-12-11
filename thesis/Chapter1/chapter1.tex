@@ -10,6 +10,23 @@ ch1 = Chapter(pytex, 1, './Chapter1/')
 
 \graphicspath{\py|ch1.fig_path|}
 
+{\Large TODO:}
+\begin{itemize}
+	\item A space for a todo list
+\end{itemize}
+
+\section*{Outline}
+
+\begin{enumerate}
+	\item What's a Sun?
+	\item Solar stratification.
+	\item The Coronal Heating problem / energy deficit.
+	\item Potential solutions and MHD waves. (Maths in Chapter 2)
+	\item Photospheric dynamics, granulation, MBPs etc.
+	\item Magnetic structures and wave guides.
+\end{enumerate}
+	
+
 %********************************** %First Section  **************************************
 \section{The Sun} %Section - 1.1 
 The Sun has been the subject of study by humanity since the dawn of civilisation.
@@ -30,9 +47,6 @@ The solar atmosphere is often described by various distinctive vertically strati
 Above the photosphere, there is a region called the chromosphere, so named because of the colourful emission lines, such as H$\alpha$ which dominate it's emission.
 From the chromosphere upwards a drastic change in plasma properties occur.
 The plasma density drops rapidly and the temperature increases
-
-def hello():
-    print('hello')
 
 \begin{pycode}[chapter1]
 from astropy import constants
@@ -83,7 +97,7 @@ fig.tight_layout()
 ch1.save_figure('atmos', fig)
 \end{pycode}
 
-\py[chapter1]|ch1.include_figure('atmos',
+\py[chapter1]|ch1.build_figure('atmos',
 caption="Density (blue) and Temperature (green) profiles of the solar atmosphere, above the photosphere, combining the \cite{mcwhirter1975} and \cite{vernazza1981} models.")|
 
 
