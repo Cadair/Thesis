@@ -48,6 +48,7 @@ The photosphere is the point where the Sun becomes mostly transparent to light, 
 However, it is the photosphere and the layers above it that have the most direct influence on the Earth.
 
 The solar atmosphere is often described by various distinctive vertically stratified layers, the lowest of which is the photosphere.
+At the top of the photosphere there is a point named the temperature minimum, at this point the temperature of the Sun is at its lowest, around $4,500$ K.
 Above the photosphere, there is a region called the chromosphere, so named because of the colourful emission lines, such as H$\alpha$ which dominate it's emission.
 From the chromosphere upwards a drastic change in plasma properties occur.
 The plasma density drops rapidly and the temperature increases, this is named the transition region and is the focus of much study.
@@ -109,7 +110,17 @@ ch1.save_figure('atmos', fig)
 caption="Density (blue) and Temperature (green) profiles of the solar atmosphere, above the photosphere, combining the \cite{mcwhirter1975} and \cite{vernazza1981} models.")|
 
 
-The solar corona is very hot, with temperatures exceeding 10 Million degrees Kelvin,
+The solar corona (Figure~\ref{fig:aia171}) is very hot, with temperatures exceeding 10 Million degrees Kelvin, however, it is also very rareified, with densities of the order of $1.6\times10^{-12}\ \text{kg}/\text{m}^3$.
+This means that the energy density of the corona is much lower than that of the lower layers of the solar atmosphere, \textit{e.g.} the photosphere, where the temperature is of the order of $5,000$ K.
+In spite of this the solar corona requires a constant energy input in the region of $100$ W/m$^2$ to maintain its high temperatures.
+There is currently no understood mechanism which transports this energy, from the photosphere, through the transition region and into the corona.
+The energy transport in the Sun is understood up to just above the photosphere, it is dominated by either radiation or convection.
+In the layers of the atmosphere above the temperature minimum, there is no longer an obvious mechanism transporting the observed quantities of energy.
+Convection and conduction are both unable to transport enough energy due to the density being too low.
+Radiation is also ruled out due to the optical depth being too high, primarily due to the low density.
+While certain regions of the chromosphere have more complex thermal characteristics, the statements above hold for the corona.
+Therefore, another energy transport mechanism has to be heating the solar atmosphere, from the chromosphere, to the corona.
+
 
 \begin{pycode}[chapter1]
 import datetime
@@ -121,6 +132,8 @@ hv = helioviewer.HelioviewerClient()
 filepath = hv.download_jp2('2015/12/31 00:00:00', observatory='SDO',
 													 instrument='AIA', detector='AIA', measurement='171',
 													 directory=ch1.data_dir)
+# Add the file to the pytex data
+ch1.pytex.add_created(filepath)
 
 aia171 = sunpy.map.Map(filepath)
 fig = aia171.peek(basic_plot=True)
@@ -130,4 +143,15 @@ ch1.save_figure('aia171', fig)
 \end{pycode}
 
 \py[chapter1]|ch1.build_figure('aia171',
-caption="The solar corona at 17.1nm, showing plasma in the region of 1 million degrees Kelvin. Taken by the AIA instrument on the SDO spacecraft on {date:%d %b %Y at %H:%M}".format(date=parse_time(aia171.date)))|
+caption="The solar corona at 17.1 nm, showing plasma in the region of 1 million degrees Kelvin. Taken by the AIA instrument on the SDO spacecraft on {date:%d %b %Y at %H:%M}".format(date=parse_time(aia171.date)))|
+
+\subsection{Coronal Heating}
+
+To maintain the temperature of the solar atmosphere, especially the corona, energy has to be transported from the photosphere upwards.
+The mechanism by which this happens is unknown, however, it is very widely accepted that it involves the solar magnetic field.
+One key reason for this is that to a first approximation the magnetic field in the solar atmosphere extends vertically away from the Sun.
+It therefore, connects the layers of the solar atmosphere together, providing a corridor for potential energy transport.
+
+The magnetic field is thought to be generated in the tachocline, the region between the radiative and convection zones.
+It then is convected up with the plasma to the photosphere, where it emerges and forms magnetic strctures on various scales in the atmosphere.
+These structures rage from, small Magnetic Bright Points (MBPs) to massive coronal loops.
