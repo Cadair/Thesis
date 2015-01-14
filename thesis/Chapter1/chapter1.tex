@@ -10,13 +10,17 @@ ch1 = Chapter(pytex, 1, './Chapter1/')
 
 \graphicspath{\py|ch1.fig_path|}
 
-{\Large TODO:}
+{\Large Inital Assumptions:}
 \begin{itemize}
-	\item A space for a todo list
+	\item Understanding of the fusion power source.
+	\item Understanding of basic thermodynamics and hydrodynamics.
+	\item Basic understanding of the concepts of EM.
+	\item Understanding of differntial equations etc.
+	\item Comprehension of numerical solutions to differential equations, and their ability to solve physcial problems.
 \end{itemize}
 
-\section*{Outline}
 
+{\Large Outline}
 \begin{enumerate}
 	\item What's a Sun??
 	\item Solar stratification.
@@ -36,7 +40,7 @@ Modern study of the Sun focuses on understanding the processes that drive change
 
 The properties and behaviour of the Sun change dramatically with distance from the centre of the Sun.
 The core of the Sun is where the nuclear fusion reaction occurs, this region is the source of energy for the Sun and the rest of the plasma above this layer transports this energy to the photosphere and beyond.
-Above the solar core the first large region of plasma is the region where energy transport by radiation dominates, this region is very dense and it takes a single high energy photon of light a long time to move outwards.
+Above the solar core the first large region of plasma is the region where energy transport by radiation dominates, this region is very dense and it takes a single high energy photon a long time to travel outwards.
 This radiative zone extends out to XXX, at that point a narrow region called the tachocline exists, where the plasma stops rotating as a solid body, and starts rotating with different velocities at different latitudes.
 Above this tachocline radial energy transport is dominated by convective motions, this convective zone extends out to the visible surface or photosphere.
 The convective plasma motions that move hot plasma up to the photosphere are responsible for a lot of the interesting features and properties of the photosphere and higher layers of the solar atmosphere.
@@ -46,9 +50,12 @@ However, it is the photosphere and the layers above it that have the most direct
 The solar atmosphere is often described by various distinctive vertically stratified layers, the lowest of which is the photosphere.
 Above the photosphere, there is a region called the chromosphere, so named because of the colourful emission lines, such as H$\alpha$ which dominate it's emission.
 From the chromosphere upwards a drastic change in plasma properties occur.
-The plasma density drops rapidly and the temperature increases
+The plasma density drops rapidly and the temperature increases, this is named the transition region and is the focus of much study.
+Above this region is the solar corona, which is a low density, high temperature region, were the effects of magnetic field are totally dominant.
+The changes in Temperature and Density from the photosphere to the low corona is shown in Figure~\ref{fig:atmos}.
 
 \begin{pycode}[chapter1]
+#TODO: Use Fred's new pysac routines here?!
 from astropy import constants
 from astropy.table import Table
 """
@@ -93,9 +100,34 @@ ax2.semilogy(val3c['H'], val3c['rho'], 'bx')
 
 ax2.set_ylabel(r"Density [{}]".format(mwdata['rho'].unit.to_string(format='latex')))
 ax2.set_xlim(0,6)
+
 fig.tight_layout()
 ch1.save_figure('atmos', fig)
 \end{pycode}
 
 \py[chapter1]|ch1.build_figure('atmos',
 caption="Density (blue) and Temperature (green) profiles of the solar atmosphere, above the photosphere, combining the \cite{mcwhirter1975} and \cite{vernazza1981} models.")|
+
+
+The solar corona is very hot, with temperatures exceeding 10 Million degrees Kelvin,
+
+\begin{pycode}[chapter1]
+import datetime
+from sunpy.net import helioviewer
+from sunpy.time import parse_time
+import sunpy.map
+
+hv = helioviewer.HelioviewerClient()
+filepath = hv.download_jp2('2015/12/31 00:00:00', observatory='SDO',
+													 instrument='AIA', detector='AIA', measurement='171',
+													 directory=ch1.data_dir)
+
+aia171 = sunpy.map.Map(filepath)
+fig = aia171.peek(basic_plot=True)
+
+
+ch1.save_figure('aia171', fig)
+\end{pycode}
+
+\py[chapter1]|ch1.build_figure('aia171',
+caption="The solar corona at 17.1nm, showing plasma in the region of 1 million degrees Kelvin. Taken by the AIA instrument on the SDO spacecraft on {date:%d %b %Y at %H:%M}".format(date=parse_time(aia171.date)))|
