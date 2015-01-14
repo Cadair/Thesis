@@ -18,17 +18,17 @@ ch1 = Chapter(pytex, 1, './Chapter1/')
 \section*{Outline}
 
 \begin{enumerate}
-	\item What's a Sun?
+	\item What's a Sun??
 	\item Solar stratification.
 	\item The Coronal Heating problem / energy deficit.
 	\item Potential solutions and MHD waves. (Maths in Chapter 2)
 	\item Photospheric dynamics, granulation, MBPs etc.
 	\item Magnetic structures and wave guides.
 \end{enumerate}
-	
+
 
 %********************************** %First Section  **************************************
-\section{The Sun} %Section - 1.1 
+\section{The Sun} %Section - 1.1
 The Sun has been the subject of study by humanity since the dawn of civilisation.
 The processes in the Sun and in its atmosphere have a direct impact on life on Earth.
 The radiation that reaches the Earth provides the energy life needs to flourish and the interaction of the solar wind with the upper atmosphere generates the aurora.
@@ -55,7 +55,7 @@ from astropy.table import Table
 Load in data from Table 12 in Vernazza 1981,
 data is:
     H(km) | \rho (g cm^-3) | Ptot (dyn cm^-2) | T (K) | Pgas / Ptot
-and in McWhirter 1975 data is:  
+and in McWhirter 1975 data is:
     H(km) | T (K)          | Ptot (dyn cm^-2) | Pgas / Ptot (?)
 """
 
@@ -99,5 +99,3 @@ ch1.save_figure('atmos', fig)
 
 \py[chapter1]|ch1.build_figure('atmos',
 caption="Density (blue) and Temperature (green) profiles of the solar atmosphere, above the photosphere, combining the \cite{mcwhirter1975} and \cite{vernazza1981} models.")|
-
-

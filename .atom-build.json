@@ -1,0 +1,6 @@
+{
+    "cmd": "python2 run.py",
+    "args": ["paper"],
+    "sh": true,
+    "cwd":  "{PROJECT_PATH}"
+}
