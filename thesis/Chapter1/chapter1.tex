@@ -1,3 +1,4 @@
+% !TeX root = ../smumford_thesis.tex
 %*****************************************************************************************
 %*********************************** First Chapter ***************************************
 %*****************************************************************************************
@@ -15,7 +16,7 @@ ch1 = Chapter(pytex, 1, './Chapter1/')
 	\item Understanding of the fusion power source.
 	\item Understanding of basic thermodynamics and hydrodynamics.
 	\item Basic understanding of the concepts of EM.
-	\item Understanding of differntial equations etc.
+	\item Understanding of differential equations etc.
 	\item Comprehension of numerical solutions to differential equations, and their ability to solve physcial problems.
 \end{itemize}
 
@@ -110,7 +111,7 @@ ch1.save_figure('atmos', fig)
 caption="Density (blue) and Temperature (green) profiles of the solar atmosphere, above the photosphere, combining the \cite{mcwhirter1975} and \cite{vernazza1981} models.")|
 
 
-The solar corona (Figure~\ref{fig:aia171}) is very hot, with temperatures exceeding 10 Million degrees Kelvin, however, it is also very rareified, with densities of the order of $1.6\times10^{-12}\ \text{kg}/\text{m}^3$.
+The solar corona (Figure~\ref{fig:aia171}) is very hot, with temperatures exceeding 10 Million degrees Kelvin, however, it is also very rarefied, with densities of the order of $1.6\times10^{-12}\ \text{kg}/\text{m}^3$.
 This means that the energy density of the corona is much lower than that of the lower layers of the solar atmosphere, \textit{e.g.} the photosphere, where the temperature is of the order of $5,000$ K.
 In spite of this the solar corona requires a constant energy input in the region of $100$ W/m$^2$ to maintain its high temperatures.
 There is currently no understood mechanism which transports this energy, from the photosphere, through the transition region and into the corona.
@@ -145,13 +146,33 @@ ch1.save_figure('aia171', fig)
 \py[chapter1]|ch1.build_figure('aia171',
 caption="The solar corona at 17.1 nm, showing plasma in the region of 1 million degrees Kelvin. Taken by the AIA instrument on the SDO spacecraft on {date:%d %b %Y at %H:%M}".format(date=parse_time(aia171.date)))|
 
-\subsection{Coronal Heating}
+\section{Coronal Heating}
 
 To maintain the temperature of the solar atmosphere, especially the corona, energy has to be transported from the photosphere upwards.
 The mechanism by which this happens is unknown, however, it is very widely accepted that it involves the solar magnetic field.
-One key reason for this is that to a first approximation the magnetic field in the solar atmosphere extends vertically away from the Sun.
+One key reason for this is that, to a first approximation, the magnetic field in the solar atmosphere extends vertically away from the Sun.
 It therefore, connects the layers of the solar atmosphere together, providing a corridor for potential energy transport.
 
 The magnetic field is thought to be generated in the tachocline, the region between the radiative and convection zones.
-It then is convected up with the plasma to the photosphere, where it emerges and forms magnetic strctures on various scales in the atmosphere.
+It then is convected up with the plasma to the photosphere, where it emerges and forms magnetic structures on various scales in the atmosphere.
 These structures rage from, small Magnetic Bright Points (MBPs) to massive coronal loops.
+
+Initially, we can think of the plasma in the solar atmosphere as perfectly conducting, meaning that the field lines are `frozen-in' to the plasma.
+This means that if one parcel of plasma is connected to a magnetic field line, it will be connected to that same field line for all time.
+The effect this has, is that plasma motions move the field lines, and magnetic forces affect the plasma.
+If we consider the region around the base of the photosphere, the top of the convection zone, where hot plasma tied to magnetic field is rising, cooling and then sinking.
+We can foresee a situation where this turbulent motion at the photosphere transfers kinetic energy from the plasma into the magnetic field.
+
+There are two leading mechanisms, by which this energy given to the magnetic field could heat the atmosphere, magnetic reconnection and magnetohydrodynamic (MHD) waves.
+Magnetic reconnection, is where the plasma is no longer perfectly conducting and the `frozen-in' condition no longer applies.
+The magnetic field, under high stress, will reconfigure itself and in the process transfer a large amount of energy into plasma motions.
+This reconnection mechanism is widely thought to be the driving forces behind some of the largest explosive events observed on the Sun, such as Coronal Mass Ejections (CMEs) and solar flares.
+It is also thought to be a good way to transfer magnetic energy into the plasma in the corona.
+The second, MHD waves, are the focus of the rest of this Thesis.
+MHD waves have the potential to heat the corona by using the magnetic structures that span the solar atmosphere as wave guides.
+MHD waves excited in the photosphere, then travel up along the magnetic field lines, higher up in the atmosphere these wave motions are damped, by some mechanism, thereby transferring their energy into the surrounding plasma.
+These waves can occur in all scales of magnetic structures, from small scale photospheric flux tubes, to giant coronal loops.
+The driving mechanism for both these energy transfer mechanism are the plasma motions in, and below, the photosphere.
+It is therefore important to understand the properties of the solar photosphere.
+
+\section{The Photosphere} 
