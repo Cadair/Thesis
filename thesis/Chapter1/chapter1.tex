@@ -2,7 +2,7 @@
 %*****************************************************************************************
 %*********************************** First Chapter ***************************************
 %*****************************************************************************************
-
+\label{ch:Intro}
 \chapter{Introduction}  %Title of the First Chapter
 
 \begin{pycode}[chapter1]
@@ -11,25 +11,25 @@ ch1 = Chapter(pytex, 1, './Chapter1/')
 
 \graphicspath{\py|ch1.fig_path|}
 
-{\Large Inital Assumptions:}
-\begin{itemize}
-	\item Understanding of the fusion power source.
-	\item Understanding of basic thermodynamics and hydrodynamics.
-	\item Basic understanding of the concepts of EM.
-	\item Understanding of differential equations etc.
-	\item Comprehension of numerical solutions to differential equations, and their ability to solve physcial problems.
-\end{itemize}
-
-
-{\Large Outline}
-\begin{enumerate}
-	\item What's a Sun??
-	\item Solar stratification.
-	\item The Coronal Heating problem / energy deficit.
-	\item Potential solutions and MHD waves. (Maths in Chapter 2)
-	\item Photospheric dynamics, granulation, MBPs etc.
-	\item Magnetic structures and wave guides.
-\end{enumerate}
+%{\Large Inital Assumptions:}
+%\begin{itemize}
+%	\item Understanding of the fusion power source.
+%	\item Understanding of basic thermodynamics and hydrodynamics.
+%	\item Basic understanding of the concepts of EM.
+%	\item Understanding of differential equations etc.
+%	\item Comprehension of numerical solutions to differential equations, and their ability to solve physical problems.
+%\end{itemize}
+%
+%
+%{\Large Outline}
+%\begin{enumerate}
+%	\item What's a Sun??
+%	\item Solar stratification.
+%	\item The Coronal Heating problem / energy deficit.
+%	\item Potential solutions and MHD waves. (Maths in Chapter 2)
+%	\item Photospheric dynamics, granulation, MBPs etc.
+%	\item Magnetic structures and wave guides.
+%\end{enumerate}
 
 
 %********************************** %First Section  **************************************
@@ -111,7 +111,7 @@ ch1.save_figure('atmos', fig)
 caption="Density (blue) and Temperature (green) profiles of the solar atmosphere, above the photosphere, combining the \cite{mcwhirter1975} and \cite{vernazza1981} models.")|
 
 
-The solar corona (Figure~\ref{fig:aia171}) is very hot, with temperatures exceeding 10 Million degrees Kelvin, however, it is also very rarefied, with densities of the order of $1.6\times10^{-12}\ \text{kg}/\text{m}^3$.
+The solar corona (Figure~\ref{fig:aia171}) is very hot, with temperatures exceeding 10 Million degrees Kelvin, however, it is also very rarefied, with densities of the order of $1.6\times10^{-12}\ \text{kg}/\text{m}^3$. \py[chapter1]|mwdata['rho'][-1]._repr_latex_()|
 This means that the energy density of the corona is much lower than that of the lower layers of the solar atmosphere, \textit{e.g.} the photosphere, where the temperature is of the order of $5,000$ K.
 In spite of this the solar corona requires a constant energy input in the region of $100$ W/m$^2$ to maintain its high temperatures.
 There is currently no understood mechanism which transports this energy, from the photosphere, through the transition region and into the corona.
@@ -177,7 +177,45 @@ It is therefore important to understand the properties of the solar photosphere.
 
 \section{The Photosphere} 
 \begin{pycode}[chapter1]
+from astropy.io import fits
+from wcsaxes import WCS
 
+hdu = fits.open(ch1.data_file('gband_image_00200.fits'))[0]
+header = hdu.header
+data = hdu.data[40:960,40:960]
 
+wcs = WCS(header)
 
+fig = plt.figure()
+ax = plt.subplot(1,1,1,projection=wcs)
+im = ax.imshow(data, interpolation=None, origin='lower', cmap='hot')
+x = ax.coords[0]
+y = ax.coords[1]
+
+x.set_axislabel('Solar-x [arcsec]')
+y.set_axislabel('Solar-y [arcsec]')
+
+ch1.save_figure('gband', fig)
 \end{pycode}
+
+\py[chapter1]|ch1.build_figure('gband', caption="A G-Band image of the solar photosphere.")|
+
+The photosphere is the layer of the solar atmosphere to observe, as it dominates all emission from the Sun.
+It is a highly dynamic place where hot plasma, having risen through the convection zone, cools and then sinks.
+The plasmas interaction with the magnetic field in the photosphere is obvious through various structures observed in the photosphere.
+These structures vary from the large sunspots, which can be multiple times the size of the Earth, to the small MBPs.
+As well as these magnetic structures there are various scales of convection cells observed in the photosphere, commonly named granulation.
+Granulation is the observation of the top of a convection cell, where the hot plasma rises in the centre of the granulation cell and then cools and sinks around the edges.
+The smallest and most prominent scale of granulation is shown in Figure~\ref{fig:gband}.
+
+As previously mentioned the plasma and the magnetic field are generally locked together, this means that the convective motions of the plasma have an effect on the magnetic field in the photosphere.
+The horizontal motion of the plasma at the top of the granulation cells, as it moves from the hot core to the cool edges, causes a build up of magnetic field in the lanes between then cells.
+It is in these regions that MBPs are formed, by this accumulation of magnetic field.
+
+MBPs are one structure of particular importance for the rest of this thesis.
+Small scale magnetic structures, like MBPs, are exceedingly common over the solar photosphere and therefore could have a cumulative effect if they are conduits for even small amounts of energy into the higher regions of the atmosphere.
+In combination with this, they are highly dynamic structures, formed in the chaotic inter-granular lanes, where the plasma is driven by the horizontal convective motions as well as the down drafts from the sinking plasma.
+These plasma motions, in combination with the magnetic fields, are almost certain to drive MHD waves of some variety. 
+
+The rest of this thesis is going to explore the generation of MHD waves in photospheric magnetic structures similar in properties to a MBP.
+Chapter~\ref{ch:Background} will provide the theoretical and technical background for the simulations that are performed and analysed in Chapters~\ref{ch:Three} to \ref{ch:Five}.
