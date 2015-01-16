@@ -96,3 +96,4 @@ sympy-plots-for-*.tex/
 *.pyc
 *.pytxcode
 *pythontex-*
+*.ipynb_checkpoints/
