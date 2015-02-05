@@ -30,3 +30,12 @@ from chapter import Chapter
 from plotting_helpers import *
 
 \end{pythontexcustomcode}
+
+\begin{pycode}[refs]
+#Use the modification of the aux file to work out if we need new bib file:
+pytex.add_dependencies('smumford_thesis.aux')
+print('Pulling References from Zotero')
+# Extract the BiBTeX from Zotero
+import urllib
+urllib.urlretrieve("http://localhost:23119/better-bibtex/collection?/0/Thesis.bibtex&exportNotes=false&useJournalAbbreviation=false", filename='References/Thesis.bib')
+\end{pycode}
