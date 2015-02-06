@@ -64,24 +64,60 @@ class Chapter(object):
         self.pytex.add_dependencies(fname)
         return fname
     
+    def make_figure_filename(self, ref, fname=None):
+        """
+        Return the standard template figure name with number.
+        
+        Parameters
+        ----------
+        ref : string
+            The latex reference for this figure (excluding 'fig:')
+        fname : string
+            Overwrite the default file name template with this name.
+        
+        Returns
+        -------
+        fname : string
+            The file name
+        """
+        if not fname:
+            fname = 'Chapter{}_Figure{}_{}'.format(self.number, self.fig_count,
+                                                   ref)
+
+        fname = os.path.join(self.fig_dir, fname)
+        
+        return fname
+    
+    def add_figure(self, ref, fname):
+        """
+        Add the figure to the tracked files and increment the figure count.
+        
+        Parameters
+        ----------
+        ref : string
+            The latex reference for this figure (excluding 'fig:')
+        fname : string
+            Overwrite the default file name template with this name.
+        """
+        
+        self.pytex.add_created(fname)
+        
+        self._figure_registry[ref] = {'number': self.fig_count, 'fname': fname}
+        self.fig_count += 1
+        
     def save_figure(self, ref, fig=None, fname=None):
         """
-        Save a figure and track it in this chapter
+        Save a matplotlib figure and track it in this chapter
         """
         
         if fig is None:
             fig = plt.gcf()
         
-        if fname is None:
-            fname = 'Chapter{}_Figure{}_{}'.format(self.number, self.fig_count,
-                                                   ref)
-    
-        fname = os.path.join(self.fig_dir, fname)
+        fname = self.make_figure_filename(ref, fname=fname)
+
         fig.savefig(fname)
-        self.pytex.add_created(fname)
         
-        self._figure_registry[ref] = {'number': self.fig_count, 'fname': fname}
-        self.fig_count += 1
+        self.add_figure(ref, fname)
     
         return fname
     

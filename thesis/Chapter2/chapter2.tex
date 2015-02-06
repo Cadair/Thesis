@@ -5,7 +5,7 @@
 \chapter{Background}  %Title of the Second Chapter
 
 \begin{pycode}[chapter2]
-ch2 = Chapter(pytex, 2, './Chapter1/')
+ch2 = Chapter(pytex, 2, './Chapter2/')
 \end{pycode}
 
 \graphicspath{\py|ch2.fig_path|}
@@ -52,16 +52,73 @@ ch2 = Chapter(pytex, 2, './Chapter1/')
 	
 
 %********************************** %First Section  **************************************
-\section{Magnetohydrodynamics} %Section - 2.1
+\section{Magnetohydrodynamics}\label{sec:MHD}
 
-\subsection{MHD Waves}
+\subsection{MHD Waves}\label{sec:MHDwaves}
 
-\subsection{Velocity Perturbations}
+\subsection{Velocity Perturbations}\label{sec:Vpert}
 
-\subsection{Calculating Wave Flux}
+\subsection{Calculating Wave Flux}\label{sec:waveflux}
 
-\section{Computational Methods}
+\section{Computational Methods}\label{sec:numericalmethods}
 
-\section{Magnetohydrostatic Background Conditions} 
+\section{Magnetohydrostatic Background Conditions}\label{sec:mhsbackground}
 
-\section{Numerical Flux Surfaces}
+\section{Flux Surfaces}\label{sec:fluxsurfaces}
+
+As shown in \cref{sec:Vpert}, MHD waves propagating through a plasma cause perturbations in the velocity of the plasma.
+As the perturbation velocity is one of the physical variables calculated by the SAC code this fact provides a mechanism by which we can identify the waves in the simulation domain.
+However, the challenge is decomposing the velocity vector calculated by SAC in the reference frame of the simulation domain ($Vx$, $Vy$, $Vz$) into the frame of the magnetic field ($V_\parallel$, $V_\perp$, $V_\phi$).
+Considering this problem more closely, the $V_\parallel$ component is trivial to calculate, as it is the projection of $\vec{V}$ onto $\vec{B}$.
+The $V_\phi$, the azimuthal component, is also simple, it can be defined as $V_\phi = V_\parallel \times V_\perp$.
+Clearly therefore, the challenging component to calculate is the $V_\perp$ component, the component perpendicular to the magnetic field.
+When only a two dimensional system is considered the perpendicular vector is well defined, it is perpendicular to the parallel vector in the one degree of freedom available to it.
+In three dimensions however, there is a whole plane perpendicular to the parallel vector.
+It is therefore obvious that some other construct is needed.
+
+The solution to finding a perpendicular vector in three dimensions is to consider the concept of flux tubes.
+A flux tube is a mathematical construct of a surface within a magnetic field that encloses a constant amount of magnetic flux over its whole length.
+Flux tubes as a consequence of the fact they contain a fixed amount of magnetic flux trace the field and move with the magnetic field lines.
+A flux tube constructed in the numerical domain would have a boundary, a `flux surface' which would allow the computation of a normal vector from this surface.
+This flux surface would be constructed numerically in the domain, and therefore would be a series of small planes connected together to form the surface.
+These planes are mathematically described by the equation of a plane.
+The equation of a plane is minimally defined by: three arbitrary points in a Cartesian geometry, $x_{1,2,3}$, $y_{1,2,3}$, and $y_{1,2,3}$, where the numerical subscript denotes the index of the point; the normal vector $\vec{n}=(a,b,c)$ and a constant $d$.
+\begin{equation}
+	ax_{1,2,3}+by_{1,2,3}+cz_{1,2,3}+d=0.
+\end{equation}
+We can therefore use this to calculate a vector normal to our surface for each set of three points numerically defining the surface.
+
+\subsection{Constructing Flux Surfaces Numerically}
+\begin{pycode}
+# This section is all about describing the construction of flux tubes, many imports are needed:
+import sys
+import os
+
+import yt
+import numpy as np
+import matplotlib.pyplot as plt
+from mayavi import mlab
+from tvtk.api import tvtk
+
+#pysac imports
+import pysac.analysis.tube3D.tvtk_tube_functions as ttf
+import pysac.plot.mayavi_plotting_functions as mpf
+from pysac.plot.mayavi_seed_streamlines import SeedStreamline
+from pysac.plot.divergingcolourmaps import get_mayavi_colourmap
+
+def mayavi_display(ref, scene, azimuth=153, elevation=62, distance=400, focalpoint=np.array([  25.,   63.,  60.]), aa=16):
+    scene.anti_aliasing_frames = aa
+    mlab.view(azimuth = azimuth, elevation = elevation, distance = distance, focalpoint = focalpoint)
+    fname = ch2.make_figure_filename(ref)
+    scene.save(fname, size=(500, 500))
+    ch2.add_figure(ref, fname)
+    
+\end{pycode}
+
+The construction one of these flux surfaces, and the set of normal vectors defined upon it, is described below.
+This process makes use of the Visualisation Tool Kit (VTK\footnote{Visualistation ToolKit 5.10 (\url{www.vtk.org})}) and the MayaVi package \cite{Ramachandran2001} to provide a high level Python interface to VTK.
+The flux surface is constructed based on the definition of flux tubes and field lines, a flux tube will enclose a fixed number of field lines dependant upon the magnetic flux density.
+Therefore the edge of the flux tube can be thought of as a set of field lines.
+We can therefore calculate the surface of the flux tube by computing the field lines that form its outer boundary.
+In the computational domain the magnetic field is continuous, with no defined boundary, therefore there is an infinite set of flux tubes within the domain.
+As the magnetic field is axisymmetric the flux surfaces chosen are also axisymmetric, therefore, the first stage in the construction is to define a ring of seed points around the centre of the domain.

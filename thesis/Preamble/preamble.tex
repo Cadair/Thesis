@@ -74,13 +74,6 @@
 \usepackage{siunitx} % use this package module for SI units
 
 
-% ******************************** References ***********************************
-% Must be loaded after amsmath
-
-\usepackage{hyperref}  
-\usepackage{cleveref}
-\crefname{equation}{equation}{equations}
-
 % ******************************* Line Spacing *********************************
 
 % Choose linespacing as appropriate. Default is one-half line spacing as per the
@@ -98,8 +91,11 @@
 
 % *****************************************************************************
 % *************************** Bibliography  and References ********************
-
-%\usepackage{cleveref} %Referencing without need to explicitly state fig /table
+% Must be loaded after amsmath
+\usepackage{hyperref}  
+\usepackage{cleveref} %Referencing without need to explicitly state fig /table
+\crefname{equation}{equation}{equations}
+\crefname{figure}{figure}{figures}
 
 % Add `custombib' in the document class option to use this section
 \ifuseCustomBib
@@ -115,7 +111,6 @@
 
 % changes the default name `Bibliography` -> `References'
 \renewcommand{\bibname}{References}
-
 
 % *****************************************************************************
 % *************** Changing the Visual Style of Chapter Headings ***************
@@ -145,7 +140,7 @@
 %\renewcommand{\contentsname}{My Table of Contents}
 %\renewcommand{\listfigurename}{My List of Figures}
 %\renewcommand{\listtablename}{My List of Tables}
-
+\renewcommand{\vec}{\mathbf}
 
 % ********************** TOC depth and numbering depth *************************
 

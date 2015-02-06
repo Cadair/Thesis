@@ -34,7 +34,7 @@ The horizontal and vertical motions are commonly observed using high resolution 
 The different types of spiral observed in the atmosphere and the difficulty of performing high quality observations of plasma motions in the inter-granular lanes, the spiralling motions will be modelled by a variety of drivers.
 A circular driver, a `spiral' with no radial (expansion) component; an Archemedian spiral, a spiral which expands by a fixed amount for each rotation; and a logarithmic spiral where the spiral expands by an exponentially increasing amount with every rotation.
 
-To drive waves in the numerical domain described in \cref{ch:Background} we have to `move' the plasma by numerically adding a velocity field to the domain.
+To drive waves in the numerical domain described in \cref{ch:Background} the plasma has to be `moved' by numerically adding a velocity field to the domain.
 This is done by adding the desired velocity field to a 3D layer close to the bottom of the domain, within the modelled photosphere.
 This velocity field is attenuated with a Gaussian profile in three dimensions and is located at the centre of the domain aligned with the foot point of the magnetic field.
 This velocity field is then multiplied by a sine function to make it periodic. The generic form of the driver is given in \cref{eq:generic_driver}.
@@ -74,5 +74,151 @@ and $B_L = 0.05$ and is a dimensionless expansion parameter for the logarithmic 
 \end{subequations}
 $B_A = 0.005$ is similar in nature to $B_L$, \textit{i.e.} a dimensionless expansion parameter.
 The amplitude $A$ of all the drivers is set to $10$ ms$^{-1}$ for all the simulations performed in this chapter and the period is fixed at $240$ s.
+Visualisations of these velocity fields can be seen in \cref{fig:spiral_driver_cut}.
 
+
+\begin{pycode}[chapter3]
+from streamlines import Streamlines
+#Use Equation 1 to calculate the vector field in a 2D plane to plot it.
+time = np.linspace(0,60,480)
+dt = time[1:] - time [:-1]
+period = 240.
+
+x = np.linspace(7812.5,1992187.5,128)
+y = np.linspace(7812.5,1992187.5,128)
+
+x_max = x.max()
+y_max = y.max()
+
+xc = 1.0e6
+yc = 1.0e6
+
+xn = x - xc
+yn = y - yc
+
+delta_x=0.1e6
+delta_y=0.1e6
+
+xx, yy = np.meshgrid(xn,yn)
+exp_y = np.exp(-(yn**2.0/delta_y**2.0))
+exp_x = np.exp(-(xn**2.0/delta_x**2.0))
+
+exp_x2, exp_y2= np.meshgrid(exp_x,exp_y)
+exp_xyz = exp_x2 * exp_y2
+
+
+#==============================================================================
+# Define Driver Equations and Parameters
+#==============================================================================
+#A is the amplitude, B is the spiral expansion factor
+A = 10
+
+#Tdamp defines the damping of the driver with time, Tdep is the ocillator
+tdamp = lambda time1: 1.0 #*np.exp(-(time1/(period)))
+tdep = lambda time1: np.sin((time1*2.0*np.pi)/period) * tdamp(time1)
+
+#Define a peak index to use for scaling in the inital frame
+max_ind = np.argmax(tdep(time) > 0.9998)
+
+def log():
+	B = 0.05
+	phi = np.arctan2(1,B)
+	theta = np.arctan2(yy,xx)
+	
+	uy = np.sin(theta + phi)
+	ux =  np.cos(theta + phi)
+	
+	vx = lambda time1: (ux / np.sqrt(ux**2 + uy**2)) * exp_xyz * tdep(time1) * A
+	vy = lambda time1: (uy / np.sqrt(ux**2 + uy**2)) * exp_xyz * tdep(time1) * A
+	
+	vv = np.sqrt(vx(time[max_ind])**2 + vy(time[max_ind])**2)
+	
+	return vx, vy, vv
+
+def arch():
+	B = 0.005
+	r = np.sqrt(xx**2 + yy**2)
+	
+	vx = lambda time1: ( (B*1e6 * xx) / (xx**2 + yy**2) + yy/r ) * exp_xyz * tdep(time1) * A
+	vy = lambda time1: ( (B*1e6 * yy) / (xx**2 + yy**2) - xx/r ) * exp_xyz * tdep(time1) * A
+	
+	vv = np.sqrt(vx(time[max_ind])**2 + vy(time[max_ind])**2)
+	
+	return vx, vy, vv
+
+def uniform():
+    #Uniform
+    vx = lambda time1: A * (yy / np.sqrt(xx**2 + yy**2)) * exp_xyz * tdep(time1)
+    vy = lambda time1: A * (-xx / np.sqrt(xx**2 + yy**2)) * exp_xyz * tdep(time1)
+    vv = np.sqrt(vx(time[max_ind])**2 + vy(time[max_ind])**2)
+    
+    return vx, vy, vv
+
+drivers = [log, arch, uniform]
+
+blfigs = []
+for driver_func in drivers:
+    fig, ax = plt.subplots(figsize=(5,4))
+    #============================================================================
+    # Do the Plotting
+    #============================================================================
+    vx, vy, vv = driver_func()
+    # Calculate Streamline
+    slines = Streamlines(x,y,vx(time[max_ind]),vy(time[max_ind]),maxLen=7000,
+                         x0=xc, y0=yc, direction='forwards')
+
+    im = ax.imshow(vv, cmap='Blues', extent=[7812.5,x_max,7812.5,y_max])
+    im.set_norm(matplotlib.colors.Normalize(vmin=0,vmax=A))
+    #ax.hold()
+    
+    if driver_func != uniform:
+        Sline, = ax.plot(slines.streamlines[0][0],slines.streamlines[0][1],color='red',linewidth=2, zorder=40)
+    else:
+	    Sline = matplotlib.patches.Circle([1e6, 1e6], radius=.15e6, fill=False, color='red', linewidth=2, zorder=40)
+	    ax.add_artist(Sline)
+
+    #Add colourbar
+    divider = make_axes_locatable(ax)
+    cax = divider.append_axes("right", size="5%", pad=0.2)
+    cbar = plt.colorbar(im,cax)
+    cbar.set_label(r"$|V|$ [ms$^{-1}$]")
+    scalar = matplotlib.ticker.ScalarFormatter(useMathText=False,useOffset=False)
+    scalar.set_powerlimits((-3,3))
+    cbar.formatter = scalar
+    cbar.ax.yaxis.get_offset_text().set_visible(True)
+    cbar.update_ticks()
+    #cbar.solids.set_rasterized(True)
+    cbar.solids.set_edgecolor("face")
+
+    #Add quiver plot overlay
+    qu = ax.quiver(x,y,vx(time[max_ind]),vy(time[max_ind]),scale=25*A,color='k',zorder=20, linewidth=1)
+    ax.axis([8.0e5,12.0e5,8.0e5,12.0e5])
+
+    ax.xaxis.set_major_formatter(scalar)
+    ax.yaxis.set_major_formatter(scalar)
+    ax.xaxis.set_major_locator(matplotlib.ticker.MaxNLocator(5))
+    ax.yaxis.set_major_locator(matplotlib.ticker.MaxNLocator(5))
+    ax.xaxis.get_offset_text().set_visible(False)
+    ax.yaxis.get_offset_text().set_visible(False)
+    ax.set_xlabel("X [Mm]")
+    ax.set_ylabel("Y [Mm]")
+
+    plt.tight_layout()
+    ch3.save_figure(driver_func.__name__, fig)
+
+\end{pycode}
+
+\begin{figure}[h]
+	\py[chapter3]|ch3.build_subfigure('arch', width=r'0.49\columnwidth', caption="
+	Archemdian spiral velocity field with expansion factor $B_A=0.005$")|
+	\py[chapter3]|ch3.build_subfigure('log', width=r'0.49\columnwidth', caption="
+	Logarithmic spiral velocity field with expansion factor $B_L=0.05$")|
+
+	\centering
+	\py[chapter3]|ch3.build_subfigure('uniform', width=r'0.49\columnwidth', caption="
+	Uniform spiral velocity field")|
+	
+	\caption{Horizontal cuts through the spiral driver at the peak amplitude height $z = 0.01$ Mm for the two spiral drivers. Red lines are a streamline of the velocity vector field, sampled as black arrows, overplotted on the velocity magnitude $|V|$.}
+	\label{fig:spiral_driver_cut}
+\end{figure}
 
