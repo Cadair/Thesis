@@ -89,7 +89,7 @@ The equation of a plane is minimally defined by: three arbitrary points in a Car
 We can therefore use this to calculate a vector normal to our surface for each set of three points numerically defining the surface.
 
 \subsection{Constructing Flux Surfaces Numerically}
-\begin{pycode}
+\begin{pycode}[chapter2]
 # This section is all about describing the construction of flux tubes, many imports are needed:
 import sys
 import os
@@ -101,24 +101,108 @@ from mayavi import mlab
 from tvtk.api import tvtk
 
 #pysac imports
+import pysac.yt
 import pysac.analysis.tube3D.tvtk_tube_functions as ttf
 import pysac.plot.mayavi_plotting_functions as mpf
 from pysac.plot.mayavi_seed_streamlines import SeedStreamline
 from pysac.plot.divergingcolourmaps import get_mayavi_colourmap
+from pysac.analysis.tube3D.process_utils import get_yt_mlab
 
-def mayavi_display(ref, scene, azimuth=153, elevation=62, distance=400, focalpoint=np.array([  25.,   63.,  60.]), aa=16):
+def mayavi_savefig(ref, scene, azimuth=153, elevation=62, distance=400, focalpoint=np.array([  25.,   63.,  60.]), aa=16):
     scene.anti_aliasing_frames = aa
-    mlab.view(azimuth = azimuth, elevation = elevation, distance = distance, focalpoint = focalpoint)
+    mlab.view(azimuth=azimuth, elevation=elevation, distance=distance, focalpoint=focalpoint)
     fname = ch2.make_figure_filename(ref)
-    scene.save(fname, size=(500, 500))
+    scene.save(fname+'.png', size=(1024, 1024))
     ch2.add_figure(ref, fname)
-    
+
+
+### Load in and Config ###
+
+ds = pysac.yt.SACGDFDataset((ch2.data_file('Slog_p180-0_A20-r3_B015_00001.gdf')))
+tube_r = 60
+
+#if running this creates a persistant window just get it out of the way!
+mlab.options.offscreen = True
+fig = mlab.figure(bgcolor=(1, 1, 1))
+scene = fig.scene
+cg = ds.index.grids[0]
+
+#Slices
+cube_slice = np.s_[:,:,:-5]
+x_slice = np.s_[:,:,:,:-5]
+
+#Define the size of the domain
+xmax, ymax, zmax = np.array(cg['mag_field_x'][cube_slice].shape) - 1
+domain = {'xmax':xmax, 'ymax':ymax, 'zmax':zmax}
+
+bfield, vfield = get_yt_mlab(ds, cube_slice, flux=False)
+
+#Create a scalar field of the magntiude of the vector field
+bmag = mlab.pipeline.extract_vector_norm(bfield, name="Field line Normals")
 \end{pycode}
 
 The construction one of these flux surfaces, and the set of normal vectors defined upon it, is described below.
-This process makes use of the Visualisation Tool Kit (VTK\footnote{Visualistation ToolKit 5.10 (\url{www.vtk.org})}) and the MayaVi package \cite{Ramachandran2001} to provide a high level Python interface to VTK.
+This process makes use of the Visualisation Tool Kit (VTK\footnote{Visualisation ToolKit 5.10 (\url{www.vtk.org})}) and the MayaVi package \cite{Ramachandran2011} to provide a high level Python interface to VTK.
 The flux surface is constructed based on the definition of flux tubes and field lines, a flux tube will enclose a fixed number of field lines dependant upon the magnetic flux density.
 Therefore the edge of the flux tube can be thought of as a set of field lines.
 We can therefore calculate the surface of the flux tube by computing the field lines that form its outer boundary.
 In the computational domain the magnetic field is continuous, with no defined boundary, therefore there is an infinite set of flux tubes within the domain.
-As the magnetic field is axisymmetric the flux surfaces chosen are also axisymmetric, therefore, the first stage in the construction is to define a ring of seed points around the centre of the domain.
+As the magnetic field is axisymmetric the flux surfaces chosen are also axisymmetric, therefore, the first stage in the construction is to define a ring of seed points around the centre of the domain, shown in \cref{fig:circ_seeds}.
+
+\begin{pycode}[chapter2]
+xc = domain['xmax']/2
+yc = domain['ymax']/2
+ti = 0
+n = 100
+
+surf_seeds = []
+for theta in np.linspace(0, 2 * np.pi, n, endpoint=False):
+    surf_seeds.append([tube_r * np.cos(theta + 0.5 * ti) + xc,
+                  tube_r * np.sin(theta + 0.5 * ti) + yc, domain['zmax']])
+                  
+seeds = np.array(surf_seeds)
+#Add axes:
+axes, outline = mpf.add_axes(np.array(zip(ds.domain_left_edge,ds.domain_right_edge)).flatten()/1e8)
+
+#Add seed points to plot:
+seed_points = mlab.points3d(seeds[:,0], seeds[:,1], seeds[:,2],
+                            color=(0.231, 0.298, 0.752), scale_mode='none',
+                            scale_factor=1.5)
+mayavi_savefig('circ_seeds', scene)
+\end{pycode}
+\py[chapter2]|ch2.build_figure('circ_seeds', width=r"0.6\columnwidth",
+caption=r"Outline of the numerical domain showing the seed points at a radius of $936$ km from the centre of the domain.")|
+
+The next stage is to trace field lines down through the domain from these seeds.
+The lines, traced using VTKs streamline algorithm are shown in \cref{fig:fieldlines}.
+
+\begin{pycode}[chapter2]
+field_lines = SeedStreamline(seed_points = np.array(seeds))
+bmag.add_child(field_lines)
+field_lines.actor.mapper.scalar_visibility = False
+field_lines.actor.property.color = (0,0,0)
+field_lines.actor.property.line_width = 1
+mayavi_savefig('fieldlines', scene)
+\end{pycode}
+\py[chapter2]|ch2.build_figure('fieldlines', width=r"0.6\columnwidth",
+caption=r"The magnetic field lines, traced from the blue seed points, are represented as black lines.")|
+
+%\begin{pycode}[chapter2]
+%fieldlines, surface = ttf.create_flux_surface(bfield, seeds)
+%flux_surface = mlab.pipeline.surface(surface.output)
+%flux_surface.actor.mapper.scalar_visibility = False
+%flux_surface.actor.property.color = (0.8,0.8,0.8)
+%flux_surface.actor.property.line_width = 0.5
+%mayavi_savefig('flux_surface', scene)
+%\end{pycode}
+%\py[chapter2]|ch2.build_figure('flux_surface', width=r"0.6\columnwidth",
+%caption=r"")|
+%
+%\begin{pycode}[chapter2]
+%axes.visible = False
+%outline.visible = False
+%flux_surface.actor.property.edge_visibility = True
+%mayavi_savefig('zoomed_surface', scene, azimuth = 90, elevation = 75, distance=80, focalpoint=[63, 120, 110])
+%\end{pycode}
+%\py[chapter2]|ch2.build_figure('zoomed_surface', width=r"0.6\columnwidth",
+%caption=r"")|

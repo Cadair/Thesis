@@ -36,7 +36,7 @@ file_prefix = 'smumford_thesis'
 if arguments['paper']:
     os.chdir('thesis')
     os.system('pdflatex -shell-escape -interaction=batchmode {}.tex'.format(file_prefix))
-    os.system('pythontex.py --interpreter python:python2 {}.tex --rerun={}'.format(file_prefix, arguments['--rerun']))
+    os.system('pythontex --interpreter python:python2 {}.tex --rerun={}'.format(file_prefix, arguments['--rerun']))
     os.system('bibtex {}'.format(file_prefix))
     os.system('makeindex {}.aux'.format(file_prefix))
     os.system('makeindex {}.idx'.format(file_prefix))
