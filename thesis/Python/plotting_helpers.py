@@ -10,6 +10,7 @@ __all__ = ['fig_str', 'sub_fig_str', 'get_pgf_include']#, 'get_pgf_include', 'ge
 # Some LaTeX code snippiets
 fig_str = r"""
 \begin{{figure*}}
+    \centering
     {myfig}
     \caption{{{caption}}}
     \label{{{label}}}
