@@ -1,0 +1,7 @@
+[alias]
+    pushdata = annex copy --all --to cadair-media
+    pushcm = push --all cadair-media
+    pushall = "!git push --all origin; git push --all cadair-media; git pushdata"
+[filter "dropoutput_ipynb"]
+    clean = .ipynb_output_filter.py
+    smudge = cat
