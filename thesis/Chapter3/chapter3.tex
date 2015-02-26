@@ -2,7 +2,7 @@
 %*********************************** Third Chapter ***************************************
 %*****************************************************************************************
 
-\chapter{Driving MHD Waves in the Photosphere}  %Title of the Third Chapter
+\chapter{MHD Waves excited by Different Photospheric Driver Profiles}  %Title of the Third Chapter
 
 \begin{pycode}[chapter3]
 ch3 = Chapter(pytex, 3, './Chapter3/')
@@ -22,7 +22,7 @@ ch3 = Chapter(pytex, 3, './Chapter3/')
 	\item The specific numerical domain used for all the simulations.
 \end{itemize}
 
-\section{Driving Waves from the Photosphere}
+\section{Driving Waves from the Photosphere}\label{sec:5drivers}
 
 As discussed in \cref{ch:Background} the plasma conditions in the photosphere are conducive to the generation of MHD waves.
 The photosphere is seeded with small scale magnetic features and dynamic plasma motions as a result of the granulation.
@@ -43,6 +43,7 @@ This velocity field is then multiplied by a sine function to make it periodic. T
 	\label{eq:generic_driver}
 \end{equation}
 where, $V(x,y,z)$ is the output velocity field, $F(x,y,x)$ is an arbitrary function which defines the form of the driver, $\Delta x$, $\Delta y$, $\Delta z$ are the widths of the Gaussian function in the three spatial dimensions, and $P$ is the period of the driver.
+The values used for the width of the Gaussians are fixed through out this thesis and are: $\Delta x = \Delta y = 0.1$ Mm and $\Delta z = 0.05$, the origin of the driver is at $z = 100$ km above the photosphere.
 
 The five driving motions, horizontal, vertical, circular, Archemedian spiral and logarithmic spiral are then defined by the form of $F(x,y,z)$. For the horizontal and vertical drivers $F(x,y,z)$ is a constant in the direction of the motion, $x$ for horizontal and $z$ for vertical, for the spiral drivers the forms of $F(x,y,z)$ are given in \cref{eq:Suni,eq:Sarch,eq:Slog}.
 
@@ -221,4 +222,15 @@ for driver_func in drivers:
 	\caption{Horizontal cuts through the spiral driver at the peak amplitude height $z = 0.01$ Mm for the two spiral drivers. Red lines are a streamline of the velocity vector field, sampled as black arrows, overplotted on the velocity magnitude $|V|$.}
 	\label{fig:spiral_driver_cut}
 \end{figure}
+
+\section{Simulations}
+
+Five different simulations, one for each driver profile shown in \cref{fig:spiral_driver_cut}, were performed using the SAC code as described in \cref{sec:SAC}.
+These simulations were performed using the background conditions described in \cref{sec:mhsbackground} on a $128^3$ grid with physical dimensions of $2.0 \times\ 2.0\ \times\ 1.6$ Mm$^3$ in the $x$, $y$ and $z$ directions respectively, and with an origin in the $z$ direction of $0.061$ Mm above the photosphere.
+The plasma was driven using the different drivers described in \cref{sec:5drivers} continuously for the length of the simulations. %TODO: What length are we showing here?
+
+\section{Analysing Waves Using Flux Surfaces}
+
+As described in \cref{sec:fluxsurfaces} flux surfaces can be used to analyse the relative properties of the major MHD modes in a system.
+In this section we will apply this analysis method to the simulations of various drivers.
 
