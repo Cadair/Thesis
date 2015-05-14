@@ -112,7 +112,7 @@ from pysac.analysis.tube3D.process_utils import get_yt_mlab
 
 ### Load in and Config ###
 
-ds = pysac.yt.SACGDFDataset((ch2.data_file('Slog_p180-0_A20-r3_B015_00001.gdf')))
+ds = pysac.yt.SACGDFDataset((ch2.data_file('Slog_p240-0_A10_B005_00001.gdf')))
 tube_r = 60
 
 #if running this creates a persistant window just get it out of the way!
@@ -180,7 +180,7 @@ caption=r"The seed points are then used to trace field lines. The field lines na
 
 \begin{pycode}[chapter2]
 pd_seeds = ttf.make_circle_seeds(100, 60, **domain)
-fieldlines, surface = ttf.create_flux_surface(bfield, pd_seeds)
+fieldlines, surface = ttf.create_flux_surface(bfield.outputs[0], pd_seeds)
 surface.output.lines = None
 flux_surface = mlab.pipeline.surface(surface.output)
 flux_surface.actor.mapper.scalar_visibility = False
@@ -209,7 +209,7 @@ normvec.glyph.glyph.scale_mode = 'data_scaling_off'
 normvec.glyph.glyph.color_mode = 'color_by_scale'
 normvec.glyph.glyph.scale_factor = 5
 normvec.glyph.glyph_source.glyph_position = 'tail'
-ch2.save_mayavi_figure('zoomed_glyphs', scene, azimuth = 85, elevation = 80, distance=70, focalpoint=[63, 120, 110], aa=20)
+ch2.save_mayavi_figure('zoomed_glyphs', scene, azimuth = 85, elevation = 80, distance=50, focalpoint=[63, 120, 110], aa=20)
 \end{pycode}
 \py[chapter2]|ch2.build_figure('zoomed_glyphs', width=vtk_width+r"\columnwidth",
 caption=r"By using the surface triangles a vector normal to the surface can be calculated at each vertex. This is done automatically by the vtkRuledSurfaceFilter algorithm.")|
