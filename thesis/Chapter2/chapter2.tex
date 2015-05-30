@@ -62,6 +62,8 @@ ch2 = Chapter(pytex, 2, './Chapter2/')
 
 \section{Computational Methods}\label{sec:numericalmethods}
 
+\section{Sheffield Advanced Code}\label{sec:SAC}
+
 \section{Magnetohydrostatic Background Conditions}\label{sec:mhsbackground}
 
 \section{Flux Surfaces}\label{sec:fluxsurfaces}
@@ -108,17 +110,9 @@ from pysac.plot.mayavi_seed_streamlines import SeedStreamline
 from pysac.plot.divergingcolourmaps import get_mayavi_colourmap
 from pysac.analysis.tube3D.process_utils import get_yt_mlab
 
-def mayavi_savefig(ref, scene, azimuth=153, elevation=62, distance=400, focalpoint=np.array([  25.,   63.,  60.]), aa=16):
-    scene.anti_aliasing_frames = aa
-    mlab.view(azimuth=azimuth, elevation=elevation, distance=distance, focalpoint=focalpoint)
-    fname = ch2.make_figure_filename(ref)
-    scene.save(fname+'.png', size=(1024, 1024))
-    ch2.add_figure(ref, fname)
-
-
 ### Load in and Config ###
 
-ds = pysac.yt.SACGDFDataset((ch2.data_file('Slog_p180-0_A20-r3_B015_00001.gdf')))
+ds = pysac.yt.SACGDFDataset((ch2.data_file('Slog_p240-0_A10_B005_00001.gdf')))
 tube_r = 60
 
 #if running this creates a persistant window just get it out of the way!
@@ -142,12 +136,11 @@ bmag = mlab.pipeline.extract_vector_norm(bfield, name="Field line Normals")
 \end{pycode}
 
 The construction one of these flux surfaces, and the set of normal vectors defined upon it, is described below.
-This process makes use of the Visualisation Tool Kit (VTK\footnote{Visualisation ToolKit 5.10 (\url{www.vtk.org})}) and the MayaVi package \cite{Ramachandran2011} to provide a high level Python interface to VTK.
+This process makes use of the Visualisation Tool Kit (VTK\footnote{VTK 6.1 (\url{www.vtk.org})}) and the MayaVi package \cite{Ramachandran2011} to provide a high level Python interface to VTK.
 The flux surface is constructed based on the definition of flux tubes and field lines, a flux tube will enclose a fixed number of field lines dependant upon the magnetic flux density.
 Therefore the edge of the flux tube can be thought of as a set of field lines.
 We can therefore calculate the surface of the flux tube by computing the field lines that form its outer boundary.
-In the computational domain the magnetic field is continuous, with no defined boundary, therefore there is an infinite set of flux tubes within the domain.
-As the magnetic field is axisymmetric the flux surfaces chosen are also axisymmetric, therefore, the first stage in the construction is to define a ring of seed points around the centre of the domain, shown in \cref{fig:circ_seeds}.
+The process of computing these flux surfaces is illustrated in \cref{fig:circ_seeds,fig:fieldlines,fig:flux_surface,fig:zoomed_surface,fig:zoomed_glyphs} and described in the respective captions.
 
 \begin{pycode}[chapter2]
 xc = domain['xmax']/2
@@ -168,41 +161,58 @@ axes, outline = mpf.add_axes(np.array(zip(ds.domain_left_edge,ds.domain_right_ed
 seed_points = mlab.points3d(seeds[:,0], seeds[:,1], seeds[:,2],
                             color=(0.231, 0.298, 0.752), scale_mode='none',
                             scale_factor=1.5)
-mayavi_savefig('circ_seeds', scene)
+ch2.save_mayavi_figure('circ_seeds', scene)
+vtk_width = '0.59'
 \end{pycode}
-\py[chapter2]|ch2.build_figure('circ_seeds', width=r"0.6\columnwidth",
-caption=r"Outline of the numerical domain showing the seed points at a radius of $936$ km from the centre of the domain.")|
-
-The next stage is to trace field lines down through the domain from these seeds.
-The lines, traced using VTKs streamline algorithm are shown in \cref{fig:fieldlines}.
+\py[chapter2]|ch2.build_figure('circ_seeds', width=vtk_width+r"\columnwidth",
+caption=r"Due to the axisymmetric nature of the background conditions, an axisymmetric ring of seed points is chosen. This example uses a ring at a radius of $936$ km from the centre of the domain.")|
 
 \begin{pycode}[chapter2]
 field_lines = SeedStreamline(seed_points = np.array(seeds))
 bmag.add_child(field_lines)
 field_lines.actor.mapper.scalar_visibility = False
 field_lines.actor.property.color = (0,0,0)
-field_lines.actor.property.line_width = 1
-mayavi_savefig('fieldlines', scene)
+field_lines.actor.property.line_width = 1.5
+ch2.save_mayavi_figure('fieldlines', scene)
 \end{pycode}
-\py[chapter2]|ch2.build_figure('fieldlines', width=r"0.6\columnwidth",
-caption=r"The magnetic field lines, traced from the blue seed points, are represented as black lines.")|
+\py[chapter2]|ch2.build_figure('fieldlines', width=vtk_width+r"\columnwidth",
+caption=r"The seed points are then used to trace field lines. The field lines naturally form a flux surface by definition.")|
 
-%\begin{pycode}[chapter2]
-%fieldlines, surface = ttf.create_flux_surface(bfield, seeds)
-%flux_surface = mlab.pipeline.surface(surface.output)
-%flux_surface.actor.mapper.scalar_visibility = False
-%flux_surface.actor.property.color = (0.8,0.8,0.8)
-%flux_surface.actor.property.line_width = 0.5
-%mayavi_savefig('flux_surface', scene)
-%\end{pycode}
-%\py[chapter2]|ch2.build_figure('flux_surface', width=r"0.6\columnwidth",
-%caption=r"")|
-%
-%\begin{pycode}[chapter2]
-%axes.visible = False
-%outline.visible = False
-%flux_surface.actor.property.edge_visibility = True
-%mayavi_savefig('zoomed_surface', scene, azimuth = 90, elevation = 75, distance=80, focalpoint=[63, 120, 110])
-%\end{pycode}
-%\py[chapter2]|ch2.build_figure('zoomed_surface', width=r"0.6\columnwidth",
-%caption=r"")|
+\begin{pycode}[chapter2]
+pd_seeds = ttf.make_circle_seeds(100, 60, **domain)
+fieldlines, surface = ttf.create_flux_surface(bfield.outputs[0], pd_seeds)
+surface.output.lines = None
+flux_surface = mlab.pipeline.surface(surface.output)
+flux_surface.actor.mapper.scalar_visibility = False
+flux_surface.actor.property.color = (0.8,0.8,0.8)
+#flux_surface.actor.property.line_width = 0
+ch2.save_mayavi_figure('flux_surface', scene)
+\end{pycode}
+\py[chapter2]|ch2.build_figure('flux_surface', width=vtk_width+r"\columnwidth",
+caption=r"Once the field lines have been traced a surface is constructed from small polygons (triangles) using the vtkRuledSurfaceFilter algorithm.")|
+
+\begin{pycode}[chapter2]
+axes.visible = False
+outline.visible = False
+flux_surface.actor.property.edge_visibility = True
+ch2.save_mayavi_figure('zoomed_surface', scene, azimuth = 90, elevation = 75, distance=80, focalpoint=[63, 120, 110], aa=20)
+\end{pycode}
+\py[chapter2]|ch2.build_figure('zoomed_surface', width=vtk_width+r"\columnwidth",
+caption=r"This figure shows the outlines of the triangles of which the surface comprises.")|
+
+
+\begin{pycode}[chapter2]
+poly_norms = ttf.make_poly_norms(surface.output)
+normvec = mlab.pipeline.glyph(poly_norms.output)
+normvec.glyph.glyph_source.glyph_source = normvec.glyph.glyph_source.glyph_dict['arrow_source']
+normvec.glyph.glyph.scale_mode = 'data_scaling_off'
+normvec.glyph.glyph.color_mode = 'color_by_scale'
+normvec.glyph.glyph.scale_factor = 5
+normvec.glyph.glyph_source.glyph_position = 'tail'
+ch2.save_mayavi_figure('zoomed_glyphs', scene, azimuth = 85, elevation = 80, distance=50, focalpoint=[63, 120, 110], aa=20)
+\end{pycode}
+\py[chapter2]|ch2.build_figure('zoomed_glyphs', width=vtk_width+r"\columnwidth",
+caption=r"By using the surface triangles a vector normal to the surface can be calculated at each vertex. This is done automatically by the vtkRuledSurfaceFilter algorithm.")|
+
+Once the normal vectors have been constructed, it is simple to compute the azimuthal vector from the magnetic field unit vector and the normal vector $\vec{n_\phi}= \vec{n_\perp} \times \vec{n_\parallel}$ where $\vec{n_\perp},\ \vec{n_\parallel} $ are also both unit vectors. 
+Using  $\vec{n_\perp},\ \vec{n_\parallel}$ and $\vec{n_\phi}$ it  is possible to project any vector quantity calculated in the simulations into this reference frame, and use it for the analysis of MHD waves.

@@ -4,12 +4,14 @@ Run code, analyis or build documents related to this repository
 
 Usage:
     run.py paper [--rerun=RR] [--view] [--viewer=PDF]
-    run.py download
+    run.py thesis [--rerun=RR] [--view] [--viewer=PDF]
+    run.py notebook [--port=P]
 
 Options:
     --view  Compile and then open pdf.
     --viewer=PDF  PDF Viewer. [default: evince]
     --rerun=RR PythonTeX rerun flag. [default: modified]
+    --port=P Port for IPython Notebook [default: 8898]
 
 """
 from __future__ import print_function
@@ -33,7 +35,7 @@ if arguments['--rerun'] is None:
 
 file_prefix = 'smumford_thesis'
 #Compile Paper
-if arguments['paper']:
+if arguments['paper'] or arguments['thesis']:
     os.chdir('thesis')
     os.system('pdflatex -shell-escape -interaction=batchmode {}.tex'.format(file_prefix))
     os.system('pythontex --interpreter python:python2 {}.tex --rerun={}'.format(file_prefix, arguments['--rerun']))
@@ -49,5 +51,9 @@ if arguments['paper']:
     os.chdir('../')
 
 #Download data
-if arguments['download']:
-    print("Nothing to Download")
+if arguments['notebook']:
+    if arguments['--port'] is None:
+        arguments['--port'] = 8899
+    import IPython
+    IPython.start_ipython(['notebook', '--notebook-dir=notebooks',
+    '--port={}'.format(arguments['--port'])])

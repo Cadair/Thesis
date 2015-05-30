@@ -120,6 +120,23 @@ class Chapter(object):
         self.add_figure(ref, fname)
 
         return fname
+    
+    def save_mayavi_figure(self, ref, scene, azimuth=153, elevation=62,
+                           distance=400, focalpoint=[25., 63., 60.], aa=16):
+        from mayavi import mlab
+        
+        scene.anti_aliasing_frames = aa
+        
+        mlab.view(azimuth=azimuth, elevation=elevation, distance=distance,
+                  focalpoint=focalpoint)
+        
+        fname = self.make_figure_filename(ref)
+        
+        scene.save(fname+'.png', size=(1024, 1024))
+        
+        self.add_figure(ref, fname)
+        
+        return fname
 
     def get_figure_filename(self, ref):
         """
