@@ -132,7 +132,7 @@ cube_slice = np.s_[:,:,:-5]
 x_slice = np.s_[:,:,:,:-5]
 
 #Define the size of the domain
-xmax, ymax, zmax = np.array(cg['mag_field_x'][cube_slice].shape) - 1
+xmax, ymax, zmax = np.array(cg['density_bg'].to_ndarray()[cube_slice].shape) - 1
 domain = {'xmax':xmax, 'ymax':ymax, 'zmax':zmax}
 
 bfield, vfield = get_yt_mlab(ds, cube_slice, flux=False)
