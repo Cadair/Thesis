@@ -1,8 +1,8 @@
 %*****************************************************************************************
 %*********************************** Third Chapter ***************************************
 %*****************************************************************************************
-
-\chapter{MHD Waves excited by Different Photospheric Driver Profiles}  %Title of the Third Chapter
+\label{ch:Background}
+\chapter{Methodology}  %Title of the Second Chapter
 
 \begin{pycode}[chapter3]
 ch3 = Chapter(pytex, 3, './Chapter3/')
@@ -10,227 +10,195 @@ ch3 = Chapter(pytex, 3, './Chapter3/')
 
 \graphicspath{\py|ch3.fig_path|}
 
-{\Large Knowledge at start:}
-\begin{itemize}
-	\item The ideal MHD equations
-	\item Wave solutions for a uniform media
-	\item velocity perturbation calculations
-	\item Wave flux calcs
-	\item SAC, and numerical solutions to the ideal MHD equations
-	\item Static background conditions
-	\item Construction of flux surfaces
-	\item The specific numerical domain used for all the simulations.
-\end{itemize}
+%{\Large Knowledge at start:}
+%\begin{itemize}
+%	\item The coronal heating problem
+%	\item MHD waves as a solution to the corona heating problem
+%	\item photospheric dynamics
+%	\item Magnetic wave guides.
+%\end{itemize}
+%
+%{\Large Knowledge at end:}
+%\begin{itemize}
+%	\item The ideal MHD equations
+%	\item Wave solutions for a uniform media
+%	\item velocity perturbation calculations
+%	\item Wave flux calcs
+%	\item SAC, and numerical solutions to the ideal MHD equations
+%	\item Static background conditions
+%	\item Construction of flux surfaces
+%	\item our domain setup, size, etc.
+%\end{itemize}
 
-\section{Driving Waves from the Photosphere}\label{sec:5drivers}
+%\section*{Outline}
+%
+%\begin{enumerate}
+%
+%	\item MHD
+%	\begin{enumerate}
+%		\item Ideal MHD
+%		\item MHD Waves
+%		
+%	\end{enumerate}
+%	\item Computational Methods
+%	\begin{enumerate}
+%		\item Numerical Solutions to Partial Differential Equations
+%		\item Numerical MHD
+%		\item The Sheffield Advanced Code (SAC)
+%	\end{enumerate}
+%	\item Magneto-static Background Conditions
+%	
+%\end{enumerate}
+	
+\section{Magnetohydrostatic Background Conditions}\label{sec:mhsbackground}
 
-As discussed in \cref{ch:Background} the plasma conditions in the photosphere are conducive to the generation of MHD waves.
-The photosphere is seeded with small scale magnetic features and dynamic plasma motions as a result of the granulation.
-In this chapter the motions that are common in the inter-granular lanes will be studied for their potential ability to drive MHD waves in small scale magnetic flux tubes.
-Considering the physical conditions of the inter-granular lanes, where parcels of hot plasma rise, expand and then sink down these lanes.
-It is easy to imagine the motions present: vertical motion caused by rising and sinking plasma; horizontal motion caused by the expansion and contraction of the plasma as it cools; spiralling motion in which plasma sinks down magnetic field lines, analogous to that of water down a plug hole.
+\section{Flux Surfaces}\label{sec:fluxsurfaces}
 
-The horizontal and vertical motions are commonly observed using high resolution observations, the spiralling motions were observed in an inter-granular lane by \cite{Bonet2008} and various types of spirals have been observed in the higher layers of the atmosphere by \cite{Wedemeyer-Bohm2009,Wedemeyer-Bohm2012,Wedemeyer2013}.
-The different types of spiral observed in the atmosphere and the difficulty of performing high quality observations of plasma motions in the inter-granular lanes, the spiralling motions will be modelled by a variety of drivers.
-A circular driver, a `spiral' with no radial (expansion) component; an Archemedian spiral, a spiral which expands by a fixed amount for each rotation; and a logarithmic spiral where the spiral expands by an exponentially increasing amount with every rotation.
+As shown in \cref{sec:Vpert}, MHD waves propagating through a plasma cause perturbations in the velocity of the plasma.
+As the perturbation velocity is one of the physical variables calculated by the SAC code this fact provides a mechanism by which we can identify the waves in the simulation domain.
+However, the challenge is decomposing the velocity vector calculated by SAC in the reference frame of the simulation domain ($Vx$, $Vy$, $Vz$) into the frame of the magnetic field ($V_\parallel$, $V_\perp$, $V_\phi$).
+Considering this problem more closely, the $V_\parallel$ component is trivial to calculate, as it is the projection of $\vec{V}$ onto $\vec{B}$.
+The $V_\phi$, the azimuthal component, is also simple, it can be defined as $V_\phi = V_\parallel \times V_\perp$.
+Clearly therefore, the challenging component to calculate is the $V_\perp$ component, the component perpendicular to the magnetic field.
+When only a two dimensional system is considered the perpendicular vector is well defined, it is perpendicular to the parallel vector in the one degree of freedom available to it.
+In three dimensions however, there is a whole plane perpendicular to the parallel vector.
+It is therefore obvious that some other construct is needed.
 
-To drive waves in the numerical domain described in \cref{ch:Background} the plasma has to be `moved' by numerically adding a velocity field to the domain.
-This is done by adding the desired velocity field to a 3D layer close to the bottom of the domain, within the modelled photosphere.
-This velocity field is attenuated with a Gaussian profile in three dimensions and is located at the centre of the domain aligned with the foot point of the magnetic field.
-This velocity field is then multiplied by a sine function to make it periodic. The generic form of the driver is given in \cref{eq:generic_driver}.
+The solution to finding a perpendicular vector in three dimensions is to consider the concept of flux tubes.
+A flux tube is a mathematical construct of a surface within a magnetic field that encloses a constant amount of magnetic flux over its whole length.
+Flux tubes as a consequence of the fact they contain a fixed amount of magnetic flux trace the field and move with the magnetic field lines.
+A flux tube constructed in the numerical domain would have a boundary, a `flux surface' which would allow the computation of a normal vector from this surface.
+This flux surface would be constructed numerically in the domain, and therefore would be a series of small planes connected together to form the surface.
+These planes are mathematically described by the equation of a plane.
+The equation of a plane is minimally defined by: three arbitrary points in a Cartesian geometry, $x_{1,2,3}$, $y_{1,2,3}$, and $y_{1,2,3}$, where the numerical subscript denotes the index of the point; the normal vector $\vec{n}=(a,b,c)$ and a constant $d$.
 \begin{equation}
-	V(x,y,z) = F(x,y,z) \ e^{-\left(\frac{z^2}{\Delta z^2} + \frac{x^2}{\Delta x^2} + \frac{y^2}{\Delta y^2}\right)} \sin \left(2\pi \frac{t}{P}\right),
-	\label{eq:generic_driver}
+	ax_{1,2,3}+by_{1,2,3}+cz_{1,2,3}+d=0.
 \end{equation}
-where, $V(x,y,z)$ is the output velocity field, $F(x,y,x)$ is an arbitrary function which defines the form of the driver, $\Delta x$, $\Delta y$, $\Delta z$ are the widths of the Gaussian function in the three spatial dimensions, and $P$ is the period of the driver.
-The values used for the width of the Gaussians are fixed through out this thesis and are: $\Delta x = \Delta y = 0.1$ Mm and $\Delta z = 0.05$, the origin of the driver is at $z = 100$ km above the photosphere.
+We can therefore use this to calculate a vector normal to our surface for each set of three points numerically defining the surface.
 
-The five driving motions, horizontal, vertical, circular, Archemedian spiral and logarithmic spiral are then defined by the form of $F(x,y,z)$. For the horizontal and vertical drivers $F(x,y,z)$ is a constant in the direction of the motion, $x$ for horizontal and $z$ for vertical, for the spiral drivers the forms of $F(x,y,z)$ are given in \cref{eq:Suni,eq:Sarch,eq:Slog}.
+\subsection{Constructing Flux Surfaces Numerically}
+\begin{pycode}[chapter3]
+# This section is all about describing the construction of flux tubes, many imports are needed:
+import sys
+import os
 
-\begin{subequations}
-	\begin{align}
-		F(x) &= A \frac{y}{\sqrt{x^2 + y^2}}\\
-		F(y) &= - A \frac{x}{\sqrt{x^2 + y^2}},
-	\end{align}
-	\label{eq:Suni}
-\end{subequations}
- 
-\begin{subequations}
-	\begin{align}
-		F(x) &= A \frac{\cos(\theta + \phi)}{\sqrt{x^2 + y^2}},\\
-		F(y) &= - A \frac{\sin(\theta + \phi)}{\sqrt{x^2 + y^2}},\\
-			&\text{where}\notag\\
-			&\theta = \tan^{-1}\left(\frac{y}{x}\right),\ \phi = \tan^{-1}\left(\frac{1}{B_L}\right).\notag	
-	\end{align}
-	\label{eq:Slog}
-\end{subequations}
-and $B_L = 0.05$ and is a dimensionless expansion parameter for the logarithmic spiral.
- 
-\begin{subequations}
-	\begin{align}
-		F(x) &= A \frac{B_Ax}{x^2 + y^2} \frac{y}{\sqrt{x^2 + y^2}},\\
-		F(y) &= - A \frac{B_Ay}{x^2 + y^2} \frac{x}{\sqrt{x^2 + y^2}},
-	\end{align}
-	\label{eq:Sarch}
-\end{subequations}
-$B_A = 0.005$ is similar in nature to $B_L$, \textit{i.e.} a dimensionless expansion parameter.
-The amplitude $A$ of all the drivers is set to $10$ ms$^{-1}$ for all the simulations performed in this chapter and the period is fixed at $240$ s.
-Visualisations of these velocity fields can be seen in \cref{fig:spiral_driver_cut}.
+import yt
+import numpy as np
+import matplotlib.pyplot as plt
+from mayavi import mlab
+from tvtk.api import tvtk
+
+#pysac imports
+import pysac.yt
+import pysac.analysis.tube3D.tvtk_tube_functions as ttf
+import pysac.plot.mayavi_plotting_functions as mpf
+from pysac.plot.mayavi_seed_streamlines import SeedStreamline
+from pysac.plot.divergingcolourmaps import get_mayavi_colourmap
+from pysac.analysis.tube3D.process_utils import get_yt_mlab
+
+### Load in and Config ###
+
+ds = pysac.yt.SACGDFDataset((ch3.data_file('Slog_p240-0_A10_B005_00001.gdf')))
+tube_r = 60
+
+#if running this creates a persistant window just get it out of the way!
+mlab.options.offscreen = True
+fig = mlab.figure(bgcolor=(1, 1, 1))
+scene = fig.scene
+cg = ds.index.grids[0]
+
+#Slices
+cube_slice = np.s_[:,:,:-5]
+x_slice = np.s_[:,:,:,:-5]
+
+#Define the size of the domain
+xmax, ymax, zmax = np.array(cg['density_bg'].to_ndarray()[cube_slice].shape) - 1
+domain = {'xmax':xmax, 'ymax':ymax, 'zmax':zmax}
+
+bfield, vfield = get_yt_mlab(ds, cube_slice, flux=False)
+
+#Create a scalar field of the magntiude of the vector field
+bmag = mlab.pipeline.extract_vector_norm(bfield, name="Field line Normals")
+\end{pycode}
+
+The construction one of these flux surfaces, and the set of normal vectors defined upon it, is described below.
+This process makes use of the Visualisation Tool Kit (VTK\footnote{VTK 6.1 (\url{www.vtk.org})}) and the MayaVi package \cite{Ramachandran2011} to provide a high level Python interface to VTK.
+The flux surface is constructed based on the definition of flux tubes and field lines, a flux tube will enclose a fixed number of field lines dependant upon the magnetic flux density.
+Therefore the edge of the flux tube can be thought of as a set of field lines.
+We can therefore calculate the surface of the flux tube by computing the field lines that form its outer boundary.
+The process of computing these flux surfaces is illustrated in \cref{fig:circ_seeds,fig:fieldlines,fig:flux_surface,fig:zoomed_surface,fig:zoomed_glyphs} and described in the respective captions.
+
+\begin{pycode}[chapter3]
+xc = domain['xmax']/2
+yc = domain['ymax']/2
+ti = 0
+n = 100
+
+surf_seeds = []
+for theta in np.linspace(0, 2 * np.pi, n, endpoint=False):
+    surf_seeds.append([tube_r * np.cos(theta + 0.5 * ti) + xc,
+                  tube_r * np.sin(theta + 0.5 * ti) + yc, domain['zmax']])
+                  
+seeds = np.array(surf_seeds)
+#Add axes:
+axes, outline = mpf.add_axes(np.array(zip(ds.domain_left_edge,ds.domain_right_edge)).flatten()/1e8)
+
+#Add seed points to plot:
+seed_points = mlab.points3d(seeds[:,0], seeds[:,1], seeds[:,2],
+                            color=(0.231, 0.298, 0.752), scale_mode='none',
+                            scale_factor=1.5)
+ch3.save_mayavi_figure('circ_seeds', scene)
+vtk_width = '0.59'
+\end{pycode}
+\py[chapter3]|ch3.build_figure('circ_seeds', width=vtk_width+r"\columnwidth",
+caption=r"Due to the axisymmetric nature of the background conditions, an axisymmetric ring of seed points is chosen. This example uses a ring at a radius of $936$ km from the centre of the domain.")|
+
+\begin{pycode}[chapter3]
+field_lines = SeedStreamline(seed_points = np.array(seeds))
+bmag.add_child(field_lines)
+field_lines.actor.mapper.scalar_visibility = False
+field_lines.actor.property.color = (0,0,0)
+field_lines.actor.property.line_width = 1.5
+ch3.save_mayavi_figure('fieldlines', scene)
+\end{pycode}
+\py[chapter3]|ch3.build_figure('fieldlines', width=vtk_width+r"\columnwidth",
+caption=r"The seed points are then used to trace field lines. The field lines naturally form a flux surface by definition.")|
+
+\begin{pycode}[chapter3]
+pd_seeds = ttf.make_circle_seeds(100, 60, **domain)
+fieldlines, surface = ttf.create_flux_surface(bfield.outputs[0], pd_seeds)
+surface.output.lines = None
+flux_surface = mlab.pipeline.surface(surface.output)
+flux_surface.actor.mapper.scalar_visibility = False
+flux_surface.actor.property.color = (0.8,0.8,0.8)
+#flux_surface.actor.property.line_width = 0
+ch3.save_mayavi_figure('flux_surface', scene)
+\end{pycode}
+\py[chapter3]|ch3.build_figure('flux_surface', width=vtk_width+r"\columnwidth",
+caption=r"Once the field lines have been traced a surface is constructed from small polygons (triangles) using the vtkRuledSurfaceFilter algorithm.")|
+
+\begin{pycode}[chapter3]
+axes.visible = False
+outline.visible = False
+flux_surface.actor.property.edge_visibility = True
+ch3.save_mayavi_figure('zoomed_surface', scene, azimuth = 90, elevation = 75, distance=80, focalpoint=[63, 120, 110], aa=20)
+\end{pycode}
+\py[chapter3]|ch3.build_figure('zoomed_surface', width=vtk_width+r"\columnwidth",
+caption=r"This figure shows the outlines of the triangles of which the surface comprises.")|
 
 
 \begin{pycode}[chapter3]
-from streamlines import Streamlines
-#Use Equation 1 to calculate the vector field in a 2D plane to plot it.
-time = np.linspace(0,60,480)
-dt = time[1:] - time [:-1]
-period = 240.
-
-x = np.linspace(7812.5,1992187.5,128)
-y = np.linspace(7812.5,1992187.5,128)
-
-x_max = x.max()
-y_max = y.max()
-
-xc = 1.0e6
-yc = 1.0e6
-
-xn = x - xc
-yn = y - yc
-
-delta_x=0.1e6
-delta_y=0.1e6
-
-xx, yy = np.meshgrid(xn,yn)
-exp_y = np.exp(-(yn**2.0/delta_y**2.0))
-exp_x = np.exp(-(xn**2.0/delta_x**2.0))
-
-exp_x2, exp_y2= np.meshgrid(exp_x,exp_y)
-exp_xyz = exp_x2 * exp_y2
-
-
-#==============================================================================
-# Define Driver Equations and Parameters
-#==============================================================================
-#A is the amplitude, B is the spiral expansion factor
-A = 10
-
-#Tdamp defines the damping of the driver with time, Tdep is the ocillator
-tdamp = lambda time1: 1.0 #*np.exp(-(time1/(period)))
-tdep = lambda time1: np.sin((time1*2.0*np.pi)/period) * tdamp(time1)
-
-#Define a peak index to use for scaling in the inital frame
-max_ind = np.argmax(tdep(time) > 0.9998)
-
-def log():
-	B = 0.05
-	phi = np.arctan2(1,B)
-	theta = np.arctan2(yy,xx)
-	
-	uy = np.sin(theta + phi)
-	ux =  np.cos(theta + phi)
-	
-	vx = lambda time1: (ux / np.sqrt(ux**2 + uy**2)) * exp_xyz * tdep(time1) * A
-	vy = lambda time1: (uy / np.sqrt(ux**2 + uy**2)) * exp_xyz * tdep(time1) * A
-	
-	vv = np.sqrt(vx(time[max_ind])**2 + vy(time[max_ind])**2)
-	
-	return vx, vy, vv
-
-def arch():
-	B = 0.005
-	r = np.sqrt(xx**2 + yy**2)
-	
-	vx = lambda time1: ( (B*1e6 * xx) / (xx**2 + yy**2) + yy/r ) * exp_xyz * tdep(time1) * A
-	vy = lambda time1: ( (B*1e6 * yy) / (xx**2 + yy**2) - xx/r ) * exp_xyz * tdep(time1) * A
-	
-	vv = np.sqrt(vx(time[max_ind])**2 + vy(time[max_ind])**2)
-	
-	return vx, vy, vv
-
-def uniform():
-    #Uniform
-    vx = lambda time1: A * (yy / np.sqrt(xx**2 + yy**2)) * exp_xyz * tdep(time1)
-    vy = lambda time1: A * (-xx / np.sqrt(xx**2 + yy**2)) * exp_xyz * tdep(time1)
-    vv = np.sqrt(vx(time[max_ind])**2 + vy(time[max_ind])**2)
-    
-    return vx, vy, vv
-
-drivers = [log, arch, uniform]
-
-blfigs = []
-for driver_func in drivers:
-    fig, ax = plt.subplots(figsize=(5,4))
-    #============================================================================
-    # Do the Plotting
-    #============================================================================
-    vx, vy, vv = driver_func()
-    # Calculate Streamline
-    slines = Streamlines(x,y,vx(time[max_ind]),vy(time[max_ind]),maxLen=7000,
-                         x0=xc, y0=yc, direction='forwards')
-
-    im = ax.imshow(vv, cmap='Blues', extent=[7812.5,x_max,7812.5,y_max])
-    im.set_norm(matplotlib.colors.Normalize(vmin=0,vmax=A))
-    #ax.hold()
-    
-    if driver_func != uniform:
-        Sline, = ax.plot(slines.streamlines[0][0],slines.streamlines[0][1],color='red',linewidth=2, zorder=40)
-    else:
-	    Sline = matplotlib.patches.Circle([1e6, 1e6], radius=.15e6, fill=False, color='red', linewidth=2, zorder=40)
-	    ax.add_artist(Sline)
-
-    #Add colourbar
-    divider = make_axes_locatable(ax)
-    cax = divider.append_axes("right", size="5%", pad=0.2)
-    cbar = plt.colorbar(im,cax)
-    cbar.set_label(r"$|V|$ [ms$^{-1}$]")
-    scalar = matplotlib.ticker.ScalarFormatter(useMathText=False,useOffset=False)
-    scalar.set_powerlimits((-3,3))
-    cbar.formatter = scalar
-    cbar.ax.yaxis.get_offset_text().set_visible(True)
-    cbar.update_ticks()
-    #cbar.solids.set_rasterized(True)
-    cbar.solids.set_edgecolor("face")
-
-    #Add quiver plot overlay
-    qu = ax.quiver(x,y,vx(time[max_ind]),vy(time[max_ind]),scale=25*A,color='k',zorder=20, linewidth=1)
-    ax.axis([8.0e5,12.0e5,8.0e5,12.0e5])
-
-    ax.xaxis.set_major_formatter(scalar)
-    ax.yaxis.set_major_formatter(scalar)
-    ax.xaxis.set_major_locator(matplotlib.ticker.MaxNLocator(5))
-    ax.yaxis.set_major_locator(matplotlib.ticker.MaxNLocator(5))
-    ax.xaxis.get_offset_text().set_visible(False)
-    ax.yaxis.get_offset_text().set_visible(False)
-    ax.set_xlabel("X [Mm]")
-    ax.set_ylabel("Y [Mm]")
-
-    plt.tight_layout()
-    ch3.save_figure(driver_func.__name__, fig)
-
+poly_norms = ttf.make_poly_norms(surface.output)
+normvec = mlab.pipeline.glyph(poly_norms.output)
+normvec.glyph.glyph_source.glyph_source = normvec.glyph.glyph_source.glyph_dict['arrow_source']
+normvec.glyph.glyph.scale_mode = 'data_scaling_off'
+normvec.glyph.glyph.color_mode = 'color_by_scale'
+normvec.glyph.glyph.scale_factor = 5
+normvec.glyph.glyph_source.glyph_position = 'tail'
+ch3.save_mayavi_figure('zoomed_glyphs', scene, azimuth = 85, elevation = 80, distance=50, focalpoint=[63, 120, 110], aa=20)
 \end{pycode}
+\py[chapter3]|ch3.build_figure('zoomed_glyphs', width=vtk_width+r"\columnwidth",
+caption=r"By using the surface triangles a vector normal to the surface can be calculated at each vertex. This is done automatically by the vtkRuledSurfaceFilter algorithm.")|
 
-\begin{figure}[h]
-	\py[chapter3]|ch3.build_subfigure('arch', width=r'0.49\columnwidth', caption="
-	Archemdian spiral velocity field with expansion factor $B_A=0.005$")|
-	\py[chapter3]|ch3.build_subfigure('log', width=r'0.49\columnwidth', caption="
-	Logarithmic spiral velocity field with expansion factor $B_L=0.05$")|
-
-	\centering
-	\py[chapter3]|ch3.build_subfigure('uniform', width=r'0.49\columnwidth', caption="
-	Uniform spiral velocity field")|
-	
-	\caption{Horizontal cuts through the spiral driver at the peak amplitude height $z = 0.01$ Mm for the two spiral drivers. Red lines are a streamline of the velocity vector field, sampled as black arrows, overplotted on the velocity magnitude $|V|$.}
-	\label{fig:spiral_driver_cut}
-\end{figure}
-
-\section{Simulations}
-
-Five different simulations, one for each driver profile shown in \cref{fig:spiral_driver_cut}, were performed using the SAC code as described in \cref{sec:SAC}.
-These simulations were performed using the background conditions described in \cref{sec:mhsbackground} on a $128^3$ grid with physical dimensions of $2.0 \times\ 2.0\ \times\ 1.6$ Mm$^3$ in the $x$, $y$ and $z$ directions respectively, and with an origin in the $z$ direction of $0.061$ Mm above the photosphere.
-The plasma was driven using the different drivers described in \cref{sec:5drivers} continuously for the length of the simulations. %TODO: What length are we showing here?
-
-\section{Analysing Waves Using Flux Surfaces}
-
-As described in \cref{sec:fluxsurfaces} flux surfaces can be used to analyse the relative properties of the major MHD modes in a system.
-In this section we will apply this analysis method to the simulations of various drivers.
-
+Once the normal vectors have been constructed, it is simple to compute the azimuthal vector from the magnetic field unit vector and the normal vector $\vec{n_\phi}= \vec{n_\perp} \times \vec{n_\parallel}$ where $\vec{n_\perp},\ \vec{n_\parallel} $ are also both unit vectors. 
+Using  $\vec{n_\perp},\ \vec{n_\parallel}$ and $\vec{n_\phi}$ it  is possible to project any vector quantity calculated in the simulations into this reference frame, and use it for the analysis of MHD waves.

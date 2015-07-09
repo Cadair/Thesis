@@ -1,0 +1,236 @@
+%*****************************************************************************************
+%********************************** Fourth Chapter ***************************************
+%*****************************************************************************************
+
+\chapter{MHD Waves excited by Different Photospheric Driver Profiles}  %Title of the Third Chapter
+
+\begin{pycode}[chapter4]
+ch4 = Chapter(pytex, 4, './Chapter4/')
+\end{pycode}
+
+\graphicspath{\py|ch4.fig_path|}
+
+{\Large Knowledge at start:}
+\begin{itemize}
+	\item The ideal MHD equations
+	\item Wave solutions for a uniform media
+	\item velocity perturbation calculations
+	\item Wave flux calcs
+	\item SAC, and numerical solutions to the ideal MHD equations
+	\item Static background conditions
+	\item Construction of flux surfaces
+	\item The specific numerical domain used for all the simulations.
+\end{itemize}
+
+\section{Driving Waves from the Photosphere}\label{sec:5drivers}
+
+As discussed in \cref{ch:Background} the plasma conditions in the photosphere are conducive to the generation of MHD waves.
+The photosphere is seeded with small scale magnetic features and dynamic plasma motions as a result of the granulation.
+In this chapter the motions that are common in the inter-granular lanes will be studied for their potential ability to drive MHD waves in small scale magnetic flux tubes.
+Considering the physical conditions of the inter-granular lanes, where parcels of hot plasma rise, expand and then sink down these lanes.
+It is easy to imagine the motions present: vertical motion caused by rising and sinking plasma; horizontal motion caused by the expansion and contraction of the plasma as it cools; spiralling motion in which plasma sinks down magnetic field lines, analogous to that of water down a plug hole.
+
+The horizontal and vertical motions are commonly observed using high resolution observations, the spiralling motions were observed in an inter-granular lane by \cite{Bonet2008} and various types of spirals have been observed in the higher layers of the atmosphere by \cite{Wedemeyer-Bohm2009,Wedemeyer-Bohm2012,Wedemeyer2013}.
+The different types of spiral observed in the atmosphere and the difficulty of performing high quality observations of plasma motions in the inter-granular lanes, the spiralling motions will be modelled by a variety of drivers.
+A circular driver, a `spiral' with no radial (expansion) component; an Archemedian spiral, a spiral which expands by a fixed amount for each rotation; and a logarithmic spiral where the spiral expands by an exponentially increasing amount with every rotation.
+
+To drive waves in the numerical domain described in \cref{ch:Background} the plasma has to be `moved' by numerically adding a velocity field to the domain.
+This is done by adding the desired velocity field to a 3D layer close to the bottom of the domain, within the modelled photosphere.
+This velocity field is attenuated with a Gaussian profile in three dimensions and is located at the centre of the domain aligned with the foot point of the magnetic field.
+This velocity field is then multiplied by a sine function to make it periodic. The generic form of the driver is given in \cref{eq:generic_driver}.
+\begin{equation}
+	V(x,y,z) = F(x,y,z) \ e^{-\left(\frac{z^2}{\Delta z^2} + \frac{x^2}{\Delta x^2} + \frac{y^2}{\Delta y^2}\right)} \sin \left(2\pi \frac{t}{P}\right),
+	\label{eq:generic_driver}
+\end{equation}
+where, $V(x,y,z)$ is the output velocity field, $F(x,y,x)$ is an arbitrary function which defines the form of the driver, $\Delta x$, $\Delta y$, $\Delta z$ are the widths of the Gaussian function in the three spatial dimensions, and $P$ is the period of the driver.
+The values used for the width of the Gaussians are fixed through out this thesis and are: $\Delta x = \Delta y = 0.1$ Mm and $\Delta z = 0.05$, the origin of the driver is at $z = 100$ km above the photosphere.
+
+The five driving motions, horizontal, vertical, circular, Archemedian spiral and logarithmic spiral are then defined by the form of $F(x,y,z)$. For the horizontal and vertical drivers $F(x,y,z)$ is a constant in the direction of the motion, $x$ for horizontal and $z$ for vertical, for the spiral drivers the forms of $F(x,y,z)$ are given in \cref{eq:Suni,eq:Sarch,eq:Slog}.
+
+\begin{subequations}
+	\begin{align}
+		F(x) &= A \frac{y}{\sqrt{x^2 + y^2}}\\
+		F(y) &= - A \frac{x}{\sqrt{x^2 + y^2}},
+	\end{align}
+	\label{eq:Suni}
+\end{subequations}
+ 
+\begin{subequations}
+	\begin{align}
+		F(x) &= A \frac{\cos(\theta + \phi)}{\sqrt{x^2 + y^2}},\\
+		F(y) &= - A \frac{\sin(\theta + \phi)}{\sqrt{x^2 + y^2}},\\
+			&\text{where}\notag\\
+			&\theta = \tan^{-1}\left(\frac{y}{x}\right),\ \phi = \tan^{-1}\left(\frac{1}{B_L}\right).\notag	
+	\end{align}
+	\label{eq:Slog}
+\end{subequations}
+and $B_L = 0.05$ and is a dimensionless expansion parameter for the logarithmic spiral.
+ 
+\begin{subequations}
+	\begin{align}
+		F(x) &= A \frac{B_Ax}{x^2 + y^2} \frac{y}{\sqrt{x^2 + y^2}},\\
+		F(y) &= - A \frac{B_Ay}{x^2 + y^2} \frac{x}{\sqrt{x^2 + y^2}},
+	\end{align}
+	\label{eq:Sarch}
+\end{subequations}
+$B_A = 0.005$ is similar in nature to $B_L$, \textit{i.e.} a dimensionless expansion parameter.
+The amplitude $A$ of all the drivers is set to $10$ ms$^{-1}$ for all the simulations performed in this chapter and the period is fixed at $240$ s.
+Visualisations of these velocity fields can be seen in \cref{fig:spiral_driver_cut}.
+
+
+\begin{pycode}[chapter4]
+from streamlines import Streamlines
+#Use Equation 1 to calculate the vector field in a 2D plane to plot it.
+time = np.linspace(0,60,480)
+dt = time[1:] - time [:-1]
+period = 240.
+
+x = np.linspace(7812.5,1992187.5,128)
+y = np.linspace(7812.5,1992187.5,128)
+
+x_max = x.max()
+y_max = y.max()
+
+xc = 1.0e6
+yc = 1.0e6
+
+xn = x - xc
+yn = y - yc
+
+delta_x=0.1e6
+delta_y=0.1e6
+
+xx, yy = np.meshgrid(xn,yn)
+exp_y = np.exp(-(yn**2.0/delta_y**2.0))
+exp_x = np.exp(-(xn**2.0/delta_x**2.0))
+
+exp_x2, exp_y2= np.meshgrid(exp_x,exp_y)
+exp_xyz = exp_x2 * exp_y2
+
+
+#==============================================================================
+# Define Driver Equations and Parameters
+#==============================================================================
+#A is the amplitude, B is the spiral expansion factor
+A = 10
+
+#Tdamp defines the damping of the driver with time, Tdep is the ocillator
+tdamp = lambda time1: 1.0 #*np.exp(-(time1/(period)))
+tdep = lambda time1: np.sin((time1*2.0*np.pi)/period) * tdamp(time1)
+
+#Define a peak index to use for scaling in the inital frame
+max_ind = np.argmax(tdep(time) > 0.9998)
+
+def log():
+	B = 0.05
+	phi = np.arctan2(1,B)
+	theta = np.arctan2(yy,xx)
+	
+	uy = np.sin(theta + phi)
+	ux =  np.cos(theta + phi)
+	
+	vx = lambda time1: (ux / np.sqrt(ux**2 + uy**2)) * exp_xyz * tdep(time1) * A
+	vy = lambda time1: (uy / np.sqrt(ux**2 + uy**2)) * exp_xyz * tdep(time1) * A
+	
+	vv = np.sqrt(vx(time[max_ind])**2 + vy(time[max_ind])**2)
+	
+	return vx, vy, vv
+
+def arch():
+	B = 0.005
+	r = np.sqrt(xx**2 + yy**2)
+	
+	vx = lambda time1: ( (B*1e6 * xx) / (xx**2 + yy**2) + yy/r ) * exp_xyz * tdep(time1) * A
+	vy = lambda time1: ( (B*1e6 * yy) / (xx**2 + yy**2) - xx/r ) * exp_xyz * tdep(time1) * A
+	
+	vv = np.sqrt(vx(time[max_ind])**2 + vy(time[max_ind])**2)
+	
+	return vx, vy, vv
+
+def uniform():
+    #Uniform
+    vx = lambda time1: A * (yy / np.sqrt(xx**2 + yy**2)) * exp_xyz * tdep(time1)
+    vy = lambda time1: A * (-xx / np.sqrt(xx**2 + yy**2)) * exp_xyz * tdep(time1)
+    vv = np.sqrt(vx(time[max_ind])**2 + vy(time[max_ind])**2)
+    
+    return vx, vy, vv
+
+drivers = [log, arch, uniform]
+
+blfigs = []
+for driver_func in drivers:
+    fig, ax = plt.subplots(figsize=(5,4))
+    #============================================================================
+    # Do the Plotting
+    #============================================================================
+    vx, vy, vv = driver_func()
+    # Calculate Streamline
+    slines = Streamlines(x,y,vx(time[max_ind]),vy(time[max_ind]),maxLen=7000,
+                         x0=xc, y0=yc, direction='forwards')
+
+    im = ax.imshow(vv, cmap='Blues', extent=[7812.5,x_max,7812.5,y_max])
+    im.set_norm(matplotlib.colors.Normalize(vmin=0,vmax=A))
+    #ax.hold()
+    
+    if driver_func != uniform:
+        Sline, = ax.plot(slines.streamlines[0][0],slines.streamlines[0][1],color='red',linewidth=2, zorder=40)
+    else:
+	    Sline = matplotlib.patches.Circle([1e6, 1e6], radius=.15e6, fill=False, color='red', linewidth=2, zorder=40)
+	    ax.add_artist(Sline)
+
+    #Add colourbar
+    divider = make_axes_locatable(ax)
+    cax = divider.append_axes("right", size="5%", pad=0.2)
+    cbar = plt.colorbar(im,cax)
+    cbar.set_label(r"$|V|$ [ms$^{-1}$]")
+    scalar = matplotlib.ticker.ScalarFormatter(useMathText=False,useOffset=False)
+    scalar.set_powerlimits((-3,3))
+    cbar.formatter = scalar
+    cbar.ax.yaxis.get_offset_text().set_visible(True)
+    cbar.update_ticks()
+    #cbar.solids.set_rasterized(True)
+    cbar.solids.set_edgecolor("face")
+
+    #Add quiver plot overlay
+    qu = ax.quiver(x,y,vx(time[max_ind]),vy(time[max_ind]),scale=25*A,color='k',zorder=20, linewidth=1)
+    ax.axis([8.0e5,12.0e5,8.0e5,12.0e5])
+
+    ax.xaxis.set_major_formatter(scalar)
+    ax.yaxis.set_major_formatter(scalar)
+    ax.xaxis.set_major_locator(matplotlib.ticker.MaxNLocator(5))
+    ax.yaxis.set_major_locator(matplotlib.ticker.MaxNLocator(5))
+    ax.xaxis.get_offset_text().set_visible(False)
+    ax.yaxis.get_offset_text().set_visible(False)
+    ax.set_xlabel("X [Mm]")
+    ax.set_ylabel("Y [Mm]")
+
+    plt.tight_layout()
+    ch4.save_figure(driver_func.__name__, fig)
+
+\end{pycode}
+
+\begin{figure}[h]
+	\py[chapter4]|ch4.build_subfigure('arch', width=r'0.49\columnwidth', caption="
+	Archemdian spiral velocity field with expansion factor $B_A=0.005$")|
+	\py[chapter4]|ch4.build_subfigure('log', width=r'0.49\columnwidth', caption="
+	Logarithmic spiral velocity field with expansion factor $B_L=0.05$")|
+
+	\centering
+	\py[chapter4]|ch4.build_subfigure('uniform', width=r'0.49\columnwidth', caption="
+	Uniform spiral velocity field")|
+	
+	\caption{Horizontal cuts through the spiral driver at the peak amplitude height $z = 0.01$ Mm for the two spiral drivers. Red lines are a streamline of the velocity vector field, sampled as black arrows, overplotted on the velocity magnitude $|V|$.}
+	\label{fig:spiral_driver_cut}
+\end{figure}
+
+\section{Simulations}
+
+Five different simulations, one for each driver profile shown in \cref{fig:spiral_driver_cut}, were performed using the SAC code as described in \cref{sec:SAC}.
+These simulations were performed using the background conditions described in \cref{sec:mhsbackground} on a $128^3$ grid with physical dimensions of $2.0 \times\ 2.0\ \times\ 1.6$ Mm$^3$ in the $x$, $y$ and $z$ directions respectively, and with an origin in the $z$ direction of $0.061$ Mm above the photosphere.
+The plasma was driven using the different drivers described in \cref{sec:5drivers} continuously for the length of the simulations. %TODO: What length are we showing here?
+
+\section{Comparing Wave Excitation}
+
+As described in \cref{sec:fluxsurfaces} flux surfaces can be used to analyse the relative properties of the major MHD modes in a system.
+In this section we will apply this analysis method to the simulations of various drivers.
+
