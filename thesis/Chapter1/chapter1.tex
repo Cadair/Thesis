@@ -6,7 +6,7 @@
 \chapter{Introduction}  %Title of the First Chapter
 
 \begin{pycode}[chapter1]
-ch1 = Chapter(pytex, 1, './Chapter1/')
+ch1 = texfigure.Manager(pytex, number=1, base_path='./Chapter1/')
 \end{pycode}
 
 \graphicspath{\py|ch1.fig_path|}
@@ -104,11 +104,11 @@ ax2.set_ylabel(r"Density [{}]".format(mwdata['rho'].unit.to_string(format='latex
 ax2.set_xlim(0,6)
 
 fig.tight_layout()
-ch1.save_figure('atmos', fig)
+atmos = ch1.save_figure('atmos', fig=fig, fext='.pgf')
+atmos.caption="Density (blue) and Temperature (green) profiles of the solar atmosphere, above the photosphere, combining the \cite{mcwhirter1975} and \cite{vernazza1981} models."
 \end{pycode}
 
-\py[chapter1]|ch1.build_figure('atmos',
-caption="Density (blue) and Temperature (green) profiles of the solar atmosphere, above the photosphere, combining the \cite{mcwhirter1975} and \cite{vernazza1981} models.")|
+\py[chapter1]|atmos|
 
 
 The solar corona (Figure~\ref{fig:aia171}) is very hot, with temperatures exceeding 10 Million degrees Kelvin, however, it is also very rarefied, with densities of the order of $1.6\times10^{-12}\ \text{kg}/\text{m}^3$. \py[chapter1]|mwdata['rho'][-1]._repr_latex_()|
@@ -124,27 +124,33 @@ Therefore, another energy transport mechanism has to be heating the solar atmosp
 
 
 \begin{pycode}[chapter1]
-import datetime
+from matplotlib import colors
 from sunpy.net import helioviewer
 from sunpy.time import parse_time
 import sunpy.map
 
 hv = helioviewer.HelioviewerClient()
 filepath = hv.download_jp2('2015/12/31 00:00:00', observatory='SDO',
-													 instrument='AIA', detector='AIA', measurement='171',
-													 directory=ch1.data_dir)
+                           instrument='AIA', detector='AIA', measurement='171',
+                           directory=ch1.data_dir)
 # Add the file to the pytex data
 ch1.pytex.add_created(filepath)
 
-aia171 = sunpy.map.Map(filepath)
-fig = aia171.peek(basic_plot=True)
+map171 = sunpy.map.Map(filepath)
 
+mean = map171.mean()
+std = map171.std()
 
-ch1.save_figure('aia171', fig)
+vmin = max(0, mean - 3 * std)
+vmax = min(map171.max(), mean + 3 * std)
+
+map171.peek(basic_plot=True, norm=colors.Normalize(vmin, vmax))
+
+aia171 = ch1.save_figure('aia171', fext='.pdf')
+aia171.caption="The solar corona at 17.1 nm, showing plasma in the region of 1 million degrees Kelvin. Taken by the AIA instrument on the SDO spacecraft on {date:%d %b %Y at %H:%M}".format(date=map171.date)
 \end{pycode}
 
-\py[chapter1]|ch1.build_figure('aia171',
-caption="The solar corona at 17.1 nm, showing plasma in the region of 1 million degrees Kelvin. Taken by the AIA instrument on the SDO spacecraft on {date:%d %b %Y at %H:%M}".format(date=parse_time(aia171.date)))|
+\py[chapter1]|aia171|
 
 \section{Coronal Heating}
 
@@ -195,10 +201,11 @@ y = ax.coords[1]
 x.set_axislabel('Solar-x [arcsec]')
 y.set_axislabel('Solar-y [arcsec]')
 
-ch1.save_figure('gband', fig)
+photosphere = ch1.save_figure('gband', fig)
+photosphere.caption = "A G-Band image of the solar photosphere."
 \end{pycode}
 
-\py[chapter1]|ch1.build_figure('gband', caption="A G-Band image of the solar photosphere.")|
+\py[chapter1]|photosphere|
 
 The photosphere is the layer of the solar atmosphere to observe, as it dominates all emission from the Sun.
 It is a highly dynamic place where hot plasma, having risen through the convection zone, cools and then sinks.

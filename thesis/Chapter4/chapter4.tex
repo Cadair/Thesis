@@ -5,22 +5,22 @@
 \chapter{MHD Waves excited by Different Photospheric Driver Profiles}  %Title of the Third Chapter
 
 \begin{pycode}[chapter4]
-ch4 = Chapter(pytex, 4, './Chapter4/')
+ch4 = texfigure.Manager(pytex, number=4, base_path='./Chapter4/')
 \end{pycode}
 
 \graphicspath{\py|ch4.fig_path|}
 
-{\Large Knowledge at start:}
-\begin{itemize}
-	\item The ideal MHD equations
-	\item Wave solutions for a uniform media
-	\item velocity perturbation calculations
-	\item Wave flux calcs
-	\item SAC, and numerical solutions to the ideal MHD equations
-	\item Static background conditions
-	\item Construction of flux surfaces
-	\item The specific numerical domain used for all the simulations.
-\end{itemize}
+%{\Large Knowledge at start:}
+%\begin{itemize}
+%	\item The ideal MHD equations
+%	\item Wave solutions for a uniform media
+%	\item velocity perturbation calculations
+%	\item Wave flux calcs
+%	\item SAC, and numerical solutions to the ideal MHD equations
+%	\item Static background conditions
+%	\item Construction of flux surfaces
+%	\item The specific numerical domain used for all the simulations.
+%\end{itemize}
 
 \section{Driving Waves from the Photosphere}\label{sec:5drivers}
 
@@ -157,7 +157,7 @@ def uniform():
 
 drivers = [log, arch, uniform]
 
-blfigs = []
+driver_figs = texfigure.MultiFigure(3, 2, reference='driver_figs')
 for driver_func in drivers:
     fig, ax = plt.subplots(figsize=(5,4))
     #============================================================================
@@ -205,23 +205,18 @@ for driver_func in drivers:
     ax.set_ylabel("Y [Mm]")
 
     plt.tight_layout()
-    ch4.save_figure(driver_func.__name__, fig)
+    Fig = ch4.save_figure(driver_func.__name__, fig)
+    driver_figs.append(Fig)
 
+driver_figs.figures[0,0].caption = "Archemdian spiral velocity field with expansion factor $B_A=0.005$"
+driver_figs.figures[0,1].caption = "Logarithmic spiral velocity field with expansion factor $B_L=0.05$"
+driver_figs.figures[1,0].caption = "Uniform spiral velocity field"
+
+driver_figs.caption = "Horizontal cuts through the spiral driver at the peak amplitude height $z = 0.01$ Mm for the two spiral drivers. Red lines are a streamline of the velocity vector field, sampled as black arrows, overplotted on the velocity magnitude $|V|$."
 \end{pycode}
 
-\begin{figure}[h]
-	\py[chapter4]|ch4.build_subfigure('arch', width=r'0.49\columnwidth', caption="
-	Archemdian spiral velocity field with expansion factor $B_A=0.005$")|
-	\py[chapter4]|ch4.build_subfigure('log', width=r'0.49\columnwidth', caption="
-	Logarithmic spiral velocity field with expansion factor $B_L=0.05$")|
+\py[chapter4]|driver_figs|
 
-	\centering
-	\py[chapter4]|ch4.build_subfigure('uniform', width=r'0.49\columnwidth', caption="
-	Uniform spiral velocity field")|
-	
-	\caption{Horizontal cuts through the spiral driver at the peak amplitude height $z = 0.01$ Mm for the two spiral drivers. Red lines are a streamline of the velocity vector field, sampled as black arrows, overplotted on the velocity magnitude $|V|$.}
-	\label{fig:spiral_driver_cut}
-\end{figure}
 
 \section{Simulations}
 

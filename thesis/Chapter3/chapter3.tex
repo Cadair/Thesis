@@ -1,11 +1,11 @@
 %*****************************************************************************************
 %*********************************** Third Chapter ***************************************
 %*****************************************************************************************
-\label{ch:Background}
+\label{ch:Methodology}
 \chapter{Methodology}  %Title of the Second Chapter
 
 \begin{pycode}[chapter3]
-ch3 = Chapter(pytex, 3, './Chapter3/')
+ch3 = texfigure.Manager(pytex, number=3, base_path='./Chapter3/')
 \end{pycode}
 
 \graphicspath{\py|ch3.fig_path|}
@@ -104,7 +104,7 @@ tube_r = 60
 #if running this creates a persistant window just get it out of the way!
 mlab.options.offscreen = True
 fig = mlab.figure(bgcolor=(1, 1, 1))
-scene = fig.scene
+
 cg = ds.index.grids[0]
 
 #Slices
@@ -119,6 +119,8 @@ bfield, vfield = get_yt_mlab(ds, cube_slice, flux=False)
 
 #Create a scalar field of the magntiude of the vector field
 bmag = mlab.pipeline.extract_vector_norm(bfield, name="Field line Normals")
+
+vtk_width = r'0.59\columnwidth'
 \end{pycode}
 
 The construction one of these flux surfaces, and the set of normal vectors defined upon it, is described below.
@@ -147,11 +149,12 @@ axes, outline = mpf.add_axes(np.array(zip(ds.domain_left_edge,ds.domain_right_ed
 seed_points = mlab.points3d(seeds[:,0], seeds[:,1], seeds[:,2],
                             color=(0.231, 0.298, 0.752), scale_mode='none',
                             scale_factor=1.5)
-ch3.save_mayavi_figure('circ_seeds', scene)
-vtk_width = '0.59'
+circ_seeds = ch3.save_figure('circ_seeds', fig, fext='.png')
+circ_seeds.figure_width = vtk_width
+circ_seeds.caption=r"Due to the axisymmetric nature of the background conditions, an axisymmetric ring of seed points is chosen. This example uses a ring at a radius of $936$ km from the centre of the domain."
+
 \end{pycode}
-\py[chapter3]|ch3.build_figure('circ_seeds', width=vtk_width+r"\columnwidth",
-caption=r"Due to the axisymmetric nature of the background conditions, an axisymmetric ring of seed points is chosen. This example uses a ring at a radius of $936$ km from the centre of the domain.")|
+\py[chapter3]|circ_seeds|
 
 \begin{pycode}[chapter3]
 field_lines = SeedStreamline(seed_points = np.array(seeds))
@@ -159,10 +162,12 @@ bmag.add_child(field_lines)
 field_lines.actor.mapper.scalar_visibility = False
 field_lines.actor.property.color = (0,0,0)
 field_lines.actor.property.line_width = 1.5
-ch3.save_mayavi_figure('fieldlines', scene)
+
+fieldlines = ch3.save_figure('fieldlines', fig, fext='.png')
+fieldlines.figure_width = vtk_width
+fieldlines.caption=r"The seed points are then used to trace field lines. The field lines naturally form a flux surface by definition."
 \end{pycode}
-\py[chapter3]|ch3.build_figure('fieldlines', width=vtk_width+r"\columnwidth",
-caption=r"The seed points are then used to trace field lines. The field lines naturally form a flux surface by definition.")|
+\py[chapter3]|fieldlines|
 
 \begin{pycode}[chapter3]
 pd_seeds = ttf.make_circle_seeds(100, 60, **domain)
@@ -172,19 +177,22 @@ flux_surface = mlab.pipeline.surface(surface.output)
 flux_surface.actor.mapper.scalar_visibility = False
 flux_surface.actor.property.color = (0.8,0.8,0.8)
 #flux_surface.actor.property.line_width = 0
-ch3.save_mayavi_figure('flux_surface', scene)
+
+fig_flux_surface = ch3.save_figure('flux_surface', fig, fext='.png')
+fig_flux_surface.figure_width = vtk_width
+fig_flux_surface.caption=r"Once the field lines have been traced a surface is constructed from small polygons (triangles) using the vtkRuledSurfaceFilter algorithm."
 \end{pycode}
-\py[chapter3]|ch3.build_figure('flux_surface', width=vtk_width+r"\columnwidth",
-caption=r"Once the field lines have been traced a surface is constructed from small polygons (triangles) using the vtkRuledSurfaceFilter algorithm.")|
+\py[chapter3]|fig_flux_surface|
 
 \begin{pycode}[chapter3]
 axes.visible = False
 outline.visible = False
 flux_surface.actor.property.edge_visibility = True
-ch3.save_mayavi_figure('zoomed_surface', scene, azimuth = 90, elevation = 75, distance=80, focalpoint=[63, 120, 110], aa=20)
+zoomed_surface = ch3.save_figure('zoomed_surface', fig, fext='.png', azimuth = 90, elevation = 75, distance=80, focalpoint=[63, 120, 110], aa=20)
+zoomed_surface.figure_width = vtk_width
+zoomed_surface.caption=r"This figure shows the outlines of the triangles of which the surface comprises."
 \end{pycode}
-\py[chapter3]|ch3.build_figure('zoomed_surface', width=vtk_width+r"\columnwidth",
-caption=r"This figure shows the outlines of the triangles of which the surface comprises.")|
+\py[chapter3]|zoomed_surface|
 
 
 \begin{pycode}[chapter3]
@@ -195,10 +203,13 @@ normvec.glyph.glyph.scale_mode = 'data_scaling_off'
 normvec.glyph.glyph.color_mode = 'color_by_scale'
 normvec.glyph.glyph.scale_factor = 5
 normvec.glyph.glyph_source.glyph_position = 'tail'
-ch3.save_mayavi_figure('zoomed_glyphs', scene, azimuth = 85, elevation = 80, distance=50, focalpoint=[63, 120, 110], aa=20)
+
+zoomed_glyphs = ch3.save_figure('zoomed_glyphs', fig, fext='.png', azimuth = 85, elevation = 80, distance=50, focalpoint=[63, 120, 110], aa=20)
+zoomed_glyphs.figure_width = vtk_width
+zoomed_glyphs.caption=r"By using the surface triangles a vector normal to the surface can be calculated at each vertex. This is done automatically by the vtkRuledSurfaceFilter algorithm."
 \end{pycode}
-\py[chapter3]|ch3.build_figure('zoomed_glyphs', width=vtk_width+r"\columnwidth",
-caption=r"By using the surface triangles a vector normal to the surface can be calculated at each vertex. This is done automatically by the vtkRuledSurfaceFilter algorithm.")|
+
+\py[chapter3]|zoomed_glyphs|
 
 Once the normal vectors have been constructed, it is simple to compute the azimuthal vector from the magnetic field unit vector and the normal vector $\vec{n_\phi}= \vec{n_\perp} \times \vec{n_\parallel}$ where $\vec{n_\perp},\ \vec{n_\parallel} $ are also both unit vectors. 
 Using  $\vec{n_\perp},\ \vec{n_\parallel}$ and $\vec{n_\phi}$ it  is possible to project any vector quantity calculated in the simulations into this reference frame, and use it for the analysis of MHD waves.
