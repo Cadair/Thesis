@@ -55,9 +55,11 @@ sys.path.append('./Python/')
 \end{pythontexcustomcode}
 
 \begin{pycode}[refs]
+from __future__ import print_function
+
 #Use the modification of the aux file to work out if we need new bib file:
-pytex.add_dependencies('smumford_thesis.aux', file=sys.stderr)
-print('Pulling References from Zotero')
+pytex.add_dependencies('smumford_thesis.aux')
+print('Pulling References from Zotero', file=sys.stderr)
 # Extract the BiBTeX from Zotero
 import urllib
 urllib.urlretrieve("http://localhost:23119/better-bibtex/collection?/0/Thesis.bibtex&exportNotes=false&useJournalAbbreviation=false", filename='References/Thesis.bib')

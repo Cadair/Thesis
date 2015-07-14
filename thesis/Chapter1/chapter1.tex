@@ -9,8 +9,6 @@
 ch1 = texfigure.Manager(pytex, number=1, base_path='./Chapter1/')
 \end{pycode}
 
-\graphicspath{\py|ch1.fig_path|}
-
 %{\Large Inital Assumptions:}
 %\begin{itemize}
 %	\item Understanding of the fusion power source.
@@ -111,7 +109,7 @@ atmos.caption="Density (blue) and Temperature (green) profiles of the solar atmo
 \py[chapter1]|atmos|
 
 
-The solar corona (Figure~\ref{fig:aia171}) is very hot, with temperatures exceeding 10 Million degrees Kelvin, however, it is also very rarefied, with densities of the order of $1.6\times10^{-12}\ \text{kg}/\text{m}^3$. \py[chapter1]|mwdata['rho'][-1]._repr_latex_()|
+The solar corona (Figure~\ref{fig:aia171}) is very hot, with temperatures exceeding 10 Million degrees Kelvin, however, it is also very rarefied, with densities of the order of \py[chapter1]|mwdata['rho'][-1]|.
 This means that the energy density of the corona is much lower than that of the lower layers of the solar atmosphere, \textit{e.g.} the photosphere, where the temperature is of the order of $5,000$ K.
 In spite of this the solar corona requires a constant energy input in the region of $100$ W/m$^2$ to maintain its high temperatures.
 There is currently no understood mechanism which transports this energy, from the photosphere, through the transition region and into the corona.
