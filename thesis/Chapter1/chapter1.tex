@@ -109,10 +109,10 @@ atmos.caption="Density (blue) and Temperature (green) profiles of the solar atmo
 \py[chapter1]|atmos|
 
 
-The solar corona (Figure~\ref{fig:aia171}) is very hot, with temperatures exceeding 10 Million degrees Kelvin, however, it is also very rarefied, with densities of the order of \py[chapter1]|mwdata['rho'][-1]|.
+The solar corona (Figure~\ref{fig:aia171}) is very hot, with temperatures exceeding 10 Million degrees Kelvin, however, it is also very rarefied, with densities of the order of \py[chapter1]|np.round(mwdata['rho'][-1], 5)|.
 This means that the energy density of the corona is much lower than that of the lower layers of the solar atmosphere, \textit{e.g.} the photosphere, where the temperature is of the order of $5,000$ K.
 In spite of this the solar corona requires a constant energy input in the region of $100$ W/m$^2$ to maintain its high temperatures.
-There is currently no understood mechanism which transports this energy, from the photosphere, through the transition region and into the corona.
+There is currently no understood mechanism which transports this energy, from the photosphere, through the transition region and into the corona. %TODO: Check the 100 w/m2 number, then reference it.
 The energy transport in the Sun is understood up to just above the photosphere, it is dominated by either radiation or convection.
 In the layers of the atmosphere above the temperature minimum, there is no longer an obvious mechanism transporting the observed quantities of energy.
 Convection and conduction are both unable to transport enough energy due to the density being too low.

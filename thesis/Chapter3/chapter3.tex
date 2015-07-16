@@ -8,21 +8,9 @@
 ch3 = texfigure.Manager(pytex, number=3, base_path='./Chapter3/')
 \end{pycode}
 
-%{\Large Knowledge at start:}
-%\begin{itemize}
-%	\item The coronal heating problem
-%	\item MHD waves as a solution to the corona heating problem
-%	\item photospheric dynamics
-%	\item Magnetic wave guides.
-%\end{itemize}
 %
 %{\Large Knowledge at end:}
 %\begin{itemize}
-%	\item The ideal MHD equations
-%	\item Wave solutions for a uniform media
-%	\item velocity perturbation calculations
-%	\item Wave flux calcs
-%	\item SAC, and numerical solutions to the ideal MHD equations
 %	\item Static background conditions
 %	\item Construction of flux surfaces
 %	\item our domain setup, size, etc.
@@ -49,6 +37,15 @@ ch3 = texfigure.Manager(pytex, number=3, base_path='./Chapter3/')
 %\end{enumerate}
 	
 \section{Magnetohydrostatic Background Conditions}\label{sec:mhsbackground}
+
+The numerical simulations performed for the analysis in this thesis, all make use of the ability of SAC (\cref{sec:SAC}) to solve for perturbations on top of a static MHD equilibria.
+To perform these experiments, it is needed that a background atmosphere be constructed.
+The type of magnetic phenomena to be investigated are small scale photospheric structures, that occur frequently over the disk of the Sun.
+Magnetic Bright Points (MBPs) were chosen as an observational feature to use as a guide for the background model, MBPs are well studied and there are good estimates of their physical properties.
+\cite{feng2013} perform a study of Photospheric Bright Points(PBPs), which are assumed to be analogous to MBPs, using the Dutch Open Telescope, and find the peak of the lognormal distribution give a diameter of $232\pm40$ km for the quiet Sun.
+They also show that $50$\% of the PBPs they analysed had the major axis of their ellipse less than $1.5$ times longer than the minor axis.
+Showing that they are to a first approximation circular, however, with some PBPs having quite a large deviation from this approximation.
+\cite{utz2013} perform a similar study looking at the average magnetic field strength of MBPs
 
 \section{Flux Surfaces}\label{sec:fluxsurfaces}
 

@@ -43,7 +43,7 @@ This velocity field is then multiplied by a sine function to make it periodic. T
 where, $V(x,y,z)$ is the output velocity field, $F(x,y,x)$ is an arbitrary function which defines the form of the driver, $\Delta x$, $\Delta y$, $\Delta z$ are the widths of the Gaussian function in the three spatial dimensions, and $P$ is the period of the driver.
 The values used for the width of the Gaussians are fixed through out this thesis and are: $\Delta x = \Delta y = 0.1$ Mm and $\Delta z = 0.05$, the origin of the driver is at $z = 100$ km above the photosphere.
 
-The five driving motions, horizontal, vertical, circular, Archemedian spiral and logarithmic spiral are then defined by the form of $F(x,y,z)$. For the horizontal and vertical drivers $F(x,y,z)$ is a constant in the direction of the motion, $x$ for horizontal and $z$ for vertical, for the spiral drivers the forms of $F(x,y,z)$ are given in \cref{eq:Suni,eq:Sarch,eq:Slog}.
+The five driving motions, horizontal, vertical, circular, Archemedian spiral and logarithmic spiral are then defined by the form of $F(x,y,z)$. For the horizontal and vertical drivers $F(x,y,z)$ is a constant in the direction of the motion, $x$ for horizontal and $z$ for vertical, for the spiral drivers the forms of $F(x,y,z)$ are given for the circular driver in \cref{eq:Suni},
 
 \begin{subequations}
 	\begin{align}
@@ -52,7 +52,7 @@ The five driving motions, horizontal, vertical, circular, Archemedian spiral and
 	\end{align}
 	\label{eq:Suni}
 \end{subequations}
- 
+the logarithmic spiral in \cref{eq:Slog},
 \begin{subequations}
 	\begin{align}
 		F(x) &= A \frac{\cos(\theta + \phi)}{\sqrt{x^2 + y^2}},\\
@@ -62,8 +62,7 @@ The five driving motions, horizontal, vertical, circular, Archemedian spiral and
 	\end{align}
 	\label{eq:Slog}
 \end{subequations}
-and $B_L = 0.05$ and is a dimensionless expansion parameter for the logarithmic spiral.
- 
+and $B_L = 0.05$ is a dimensionless expansion parameter for the logarithmic spiral, and the Archemedian spiral in \cref{eq:Sarch},
 \begin{subequations}
 	\begin{align}
 		F(x) &= A \frac{B_Ax}{x^2 + y^2} \frac{y}{\sqrt{x^2 + y^2}},\\
@@ -73,7 +72,7 @@ and $B_L = 0.05$ and is a dimensionless expansion parameter for the logarithmic 
 \end{subequations}
 $B_A = 0.005$ is similar in nature to $B_L$, \textit{i.e.} a dimensionless expansion parameter.
 The amplitude $A$ of all the drivers is set to $10$ ms$^{-1}$ for all the simulations performed in this chapter and the period is fixed at $240$ s.
-Visualisations of these velocity fields can be seen in \cref{fig:spiral_driver_cut}.
+Visualisations of these velocity fields can be seen in \cref{fig:driver_figs}.
 
 
 \begin{pycode}[chapter4]
@@ -155,9 +154,11 @@ def uniform():
 
 drivers = [log, arch, uniform]
 
-driver_figs = texfigure.MultiFigure(3, 2, reference='driver_figs')
+driver_figs = texfigure.MultiFigure(3, 1, reference='driver_figs')
+figwidth = 0.7
+grsize = texfigure.figsize(pytex, scale=figwidth)
 for driver_func in drivers:
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=grsize)
     #============================================================================
     # Do the Plotting
     #============================================================================
@@ -204,27 +205,29 @@ for driver_func in drivers:
 
     plt.tight_layout()
     Fig = ch4.save_figure(driver_func.__name__, fig)
+    Fig.subfig_width = r'{}\columnwidth'.format(figwidth)
     driver_figs.append(Fig)
 
 driver_figs.figures[0,0].caption = "Archemdian spiral velocity field with expansion factor $B_A=0.005$"
-driver_figs.figures[0,1].caption = "Logarithmic spiral velocity field with expansion factor $B_L=0.05$"
-driver_figs.figures[1,0].caption = "Uniform spiral velocity field"
+driver_figs.figures[1,0].caption = "Logarithmic spiral velocity field with expansion factor $B_L=0.05$"
+driver_figs.figures[2,0].caption = "Uniform spiral velocity field"
+driver_figs.placement = 'h'
 
-driver_figs.caption = "Horizontal cuts through the spiral driver at the peak amplitude height $z = 0.01$ Mm for the two spiral drivers. Red lines are a streamline of the velocity vector field, sampled as black arrows, overplotted on the velocity magnitude $|V|$."
+driver_figs.caption = "Horizontal cuts through the spiral driver at the peak amplitude height $z = 0.01$ Mm for the three torsional drivers. Red lines are a streamline of the velocity vector field, sampled as black arrows, overplotted on the velocity magnitude $|V|$."
 \end{pycode}
 
 \py[chapter4]|driver_figs|
 
-\section{Simulations}
+\section{Running and Analysing Simulations}
 
-Five different simulations, one for each driver profile shown in \cref{fig:driver_figs}, were performed using the SAC code as described in \cref{sec:SAC}.
+Five different simulations, one for each driver profile, were performed using the SAC code as described in \cref{sec:SAC}.
 These simulations were performed using the background conditions described in \cref{sec:mhsbackground} on a $128^3$ grid with physical dimensions of $2.0 \times\ 2.0\ \times\ 1.6$ Mm$^3$ in the $x$, $y$ and $z$ directions respectively, and with an origin in the $z$ direction of $0.061$ Mm above the photosphere.
-The plasma was driven using the different drivers described in \cref{sec:5drivers} continuously for the length of the simulations. 
-%TODO: What length are we showing here?
-
+The plasma was driven using the different drivers described in \cref{sec:5drivers} continuously for the $600$ s run time of the simulations.
 Snapshots of one of the simulations are shown as 3D renders in \cref{fig:frames_Suni_vphi}, the driving velocity field is represented as vectors at the base and the flux surface is shown, coloured with the azimuthal velocity component.
 
-\begin{figure}[h]
+Once the MHD simulations were complete, the data was loaded into the Python flux surface analysis pipeline as described in \cref{sec:fluxsurfaces}, this then calculated the velocity perturbation and wave flux vectors in the frame of the flux surfaces, which are analysed in \cref{sec:driveranalysis}.
+
+\begin{figure}[H]
     \begin{subfigure}[b]{0.9\columnwidth}
         \centering
         \includegraphics[width=0.55\columnwidth]{Chapter4/Figs/Mayavi_Slog_p240_A10_r60_vphi_00150.png}
@@ -244,13 +247,9 @@ Snapshots of one of the simulations are shown as 3D renders in \cref{fig:frames_
     \label{fig:frames_Suni_vphi}
 \end{figure}
 
-\subsection{Comparing Wave Excitation}
-
-As described in \cref{sec:fluxsurfaces} flux surfaces can be used to analyse the relative properties of the major MHD modes in a system.
-In this section we will apply this analysis method to the simulations of various drivers.
-
-The results of applying the analysis which is discussed in Sect. \ref{sec:3d_analysis} are shown in Fig. \ref{fig:frames_Suni_vphi}, as snapshots at times $154$, $461$ and $600 \text{ s}$ of wave propagation along the magnetic flux tube surface as generated by a logarithmic spiral driver (see Equation \ref{eq:Slog}) with a period of $240$ s.
-In Fig. \ref{fig:frames_Suni_vphi} it can be seen that the torsional driver excites perturbations in each decomposed velocity component, \textit{e.g.} $V_\phi$,  $V_\perp$, $V_\parallel$, as would be expected for a driver that is not exactly a linear eigenmode of the system. 
+\subsection{Analysing Wave Excitation}\label{sec:driveranalysis}
+The results of applying the analysis which is discussed in \cref{sec:fluxsurfaces} are shown in \cref{fig:frames_Suni_vphi}, as snapshots at times $154$, $461$ and $600 \text{ s}$ of wave propagation along the magnetic flux tube surface as generated by a logarithmic spiral driver with a period of $240$ s.
+In \cref{fig:frames_Suni_vphi} it can be seen that the torsional driver excites perturbations in each decomposed velocity component, \textit{e.g.} $V_\phi$,  $V_\perp$, $V_\parallel$, as would be expected for a driver that is not exactly a linear eigenmode of the system. 
 The strength and positions of these perturbations change as the simulations progress and the wave fronts travel along the tube. 
 Also shown is a vector plane at the peak vertical height of the driver, which illustrates the velocity field driving the oscillations.
 To analyse the propagation of separate wave modes we extracted the velocity components along a magnetic field line on the flux surface and constructed time-distance diagrams for each component. 
