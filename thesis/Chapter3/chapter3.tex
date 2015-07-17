@@ -39,13 +39,233 @@ ch3 = texfigure.Manager(pytex, number=3, base_path='./Chapter3/')
 \section{Magnetohydrostatic Background Conditions}\label{sec:mhsbackground}
 
 The numerical simulations performed for the analysis in this thesis, all make use of the ability of SAC (\cref{sec:SAC}) to solve for perturbations on top of a static MHD equilibria.
-To perform these experiments, it is needed that a background atmosphere be constructed.
+To perform these experiments, it is needed that a background atmosphere be constructed, for all the work in this thesis, quiet Sun regions were chosen for study.
+This choice reduces the complexity of the modelled magnetic field and should allow for more accurate separation of the MHD wave effect from any other processes.
+Also, the quiet Sun regions are the largest by total area during most of the solar cycle.
+
+%HS Background
+The first step in constructing a static model for the solar atmosphere is to understand the hydrodynamic properties of the background pressure.
+Models of properties such as the density, and pressure have been created for various heights in the solar atmosphere, based on observations and theory.
+The models used in this thesis are from the \cite{vernazza1981} model, which covers the range of height in the solar atmosphere from the photosphere ($0$ km) to $2.5$ Mm above the photosphere.
+A plot of the density, pressure and temperature from this model is shown in \cref{fig:val3c}.
+
+\begin{pycode}[chapter3]
+import pysac.mhs_atmosphere as atm
+
+#Read in the VAL3C model
+empirical_data = atm.hs_atmosphere.read_VAL3c_MTW(MTW_file=False)
+
+# Create a Z array at the interpolated resolution and interpolate.
+ZZ = u.Quantity(np.linspace(empirical_data['Z'][0], empirical_data['Z'][-1], 128), unit=empirical_data['Z'].unit)
+table = atm.hs_atmosphere.interpolate_atmosphere(empirical_data, ZZ)
+
+# Create a figure and make space for the axes.
+fig, ax = plt.subplots(gridspec_kw={'right':0.775, 'left':0.13})
+
+# Shortcut all the Mm conversion.
+Z = empirical_data['Z'].to(u.Mm)
+
+lrho, = ax.plot(Z, empirical_data['rho'].quantity.si, 'x', color='blue')
+lrho_i, = ax.plot(ZZ.to(u.Mm), table['rho'].quantity.si, color='blue')
+
+ax2 = ax.twinx()
+lp, = ax2.plot(Z, empirical_data['p'].to(u.Pa), 'x', color='green')
+lp_i, = ax2.plot(ZZ.to(u.Mm), table['p'].to(u.Pa), color='green')
+
+
+ax3 = ax.twinx()
+ax3.spines["right"].set_position(("axes", 1.18))
+lt, = ax3.plot(Z, empirical_data['T'], 'x', color='red')
+lt_i, = ax3.plot(ZZ.to(u.Mm), table['T'], color='red')
+
+
+# Set primary axes properties and labels
+ax.semilogy()
+ax.set_ylabel(r"Density [{}]".format(lrho._yorig.unit._repr_latex_()))
+ax.set_xlabel(r"Height [{}]".format(lrho._xorig.unit._repr_latex_()))
+ax.set_xlim(Z[0].value-0.1, Z[-1].value+0.1)
+
+
+# Pressure Axis
+ax2.semilogy()
+ax2.set_ylabel(r"Pressure [{}]".format(lp._yorig.unit._repr_latex_()))
+
+
+# Temp axis
+ax3.set_ylabel(r"Temperature [{}]".format(lt._yorig.unit._repr_latex_()))
+
+# Set the colours for the ticks and the labels.
+ax.tick_params(axis='y', colors=lrho.get_color())
+ax2.tick_params(axis='y', colors=lp.get_color())
+ax3.tick_params(axis='y', colors=lt.get_color())
+
+ax.yaxis.label.set_color(lrho.get_color())
+ax2.yaxis.label.set_color(lp.get_color())
+ax3.yaxis.label.set_color(lt.get_color())
+
+val3c = ch3.save_figure('val3c', fig, fext='.pgf')
+val3c.caption = r"Graph of the \cite{{vernazza1981}} model C showing the density ({}), pressure ({}), and temperature ({}). The solid lines show the interpolated values used to construct the numerical model, at the resolution of the numerical domain.".format(lrho.get_color(), lp.get_color(), lt.get_color())
+\end{pycode}
+
+\py[chapter3]|val3c|
+
+On top of this hydrostatic background, a magnetic field is required to study MHD waves.
+%MBPs and magnetic structures
 The type of magnetic phenomena to be investigated are small scale photospheric structures, that occur frequently over the disk of the Sun.
 Magnetic Bright Points (MBPs) were chosen as an observational feature to use as a guide for the background model, MBPs are well studied and there are good estimates of their physical properties.
-\cite{feng2013} perform a study of Photospheric Bright Points(PBPs), which are assumed to be analogous to MBPs, using the Dutch Open Telescope, and find the peak of the lognormal distribution give a diameter of $232\pm40$ km for the quiet Sun.
+\cite{feng2013} performed a study of Photospheric Bright Points(PBPs), which are assumed to be analogous to MBPs, using the Dutch Open Telescope, and find the peak of the log-normal distribution give a diameter of $232\pm40$ km for the quiet Sun.
 They also show that $50$\% of the PBPs they analysed had the major axis of their ellipse less than $1.5$ times longer than the minor axis.
 Showing that they are to a first approximation circular, however, with some PBPs having quite a large deviation from this approximation.
-\cite{utz2013} perform a similar study looking at the average magnetic field strength of MBPs
+\cite{utz2013} perform a similar study looking at the average magnetic field strength of MBPs using the Hinode SOT instrument, they find that in a quiet Sun region the average magnetic field strength is $135.0 \pm 1.0$ mT.
+\cite{sanchezalmeida2004} also perform a statistical study of MBPs, they find that in their sample most MBPs have lifetimes of less than 10 minutes.
+They also note, and present some evidence, that this is probably an upper bound estimate, and true lifetimes may be shorter.
+
+
+%TODO: MHS background construction
+\begin{pycode}[chapter3]
+from pysac.mhs_atmosphere.parameters.model_pars import mfe_setup as model_pars
+import pysac.mhs_atmosphere as atm
+
+# Cheeky Reset to Photosphere
+model_pars['xyz'][4] = 0*u.Mm
+#==============================================================================
+# Build the MFE flux tube model using pysac
+#==============================================================================
+# model setup
+scales, physical_constants = atm.units_const.get_parameters()
+option_pars = atm.options.set_options(model_pars, False, l_gdf=True)
+coords = atm.model_pars.get_coords(model_pars['Nxyz'], u.Quantity(model_pars['xyz']))
+
+#interpolate the hs 1D profiles from empirical data source[s]
+empirical_data = atm.hs_atmosphere.read_VAL3c_MTW(mu=physical_constants['mu'])
+table = atm.hs_atmosphere.interpolate_atmosphere(empirical_data, coords['Zext'])
+
+# calculate 1d hydrostatic balance from empirical density profile
+# the hs pressure balance is enhanced by pressure equivalent to the
+# residual mean coronal magnetic pressure contribution once the magnetic
+# field has been applied
+magp_meanz = np.ones(len(coords['Z'])) * u.one
+magp_meanz *= model_pars['pBplus']**2/(2*physical_constants['mu0'])
+
+# Make the vertical profile 3D
+pressure_z, rho_z, Rgas_z = atm.hs_atmosphere.vertical_profile(coords['Z'], table, magp_meanz, physical_constants, coords['dz'])
+
+# Generate 3D coordinate arrays
+x, y, z = u.Quantity(np.mgrid[coords['xmin']:coords['xmax']:1j*model_pars['Nxyz'][0],
+                              coords['ymin']:coords['ymax']:1j*model_pars['Nxyz'][1],
+                              coords['zmin']:coords['zmax']:1j*model_pars['Nxyz'][2]], unit=coords['xmin'].unit)
+
+# Get default MFE flux tube parameters out of pysac
+xi, yi, Si = atm.flux_tubes.get_flux_tubes(model_pars, coords, option_pars)
+
+# Generate the 3D magnetic field
+allmag = atm.flux_tubes.construct_magnetic_field(x, y, z, xi[0], yi[0], Si[0], model_pars, option_pars, physical_constants, scales)
+pressure_m, rho_m, Bx, By ,Bz, Btensx, Btensy = allmag
+
+# local proc 3D mhs arrays
+pressure, rho = atm.mhs_3D.mhs_3D_profile(z, pressure_z, rho_z, pressure_m, rho_m)
+magp = (Bx**2 + By**2 + Bz**2) / (2.*physical_constants['mu0'])
+energy = atm.mhs_3D.get_internal_energy(pressure, magp, physical_constants)
+\end{pycode}
+
+\begin{pycode}[chapter3]
+#### YT STUFF ####
+
+import yt
+
+# Add derived Fields
+def magnetic_field_strength(field, data):
+    return np.sqrt(data["magnetic_field_x"]**2 + data["magnetic_field_y"]**2 + data["magnetic_field_z"]**2)
+yt.add_field(("gas","magnetic_field_strength"), function=magnetic_field_strength, units = "T")
+
+def alfven_speed(field, data):
+    return np.sqrt(2.*data['magnetic_pressure']/data['density'])
+yt.add_field(("gas","alfven_speed"), function=alfven_speed, units = "m/s")
+
+bbox = u.Quantity([u.Quantity([coords['xmin'], coords['xmax']]),
+                   u.Quantity([coords['ymin'], coords['ymax']]),
+                   u.Quantity([coords['zmin'], coords['zmax']])]).to(u.m).value
+
+# Now build a yt DataSet with the generated data:
+data = {'magnetic_field_x':yt.YTQuantity.from_astropy(Bx.decompose()),
+        'magnetic_field_y':yt.YTQuantity.from_astropy(By.decompose()),
+        'magnetic_field_z':yt.YTQuantity.from_astropy(Bz.decompose()),
+        'pressure': yt.YTQuantity.from_astropy(pressure.decompose()),
+        'magnetic_pressure': yt.YTQuantity.from_astropy(magp.decompose()),
+        'density': yt.YTQuantity.from_astropy(rho.decompose())}
+
+ds = yt.load_uniform_grid(data, x.shape, length_unit='m', magnetic_unit='T', mass_unit='kg', periodicity=[False]*3, bbox=bbox)
+\end{pycode}
+
+
+\begin{pycode}[chapter3]
+from astropy.modeling import models, fitting
+
+x_lin = np.linspace(coords['xmin'], coords['xmax'], model_pars['Nxyz'][0])
+bmag = np.sqrt((Bx**2 + By**2 + Bz**2))[:,64,0].to(u.mT)
+
+gaussian = models.Gaussian1D()
+bmag_fit = fitting.LevMarLSQFitter()(gaussian, x_lin, bmag)
+
+fwhm = 2.*np.sqrt(2*np.log(2))*bmag_fit.stddev.value
+fwhm = np.abs(fwhm) * u.Mm
+
+fwtm = 2.*np.sqrt(2*np.log(10))*bmag_fit.stddev.value
+fwtm = np.abs(fwtm) * u.Mm
+
+fwhm = fwhm.to(u.km)
+fwtm = fwtm.to(u.km)
+\end{pycode}
+From this information, and taking into account the properties of the hydrostatic background chosen, a magnetic field can be constructed with properties similar to the MBPs.
+The 3D magnetic field was generated using work of \cite{gent2013}, and the implementation of that paper in the pysac library\footnote{https://github.com/SWAT-Sheffield/pysac}.
+%TODO: talk parameters here.
+
+The result of the flux tube construction in \cite{gent2013} is a 2D Gaussian profile for the cross-sectional magnetic field, with a full width at half maximum of $\approx$ \py[chapter3]|np.round(fwhm, -1)|, and a full width at a 10th of maximum (\py[chapter3]|np.round(fwtm, -1)|) at the photosphere, corresponding to the lower bound of the observations in \cite{utz2013}.
+
+
+\begin{pycode}[chapter3]
+# Make a 1D plot with Gaussian fit.
+
+fig = plt.figure()
+lb, = plt.plot(x_lin, bmag.to(u.mT), 'x')
+X = np.linspace(coords['xmin'], coords['xmax'], 1000)
+lb_f, = plt.plot(X, bmag_fit(X.value))
+
+plt.xlabel("X [{}]".format(lb._xorig.unit._repr_latex_()))
+plt.ylabel("Magnetic Field Strength [{}]".format(lb._yorig.unit._repr_latex_()))
+
+plt.axhline(y=bmag_fit.amplitude.value/2, color='cyan', linestyle=':')
+plt.axhline(y=bmag_fit.amplitude.value/10, color='magenta', linestyle=':')
+
+plt.axvline(x=-1*fwhm.to(u.Mm).value/2., color='cyan', linestyle=':')
+plt.axvline(x=fwhm.to(u.Mm).value/2., color='cyan', linestyle=':')
+
+plt.xlim([-0.2, 0.2])
+
+bmagf = ch3.save_figure('bmag-footpoint', fig, fext='.pgf')
+\end{pycode}
+
+\begin{pycode}[chapter3]
+slc = yt.SlicePlot(ds, 'z', 'magnetic_field_strength', origin='center-domain',
+                   axes_unit='km', center=("max", "magnetic_field_strength"), width=(0.5, "Mm"))
+slc.set_figure_size(texfigure.figsize(pytex)[0])
+
+slc.set_cmap('all', 'Oranges')
+slc.annotate_contour('magnetic_field_strength', take_log=False,
+                     plot_args={'levels':[ds.all_data().quantities.extrema("magnetic_field_strength")[1]/2.],
+                                'linewidths':3,
+                                'colors':'black'})
+
+bmag2d = ch3.save_figure('bmag-cut', slc)
+
+\end{pycode}
+
+
+\py[chapter3]|bmagf|
+
+\py[chapter3]|bmag2d|
+
+%TODO: Domain size choices
 
 \section{Flux Surfaces}\label{sec:fluxsurfaces}
 
@@ -72,7 +292,9 @@ The equation of a plane is minimally defined by: three arbitrary points in a Car
 We can therefore use this to calculate a vector normal to our surface for each set of three points numerically defining the surface.
 
 \subsection{Constructing Flux Surfaces Numerically}
-\begin{pycode}[chapter3]
+\begin{pycode}[chapter3a]
+ch3 = texfigure.Manager(pytex, number=3, base_path='./Chapter3/')
+ch3.fig_count += 100
 # This section is all about describing the construction of flux tubes, many imports are needed:
 import sys
 import os
@@ -125,7 +347,7 @@ Therefore the edge of the flux tube can be thought of as a set of field lines.
 We can therefore calculate the surface of the flux tube by computing the field lines that form its outer boundary.
 The process of computing these flux surfaces is illustrated in \cref{fig:circ_seeds,fig:fieldlines,fig:flux_surface,fig:zoomed_surface,fig:zoomed_glyphs} and described in the respective captions.
 
-\begin{pycode}[chapter3]
+\begin{pycode}[chapter3a]
 xc = domain['xmax']/2
 yc = domain['ymax']/2
 ti = 0
@@ -149,9 +371,9 @@ circ_seeds.figure_width = vtk_width
 circ_seeds.caption=r"Due to the axisymmetric nature of the background conditions, an axisymmetric ring of seed points is chosen. This example uses a ring at a radius of $936$ km from the centre of the domain."
 
 \end{pycode}
-\py[chapter3]|circ_seeds|
+\py[chapter3a]|circ_seeds|
 
-\begin{pycode}[chapter3]
+\begin{pycode}[chapter3a]
 field_lines = SeedStreamline(seed_points = np.array(seeds))
 bmag.add_child(field_lines)
 field_lines.actor.mapper.scalar_visibility = False
@@ -162,9 +384,9 @@ fieldlines = ch3.save_figure('fieldlines', fig, fext='.png')
 fieldlines.figure_width = vtk_width
 fieldlines.caption=r"The seed points are then used to trace field lines. The field lines naturally form a flux surface by definition."
 \end{pycode}
-\py[chapter3]|fieldlines|
+\py[chapter3a]|fieldlines|
 
-\begin{pycode}[chapter3]
+\begin{pycode}[chapter3a]
 pd_seeds = ttf.make_circle_seeds(100, 60, **domain)
 fieldlines, surface = ttf.create_flux_surface(bfield.outputs[0], pd_seeds)
 surface.output.lines = None
@@ -177,9 +399,9 @@ fig_flux_surface = ch3.save_figure('flux_surface', fig, fext='.png')
 fig_flux_surface.figure_width = vtk_width
 fig_flux_surface.caption=r"Once the field lines have been traced a surface is constructed from small polygons (triangles) using the vtkRuledSurfaceFilter algorithm."
 \end{pycode}
-\py[chapter3]|fig_flux_surface|
+\py[chapter3a]|fig_flux_surface|
 
-\begin{pycode}[chapter3]
+\begin{pycode}[chapter3a]
 axes.visible = False
 outline.visible = False
 flux_surface.actor.property.edge_visibility = True
@@ -187,10 +409,10 @@ zoomed_surface = ch3.save_figure('zoomed_surface', fig, fext='.png', azimuth = 9
 zoomed_surface.figure_width = vtk_width
 zoomed_surface.caption=r"This figure shows the outlines of the triangles of which the surface comprises."
 \end{pycode}
-\py[chapter3]|zoomed_surface|
+\py[chapter3a]|zoomed_surface|
 
 
-\begin{pycode}[chapter3]
+\begin{pycode}[chapter3a]
 poly_norms = ttf.make_poly_norms(surface.output)
 normvec = mlab.pipeline.glyph(poly_norms.output)
 normvec.glyph.glyph_source.glyph_source = normvec.glyph.glyph_source.glyph_dict['arrow_source']
@@ -204,7 +426,7 @@ zoomed_glyphs.figure_width = vtk_width
 zoomed_glyphs.caption=r"By using the surface triangles a vector normal to the surface can be calculated at each vertex. This is done automatically by the vtkRuledSurfaceFilter algorithm."
 \end{pycode}
 
-\py[chapter3]|zoomed_glyphs|
+\py[chapter3a]|zoomed_glyphs|
 
 Once the normal vectors have been constructed, it is simple to compute the azimuthal vector from the magnetic field unit vector and the normal vector $\vec{n_\phi}= \vec{n_\perp} \times \vec{n_\parallel}$ where $\vec{n_\perp},\ \vec{n_\parallel} $ are also both unit vectors. 
 Using  $\vec{n_\perp},\ \vec{n_\parallel}$ and $\vec{n_\phi}$ it  is possible to project any vector quantity calculated in the simulations into this reference frame, and use it for the analysis of MHD waves.
