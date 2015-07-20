@@ -44,9 +44,9 @@ This choice reduces the complexity of the modelled magnetic field and should all
 Also, the quiet Sun regions are the largest by total area during most of the solar cycle.
 
 %HS Background
-The first step in constructing a static model for the solar atmosphere is to understand the hydrodynamic properties of the background pressure.
+The first step in constructing a static model for the solar atmosphere is to understand the hydrodynamic properties of the background plasma.
 Models of properties such as the density, and pressure have been created for various heights in the solar atmosphere, based on observations and theory.
-The models used in this thesis are from the \cite{vernazza1981} model, which covers the range of height in the solar atmosphere from the photosphere ($0$ km) to $2.5$ Mm above the photosphere.
+The profiles used in this thesis are from the \cite{vernazza1981} model, which covers the range of height in the solar atmosphere from the photosphere ($0$ km) to $2.5$ Mm above the photosphere.
 A plot of the density, pressure and temperature from this model is shown in \cref{fig:val3c}.
 
 \begin{pycode}[chapter3]
@@ -113,7 +113,7 @@ On top of this hydrostatic background, a magnetic field is required to study MHD
 %MBPs and magnetic structures
 The type of magnetic phenomena to be investigated are small scale photospheric structures, that occur frequently over the disk of the Sun.
 Magnetic Bright Points (MBPs) were chosen as an observational feature to use as a guide for the background model, MBPs are well studied and there are good estimates of their physical properties.
-\cite{feng2013} performed a study of Photospheric Bright Points(PBPs), which are assumed to be analogous to MBPs, using the Dutch Open Telescope, and find the peak of the log-normal distribution give a diameter of $232\pm40$ km for the quiet Sun.
+\cite{feng2013} performed a study of Photospheric Bright Points (PBPs), which are assumed to be analogous to MBPs, using the Dutch Open Telescope, and find the peak of the log-normal distribution give a diameter of $232\pm40$ km for the quiet Sun.
 They also show that $50$\% of the PBPs they analysed had the major axis of their ellipse less than $1.5$ times longer than the minor axis.
 Showing that they are to a first approximation circular, however, with some PBPs having quite a large deviation from this approximation.
 \cite{utz2013} perform a similar study looking at the average magnetic field strength of MBPs using the Hinode SOT instrument, they find that in a quiet Sun region the average magnetic field strength is $135.0 \pm 1.0$ mT.
@@ -217,25 +217,35 @@ fwhm = fwhm.to(u.km)
 fwtm = fwtm.to(u.km)
 \end{pycode}
 From this information, and taking into account the properties of the hydrostatic background chosen, a magnetic field can be constructed with properties similar to the MBPs.
-The 3D magnetic field was generated using work of \cite{gent2013}, and the implementation of that paper in the pysac library\footnote{https://github.com/SWAT-Sheffield/pysac}.
+The 3D magnetic field was generated using work of \cite{gent2013, gent2014}, and the implementation of that paper in the pysac library\footnote{https://github.com/SWAT-Sheffield/pysac}.
 %TODO: talk parameters here.
 
-The result of the flux tube construction in \cite{gent2013} is a 2D Gaussian profile for the cross-sectional magnetic field, with a full width at half maximum of $\approx$ \py[chapter3]|np.round(fwhm, -1)|, and a full width at a 10th of maximum (\py[chapter3]|np.round(fwtm, -1)|) at the photosphere, corresponding to the lower bound of the observations in \cite{utz2013}.
+The result of the flux tube construction in \cite{gent2013, gent2014} is a 2D Gaussian profile for the cross-sectional magnetic field, with a full width at half maximum of $\approx$ \py[chapter3]|np.round(fwhm, -1)|, and a full width at a 10th of maximum (\py[chapter3]|np.round(fwtm, -1)|) at the photosphere, corresponding to the lower bound of the observations in \cite{utz2013}.
+Plots of the magnetic field strength in the photosphere are shown in \cref{fig:gaussian}, for both a 1D and 2D profile.
+A vertical slice through the background atmosphere is then shown in \cref{fig:alf2d}, with the structure of the magnetic field shown over-plotted on the Alfv\'en speed.
+As can be seen in \cref{fig:alf2d} the magnetic field expands non-linearly as the kinetic pressure decreases with height.
+It should also be noted that the background atmosphere has been constructed up to $1.6$ Mm above the photosphere defined in \cite{vernazza1981}, this is a deliberate choice to exclude the region where the plasma $\beta = 1$.
+The reasons for this choice lie in the studies to be performed using this atmosphere, this thesis is explicitly studying the generation of MHD waves in the photosphere and not their propagation into the higher layers of the solar atmosphere.
+It is therefore easier to exclude the very interesting, but also complex physics that occurs around the $\beta = 1$ region.
+
+The numerical domain chosen for the work presented in this thesis is $2.0 \times 2.0 \times 1.6$ Mm in size, with a resolution of $128^3$ grid points.
 
 
 \begin{pycode}[chapter3]
+
+gaussian = texfigure.MultiFigure(1, 2, "guassian")
 # Make a 1D plot with Gaussian fit.
 
-fig = plt.figure()
+fig, ax = plt.subplots(figsize=texfigure.figsize(pytex, scale=0.49), gridspec_kw={'left':0.15})
 lb, = plt.plot(x_lin, bmag.to(u.mT), 'x')
 X = np.linspace(coords['xmin'], coords['xmax'], 1000)
-lb_f, = plt.plot(X, bmag_fit(X.value))
+lb_f, = plt.plot(X, bmag_fit(X.value), color='green')
 
 plt.xlabel("X [{}]".format(lb._xorig.unit._repr_latex_()))
 plt.ylabel("Magnetic Field Strength [{}]".format(lb._yorig.unit._repr_latex_()))
 
-plt.axhline(y=bmag_fit.amplitude.value/2, color='cyan', linestyle=':')
-plt.axhline(y=bmag_fit.amplitude.value/10, color='magenta', linestyle=':')
+lhm = plt.axhline(y=bmag_fit.amplitude.value/2, color='cyan', linestyle=':')
+ltm = plt.axhline(y=bmag_fit.amplitude.value/10, color='magenta', linestyle=':')
 
 plt.axvline(x=-1*fwhm.to(u.Mm).value/2., color='cyan', linestyle=':')
 plt.axvline(x=fwhm.to(u.Mm).value/2., color='cyan', linestyle=':')
@@ -243,27 +253,49 @@ plt.axvline(x=fwhm.to(u.Mm).value/2., color='cyan', linestyle=':')
 plt.xlim([-0.2, 0.2])
 
 bmagf = ch3.save_figure('bmag-footpoint', fig, fext='.pgf')
+bmagf.caption = "1D slice through the centre of the domain. The {} line shows a fitted gaussian to the numerical domain. The {} lines show the FWHM and the {} line shows the FWTM.".format(lb_f.get_color(), lhm.get_color(), ltm.get_color())
+gaussian.append(bmagf)
 \end{pycode}
 
 \begin{pycode}[chapter3]
 slc = yt.SlicePlot(ds, 'z', 'magnetic_field_strength', origin='center-domain',
                    axes_unit='km', center=("max", "magnetic_field_strength"), width=(0.5, "Mm"))
-slc.set_figure_size(texfigure.figsize(pytex)[0])
+slc.set_figure_size(texfigure.figsize(pytex, scale=0.49)[0])
 
 slc.set_cmap('all', 'Oranges')
+bmax = ds.all_data().quantities.extrema("magnetic_field_strength")[1]
 slc.annotate_contour('magnetic_field_strength', take_log=False,
-                     plot_args={'levels':[ds.all_data().quantities.extrema("magnetic_field_strength")[1]/2.],
+                     plot_args={'levels':[bmax/2., bmax/10.],
                                 'linewidths':3,
-                                'colors':'black'})
+                                'colors':['black', 'green']})
 
 bmag2d = ch3.save_figure('bmag-cut', slc)
+bmag2d.caption = "2D slice through domain. The black line shows the FWHM and the green line shows the FWTM of the gaussian profile. The image shows the the magnetic field magntitude."
+
+gaussian.append(bmag2d)
+gaussian.caption = "Magnetic field strength plots for the photospheric layer in the numerical domain."
 
 \end{pycode}
 
 
-\py[chapter3]|bmagf|
+\py[chapter3]|gaussian|
 
-\py[chapter3]|bmag2d|
+\begin{pycode}[chapter3]
+slc = yt.SlicePlot(ds, 'x', 'alfven_speed', origin='lower-center-domain', axes_unit='Mm')
+slc.set_figure_size(texfigure.figsize(pytex)[0])
+slc.set_cmap('all', 'BuPu')
+
+seed_points = np.zeros([11,2]) + 1.52
+seed_points[:,0] = np.linspace(-0.99, 0.95, seed_points.shape[0], endpoint=True)
+slc.annotate_streamlines('magnetic_field_y', 'magnetic_field_z', field_color='magnetic_field_strength',
+plot_args={'start_points':seed_points, 'density':15, 'cmap':'YlGn',
+'norm': mpl.colors.LogNorm(*ds.all_data().quantities.extrema("magnetic_field_strength"))})
+
+alf2d = ch3.save_figure('alf2d', slc)
+alf2d.caption = r"Vertical slice through the background atmosphere, with the Alfv\'en Speed sown in the background with magnetic field lines overplotted in blue."
+\end{pycode}
+
+\py[chapter3]|alf2d|
 
 %TODO: Domain size choices
 
