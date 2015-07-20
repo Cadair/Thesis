@@ -121,7 +121,7 @@ Showing that they are to a first approximation circular, however, with some PBPs
 They also note, and present some evidence, that this is probably an upper bound estimate, and true lifetimes may be shorter.
 
 
-%TODO: MHS background construction
+%MHS background construction
 \begin{pycode}[chapter3]
 from pysac.mhs_atmosphere.parameters.model_pars import mfe_setup as model_pars
 import pysac.mhs_atmosphere as atm
@@ -218,7 +218,10 @@ fwtm = fwtm.to(u.km)
 \end{pycode}
 From this information, and taking into account the properties of the hydrostatic background chosen, a magnetic field can be constructed with properties similar to the MBPs.
 The 3D magnetic field was generated using work of \cite{gent2013, gent2014}, and the implementation of that paper in the pysac library\footnote{https://github.com/SWAT-Sheffield/pysac}.
+
 %TODO: talk parameters here.
+* footpoint bfield
+* 
 
 The result of the flux tube construction in \cite{gent2013, gent2014} is a 2D Gaussian profile for the cross-sectional magnetic field, with a full width at half maximum of $\approx$ \py[chapter3]|np.round(fwhm, -1)|, and a full width at a 10th of maximum (\py[chapter3]|np.round(fwtm, -1)|) at the photosphere, corresponding to the lower bound of the observations in \cite{utz2013}.
 Plots of the magnetic field strength in the photosphere are shown in \cref{fig:gaussian}, for both a 1D and 2D profile.
@@ -228,7 +231,7 @@ It should also be noted that the background atmosphere has been constructed up t
 The reasons for this choice lie in the studies to be performed using this atmosphere, this thesis is explicitly studying the generation of MHD waves in the photosphere and not their propagation into the higher layers of the solar atmosphere.
 It is therefore easier to exclude the very interesting, but also complex physics that occurs around the $\beta = 1$ region.
 
-The numerical domain chosen for the work presented in this thesis is $2.0 \times 2.0 \times 1.6$ Mm in size, with a resolution of $128^3$ grid points.
+The numerical domain chosen for the work presented in this thesis is $2.0 \times 2.0 \times 1.6$ Mm in size, with a resolution of $128^3$ grid points, giving a physical size of $15.6\ \times\ 15.6\ \times\ 12.5$ km$^3$ for each grid cell.
 
 
 \begin{pycode}[chapter3]
