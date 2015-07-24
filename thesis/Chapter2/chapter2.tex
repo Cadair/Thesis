@@ -55,6 +55,20 @@ ch2 = texfigure.Manager(pytex, number=2, base_path='./Chapter2/')
 
 \subsection{Calculating Wave Flux}\label{sec:waveflux}
 
+
+To calculate the relative strengths of the excited waves we compute the `wave energy flux' vector everywhere in the domain using Equation \ref{eq:wave_energy}.
+\begin{equation}
+\vec{F}_{wave} \equiv \widetilde{p}_k \vec{v} + \frac{1}{\mu_0} \left(\vec{B}_b \cdot \vec{\widetilde{B}}\right) \vec{v} - \frac{1}{\mu_0}\left(\vec{v} \cdot \vec{\widetilde{B}} \right) \vec{B}_b,
+\label{eq:wave_energy}
+\end{equation}
+where a subscript $b$ represents a background variable, a tilda represents a perturbation from the background conditions and $p_k$ represents kinetic pressure.
+
+This equation has been widely used to calculate the energy contained in linear MHD perturbations.
+It is discussed in detail in \cite{bogdan2003} where it is compared to the `true' MHD flux for linear perturbations and found to be generally clearer. 
+It is used in \cite{vigeesh2009, vigeesh2012, khomenko2012}. 
+For a full derivation and discussion relating to time-averaging see \cite{leroy1985}.
+Calculating wave energy flux using Equation \ref{eq:wave_energy} provides a vector which is useful in plotting time distance diagrams and analysing wave modes.
+
 \section{Computational Methods}\label{sec:numericalmethods}
 
 \section{Sheffield Advanced Code}\label{sec:SAC}
