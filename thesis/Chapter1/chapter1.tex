@@ -87,7 +87,7 @@ val3c['H'] = val3c['H'].to(u.Mm)
 
 fig, ax = plt.subplots()
 
-ax.semilogy(mwdata['H'], mwdata['T'], 'gx')
+lt, = ax.semilogy(mwdata['H'], mwdata['T'], 'gx')
 ax.semilogy(val3c['H'], val3c['T'], 'gx')
 
 ax.set_xlabel("Height [{}]".format(mwdata['H'].unit.to_string()))
@@ -95,11 +95,18 @@ ax.set_ylabel("Temperature [{}]".format(mwdata['T'].unit.to_string(format='latex
 
 ax2 = ax.twinx()
 
-ax2.semilogy(mwdata['H'], mwdata['rho'], 'bx')
+lrho, = ax2.semilogy(mwdata['H'], mwdata['rho'], 'bx')
 ax2.semilogy(val3c['H'], val3c['rho'], 'bx')
 
 ax2.set_ylabel(r"Density [{}]".format(mwdata['rho'].unit.to_string(format='latex')))
 ax2.set_xlim(0,6)
+
+# Set the colours for the ticks and the labels.
+ax2.tick_params(axis='y', colors=lrho.get_color())
+ax.tick_params(axis='y', colors=lt.get_color())
+
+ax2.yaxis.label.set_color(lrho.get_color())
+ax.yaxis.label.set_color(lt.get_color())
 
 fig.tight_layout()
 atmos = ch1.save_figure('atmos', fig=fig, fext='.pgf')

@@ -28,11 +28,12 @@ In this chapter the motions that are common in the inter-granular lanes will be 
 Considering the physical conditions of the inter-granular lanes, where parcels of hot plasma rise, expand and then sink down these lanes.
 It is easy to imagine the motions present: vertical motion caused by rising and sinking plasma; horizontal motion caused by the expansion and contraction of the plasma as it cools; spiralling motion in which plasma sinks down magnetic field lines, analogous to that of water down a plug hole.
 
-The horizontal and vertical motions are commonly observed using high resolution observations, the spiralling motions were observed in an inter-granular lane by \cite{Bonet2008} and various types of spirals have been observed in the higher layers of the atmosphere by \cite{Wedemeyer-Bohm2009,Wedemeyer-Bohm2012,Wedemeyer2013}.
-The different types of spiral observed in the atmosphere and the difficulty of performing high quality observations of plasma motions in the inter-granular lanes, the spiralling motions will be modelled by a variety of drivers.
-A circular driver, a `spiral' with no radial (expansion) component; an Archemedian spiral, a spiral which expands by a fixed amount for each rotation; and a logarithmic spiral where the spiral expands by an exponentially increasing amount with every rotation.
+The horizontal and vertical motions are commonly observed using high resolution observations, the spiralling motions were observed in an inter-granular lane by \cite{Bonet2008, Bonet2010} and various types of spirals have been observed in the higher layers of the atmosphere by \cite{Wedemeyer-Bohm2009,Wedemeyer-Bohm2012,Wedemeyer2013}.
+These different types of spiral observed in the atmosphere will be modelled by a variety of drivers.
+A circular driver, a circular driver; an Archemedian spiral, a spiral which expands by a fixed amount for each rotation; and a logarithmic spiral where the spiral expands by an exponentially increasing amount with every rotation will be simulated.
+As well as these circular and spiral drivers, a horizontal and vertical driver will be simulated, to model the rising of the plasma, and the horizontal granular buffeting observed in the inter-granular lanes.
 
-To drive waves in the numerical domain described in \cref{ch:Background} the plasma has to be `moved' by numerically adding a velocity field to the domain.
+To drive waves in the numerical domain described in \cref{sec:mhsbackground} the plasma has to be `moved' by numerically adding a velocity field to the domain.
 This is done by adding the desired velocity field to a 3D layer close to the bottom of the domain, within the modelled photosphere.
 This velocity field is attenuated with a Gaussian profile in three dimensions and is located at the centre of the domain aligned with the foot point of the magnetic field.
 This velocity field is then multiplied by a sine function to make it periodic. The generic form of the driver is given in \cref{eq:generic_driver}.

@@ -254,10 +254,9 @@ r \,   &= \sqrt{(x-x )^2+(y-y )^2},  \label{eq:r}
 \BO = 
 \bF\exp\left(-\frac{z}{\za}\right)\,
 +
-\bb\exp\left(-\frac{z}{\zb}\right).
+\bb\exp\left(-\frac{z}{\zb}\right),
 \end{equation}
-
-
+where $B_{b}$ are the components of the background magnetic field, $f_0$ is the horizontal scaling length, $x_0,y_0,z_0$ are the coordinates of the footpoint of the field, $b_{01}$ and $b_{02}$ are two real constants that sum to $1$ and specify the relative strength of the two exponentials controlling the vertical field strength profile, while $z_1$ and $z_2$ control the field strength profile with height, finally $S$ is the footpoint field strength.
 Similarly to \cite{gent2014} a uniform background field ($\bc$) is also added to the model, this background field provides for a more realistic atmosphere, instead of an atmosphere where there is only one magnetic flux tube present.
 The background field is designed to model the small-scale and distant influence of other magnetic structures in the solar atmosphere.
 The parameters used in constructing the background atmosphere in this thesis are given in \cref{tab:bgparams}.
@@ -352,7 +351,8 @@ alf2d.caption = r"Vertical slice through the background atmosphere, with the Alf
 %* equation for field construction.
 %* equation for hydrostatic equlibrium.
 
-The result of the flux tube construction in \cite{gent2013, gent2014} is a 2D Gaussian profile for the cross-sectional magnetic field, with a full width at half maximum of $\approx$ \py[chapter3]|np.round(fwhm, -1)|, and a full width at a 10th of maximum of \py[chapter3]|np.round(fwtm, -1)| at the photosphere, corresponding to the lower bound of the observations in \cite{utz2013}.
+The result of the flux tube construction in \cite{gent2013, gent2014} is a 2D Gaussian profile for the cross-sectional magnetic field, with a full width at half maximum of $\approx$ \py[chapter3]|np.round(fwhm, -1)|, and a full width at a 10th of maximum of \py[chapter3]|np.round(fwtm, -1)| at the photosphere, which corresponds to the lower bound of the observations in \cite{utz2013}.
+The primary reason for the smaller footpoint, in comparison with the observations in \cite{utz2013}, is the hydrodynamical model used for the photosphere, which has an upper limit to the amount of magnetic pressure it can support.
 Plots of the magnetic field strength in the photosphere are shown in \cref{fig:guassian}, for both a 1D and 2D profile.
 A vertical slice through the background atmosphere is then shown in \cref{fig:alf2d}, with the structure of the magnetic field shown over-plotted on the Alfv\'en speed.
 As can be seen in \cref{fig:alf2d,fig:domain-3d} that the magnetic field expands non-linearly as the kinetic pressure decreases with height.
@@ -543,15 +543,20 @@ When only a two dimensional system is considered the perpendicular vector is wel
 In three dimensions however, there is a whole plane perpendicular to the parallel vector.
 It is therefore obvious that some other construct is needed.
 
-The chosen solution to finding a perpendicular vector in three dimensions is to consider the concept of flux tubes.
-A flux tube is a mathematical construct of a surface within a magnetic field that encloses a constant amount of magnetic flux over its whole length.
-Flux tubes as a consequence of the fact they contain a fixed amount of magnetic flux trace the field and move with the magnetic field lines.
+The chosen solution to finding the $\vec{V_\perp}$ vector is to construct a magnetic flux tube.
+A flux tube is a mathematical construct in a magnetic field that encloses a constant amount of magnetic flux over its whole length.
+Flux tubes, as a consequence of the fact they contain a fixed amount of magnetic flux, trace the field and move with the magnetic field lines.
 A flux tube constructed in the numerical domain would have a boundary, a `flux surface' which would allow the computation of a normal vector from this surface.
-This flux surface would be constructed numerically in the domain, and therefore would be a series of small planes connected together to form the surface.
+As described in \cref{sec:mhsbackground}, the magnetic field has a Gaussian profile, and is therefore continuous at every point in the domain.
+This means that there is no defined `edge' upon which to draw a flux surface, meaning that it is possible to define any number of arbitrary flux surfaces at any point in the domain.
+
+
+
+The flux surface would be constructed numerically in the domain, and therefore would be a series of small planes connected together to form the surface.
 These planes are mathematically described by the equation of a plane.
-The equation of a plane is minimally defined by: three arbitrary points in a Cartesian geometry, $x_{1,2,3}$, $y_{1,2,3}$, and $y_{1,2,3}$, where the numerical subscript denotes the index of the point; the normal vector $\vec{n}=(a,b,c)$ and a constant $d$.
+The equation of a plane is minimally defined by: three arbitrary points in a Cartesian geometry, $x_{1,2,3}$, $y_{1,2,3}$, and $y_{1,2,3}$, where the numerical subscript denotes the index of the point; the normal vector $\vec{n}=(a,b,c)$ and a constant $d$:
 \begin{equation}
-	ax_{1,2,3}+by_{1,2,3}+cz_{1,2,3}+d=0.
+	ax_{1,2,3}+by_{1,2,3}+cz_{1,2,3}+d=0,
     \label{eq:plane}
 \end{equation}
 \cref{eq:plane} can therefore be used to calculate the normal vector to the numerically constructed flux surface.
@@ -606,12 +611,41 @@ bmag = mlab.pipeline.extract_vector_norm(bfield, name="Field line Normals")
 vtk_width = r'0.58\columnwidth'
 \end{pycode}
 
-The construction one of these flux surfaces, and the set of normal vectors defined upon it, is described below.
-This process makes use of the Visualisation Tool Kit (VTK\footnote{VTK 6.1 (\url{www.vtk.org})}) and the MayaVi package \cite{Ramachandran2011} to provide a high level Python interface to VTK.
+This section describes the numerical construction one of these flux surfaces, and the set of normal vectors defined upon it.
+This algorithm makes use of the Visualisation Tool Kit (VTK\footnote{VTK 6.1 (\url{www.vtk.org})}) and the MayaVi package \cite{Ramachandran2011} to provide a high level Python interface to VTK.
 The flux surface is constructed based on the definition of flux tubes and field lines, a flux tube will enclose a fixed number of field lines dependant upon the magnetic flux density.
 Therefore the edge of the flux tube can be thought of as a set of field lines.
 We can therefore calculate the surface of the flux tube by computing the field lines that form its outer boundary.
-The process of computing these flux surfaces is illustrated in \cref{fig:circ-seeds,fig:fieldlines,fig:flux-surface,fig:zoomed-surface,fig:zoomed-glyphs} and described in the respective captions.
+The process of computing these flux surfaces is illustrated in \cref{fig:circ-seeds,fig:fieldlines,fig:flux-surface,fig:zoomed-surface,fig:zoomed-glyphs}.
+
+The first step, shown in \cref{fig:circ-seeds}, is the selection of the seed points for the field lines.
+This effectively defines the location of the flux surface.
+For the background conditions described in \cref{sec:mhsbackground} the magnetic field is axisymmetric, therefore a circle of seed points is chosen at the top of the domain.
+The radius of this circle defines which arbitrary flux surface is constructed.
+
+The second step (\cref{fig:fieldlines}), is the tracing of the field lines from the defined seed points through the domain.
+This calculation is performed using the \verb|vtkStreamTracer| algorithm, using the Runge Kutta 4 integrator, integrating backwards along the field lines.
+
+The third step is the construction of a surface from the set of field lines traced in step 2.
+The result of this is shown in \cref{fig:flux-surface}.
+The surface is generated using the \\ \verb|vtkRuledSurfaceFilter|, which, as configured, connects each point in field line $f_i$ with the two adjacent points in field line $f_{i+1}$.
+This is then repeated for each field line calculated, and between the last and first field lines.
+A zoomed in view of the constructed surface is shown in \cref{fig:zoomed-surface} with the edges of the component polygons shown.
+The result of the \verb|vtkRuledSurfaceFilter| is a series of triangles connecting each point in adjoining field lines.
+
+Finally, now that a set of triangular planes have been defined between the field lines, normal vectors can be extracted.
+This is done automatically by \verb|vtkRuledSurfaceFilter|, however, the orientation of the vector can vary.
+Therefore a check is implemented in the pipeline to ensure the normal vector is always orientated away from the original axis of the background magnetic field.
+
+
+The number of normal vectors calculated is dependant on the number of triangles which is determined by the number of seed points and the step size of the field line integrator.
+The number of seed points used for all the analysis is $100$ for all the analysis in this simulation.
+The resolution of the integrator is left at the default calculated by VTK.
+
+Once the normal vectors have been constructed, it is simple to compute the azimuthal vector from the magnetic field unit vector and the normal vector $\vec{n_\phi}= \vec{n_\perp} \times \vec{n_\parallel}$ where $\vec{n_\perp},\ \vec{n_\parallel} $ are also both unit vectors. 
+Using  $\vec{n_\perp},\ \vec{n_\parallel}$ and $\vec{n_\phi}$ it  is possible to project any vector quantity calculated in the simulations into this reference frame, and use it for the analysis of MHD waves.
+
+
 
 \begin{pycode}[chapter3a]
 xc = domain['xmax']/2
@@ -698,9 +732,5 @@ zoomed_glyphs.placement = 'H'
 \end{pycode}
 
 \py[chapter3a]|zoomed_glyphs|
-
-
-Once the normal vectors have been constructed, it is simple to compute the azimuthal vector from the magnetic field unit vector and the normal vector $\vec{n_\phi}= \vec{n_\perp} \times \vec{n_\parallel}$ where $\vec{n_\perp},\ \vec{n_\parallel} $ are also both unit vectors. 
-Using  $\vec{n_\perp},\ \vec{n_\parallel}$ and $\vec{n_\phi}$ it  is possible to project any vector quantity calculated in the simulations into this reference frame, and use it for the analysis of MHD waves.
 
 
