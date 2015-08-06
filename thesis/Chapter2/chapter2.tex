@@ -49,27 +49,31 @@ ch2 = texfigure.Manager(pytex, number=2, base_path='./Chapter2/')
 %********************************** %First Section  **************************************
 \section{Magnetohydrodynamics}\label{sec:MHD}
 
-Magnetohydrodynamics (MHD) is the description of a plasma as a single conducting fluid.
-%TODO: Approximations
-The MHD description makes a series of approximations as to the nature of plasmas, LIST THEM..
-These approximations hold for the vast majority of solar plasma, they do however break down in the solar wind, where the electron-ion collision time is sufficiently long that the single fluid description breaks down.
-
-A further approximation that can be added to the MHD equations is that of a perfectly conducting single fluid, this is called ideal MHD, and this also holds for the majority of solar plasmas, however it breaks down in regions of plasma where the magnetic field lines change configuration, or reconnect with one another.
-The ideal MHD equations are given below:
-\newcommand{\condev}{\left(\frac{\partial}{\partial t} + \underline{\mathrm{v}}\cdot\nabla\right)}
+Ideal magnetohydrodynamics (MHD) is the description of a plasma as a single perfectly conducting fluid.
+This description of the plasma has certain constraints on it's validity, but as we will see, for the purposes of study in the thesis, the ideal MHD equations are a very applicable description of the plasma in the solar atmosphere.
+The first and primary assumption of the nature of the plasma the MHD description makes is that it behaves like a fluid.
+This means that there are very frequent collisions between the particles comprising the plasma.
+Connected to this is the assumption that the temperature of the electrons and the ions are equal, implying that there are frequent interactions between the two species, and that the plasma can be treated as a single fluid.
+Secondly, the MHD description is only valid in a certain window of temporal and length scales.
+The characteristic length of the plasma has to be sufficiently large so that the particle motion around the magnetic field, the kinetic effects, can be ignored.
+The temporal scales also have to be substantially longer than the frequency of the kinetic motions.
+However, the temporal scale has to be short enough that the slow dissipative effects, such as resistive decay of the magnetic field, can be neglected.
+Two other approximations are made, which enable the description of the plasma as a single fluid, these are the quasi-neutrality assumption, which is the assumption that there are very similar numbers of positive and negative charges present in the plasma; and the assumptions that the relative velocities of the positive and negative charges are small.
+Finally, but very importantly, it is assumed that the plasma is non-relativistic, i.e. the motion of the plasma is substantially smaller than the speed of light.
+The application of all these assumptions leads to a formulation of the equations governing the motion of the plasma based on Maxwells equations and the equations of gas dynamics, these are the ideal MHD equations, which are given below:
+\newcommand{\condev}{\left(\frac{\partial}{\partial t} + \vec{v}\cdot\nabla\right)}
 \begin{align}                                                         
     \dfrac{\partial \rho }{\partial t} + \nabla \cdot (\rho \vec{v}) =       
     0,
     \tag{Mass Conservation}\\
     %                               
-    \rho  \condev\vec{v} =
-    -\nabla p + \dfrac{1}{\mu}(\nabla \times \vec{B}) \times \vec{B} + \rho \vec{g},
+    \rho  \condev\vec{v} + \nabla p - \dfrac{1}{\mu}(\nabla \times \vec{B}) \times \vec{B} - \rho \vec{g} = 0,
     \tag{Equation of Motion}\\
     %
-    \condev \left(\dfrac{p}{\rho^\gamma} \right)  = 0,
+    \frac{\partial}{\partial t} + \vec{v}\cdot\nabla p + \gamma p \nabla \cdot \vec{v}  = 0,
     \tag{Energy Equation}\\
     %
-    \dfrac{\partial \mathrm{B}}{\partial t} = \nabla \times (\vec{v} \times \vec{B}),
+    \dfrac{\partial \mathrm{B}}{\partial t} - \nabla \times (\vec{v} \times \vec{B}) = 0,
     \tag{Induction Equation}               
 \end{align}
 subject to
@@ -78,15 +82,12 @@ subject to
     \tag{Solenoid Equation}\\
     %
     p = \mathrm{k_B} \dfrac{\rho}{\mathrm{m}} \mathrm{T},
-    \tag{Ideal Gas Law}\\
-    %
-    \underline{\mathrm{E}} = - \vec{v} \times \vec{B},
-    \tag{Ohm's Law}\\
-    %
-    \underline{\mathrm{j}} = \nabla \times \vec{B}/ \mu.
-    \tag{Electric Current}                          
+    \tag{Ideal Gas Law}\\                        
 \end{align}
-Where $\rho$ is the density, $\underline{\mathrm{v}}$ is the velocity, $p$ is the pressure, $\gamma$ is the ratio of specific heats ($5/3$), $\underline{\mathrm{B}}$ is the magnetic field, $\mathrm{k_B}$ is Boltzmann's constant, $\mathrm{m}$ is the mass, $\mathrm{T}$ is the temperature, $\underline{\mathrm{E}}$ is the electric field, $\underline{\mathrm{j}}$ is the current density and $\mu$ is the vacuum permeability. 
+Where $\rho$ is the density, $\vec{v}$ is the velocity, $p$ is the pressure, $\gamma$ is the ratio of specific heats ($5/3$), $\vec{B}$ is the magnetic field, $\mathrm{k_B}$ is Boltzmann's constant, $\mathrm{m}$ is the mass, $\mathrm{T}$ is the temperature, and $\mu$ is the vacuum permeability \citep{goedbloed2004}.
+
+
+\subsection{MHD Waves}\label{sec:MHDwaves}
 
 
 \begin{align*}                                                         
@@ -118,9 +119,6 @@ This leads to the linearised MHD equations,
 \end{align}
 where we can define the first characteristic speed in MHD; the sound speed, $c_s^2 = \frac{\gamma p_0}{\rho_0}$.
 There is another important characteristic speed and that is the Alfv\`{e}n speed, $c_A^2 = \frac{\mathrm{\underline{B}}_0^2}{\sqrt{\rho_0}}$.
-
-
-\subsection{MHD Waves}\label{sec:MHDwaves}
 
 \subsection{Velocity Perturbations}\label{sec:Vpert}
 

@@ -5,6 +5,8 @@
 \chapter{Methodology}  %Title of the Second Chapter
 
 \begin{pycode}[chapter3]
+from __future__ import print_function
+
 ch3 = texfigure.Manager(pytex, number=3, base_path='./Chapter3/')
 \end{pycode}
 
@@ -281,10 +283,10 @@ The parameters used in constructing the background atmosphere in this thesis are
 
 \begin{pycode}[chapter3]
 
-gaussian = texfigure.MultiFigure(1, 2, "guassian")
+gaussian = texfigure.MultiFigure(2, 1, "guassian")
 # Make a 1D plot with Gaussian fit.
 
-fig, ax = plt.subplots(figsize=texfigure.figsize(pytex, scale=0.49), gridspec_kw={'left':0.15})
+fig, ax = plt.subplots(figsize=texfigure.figsize(pytex))#, gridspec_kw={'left':0.15})
 lb, = plt.plot(x_lin, bmag.to(u.mT), 'x')
 X = np.linspace(coords['xmin'], coords['xmax'], 1000)
 lb_f, = plt.plot(X, bmag_fit(X.value), color='green')
@@ -308,7 +310,7 @@ gaussian.append(bmagf)
 \begin{pycode}[chapter3]
 slc = yt.SlicePlot(ds, 'z', 'magnetic_field_strength', origin='center-domain',
 axes_unit='km', center=("max", "magnetic_field_strength"), width=(0.5, "Mm"))
-slc.set_figure_size(texfigure.figsize(pytex, scale=0.49)[0])
+slc.set_figure_size(texfigure.figsize(pytex)[0])
 
 slc.set_cmap('all', 'Oranges')
 bmax = ds.all_data().quantities.extrema("magnetic_field_strength")[1]
@@ -322,6 +324,8 @@ bmag2d.caption = "2D slice through domain. The black line shows the FWHM and the
 
 gaussian.append(bmag2d)
 gaussian.caption = "Magnetic field strength plots for the photospheric layer in the numerical domain."
+
+print(gaussian._repr_latex_(), file=sys.stderr])
 
 \end{pycode}
 
