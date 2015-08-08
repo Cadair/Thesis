@@ -62,9 +62,9 @@ Two other approximations are made, which enable the description of the plasma as
 Finally, but very importantly, it is assumed that the plasma is non-relativistic, i.e. the motion of the plasma is substantially smaller than the speed of light.
 The application of all these assumptions leads to a formulation of the equations governing the motion of the plasma based on Maxwells equations and the equations of gas dynamics, these are the ideal MHD equations, which are given below:
 \newcommand{\condev}{\left(\frac{\partial}{\partial t} + \vec{v}\cdot\nabla\right)}
-\begin{align}                                                         
-    \dfrac{\partial \rho }{\partial t} + \nabla \cdot (\rho \vec{v}) =       
-    0,
+
+\begin{align}\label{eq:idealmhd}                                                  
+    \dfrac{\partial \rho }{\partial t} + \nabla \cdot (\rho \vec{v}) = 0,
     \tag{Mass Conservation}\\
     %                               
     \rho  \condev\vec{v} + \nabla p - \dfrac{1}{\mu}(\nabla \times \vec{B}) \times \vec{B} - \rho \vec{g} = 0,
@@ -74,33 +74,41 @@ The application of all these assumptions leads to a formulation of the equations
     \tag{Energy Equation}\\
     %
     \dfrac{\partial \mathrm{B}}{\partial t} - \nabla \times (\vec{v} \times \vec{B}) = 0,
-    \tag{Induction Equation}               
+    \tag{Induction Equation}
 \end{align}
 subject to
-\begin{align}
+\begin{align*}
     \nabla \cdot \vec{B} = 0,
-    \tag{Solenoid Equation}\\
+    \tag{Solenoidal Condition}\\
     %
     p = \mathrm{k_B} \dfrac{\rho}{\mathrm{m}} \mathrm{T},
     \tag{Ideal Gas Law}\\                        
-\end{align}
+\end{align*}
 Where $\rho$ is the density, $\vec{v}$ is the velocity, $p$ is the pressure, $\gamma$ is the ratio of specific heats ($5/3$), $\vec{B}$ is the magnetic field, $\mathrm{k_B}$ is Boltzmann's constant, $\mathrm{m}$ is the mass, $\mathrm{T}$ is the temperature, and $\mu$ is the vacuum permeability \citep{goedbloed2004}.
 
 
 \subsection{MHD Waves}\label{sec:MHDwaves}
+Just like a non-ionised fluid, which supports a sound wave, due to the restoring force of the pressure, plasma supports wave phenomena.
+Waves in plasmas also interact with the magnetic field, and the coupling of the magnetic field to the motion of the plasma.
+This leads to the presence of a wide variety of wave modes in plasma, dependant upon the geometry and physical properties of the plasma being perturbed.
+For the analysis performed in this chapter we shall consider a plasma with a static, and uniform background, the magnetic field shall be of a constant strength and aligned solely to the $z$ axis.
+As we shall see, this configuration leads to the existence of three wave modes, called the fast-magnetoacoustic wave, the slow-magnetoacoustic wave and the Alfv\'en wave.
 
-
-\begin{align*}                                                         
-    \vec{B} &= \vec{B}_0 + \vec{B}_1(\vec{r},t)\\               
-    \vec{v} &= 0 + \vec{v}_1(\vec{r},t)\\               
-    p &= p_0 + {p_1}(\vec{r},t)\\               
-    \rho &= \rho_0 + {\rho_1}(\vec{r},t)\\              
-\end{align*}
-Here, subscripts are used to separate out the background ($\mathrm{B}_0$) and perturbation ($\mathrm{B}_1$) quantities.
-There is assumed to be no background flow and that for all perturbations they are much smaller than the background value (e.g., $\mathrm{B}_0 \gg \mathrm{B}_1$).      
-This leads to the linearised MHD equations,
+In this section we are going to summarise the derivation of the MHD wave equation for a uniform plasma.
+The starting point for this analysis is the ideal MHD equations that are described in \ref{sec:MHD}.
+Our static background conditions are described by \ref{eq:linearize} below,
+\begin{equation}\label{eq:linearize}
+    \begin{aligned}                                                    
+        \vec{B} &= \vec{B}_0 + \vec{B}_1(\vec{r},t)\\
+        \vec{v} &= 0 + \vec{v}_1(\vec{r},t)\\
+        p &= p_0 + {p_1}(\vec{r},t)\\
+        \rho &= \rho_0 + {\rho_1}(\vec{r},t)\\
+    \end{aligned}
+\end{equation}
+where a subscript $0$ is the background component, and a subscript $1$ is the perturbation component, and the perturbation component is much smaller than the background component.
+Substituting \ref{eq:linearize} into the ideal MHD equations and removing 2nd order or higher terms and any gradients of the background quantities because the background is uniform, leads to the linearised MHD equations given below,
 \begin{align}                                                         
-    \dfrac{\partial \rho_1 }{\partial t} + (\vec{v}_1 \cdot \nabla)\rho_0 + + \rho_0 (\nabla \cdot \vec{v}_1) =       
+    \dfrac{\partial \rho_1 }{\partial t} + \rho_0 (\nabla \cdot \vec{v}_1) =       
     0,
     \tag{Mass Conservation}\\
     %
@@ -114,11 +122,11 @@ This leads to the linearised MHD equations,
     \dfrac{\partial \mathrm{B}_1}{\partial t} = \nabla \times (\vec{v}_1 \times \vec{B}_0),
     \tag{Induction Equation}\\
     %
-    \nabla \cdot \vec{B}_1 = 0,
+    \nabla \cdot \vec{B}_1 = 0.
     \tag{Solenoid Equation}               
 \end{align}
-where we can define the first characteristic speed in MHD; the sound speed, $c_s^2 = \frac{\gamma p_0}{\rho_0}$.
-There is another important characteristic speed and that is the Alfv\`{e}n speed, $c_A^2 = \frac{\mathrm{\underline{B}}_0^2}{\sqrt{\rho_0}}$.
+
+These equations can be solved using plane wave solutions, i.e. solutions of the form $\rho(\vec{r}, t) = \hat{\rho} e^{i(\vec{k}\cdot\vec{r} - \omega t)}$.
 
 \subsection{Velocity Perturbations}\label{sec:Vpert}
 

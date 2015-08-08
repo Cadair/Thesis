@@ -40,9 +40,9 @@ ch3 = texfigure.Manager(pytex, number=3, base_path='./Chapter3/')
 
 \section{Magnetohydrostatic Background Conditions}\label{sec:mhsbackground}
 
-The numerical simulations performed for the analysis in this thesis, all make use of the ability of SAC (\cref{sec:SAC}) to solve for perturbations on top of a static MHD equilibria.
+The numerical simulations performed for the MHD wave mode analysis in this thesis, all make use of the ability of SAC (\cref{sec:SAC}) to solve for perturbations on top of a static MHD equilibria.
 To perform these experiments, it is needed that a background atmosphere be constructed, for all the work in this thesis, quiet Sun regions were chosen for study.
-This choice reduces the complexity of the modelled magnetic field and should allow for more accurate separation of the MHD wave effect from any other processes.
+This choice reduces the complexity of the modelled magnetic field and should allow for more accurate separation of the MHD wave effect from any other energy transfer processes, such as bulk flows.
 
 %HS Background
 The first step in constructing a static model for the solar atmosphere is to understand the hydrodynamic properties of the background plasma.
@@ -230,7 +230,7 @@ fwtm = fwtm.to(u.km)
 From this information, and taking into account the properties of the hydrostatic background chosen, a magnetic field can be constructed with properties similar to the MBPs.
 The 3D magnetic field was generated using work of \cite{gent2013, gent2014}, and the implementation of that paper in the pysac library\footnote{https://github.com/SWAT-Sheffield/pysac}.
 The magnetic field is constructed as a self-similar field, in the same manner as \cite{schluter1958}, it is constructed for a axis-symmetric flux tube, with a Gaussian radial profile given in \cref{eq:G}.
-The vertical profile of the magnetic field, along the axis of the flux tube, is given in \cref{eq:BO}, and it is a summation of two Gaussians, one for controlling the profile in the low atmosphere and one for controlling the profile in the upper atmosphere.
+The vertical profile of the magnetic field, along the axis of the flux tube, is given in \cref{eq:BO}, and it is a summation of two exponentials, one for controlling the profile in the low atmosphere and one for controlling the profile in the upper atmosphere.
 The magnetic field is therefore specified by \cref{eq:Bxyz,eq:f,eq:G,eq:r,eq:BO}, which are modified versions of the equations presented in \cite{gent2014}, simplified for a single flux tube model.
 
 \begin{equation}\label{eq:Bxyz}
@@ -245,11 +245,11 @@ B_{bz} &= \phantom{-}S{\BO^2\GO  \,} + \bc,
 
 
 \begin{align}
-f \,   &= r \BO,  \label{eq:f}
+f &= \frac{r^2 B_0z^2}{2},  \label{eq:f}
 \\
-\GO \, &= \exp\left(-\frac{f^2}{f_0^2}\right),  \label{eq:G}
+G &= \exp\left(-\frac{f}{f_0^2}\right),  \label{eq:G}
 \\
-r \,   &= \sqrt{(x-x )^2+(y-y )^2},  \label{eq:r}
+r \,   &= \sqrt{(x-x )^2+(y-y )^2},\\  \label{eq:r}
 \end{align}
 
 \begin{equation}\label{eq:BO}
@@ -258,16 +258,15 @@ r \,   &= \sqrt{(x-x )^2+(y-y )^2},  \label{eq:r}
 +
 \bb\exp\left(-\frac{z}{\zb}\right),
 \end{equation}
-where $B_{b}$ are the components of the background magnetic field, $f_0$ is the horizontal scaling length, $x_0,y_0,z_0$ are the coordinates of the footpoint of the field, $b_{01}$ and $b_{02}$ are two real constants that sum to $1$ and specify the relative strength of the two exponentials controlling the vertical field strength profile, while $z_1$ and $z_2$ control the field strength profile with height, finally $S$ is the footpoint field strength.
-Similarly to \cite{gent2014} a uniform background field ($\bc$) is also added to the model, this background field provides for a more realistic atmosphere, instead of an atmosphere where there is only one magnetic flux tube present.
-The background field is designed to model the small-scale and distant influence of other magnetic structures in the solar atmosphere.
+where $B_{b}$ are the components of the background magnetic field; $f_0$ is the horizontal scaling length; $x_0,y_0,z_0$ are the coordinates of the footpoint of the field where $z_0=0$ which is considered to be the photosphere as shown in \cref{fig:val3c}; $b_{01}$ and $b_{02}$ are two real constants that sum to $1$ and specify the relative strength of the two exponentials controlling the vertical field strength profile, while $z_1$ and $z_2$ control the field strength profile with height; finally $S$ is the footpoint field strength.
+Similarly to \cite{gent2014} a uniform background field ($\bc$) is also added to the model, this weak ambient vertical field provides for a more realistic atmosphere, instead of an atmosphere where there is only one magnetic flux tube present.
 The parameters used in constructing the background atmosphere in this thesis are given in \cref{tab:bgparams}.
 
 \begin{table}
     \centering
     \begin{tabular}{|c|c|}
         \hline Parameter & Value \\ 
-        \hline $\bc$ & \py[chapter3]|model_pars['pBplus'].to(u.mT)| \\ 
+        \hline $\bc$ & \py[chapter3]|model_pars['B_corona'].to(u.mT)| \\ 
         \hline $\bF$ & \py[chapter3]|model_pars['coratio']| \\ 
         \hline $\bb$ & \py[chapter3]|model_pars['chratio']| \\ 
         \hline $f_0$ & \py[chapter3]|model_pars['radial_scale']| \\ 
@@ -300,17 +299,18 @@ ltm = plt.axhline(y=bmag_fit.amplitude.value/10, color='magenta', linestyle=':')
 plt.axvline(x=-1*fwhm.to(u.Mm).value/2., color='cyan', linestyle=':')
 plt.axvline(x=fwhm.to(u.Mm).value/2., color='cyan', linestyle=':')
 
-plt.xlim([-0.2, 0.2])
+plt.xlim([-0.5, 0.5])
 
 bmagf = ch3.save_figure('bmag-footpoint', fig, fext='.pgf')
+bmagf.subfig_width = r'\columnwidth'
 bmagf.caption = "1D slice through the centre of the domain. The {} line shows a fitted gaussian to the numerical domain. The {} lines show the FWHM and the {} line shows the FWTM.".format(lb_f.get_color(), lhm.get_color(), ltm.get_color())
 gaussian.append(bmagf)
 \end{pycode}
 
 \begin{pycode}[chapter3]
 slc = yt.SlicePlot(ds, 'z', 'magnetic_field_strength', origin='center-domain',
-axes_unit='km', center=("max", "magnetic_field_strength"), width=(0.5, "Mm"))
-slc.set_figure_size(texfigure.figsize(pytex)[0])
+axes_unit='km', center=("max", "magnetic_field_strength"), width=(1.0, "Mm"))
+slc.set_figure_size(texfigure.figsize(pytex, scale=0.8)[0])
 
 slc.set_cmap('all', 'Oranges')
 bmax = ds.all_data().quantities.extrema("magnetic_field_strength")[1]
@@ -320,12 +320,11 @@ plot_args={'levels':[bmax/2., bmax/10.],
 'colors':['black', 'green']})
 
 bmag2d = ch3.save_figure('bmag-cut', slc)
-bmag2d.caption = "2D slice through domain. The black line shows the FWHM and the green line shows the FWTM of the gaussian profile. The image shows the the magnetic field magntitude."
+bmag2d.subfig_width = r'0.8\columnwidth'
+bmag2d.caption = "The image shows the the magnetic field magntitude from a 2D slice through domain. The black line shows the FWHM and the green line shows the FWTM of the gaussian profile."
 
 gaussian.append(bmag2d)
 gaussian.caption = "Magnetic field strength plots for the photospheric layer in the numerical domain."
-
-print(gaussian._repr_latex_(), file=sys.stderr])
 
 \end{pycode}
 
@@ -349,19 +348,13 @@ alf2d.caption = r"Vertical slice through the background atmosphere, with the Alf
 
 \py[chapter3]|alf2d|
 
-%TODO: Magnetic Field Properties:
-%* footpoint bfield
-%* Expansion rates
-%* equation for field construction.
-%* equation for hydrostatic equlibrium.
-
-The result of the flux tube construction in \cite{gent2013, gent2014} is a 2D Gaussian profile for the cross-sectional magnetic field, with a full width at half maximum of $\approx$ \py[chapter3]|np.round(fwhm, -1)|, and a full width at a 10th of maximum of \py[chapter3]|np.round(fwtm, -1)| at the photosphere, which corresponds to the lower bound of the observations in \cite{utz2013}.
+The result of the flux tube construction in \cite{gent2013, gent2014} is a 2D Gaussian profile for the cross-sectional magnetic field, with a full width at half maximum (FWHM) of $\approx$ \py[chapter3]|np.round(fwhm, -1)|, and a full width at a 10th of maximum (FWTM) of \py[chapter3]|np.round(fwtm, -1)| at the photosphere, which corresponds to the lower bound of the observations in \cite{utz2013}.
 The primary reason for the smaller footpoint, in comparison with the observations in \cite{utz2013}, is the hydrodynamical model used for the photosphere, which has an upper limit to the amount of magnetic pressure it can support.
 Plots of the magnetic field strength in the photosphere are shown in \cref{fig:guassian}, for both a 1D and 2D profile.
 A vertical slice through the background atmosphere is then shown in \cref{fig:alf2d}, with the structure of the magnetic field shown over-plotted on the Alfv\'en speed.
 As can be seen in \cref{fig:alf2d,fig:domain-3d} that the magnetic field expands non-linearly as the kinetic pressure decreases with height.
 It should also be noted that the background atmosphere has been constructed up to $1.6$ Mm above the photosphere defined in \cite{vernazza1981}, this is a deliberate choice to exclude the region where the plasma $\beta = 1$.
-The reasons for this choice lie in the studies to be performed using this atmosphere, this thesis is explicitly studying the generation of MHD waves in the photosphere and not their propagation into the higher layers of the solar atmosphere.
+The reasons for this choice lie in the studies to be performed using this atmosphere, this thesis is explicitly studying the generation of MHD waves in the photosphere and chromosphere and not their propagation into the higher layers of the solar atmosphere.
 It is therefore easier to exclude the very interesting, but also complex physics that occurs around the $\beta = 1$ region.
 
 Once the magnetic field has been constructed, the final step in constructing the background atmosphere is to `add' the magnetic field to the hydrostatic background.
@@ -370,7 +363,7 @@ This is done using the principal of magnetohydrostatic equilibrium as described 
 
 \begin{equation}
 \nabla P = 
-\nabla p + \nabla \frac{|\vec{B}|^2}{2\mu_0} + (\vec{B}\cdot\nabla)
+\nabla p + \nabla \frac{|\vec{B}|^2}{2\mu_0} - (\vec{B}\cdot\nabla)
 {\frac{\vec{B}}{\mu_0} }
 = \rho \vec{g}, 
 \label{eq:mhs-condition}
@@ -381,7 +374,7 @@ where $P$ is the total pressure, $p$ is the kinetic pressure $\rho$ is the densi
 The solution to this equation with the magnetic field specified above is derived in \cite{gent2013,gent2014}.
 
 
-The numerical domain chosen for the work presented in this thesis is $2.0 \times 2.0 \times 1.6$ Mm in size, with a resolution of $128^3$ grid points, giving a physical size of $15.6\ \times\ 15.6\ \times\ 12.5$ km$^3$ for each grid cell.
+The numerical domain chosen for the work presented in this thesis is $2.0 \times 2.0 \times 1.6$ Mm in size in the $x$, $y$ and $z$ directions, with a resolution of $128^3$ grid points, giving a physical size of $15.6\ \times\ 15.6\ \times\ 12.5$ km$^3$ for each grid cell.
 A 3D rendering of the domain is shown in \cref{fig:domain-3d}, which shows the extent of the domain, the magnetic field geometry and the background density and thermal pressure.
 
 
@@ -523,27 +516,25 @@ field_lines.module_manager.scalar_lut_manager.lut_mode = 'BuGn'
 m3d = ch3.save_figure('domain-3d', fig, fext='.png', size=(1200,900),
                       azimuth=153, elevation=63, distance=420,
                       focalpoint=[ 75.,  16.,  30.])
-m3d.caption=r"A 3D view of the background atmosphere. Magnetic field lines are shown in green (log scale), density (log scale) in purple and thermal pressure (log scale) in red-orange. The full width at half, tenth and 100th of maximum are shown in red contours at the base of domain."
+m3d.caption=r"A 3D view of the background atmosphere. Magnetic field lines are shown in green (log scale) with their seed points plotted as blue dots, density (log scale) in purple and thermal pressure (log scale) in red-orange. The full width at half, tenth and 100th of maximum are shown in red contours at the base of domain."
 
 \end{pycode}
 
 \py[chapter3a]|m3d|
-
-%TODO: Domain size choices
 
 \section{Flux Surfaces}\label{sec:fluxsurfaces}
 
 Once the background atmosphere has been constructed and simulations performed, it is necessary to be able to identify and quantify the MHD waves excited by the various drivers.
 This section describes the analysis method developed for the research presented in this thesis, which the proceeding chapters will utilize.
 
-As shown in \cref{sec:Vpert}, MHD waves propagating through a plasma cause perturbations in the velocity of the plasma.
+As shown in \cref{sec:Vpert}, MHD waves propagating through a plasma cause perturbations in velocity.
 As the perturbation velocity is one of the physical variables calculated by the SAC code this fact provides a mechanism by which we can identify the waves in the simulation domain.
-However, the challenge is decomposing the velocity vector calculated by SAC in the reference frame of the simulation domain ($Vx$, $Vy$, $Vz$) into the frame of the magnetic field \textit{i.e.} a velocity parallel to the magnetic field, $V_\parallel$, normal to the magnetic field, $V_\perp$, and a component perpendicular to the magnetic field in the other plane $V_\phi$, in which the waves are mathematically described.
+However, the challenge is decomposing the velocity vector calculated by SAC in the reference frame of the simulation domain ($V_x$, $V_y$, $V_z$) into the frame of the magnetic field \textit{i.e.} a velocity parallel to the magnetic field, $V_\parallel$, perpendicular to the magnetic field, $V_\perp$, and a component perpendicular to the magnetic field in the other plane $V_\phi$, in which the waves are mathematically described.
 
 Considering this problem more closely, the $V_\parallel$ component is trivial to calculate, as it is the projection of $\vec{V}$ onto $\vec{B}$.
-The $V_\phi$, the azimuthal component, is also simple, it can be defined as $V_\phi = V_\parallel \times V_\perp$.
+The $V_\phi$, the azimuthal component, can be defined as $V_\phi = V_\parallel \times V_\perp$.
 Therefore, the challenging component to calculate is the $V_\perp$ component, the component perpendicular to the magnetic field.
-When only a two dimensional system is considered the perpendicular vector is well defined, it is perpendicular to the parallel vector in the one degree of freedom available to it.
+When only a two dimensional system is considered the vector perpendicular to the magnetic field is well defined, it is perpendicular to the parallel vector in the one degree of freedom available to it.
 In three dimensions however, there is a whole plane perpendicular to the parallel vector.
 It is therefore obvious that some other construct is needed.
 
@@ -557,10 +548,9 @@ This means that there is no defined `edge' upon which to draw a flux surface, me
 
 
 The flux surface would be constructed numerically in the domain, and therefore would be a series of small planes connected together to form the surface.
-These planes are mathematically described by the equation of a plane.
-The equation of a plane is minimally defined by: three arbitrary points in a Cartesian geometry, $x_{1,2,3}$, $y_{1,2,3}$, and $y_{1,2,3}$, where the numerical subscript denotes the index of the point; the normal vector $\vec{n}=(a,b,c)$ and a constant $d$:
+The equation of a plane is defined by three arbitrary points in a Cartesian geometry, $x_{1,2,3}$, $y_{1,2,3}$, and $y_{1,2,3}$, where the numerical subscript denotes the index of the point; the normal vector $\vec{n}=(a,b,c)$ and a constant $d$:
 \begin{equation}
-	ax_{1,2,3}+by_{1,2,3}+cz_{1,2,3}+d=0,
+	ax_{1,2,3}+by_{1,2,3}+cz_{1,2,3}+d=0.
     \label{eq:plane}
 \end{equation}
 \cref{eq:plane} can therefore be used to calculate the normal vector to the numerically constructed flux surface.
@@ -613,45 +603,11 @@ bfield, vfield = get_yt_mlab(ds, cube_slice, flux=False)
 bmag = mlab.pipeline.extract_vector_norm(bfield, name="Field line Normals")
 
 vtk_width = r'0.58\columnwidth'
-\end{pycode}
 
-This section describes the numerical construction one of these flux surfaces, and the set of normal vectors defined upon it.
-This algorithm makes use of the Visualisation Tool Kit (VTK\footnote{VTK 6.1 (\url{www.vtk.org})}) and the MayaVi package \cite{Ramachandran2011} to provide a high level Python interface to VTK.
-The flux surface is constructed based on the definition of flux tubes and field lines, a flux tube will enclose a fixed number of field lines dependant upon the magnetic flux density.
-Therefore the edge of the flux tube can be thought of as a set of field lines.
-We can therefore calculate the surface of the flux tube by computing the field lines that form its outer boundary.
-The process of computing these flux surfaces is illustrated in \cref{fig:circ-seeds,fig:fieldlines,fig:flux-surface,fig:zoomed-surface,fig:zoomed-glyphs}.
+################################################################################
+#### Figure 1 ##################################################################
+################################################################################
 
-The first step, shown in \cref{fig:circ-seeds}, is the selection of the seed points for the field lines.
-This effectively defines the location of the flux surface.
-For the background conditions described in \cref{sec:mhsbackground} the magnetic field is axisymmetric, therefore a circle of seed points is chosen at the top of the domain.
-The radius of this circle defines which arbitrary flux surface is constructed.
-
-The second step (\cref{fig:fieldlines}), is the tracing of the field lines from the defined seed points through the domain.
-This calculation is performed using the \verb|vtkStreamTracer| algorithm, using the Runge Kutta 4 integrator, integrating backwards along the field lines.
-
-The third step is the construction of a surface from the set of field lines traced in step 2.
-The result of this is shown in \cref{fig:flux-surface}.
-The surface is generated using the \\ \verb|vtkRuledSurfaceFilter|, which, as configured, connects each point in field line $f_i$ with the two adjacent points in field line $f_{i+1}$.
-This is then repeated for each field line calculated, and between the last and first field lines.
-A zoomed in view of the constructed surface is shown in \cref{fig:zoomed-surface} with the edges of the component polygons shown.
-The result of the \verb|vtkRuledSurfaceFilter| is a series of triangles connecting each point in adjoining field lines.
-
-Finally, now that a set of triangular planes have been defined between the field lines, normal vectors can be extracted.
-This is done automatically by \verb|vtkRuledSurfaceFilter|, however, the orientation of the vector can vary.
-Therefore a check is implemented in the pipeline to ensure the normal vector is always orientated away from the original axis of the background magnetic field.
-
-
-The number of normal vectors calculated is dependant on the number of triangles which is determined by the number of seed points and the step size of the field line integrator.
-The number of seed points used for all the analysis is $100$ for all the analysis in this simulation.
-The resolution of the integrator is left at the default calculated by VTK.
-
-Once the normal vectors have been constructed, it is simple to compute the azimuthal vector from the magnetic field unit vector and the normal vector $\vec{n_\phi}= \vec{n_\perp} \times \vec{n_\parallel}$ where $\vec{n_\perp},\ \vec{n_\parallel} $ are also both unit vectors. 
-Using  $\vec{n_\perp},\ \vec{n_\parallel}$ and $\vec{n_\phi}$ it  is possible to project any vector quantity calculated in the simulations into this reference frame, and use it for the analysis of MHD waves.
-
-
-
-\begin{pycode}[chapter3a]
 xc = domain['xmax']/2
 yc = domain['ymax']/2
 ti = 0
@@ -660,39 +616,40 @@ n = 100
 surf_seeds = []
 for theta in np.linspace(0, 2 * np.pi, n, endpoint=False):
     surf_seeds.append([tube_r * np.cos(theta + 0.5 * ti) + xc,
-                  tube_r * np.sin(theta + 0.5 * ti) + yc, domain['zmax']])
-                  
+    tube_r * np.sin(theta + 0.5 * ti) + yc, domain['zmax']])
+
 seeds = np.array(surf_seeds)
 #Add axes:
 axes, outline = mpf.add_axes(np.array(zip(ds.domain_left_edge,ds.domain_right_edge)).flatten()/1e8)
 
 #Add seed points to plot:
 seed_points = mlab.points3d(seeds[:,0], seeds[:,1], seeds[:,2],
-                            color=(0.231, 0.298, 0.752), scale_mode='none',
-                            scale_factor=1.5)
+color=(0.231, 0.298, 0.752), scale_mode='none',
+scale_factor=1.5)
 circ_seeds = ch3.save_figure('circ-seeds', fig, fext='.png')
 circ_seeds.figure_width = vtk_width
 circ_seeds.caption=r"Due to the axisymmetric nature of the background conditions, an axisymmetric ring of seed points is chosen. This example uses a ring at a radius of $936$ km from the centre of the domain."
 circ_seeds.placement = 'H'
 
-\end{pycode}
-\py[chapter3a]|circ_seeds|
+################################################################################
+#### Figure 2 ##################################################################
+################################################################################
 
-\begin{pycode}[chapter3a]
 field_lines = SeedStreamline(seed_points = np.array(seeds))
 bmag.add_child(field_lines)
 field_lines.actor.mapper.scalar_visibility = False
 field_lines.actor.property.color = (0,0,0)
 field_lines.actor.property.line_width = 1.5
 
-fieldlines = ch3.save_figure('fieldlines', fig, fext='.png')
-fieldlines.figure_width = vtk_width
-fieldlines.caption=r"The seed points are then used to trace field lines. The field lines naturally form a flux surface by definition."
-fieldlines.placement = 'H'
-\end{pycode}
-\py[chapter3a]|fieldlines|
+fig_fieldlines = ch3.save_figure('fieldlines', fig, fext='.png')
+fig_fieldlines.figure_width = vtk_width
+fig_fieldlines.caption=r"The seed points are then used to trace field lines. The field lines naturally form a flux surface by definition."
+fig_fieldlines.placement = 'H'
 
-\begin{pycode}[chapter3a]
+################################################################################
+#### Figure 3 ##################################################################
+################################################################################
+
 pd_seeds = ttf.make_circle_seeds(100, 60, **domain)
 fieldlines, surface = ttf.create_flux_surface(bfield.outputs[0], pd_seeds)
 surface.output.lines = None
@@ -705,10 +662,11 @@ fig_flux_surface = ch3.save_figure('flux-surface', fig, fext='.png')
 fig_flux_surface.figure_width = vtk_width
 fig_flux_surface.caption=r"Once the field lines have been traced a surface is constructed from small polygons (triangles) using the vtkRuledSurfaceFilter algorithm."
 fig_flux_surface.placement = 'H'
-\end{pycode}
-\py[chapter3a]|fig_flux_surface|
 
-\begin{pycode}[chapter3a]
+################################################################################
+#### Figure 4 ##################################################################
+################################################################################
+
 axes.visible = False
 outline.visible = False
 flux_surface.actor.property.edge_visibility = True
@@ -716,11 +674,11 @@ zoomed_surface = ch3.save_figure('zoomed-surface', fig, fext='.png', azimuth = 9
 zoomed_surface.figure_width = vtk_width
 zoomed_surface.caption=r"This figure shows the outlines of the triangles of which the surface comprises."
 zoomed_surface.placement = 'H'
-\end{pycode}
-\py[chapter3a]|zoomed_surface|
 
+################################################################################
+#### Figure 5 ##################################################################
+################################################################################
 
-\begin{pycode}[chapter3a]
 poly_norms = ttf.make_poly_norms(surface.output)
 normvec = mlab.pipeline.glyph(poly_norms.output)
 normvec.glyph.glyph_source.glyph_source = normvec.glyph.glyph_source.glyph_dict['arrow_source']
@@ -735,6 +693,49 @@ zoomed_glyphs.caption=r"By using the surface triangles a vector normal to the su
 zoomed_glyphs.placement = 'H'
 \end{pycode}
 
+This section describes the numerical construction the flux surfaces, and the set of normal vectors defined upon it.
+This algorithm makes use of the Visualisation Tool Kit (VTK\footnote{VTK 6.1 (\url{www.vtk.org})}) and the MayaVi package \cite{Ramachandran2011} to provide a high level Python interface to VTK.
+The flux surface is constructed based on the definition of flux tubes and field lines, a flux tube will enclose a fixed number of field lines dependant upon the magnetic flux density.
+Therefore the edge of the flux tube can be thought of as a set of field lines.
+We can therefore calculate the surface of the flux tube by computing the field lines that form its outer boundary.
+The process of computing these flux surfaces is illustrated in \cref{fig:circ-seeds,fig:fieldlines,fig:flux-surface,fig:zoomed-surface,fig:zoomed-glyphs}.
+
+The first step, shown in \cref{fig:circ-seeds} as blue dots, is the selection of the seed points for the field lines.
+This effectively defines the location of the flux surface.
+For the background conditions described in \cref{sec:mhsbackground} the magnetic field is axisymmetric, therefore a circle of seed points is chosen at the top of the domain.
+The radius of this circle defines which arbitrary flux surface is constructed.
+
+\py[chapter3a]|circ_seeds|
+
+\py[chapter3a]|fig_fieldlines|
+
+The second step (\cref{fig:fieldlines}), is the tracing of the field lines from the defined seed points through the domain.
+This calculation is performed using the \verb|vtkStreamTracer| algorithm, using the Runge Kutta 4 integrator, integrating backwards along the field lines.
+
+
+The third step is the construction of a surface from the set of field lines traced in step 2.
+The result of this is shown in \cref{fig:flux-surface}.
+The surface is generated using the \\ \verb|vtkRuledSurfaceFilter|, which, as configured, connects each point in field line $f_i$ with the two adjacent points in field line $f_{i+1}$.
+This is then repeated for each field line calculated, and between the last and first field lines.
+A zoomed in view of the constructed surface is shown in \cref{fig:zoomed-surface} with the edges of the component polygons shown.
+The result of the \verb|vtkRuledSurfaceFilter| is a series of triangles connecting each point in adjoining field lines.
+
+
+\py[chapter3a]|fig_flux_surface|
+\py[chapter3a]|zoomed_surface|
+
+Finally, now that a set of triangular planes have been defined between the field lines, normal vectors can be extracted.
+This is done automatically by \verb|vtkRuledSurfaceFilter|, however, the orientation of the vector can vary.
+Therefore a check is implemented in the pipeline to ensure the normal vector is always orientated away from the original axis of the background magnetic field.
+The resulting normal vectors are shown in \cref{fig:zoomed-glyphs}
+
+The number of normal vectors calculated is dependant on the number of triangles which is determined by the number of seed points and the step size of the field line integrator.
+The number of seed points used for all the analysis is $100$ for all the analysis in this simulation.
+The resolution of the integrator is left at the default calculated by VTK.
+
 \py[chapter3a]|zoomed_glyphs|
+
+Once the normal vectors have been constructed, it is simple to compute the azimuthal vector from the magnetic field unit vector and the normal vector $\vec{n_\phi}= \vec{n_\perp} \times \vec{n_\parallel}$ where $\vec{n_\perp},\ \vec{n_\parallel} $ are also both unit vectors. 
+Using  $\vec{n_\perp},\ \vec{n_\parallel}$ and $\vec{n_\phi}$ it  is possible to project any vector quantity calculated in the simulations into this reference frame, and use it for the analysis of MHD waves.
 
 

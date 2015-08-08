@@ -30,7 +30,7 @@ It is easy to imagine the motions present: vertical motion caused by rising and 
 
 The horizontal and vertical motions are commonly observed using high resolution observations, the spiralling motions were observed in an inter-granular lane by \cite{bonet2008, bonet2010} and various types of spirals have been observed in the higher layers of the atmosphere by \cite{wedemeyer-bohm2009,wedemeyer-bohm2012,wedemeyer2013}.
 These different types of spiral observed in the atmosphere will be modelled by a variety of drivers.
-A circular driver, a circular driver; an Archemedian spiral, a spiral which expands by a fixed amount for each rotation; and a logarithmic spiral where the spiral expands by an exponentially increasing amount with every rotation will be simulated.
+A circular driver, an Archemedian spiral, a spiral which expands by a fixed amount for each rotation, and a logarithmic spiral where the spiral expands by an exponentially increasing amount with every rotation will be simulated.
 As well as these circular and spiral drivers, a horizontal and vertical driver will be simulated, to model the rising of the plasma, and the horizontal granular buffeting observed in the inter-granular lanes.
 
 To drive waves in the numerical domain described in \cref{sec:mhsbackground} the plasma has to be `moved' by numerically adding a velocity field to the domain.
@@ -261,8 +261,7 @@ This assumption is verified by calculating the variation in the coordinates for 
 
 \subsubsection{Mode Identification}
 To identify the observed MHD wave modes we shall initially consider the phase speed of the perturbations in the time-distance diagrams. 
-In our numerical domain, both inside and outside the flux tube, there is plasma $\beta > 1$.
-In analysing the results we identified the fast sausage mode, the slow kink mode and the Alfv\'en mode.
+In our numerical domain, both inside and outside the flux tube, the plasma $\beta > 1$.
 To aid in the analysis of Fig. \ref{fig:All_TD_wave_30} overplotted are the Alfv\'en speed $v_A$ and sound speed $c_s$, as well as the speed of the fast magneto-acoustic wave (fast speed) $v_f^2 = \sqrt{c_s^2 + v_A^2}$ and the slow speed (or tube speed) $v_t^{-2} = \sqrt{c_s^{-2} + v_A^{-2}}$ for the equilibrium background, starting at $60$ s, the first peak of the driver amplitude. 
 It should be noted that this analysis is still an approximation of our simulated system because we have non-constant, non-uniform, non-straight magnetic field in a stratified solar atmosphere, where one would expect the observed phase speed to deviate from these first-order estimations, as can be seen in Fig. \ref{fig:All_TD_wave_30}.
 
@@ -321,10 +320,12 @@ To gain a clearer understanding of the relative strength of each wave mode ident
         \caption{Logarithmic Spiral Type Driver}
         \label{fig:All_TD_wave_30:Slog}
     \end{subfigure}
-    \caption{Decomposed velocity perturbation time-distance diagrams along the flux surface at radius $r = 468$ km (approximately central in the magnetic flux tube) for all simulated drivers. Horizontal black lines are plasma-$\beta$ contours, over-plotted are characteristic background speeds, the dot-dashed line is the fast speed ($v_f$), the dashed line is the sound speed ($c_s$), the dotted line is the Alfv\'en speed ($v_A$) and the solid line is the slow speed ($v_t$).}
+    \caption{Decomposed velocity perturbation time-distance diagrams along the flux surface at radius $r = 468$ km for all simulated drivers. Horizontal black lines are plasma-$\beta$ contours, over-plotted are characteristic background speeds, the dot-dashed line is the fast speed ($v_f$), the dashed line is the sound speed ($c_s$), the dotted line is the Alfv\'en speed ($v_A$) and the solid line is the slow speed ($v_t$).}
     \label{fig:All_TD_wave_30}
 \end{figure*}
 
+%TODO: Wave Flux section needs rewriting
+%Need to reference background section, and remove the avalible flux bullshit.
 \subsection{Wave Energy Flux}\label{sec:energy_flux}
 
 \begin{figure*}
@@ -383,6 +384,20 @@ Once the wave energy flux has been computed, it is decomposed into parallel, per
 Using the analysis method outlined in Section \ref{sec:3d_analysis} time-distance diagrams are computed for the percentage wave energy flux (see Fig. \ref{fig:All_Flux_percent_TD}). 
 The percentage values are plotted to highlight the relative strengths of the excited wave modes, and to enable a comparison of which modes are dominant. 
 The absolute average energy flux over all heights is summed for all times for each component.
+
+%TODO: Copy the data to make this work
+%\begin{pycode}[chapter4]
+%#This is a direct yank of an old script
+%
+%from flux_comparison import make_flux_bar_chart
+%
+%fig = make_flux_bar_chart((texfigure.figsize(pytex)[0], 4.5), "/archive/processed/data/driver_paper")
+%driver_flux = ch4.save_figure('flux_bar_graph', fig, fext='.pgf')
+%driver_flux.caption = r"Percentage total available energy flux comparison (calculated using Equations \ref{eq:flux_par} - \ref{eq:flux_phi}), for all drivers and all flux surfaces. The $F_\parallel$ component is shown as green, the $F_\perp$ component is shown in red and the $F_\phi$ component is shown in blue."
+%
+%\end{pycode}
+%
+%\py[chapter4]|driver_flux|
 
 \begin{figure}
     \centering
