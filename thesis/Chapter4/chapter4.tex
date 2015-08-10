@@ -5,6 +5,7 @@
 \chapter{MHD Waves excited by Different Photospheric Driver Profiles}
 
 \begin{pycode}[chapter4]
+from __future__ import print_function
 ch4 = texfigure.Manager(pytex, number=4, base_path='./Chapter4/')
 \end{pycode}
 
@@ -291,6 +292,36 @@ In all three torsional drivers there is a notable presence of the coupled slow k
 
 To gain a clearer understanding of the relative strength of each wave mode identified in Fig. \ref{fig:All_TD_wave_30} we now calculate the percentage wave energy flux carried by each component.
 
+\begin{pycode}[chapter4]
+import time_distance_plots as tdp
+
+tube_r = 'r30'
+drivers = ['horiz', 'vert', 'Suni', 'Sarch', 'Slog']
+exp_facs = [None, None, 'B0', 'B0005', 'B005']
+
+width = 0.48
+figsize = list(texfigure.figsize(pytex, scale=width))
+figsize[1] = 1.3*figsize[1]
+
+v_td = texfigure.MultiFigure(3,2)
+
+for driver, exp_fac in zip(drivers, exp_facs):
+    y, data, beta_line, all_times, all_spoints = tdp.get_data(ch4.data_dir, driver, tube_r, exp_fac)
+    va_line, cs_line = tdp.get_speeds(ch4.data_dir, driver, tube_r, exp_fac)
+    
+    fig, axes = tdp.plot_paper1_td(data, all_times, y, beta_line, tube_r, figsize)
+    tdp.overplot_speeds(axes, y, va_line, cs_line)
+    plt.subplots_adjust(left=0.1,right=0.97,top=0.94,bottom=0.10)
+    
+    #fig.tight_layout(left=0.1,right=0.97,top=0.94,bottom=0.10)
+    Fig = ch4.save_figure(driver, fig, fext='.pdf')
+    Fig.subfig_width = r'{}\columnwidth'.format(width)
+    v_td.append(Fig)
+    
+\end{pycode}
+
+\py[chapter4]|v_td|
+
 \begin{figure*}
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
@@ -368,43 +399,24 @@ It is discussed in detail in \cite{bogdan2003} where it is compared to the `true
 It is used in \cite{vigeesh2009, vigeesh2012, khomenko2012}. 
 For a full derivation and discussion relating to time-averaging see \cite{leroy1985}.
 Calculating wave energy flux using Equation \ref{eq:wave_energy} provides a vector which is useful in plotting time distance diagrams and analysing wave modes.
-However, when averaging it to compute the values used in Figure \ref{fig:flux_bar_graph} the nature of the wave energy flux means that if there are standing waves in the domain the fluxes would cancel and therefore under represent the amount of energy excited into that component.
-While it is not expected to find standing waves in these simulations, we use Equations \ref{eq:flux_par} - \ref{eq:flux_phi} below, from \citet{vigeesh2012} and \citet{khomenko2012} to calculate the average `available' energy flux.
-These equations give an estimate of the `available' flux as energy density multiplied by wave speed.
-Which is advantageous for calculating the total average as it results in a positive value that is not negated by standing waves.
-
-\begin{align}
-F_\parallel = \rho v_\parallel^2 c_s,\label{eq:flux_par}\\
-F_\perp = \rho v_\perp^2 v_A,\label{eq:flux_perp}\\
-F_\phi = \rho v_\phi^2v_A.\label{eq:flux_phi}
-\end{align}
-here, $F_\parallel$, $F_\perp$ and $F_\phi$ are the parallel, perpendicular and azimuthal components of energy flux respectively.
-
 Once the wave energy flux has been computed, it is decomposed into parallel, perpendicular and azimuthal components using the same method as the velocity vector. 
 Using the analysis method outlined in Section \ref{sec:3d_analysis} time-distance diagrams are computed for the percentage wave energy flux (see Fig. \ref{fig:All_Flux_percent_TD}). 
 The percentage values are plotted to highlight the relative strengths of the excited wave modes, and to enable a comparison of which modes are dominant. 
 The absolute average energy flux over all heights is summed for all times for each component.
 
-%TODO: Copy the data to make this work
-%\begin{pycode}[chapter4]
-%#This is a direct yank of an old script
-%
-%from flux_comparison import make_flux_bar_chart
-%
-%fig = make_flux_bar_chart((texfigure.figsize(pytex)[0], 4.5), "/archive/processed/data/driver_paper")
-%driver_flux = ch4.save_figure('flux_bar_graph', fig, fext='.pgf')
-%driver_flux.caption = r"Percentage total available energy flux comparison (calculated using Equations \ref{eq:flux_par} - \ref{eq:flux_phi}), for all drivers and all flux surfaces. The $F_\parallel$ component is shown as green, the $F_\perp$ component is shown in red and the $F_\phi$ component is shown in blue."
-%
-%\end{pycode}
-%
-%\py[chapter4]|driver_flux|
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.7\columnwidth]{Chapter4/Figs/p240_A10_Wave_Flux_comparision.pdf}
-    \caption{Percentage total available energy flux comparison (calculated using Equations \ref{eq:flux_par} - \ref{eq:flux_phi}), for all drivers and all flux surfaces. The $F_\parallel$ component is shown as green, the $F_\perp$ component is shown in red and the $F_\phi$ component is shown in blue.}
-    \label{fig:flux_bar_graph}
-\end{figure}
+\begin{pycode}[chapter4]
+#This is a direct yank of an old script
+
+from flux_comparison import make_flux_bar_chart
+
+fig = make_flux_bar_chart((texfigure.figsize(pytex)[0], 4.5), ch4.data_dir)
+driver_flux = ch4.save_figure('flux-bar-graph', fig, fext='.pgf')
+driver_flux.caption = r"Percentage total available energy flux comparison (calculated using Equations \ref{eq:flux_par} - \ref{eq:flux_phi}), for all drivers and all flux surfaces. The $F_\parallel$ component is shown as green, the $F_\perp$ component is shown in red and the $F_\phi$ component is shown in blue."
+\end{pycode}
+
+\py[chapter4]|driver_flux|
+
 
 By comparing Figs. \ref{fig:All_TD_wave_30} \& \ref{fig:All_Flux_percent_TD} we find that for the wave modes excited by the horizontal driver $60$\% of the energy flux is in the perpendicular component $F_\perp$ which is attributed to the slow kink mode.
 The rest of the flux is in the parallel component $F_\parallel$. 
@@ -417,7 +429,7 @@ With reasonable accuracy we can attribute each of the energy flux components sho
 The $F_\parallel$ component is generally the fast sausage mode. 
 The $F_\perp$ component is almost exclusively excited by the slow kink mode.
 Finally, the $F_\phi$ is attributed to the Alfv\'en mode.
-Another interesting result is that the type of spiral driver used has a minimal impact upon the amount of flux in each wave mode (see Fig. \ref{fig:flux_bar_graph}).
+Another interesting result is that the type of spiral driver used has a minimal impact upon the amount of flux in each wave mode (see Fig. \ref{fig:flux-bar-graph}).
 This could be dependent upon the spiral expansion factor used in the logarithmic and Archimedean spirals, which could be the subject of a further parameter study.
 
 \subsection{Flux Tube Radius}
@@ -427,7 +439,7 @@ We define the radius of the flux tube at the top of the domain and as its initia
 There are an arbitrary number of definable flux tube surfaces in our domain as defined from the top outer edge of the domain inwards. 
 To demonstrate the difference in propagation caused by the change in plasma properties, especially $\beta$, with a change in radii we have computed all the analysis for three different flux tubes, with radii of $r=936$ km, $r=468$ km and  $r=156$ km; These radii are chosen to represent a good spectrum across the domain.
 
-The results of the flux calculations are summarised in Fig. \ref{fig:flux_bar_graph}.
+The results of the flux calculations are summarised in Fig. \ref{fig:flux-bar-graph}.
 The smallest radius flux tube, shown in the top panel, shows that, for the torsional driver simulations, less azimuthal ($F_\phi$) flux is generated closer to the axis of the flux tube. 
 This is expected due to a higher magnetic pressure towards the axis of the tube; the flux is, instead, excited evenly in the parallel ($F_\parallel$) and perpendicular ($F_\perp$) components as predominately kink and sausage modes. 
 For higher radii surfaces the $F_\parallel$ component dominates the $F_\perp$ component; as the distance from the axis increases the influence of the kink mode decreases.

@@ -6,6 +6,7 @@ Created on Tue Jan 15 14:47:19 2013
 
 Plot THE graph.
 """
+
 import os
 import glob
 import numpy as np
@@ -14,8 +15,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from collections import OrderedDict
 
-
-def make_flux_bar_chart(figsize, tree_prefix):
+def get_combinations(tree_prefix):
     #==============================================================================
     # Define Search Parameters
     #==============================================================================
@@ -51,8 +51,12 @@ def make_flux_bar_chart(figsize, tree_prefix):
         if len(pars) < 5:
             pars += [None]
 
+    return combinations
 
-    #print len(combinations)
+
+def make_flux_bar_chart(figsize, tree_prefix, wave_flux=True):
+
+    combinations = get_combinations(tree_prefix)
 
     files = []
     for i,pars in enumerate(combinations):
@@ -64,31 +68,31 @@ def make_flux_bar_chart(figsize, tree_prefix):
             adir = "%s/%s/%s_%s_%s_%s/"%(tree_prefix, pars[0], pars[1], pars[2], pars[3], pars[4])
 
     #==============================================================================
-    # Availible Flux
-    #==============================================================================
-
-    #    par = np.load(os.path.join(adir,"LineFlux_%s_%s_%s_Fpar.npy"%(pars[0], pars[1], pars[2])))
-    #    perp = np.load(os.path.join(adir,"LineFlux_%s_%s_%s_Fperp.npy"%(pars[0], pars[1], pars[2])))
-    #    phi = np.load(os.path.join(adir,"LineFlux_%s_%s_%s_Fphi.npy"%(pars[0], pars[1], pars[2])))
-
-
-    #==============================================================================
     # Wave FLux
     #==============================================================================
+        if wave_flux:
+            if pars[4] is None:
+                par = np.load(os.path.join(adir,"LineVar_%s_%s_%s_%s_Fwpar.npy"%(pars[0], pars[1], pars[2], pars[3])))
+                perp = np.load(os.path.join(adir,"LineVar_%s_%s_%s_%s_Fwperp.npy"%(pars[0], pars[1], pars[2], pars[3])))
+                phi = np.load(os.path.join(adir,"LineVar_%s_%s_%s_%s_Fwphi.npy"%(pars[0], pars[1], pars[2], pars[3])))
+            else:
+                par = np.load(os.path.join(adir,"LineVar_%s_%s_%s_%s_%s_Fwpar.npy"%(pars[0], pars[1], pars[2], pars[3], pars[4])))
+                perp = np.load(os.path.join(adir,"LineVar_%s_%s_%s_%s_%s_Fwperp.npy"%(pars[0], pars[1], pars[2], pars[3], pars[4])))
+                phi = np.load(os.path.join(adir,"LineVar_%s_%s_%s_%s_%s_Fwphi.npy"%(pars[0], pars[1], pars[2], pars[3], pars[4])))
 
-        if pars[4] is None:
-            par = np.load(os.path.join(adir,"LineVar_%s_%s_%s_%s_Fwpar.npy"%(pars[0], pars[1], pars[2], pars[3])))
-            perp = np.load(os.path.join(adir,"LineVar_%s_%s_%s_%s_Fwperp.npy"%(pars[0], pars[1], pars[2], pars[3])))
-            phi = np.load(os.path.join(adir,"LineVar_%s_%s_%s_%s_Fwphi.npy"%(pars[0], pars[1], pars[2], pars[3])))
+
+            par = par **2
+            perp = perp**2
+            phi = phi**2
+
+    #==============================================================================
+    # Availible Flux
+    #==============================================================================
         else:
-            par = np.load(os.path.join(adir,"LineVar_%s_%s_%s_%s_%s_Fwpar.npy"%(pars[0], pars[1], pars[2], pars[3], pars[4])))
-            perp = np.load(os.path.join(adir,"LineVar_%s_%s_%s_%s_%s_Fwperp.npy"%(pars[0], pars[1], pars[2], pars[3], pars[4])))
-            phi = np.load(os.path.join(adir,"LineVar_%s_%s_%s_%s_%s_Fwphi.npy"%(pars[0], pars[1], pars[2], pars[3], pars[4])))
+            par = np.load(os.path.join(adir,"LineFlux_%s_%s_%s_Fpar.npy"%(pars[0], pars[1], pars[2])))
+            perp = np.load(os.path.join(adir,"LineFlux_%s_%s_%s_Fperp.npy"%(pars[0], pars[1], pars[2])))
+            phi = np.load(os.path.join(adir,"LineFlux_%s_%s_%s_Fphi.npy"%(pars[0], pars[1], pars[2])))
 
-
-        par = par **2
-        perp = perp**2
-        phi = phi**2
 
     #==============================================================================
     # Other shit
