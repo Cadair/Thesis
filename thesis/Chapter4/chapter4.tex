@@ -294,40 +294,200 @@ To gain a clearer understanding of the relative strength of each wave mode ident
 
 \begin{pycode}[chapter4]
 import time_distance_plots as tdp
+from matplotlib.image import NonUniformImage
 
+
+post_amp = "A10"
+period = "p240"
 tube_r = 'r30'
 drivers = ['horiz', 'vert', 'Suni', 'Sarch', 'Slog']
 exp_facs = [None, None, 'B0', 'B0005', 'B005']
 captions = ['Horizontal', 'Vertical', 'Circular', 'Archemedian Spiral', 'Logarithmic Spiral']
 
-width = 0.49
+width = 0.9
 figsize = list(texfigure.figsize(pytex, scale=width))
-figsize[1] = 1.40*figsize[1]
+figsize[1] = 1.2*figsize[1]
 
-v_td = texfigure.MultiFigure(3, 2, 'All_TD_wave_30')
+vtd1 = texfigure.MultiFigure(2, 1)
+vtd2 = texfigure.MultiFigure(2, 1)
+vtd3 = texfigure.MultiFigure(1, 1, 'All_TD_wave_30')
+vtd2.frontmatter += '\n' + r'\ContinuedFloat'
+vtd3.frontmatter += '\n' + r'\ContinuedFloat'
 
-for driver, exp_fac, caption in zip(drivers, exp_facs, captions):
-    y, data, beta_line, all_times, all_spoints = tdp.get_data(ch4.data_dir, driver, tube_r, exp_fac)
-    va_line, cs_line = tdp.get_speeds(ch4.data_dir, driver, tube_r, exp_fac)
+for j, (driver, exp_fac, caption) in enumerate(zip(drivers, exp_facs, captions)):
+    print('V:', driver, exp_fac, file=sys.stderr)
     
-    fig, axes = tdp.plot_paper1_td(data, all_times, y, beta_line, tube_r, figsize)
+    all_times, y, all_spoints = tdp.get_xy(ch4.data_dir, driver, period, post_amp, tube_r, exp_fac)
+    data, beta_line = tdp.get_data(ch4.data_dir, driver, period, post_amp, tube_r, exp_fac)
+    va_line, cs_line = tdp.get_speeds(ch4.data_dir, driver, period, post_amp, tube_r, exp_fac)
+    
+    
+    xxlim = -150
+    x = all_times[:xxlim]
+    lim = lambda vel: np.max([vel.max(),np.abs(vel.min())])
+    
+    #    def lim(vel):
+    #        scope = np.median(vel) + 4 * np.std(np.array(vel))
+    #        return scope
+    
+    def betaswap(b,pos):
+        return "$%3.0f$"%(1./b)
+    
+    cmap = 'RdBu_r'
+    
+    fig, axes = plt.subplots(nrows=3, ncols=1, sharex=True, figsize=figsize)
+    plt.subplots_adjust(left=0.25,right=0.90,top=0.95,bottom=0.17)
+    
+    if tube_r == "r30":
+        manual_locations = [(75, 1.4), (25, 1.0), (50, 0.2), (25, 0.01)]
+    else:
+        manual_locations = False
+    
+    colorbars = []
+    for i in range(0,3):
+    
+        im = NonUniformImage(axes[i], interpolation='nearest', extent=[x.min(),x.max(),y.min(),y.max()], rasterized=True)
+        im.set_cmap(cmap)
+        im.set_clim(vmax=lim(data[i][:,:xxlim]),vmin=-lim(data[i][:,:xxlim]))
+        im.set_data(x,y,np.array(data[i])[::-1,:xxlim])
+        axes[i].images.append(im)
+        axes[i].set_xlim(x.min(),x.max())
+        axes[i].set_ylim(y.min(),y.max())
+        colorbars.append(plt.colorbar(im,ax=axes[i],aspect=10))
+        ct = axes[i].contour(x,y,beta_line[:,:xxlim],colors=['k'],levels=[1.,1/3.,1/5.,1/7.,1/10.,1/100.])
+        plt.clabel(ct,fontsize=12,inline_spacing=1, manual=manual_locations,fmt=mpl.ticker.FuncFormatter(betaswap))
+    
+    colorbars[0].ax.set_ylabel(r"V$_\parallel$ [m/s]")
+    colorbars[1].ax.set_ylabel(r"V$_\perp$ [m/s]")
+    colorbars[2].ax.set_ylabel(r"V$_\phi$ [m/s]")
+    
+    # Labels
+    axes[2].set_xlabel("Time [seconds]")
+    axes[0].set_ylabel("Height [Mm]")
+    axes[1].set_ylabel("Height [Mm]")
+    axes[2].set_ylabel("Height [Mm]")
+    
+    for cbar in colorbars:
+        cbar.solids.set_edgecolor("face")
+
     tdp.overplot_speeds(axes, y, va_line, cs_line)
-    plt.subplots_adjust(left=0.17,right=0.86,top=0.99,bottom=0.17)
     
-    #fig.tight_layout(left=0.3,right=0.97,top=0.94,bottom=0.10)
     Fig = ch4.save_figure("All_TD_wave_30:{}".format(driver), fig, fext='.pdf')
     Fig.subfig_width = r'{}\columnwidth'.format(width)
     Fig.caption = '{} Driver'.format(caption)
-    v_td.append(Fig)
     
-v_td.caption = r"Decomposed velocity perturbation time-distance diagrams along the flux surface at radius $r = 468$ km for all simulated drivers. Horizontal black lines are plasma-$\beta$ contours, over-plotted are characteristic background speeds, the dot-dashed line is the fast speed ($v_f$), the dashed line is the sound speed ($c_s$), the dotted line is the Alfv\'en speed ($v_A$) and the solid line is the slow speed ($v_t$)."
+    if j < 2:
+        vtd1.append(Fig)
+    elif j < 4:
+        vtd2.append(Fig)
+    else:
+        vtd3.append(Fig)
+        
+
+vtd1.caption = ''
+vtd2.caption = ''
+vtd3.caption = r"Decomposed velocity perturbation time-distance diagrams along the flux surface at radius $r = 468$ km for all simulated drivers. Horizontal black lines are plasma-$\beta$ contours, over-plotted are characteristic background speeds, the dot-dashed line is the fast speed ($v_f$), the dashed line is the sound speed ($c_s$), the dotted line is the Alfv\'en speed ($v_A$) and the solid line is the slow speed ($v_t$)."
 \end{pycode}
 
-\py[chapter4]|v_td|
+\py[chapter4]|vtd1|
+\py[chapter4]|vtd2|
+\py[chapter4]|vtd3|
 
 %TODO: Wave Flux section needs rewriting
 %Need to reference background section, and remove the avalible flux bullshit.
 \subsection{Wave Energy Flux}\label{sec:energy_flux}
+
+\begin{pycode}[chapter4]
+
+Ftd1 = texfigure.MultiFigure(2, 1)
+Ftd2 = texfigure.MultiFigure(2, 1)
+Ftd3 = texfigure.MultiFigure(1, 1, 'All_TD_wave_30')
+Ftd2.frontmatter += '\n' + r'\ContinuedFloat'
+Ftd3.frontmatter += '\n' + r'\ContinuedFloat'
+
+for j, (driver, exp_fac, caption) in enumerate(zip(drivers, exp_facs, captions)):
+    print('F:', driver, exp_fac, file=sys.stderr)
+    
+    
+    all_times, y, all_spoints = tdp.get_xy(ch4.data_dir, driver, period, post_amp, tube_r, exp_fac)
+    data, beta_line, avgs = tdp.get_flux(ch4.data_dir, driver, period, post_amp, tube_r, exp_fac)
+    va_line, cs_line = tdp.get_speeds(ch4.data_dir, driver, period, post_amp, tube_r, exp_fac)
+    
+    
+    xxlim = -150
+    x = all_times[:xxlim]
+    lim = lambda vel: np.max([vel.max(),np.abs(vel.min())])
+    
+    
+    #    def lim(vel):
+    #        scope = np.median(vel) + 4 * np.std(np.array(vel))
+    #        return scope
+    
+    def betaswap(b,pos):
+        return "$%3.0f$"%(1./b)
+    
+    cmap = 'RdBu_r'
+    
+    fig, axes = plt.subplots(nrows=3, ncols=1, sharex=True, figsize=figsize)
+    plt.subplots_adjust(left=0.25,right=0.90,top=0.95,bottom=0.17)
+    
+    if tube_r == "r30":
+        manual_locations = [(75, 1.4), (25, 1.0), (50, 0.2), (25, 0.01)]
+    else:
+        manual_locations = False
+    
+    colorbars = []
+    for i in range(0,3):
+    
+        im = NonUniformImage(axes[i], interpolation='nearest', extent=[x.min(),x.max(),y.min(),y.max()], rasterized=True)
+        im.set_cmap(cmap)
+        im.set_clim(vmax=lim(data[i][:,:xxlim]),vmin=-lim(data[i][:,:xxlim]))
+        im.set_data(x,y,np.array(data[i])[::-1,:xxlim])
+        axes[i].images.append(im)
+        axes[i].set_xlim(x.min(),x.max())
+        axes[i].set_ylim(y.min(),y.max())
+        colorbars.append(plt.colorbar(im,ax=axes[i],aspect=10))
+        ct = axes[i].contour(x,y,beta_line[:,:xxlim],colors=['k'],levels=[1.,1/3.,1/5.,1/7.,1/10.,1/100.])
+        plt.clabel(ct,fontsize=12,inline_spacing=1, manual=manual_locations,fmt=mpl.ticker.FuncFormatter(betaswap))
+    
+    colorbars[0].ax.set_ylabel(r"F$_\parallel$ [\%]")
+    colorbars[1].ax.set_ylabel(r"F$_\perp$ [\%]")
+    colorbars[2].ax.set_ylabel(r"F$_\phi$ [\%]")
+    
+    # Labels
+    axes[2].set_xlabel("Time [seconds]")
+    [a.set_ylabel("Height [Mm]") for a in axes]
+    
+    
+    for cbar in colorbars:
+        cbar.solids.set_edgecolor("face")
+    
+    tdp.overplot_speeds(axes, y, va_line, cs_line)
+    
+    Fig = ch4.save_figure("All_TD_wave_30:{}".format(driver), fig, fext='.pdf')
+    Fig.subfig_width = r'{}\columnwidth'.format(width)
+    Fig.caption = '{} Driver'.format(caption)
+    
+    if j < 2:
+        Ftd1.append(Fig)
+    elif j < 4:
+        Ftd2.append(Fig)
+    else:
+        Ftd3.append(Fig)
+
+
+Ftd1.caption = ''
+Ftd2.caption = ''
+Ftd3.caption = r"Decomposed velocity perturbation time-distance diagrams along the flux surface at radius $r = 468$ km for all simulated drivers. Horizontal black lines are plasma-$\beta$ contours, over-plotted are characteristic background speeds, the dot-dashed line is the fast speed ($v_f$), the dashed line is the sound speed ($c_s$), the dotted line is the Alfv\'en speed ($v_A$) and the solid line is the slow speed ($v_t$)."
+\end{pycode}
+
+\py[chapter4]|Ftd1|
+\py[chapter4]|Ftd2|
+\py[chapter4]|Ftd3|
+
+
+
+
 
 \begin{figure*}
     \centering

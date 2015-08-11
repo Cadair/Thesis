@@ -2,16 +2,10 @@
 from __future__ import print_function
 
 import os
-import sys
+from functools import partial
 import numpy as np
 
-import matplotlib as mpl
-import matplotlib.pyplot as plt
-from matplotlib.image import NonUniformImage
-from matplotlib import ticker
-
 from scipy.interpolate import interp1d
-
 
 
 def get_filepath(base_path, driver, period, post_amp, tube_r, exp_fac):
@@ -23,44 +17,45 @@ def get_filepath(base_path, driver, period, post_amp, tube_r, exp_fac):
     return data_dir
 
 
-def get_data(base_path, driver, tube_r, exp_fac):
-
-    post_amp = "A10"
-    period = "p240"
+def get_xy(base_path, driver, period, post_amp, tube_r, exp_fac):
 
     data_dir = get_filepath(base_path, driver, period, post_amp, tube_r, exp_fac)
 
-    def path_join(filename):
-        return os.path.join(data_dir, filename)
+    height_Mm = np.load(os.path.join(base_path, "heightMM.npy"))
+    all_times = np.load(os.path.join(data_dir, ("LineVar_%s_%s_%s_times.npy"%(driver, period, post_amp))))[:,0]
+    all_spoints = np.load(os.path.join(data_dir, "LineVar_%s_%s_%s_points.npy"%(driver,period,post_amp)))[:,::-1,:]
+
+    f = interp1d(np.linspace(0,128,128), height_Mm)
+    y = f(all_spoints[0,:,2])
+
+    return all_times, y, all_spoints
+
+
+def get_data(base_path, driver, period, post_amp, tube_r, exp_fac):
+
+    data_dir = get_filepath(base_path, driver, period, post_amp, tube_r, exp_fac)
+
+    path_join = partial(os.path.join, data_dir)
 
     all_svphi = np.load(path_join("LineVar_%s_%s_%s_vphi.npy"%(driver,period,post_amp))).T
     all_svperp = np.load(path_join("LineVar_%s_%s_%s_vperp.npy"%(driver,period,post_amp))).T
     all_svpar = np.load(path_join("LineVar_%s_%s_%s_vpar.npy"%(driver,period,post_amp))).T
-    all_spoints = np.load(path_join("LineVar_%s_%s_%s_points.npy"%(driver,period,post_amp)))[:,::-1,:]
-    all_times = np.load(path_join("LineVar_%s_%s_%s_times.npy"%(driver,period,post_amp)))[:,0]
 
     beta_line = np.load(path_join("LineFlux_%s_%s_%s_beta.npy"%(driver,period,post_amp))).T
-    height_Mm = np.load(os.path.join(base_path, "heightMM.npy"))
-    f = interp1d(np.linspace(0,128,128),height_Mm)
-    y = f(all_spoints[0,:,2])
 
     if post_amp in ['A02k', 'A10']:
-        data = [all_svpar * 1e3, all_svperp * 1e3, all_svphi * 1e3]
+        data = [all_svpar*1e3, all_svperp*1e3, all_svphi*1e3]
     else:
         data = [all_svpar, all_svperp, all_svphi]
 
-    return y, data, beta_line, all_times, all_spoints
+    return data, beta_line
 
 
-def get_speeds(base_path, driver, tube_r, exp_fac):
-
-    post_amp = "A10"
-    period = "p240"
+def get_speeds(base_path, driver, period, post_amp, tube_r, exp_fac):
 
     data_dir = get_filepath(base_path, driver, period, post_amp, tube_r, exp_fac)
 
-    def path_join(filename):
-        return os.path.join(data_dir, filename)
+    path_join = partial(os.path.join, data_dir)
 
     cs_line = np.load(path_join("LineFlux_%s_%s_%s_cs.npy"%(driver,period,post_amp))).T
     va_line = np.load(path_join("LineFlux_%s_%s_%s_va.npy"%(driver,period,post_amp))).T
@@ -68,67 +63,39 @@ def get_speeds(base_path, driver, tube_r, exp_fac):
     return cs_line, va_line
 
 
-def plot_paper1_td(data, all_times, y, beta_line, tube_r, fig_size=None):
+def get_flux(base_path, driver, period, post_amp, tube_r, exp_fac):
 
-    xxlim = -150
-    x = all_times[:xxlim]
-    lim = lambda vel: np.max([vel.max(),np.abs(vel.min())])
-    def lim(vel):
-        scope = np.median(vel) + 4 * np.std(np.array(vel))
-        return scope
-    def betaswap(b,pos):
-        return "$%3.0f$"%(1./b)
+    data_dir = get_filepath(base_path, driver, period, post_amp, tube_r, exp_fac)
 
-    #cmap = 'gist_yarg'
-    cmap = 'RdBu_r'
+    path_join = partial(os.path.join, data_dir)
 
-    fig, axes = plt.subplots(nrows=3, ncols=1, sharex=True, figsize=fig_size)
-    #plt.subplots_adjust(left=0.1,right=0.97,top=0.94,bottom=0.10)
-
-    if tube_r == "r30":
-        manual_locations = [(75, 1.4), (25, 1.0), (50, 0.2), (25, 0.01)]
+    if exp_fac:
+        identifier = "%s_%s_%s_%s_%s"%(driver, period, post_amp, tube_r, exp_fac)
     else:
-        manual_locations = False
+        identifier = "%s_%s_%s_%s"%(driver, period, post_amp, tube_r)
 
+    Fpar_line = np.load(path_join("LineVar_{}_Fwpar.npy".format(identifier))).T
+    Fperp_line = np.load(path_join("LineVar_{}_Fwperp.npy".format(identifier))).T
+    Fphi_line = np.load(path_join("LineVar_{}_Fwphi.npy".format(identifier))).T
 
-    colorbars = []
-    for i in range(0,3):
-        im = NonUniformImage(axes[i], interpolation='nearest', extent=[x.min(),x.max(),y.min(),y.max()], rasterized=True)
-        im.set_cmap(cmap)
-        im.set_clim(vmax=lim(data[i][:,:xxlim]),vmin=-lim(data[i][:,:xxlim]))
-        im.set_data(x,y,np.array(data[i])[::-1,:xxlim])
+    Ftotal = Fpar_line + Fperp_line + Fphi_line
 
-        axes[i].images.append(im)
-        axes[i].set_xlim(x.min(),x.max())
-        axes[i].set_ylim(y.min(),y.max())
-        colorbars.append(plt.colorbar(im,ax=axes[i],aspect=10))
-        ct = axes[i].contour(x,y,beta_line[:,:xxlim],colors=['k'],levels=[1.,1/3.,1/5.,1/7.,1/10.,1/100.])
-        plt.clabel(ct,fontsize=12,inline_spacing=1, manual=manual_locations,fmt=mpl.ticker.FuncFormatter(betaswap))
+    Fpar_percent  = (Fpar_line / Ftotal) * 100
+    Fperp_percent = (Fperp_line / Ftotal) * 100
+    Fphi_percent  = (Fphi_line / Ftotal) * 100
 
-    colorbars[0].ax.set_ylabel(r"V$_\parallel$ [m/s]")
-    colorbars[1].ax.set_ylabel(r"V$_\perp$ [m/s]")
-    colorbars[2].ax.set_ylabel(r"V$_\phi$ [m/s]")
+    #Filter out the noisy flux values before the wave starts propagating.
+    filter_ftotal = (Ftotal <= 1.)
+    Fpar_percent[filter_ftotal.nonzero()] = np.nan
+    Fperp_percent[filter_ftotal.nonzero()] = np.nan
+    Fphi_percent[filter_ftotal.nonzero()] = np.nan
 
-    #Labels
-    axes[2].set_xlabel("Time [seconds]")
-    #axes[0].set_ylabel("Height [Mm]")
-    axes[1].set_ylabel("Height [Mm]")
-    #axes[2].set_ylabel("Height [Mm]")
+    ParAvg = np.mean(Fpar_percent[np.isfinite(Fpar_percent)])
+    PerpAvg = np.mean(Fperp_percent[np.isfinite(Fperp_percent)])
+    PhiAvg = np.mean(Fphi_percent[np.isfinite(Fphi_percent)])
 
-    yloc = ticker.MultipleLocator(base=0.4)
-    [ax.yaxis.set_major_locator(yloc) for ax in axes]
-
-    xloc = ticker.MultipleLocator(base=100)
-    [ax.xaxis.set_major_locator(xloc) for ax in axes]
-
-    for cbar in colorbars:
-        cbar.locator = ticker.MaxNLocator(nbins=5)
-        cbar.update_ticks()
-        cbar.solids.set_edgecolor("face")
-        #ax = cbar.ax.get_yaxis()
-        #ax.set_major_locator(ticker.MaxNLocator(4, symmetric=True))
-
-    return fig, axes
+    beta_line = np.load(path_join("LineFlux_%s_%s_%s_beta.npy"%(driver,period,post_amp))).T
+    return [Fpar_percent, Fperp_percent, Fphi_percent], beta_line, [ParAvg, PerpAvg, PhiAvg]
 
 
 def overplot_speeds(axes, y, va_line, cs_line):
