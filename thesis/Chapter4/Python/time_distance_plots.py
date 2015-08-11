@@ -111,9 +111,9 @@ def plot_paper1_td(data, all_times, y, beta_line, tube_r, fig_size=None):
 
     #Labels
     axes[2].set_xlabel("Time [seconds]")
-    axes[0].set_ylabel("Height [Mm]")
+    #axes[0].set_ylabel("Height [Mm]")
     axes[1].set_ylabel("Height [Mm]")
-    axes[2].set_ylabel("Height [Mm]")
+    #axes[2].set_ylabel("Height [Mm]")
 
     yloc = ticker.MultipleLocator(base=0.4)
     [ax.yaxis.set_major_locator(yloc) for ax in axes]
@@ -122,6 +122,8 @@ def plot_paper1_td(data, all_times, y, beta_line, tube_r, fig_size=None):
     [ax.xaxis.set_major_locator(xloc) for ax in axes]
 
     for cbar in colorbars:
+        cbar.locator = ticker.MaxNLocator(nbins=5)
+        cbar.update_ticks()
         cbar.solids.set_edgecolor("face")
         #ax = cbar.ax.get_yaxis()
         #ax.set_major_locator(ticker.MaxNLocator(4, symmetric=True))

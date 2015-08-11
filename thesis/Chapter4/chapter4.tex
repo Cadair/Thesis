@@ -298,62 +298,32 @@ import time_distance_plots as tdp
 tube_r = 'r30'
 drivers = ['horiz', 'vert', 'Suni', 'Sarch', 'Slog']
 exp_facs = [None, None, 'B0', 'B0005', 'B005']
+captions = ['Horizontal', 'Vertical', 'Circular', 'Archemedian Spiral', 'Logarithmic Spiral']
 
-width = 0.48
+width = 0.49
 figsize = list(texfigure.figsize(pytex, scale=width))
-figsize[1] = 1.3*figsize[1]
+figsize[1] = 1.40*figsize[1]
 
-v_td = texfigure.MultiFigure(3,2)
+v_td = texfigure.MultiFigure(3, 2, 'All_TD_wave_30')
 
-for driver, exp_fac in zip(drivers, exp_facs):
+for driver, exp_fac, caption in zip(drivers, exp_facs, captions):
     y, data, beta_line, all_times, all_spoints = tdp.get_data(ch4.data_dir, driver, tube_r, exp_fac)
     va_line, cs_line = tdp.get_speeds(ch4.data_dir, driver, tube_r, exp_fac)
     
     fig, axes = tdp.plot_paper1_td(data, all_times, y, beta_line, tube_r, figsize)
     tdp.overplot_speeds(axes, y, va_line, cs_line)
-    plt.subplots_adjust(left=0.1,right=0.97,top=0.94,bottom=0.10)
+    plt.subplots_adjust(left=0.17,right=0.86,top=0.99,bottom=0.17)
     
-    #fig.tight_layout(left=0.1,right=0.97,top=0.94,bottom=0.10)
-    Fig = ch4.save_figure(driver, fig, fext='.pdf')
+    #fig.tight_layout(left=0.3,right=0.97,top=0.94,bottom=0.10)
+    Fig = ch4.save_figure("All_TD_wave_30:{}".format(driver), fig, fext='.pdf')
     Fig.subfig_width = r'{}\columnwidth'.format(width)
+    Fig.caption = '{} Driver'.format(caption)
     v_td.append(Fig)
     
+v_td.caption = r"Decomposed velocity perturbation time-distance diagrams along the flux surface at radius $r = 468$ km for all simulated drivers. Horizontal black lines are plasma-$\beta$ contours, over-plotted are characteristic background speeds, the dot-dashed line is the fast speed ($v_f$), the dashed line is the sound speed ($c_s$), the dotted line is the Alfv\'en speed ($v_A$) and the solid line is the slow speed ($v_t$)."
 \end{pycode}
 
 \py[chapter4]|v_td|
-
-\begin{figure*}
-    \centering
-    \begin{subfigure}[b]{0.49\textwidth}
-        \includegraphics[width=\columnwidth]{Chapter4/Figs/TD_wave_speeds_horiz_p240_A10_r30.pdf}
-        \caption{Horizontal Driver}
-        \label{fig:All_TD_wave_30:horiz}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.49\textwidth}
-        \includegraphics[width=\columnwidth]{Chapter4/Figs/TD_wave_speeds_vert_p240_A10_r30.pdf}
-        \caption{Vertical Driver}
-        \label{fig:All_TD_wave_30:vert}
-    \end{subfigure}
-    
-    \begin{subfigure}[b]{0.49\textwidth}
-        \includegraphics[width=\columnwidth]{Chapter4/Figs/TD_wave_speeds_Suni_p240_A10_r30_B0.pdf}
-        \caption{Uniform Torsional Driver}
-        \label{fig:All_TD_wave_30:Suni}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.49\textwidth}
-        \includegraphics[width=\columnwidth]{Chapter4/Figs/TD_wave_speeds_Sarch_p240_A10_r30_B0005.pdf}
-        \caption{Archimedean Spiral Type Driver}
-        \label{fig:All_TD_wave_30:Sarch}
-    \end{subfigure}
-    
-    \begin{subfigure}[b]{0.49\textwidth}
-        \includegraphics[width=\columnwidth]{Chapter4/Figs/TD_wave_speeds_Slog_p240_A10_r30_B005.pdf}
-        \caption{Logarithmic Spiral Type Driver}
-        \label{fig:All_TD_wave_30:Slog}
-    \end{subfigure}
-    \caption{Decomposed velocity perturbation time-distance diagrams along the flux surface at radius $r = 468$ km for all simulated drivers. Horizontal black lines are plasma-$\beta$ contours, over-plotted are characteristic background speeds, the dot-dashed line is the fast speed ($v_f$), the dashed line is the sound speed ($c_s$), the dotted line is the Alfv\'en speed ($v_A$) and the solid line is the slow speed ($v_t$).}
-    \label{fig:All_TD_wave_30}
-\end{figure*}
 
 %TODO: Wave Flux section needs rewriting
 %Need to reference background section, and remove the avalible flux bullshit.
