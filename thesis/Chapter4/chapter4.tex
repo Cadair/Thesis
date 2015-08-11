@@ -416,7 +416,8 @@ for j, (driver, exp_fac, caption) in enumerate(zip(drivers, exp_facs, captions))
     
     xxlim = -150
     x = all_times[:xxlim]
-    lim = lambda vel: np.max([vel.max(),np.abs(vel.min())])
+    #lim = lambda vel: np.max([vel.max(),np.abs(vel.min())])
+    lim = lambda x: 1
     
     
     #    def lim(vel):
@@ -425,7 +426,8 @@ for j, (driver, exp_fac, caption) in enumerate(zip(drivers, exp_facs, captions))
     
     def betaswap(b,pos):
         return "$%3.0f$"%(1./b)
-    
+        
+        
     cmap = 'RdBu_r'
     
     fig, axes = plt.subplots(nrows=3, ncols=1, sharex=True, figsize=figsize)
@@ -450,9 +452,9 @@ for j, (driver, exp_fac, caption) in enumerate(zip(drivers, exp_facs, captions))
         ct = axes[i].contour(x,y,beta_line[:,:xxlim],colors=['k'],levels=[1.,1/3.,1/5.,1/7.,1/10.,1/100.])
         plt.clabel(ct,fontsize=12,inline_spacing=1, manual=manual_locations,fmt=mpl.ticker.FuncFormatter(betaswap))
     
-    colorbars[0].ax.set_ylabel(r"F$_\parallel$ [\%]")
-    colorbars[1].ax.set_ylabel(r"F$_\perp$ [\%]")
-    colorbars[2].ax.set_ylabel(r"F$_\phi$ [\%]")
+    colorbars[0].ax.set_ylabel(r"F$_\parallel / $F$^2$")
+    colorbars[1].ax.set_ylabel(r"F$_\perp^2 / $F$^2$")
+    colorbars[2].ax.set_ylabel(r"F$_\phi^2 / $F$^2$")
     
     # Labels
     axes[2].set_xlabel("Time [seconds]")
@@ -478,44 +480,12 @@ for j, (driver, exp_fac, caption) in enumerate(zip(drivers, exp_facs, captions))
 
 Ftd1.caption = ''
 Ftd2.caption = ''
-Ftd3.caption = r"Decomposed velocity perturbation time-distance diagrams along the flux surface at radius $r = 468$ km for all simulated drivers. Horizontal black lines are plasma-$\beta$ contours, over-plotted are characteristic background speeds, the dot-dashed line is the fast speed ($v_f$), the dashed line is the sound speed ($c_s$), the dotted line is the Alfv\'en speed ($v_A$) and the solid line is the slow speed ($v_t$)."
+Ftd3.caption = r"Decomposed wave energy flux time-distance diagrams along the flux surface at radius $r = 468$ km (approximately central in the flux tube) for all simulated drivers. The three components of Energy flux ($F_\parallel$, $F_\perp$ and $F_\phi$) are calculated, then, the proportion for each component is shown for a strip up the flux surface."
 \end{pycode}
 
 \py[chapter4]|Ftd1|
 \py[chapter4]|Ftd2|
 \py[chapter4]|Ftd3|
-
-
-
-
-
-\begin{figure*}
-    \centering
-    \begin{subfigure}[b]{0.49\textwidth}
-        \includegraphics[width=\columnwidth]{Chapter4/Figs/WaveFlux_TD_Percent_horiz_p240_A10_r30.pdf}
-        \caption{Horizontal Driver}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.49\textwidth}
-        \includegraphics[width=\columnwidth]{Chapter4/Figs/WaveFlux_TD_Percent_vert_p240_A10_r30.pdf}
-        \caption{Vertical Driver}
-    \end{subfigure}
-    
-    \begin{subfigure}[b]{0.49\textwidth}
-        \includegraphics[width=\columnwidth]{Chapter4/Figs/WaveFlux_TD_Percent_Suni_p240_A10_r30_B0.pdf}
-        \caption{Uniform Torsional Driver}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.49\textwidth}
-        \includegraphics[width=\columnwidth]{Chapter4/Figs/WaveFlux_TD_Percent_Sarch_p240_A10_r30_B0005.pdf}
-        \caption{Archimedean Spiral Type Driver}
-    \end{subfigure}
-    
-    \begin{subfigure}[b]{0.49\textwidth}
-        \includegraphics[width=\columnwidth]{Chapter4/Figs/WaveFlux_TD_Percent_Slog_p240_A10_r30_B005.pdf}
-        \caption{Logarithmic Spiral Type Driver}
-    \end{subfigure}
-    \caption{Decomposed wave energy flux time-distance diagrams along the flux surface at radius $r = 468$ km (approximately central in the flux tube) for all simulated drivers. The three components of Energy flux ($F_\parallel$, $F_\perp$ and $F_\phi$) are calculated, then, the proportion for each component is shown for a strip up the flux surface.}
-    \label{fig:All_Flux_percent_TD}
-\end{figure*}
 
 To calculate the relative strengths of the excited waves we compute the `wave energy flux' vector everywhere in the domain using Equation \ref{eq:wave_energy}.
 \begin{equation}

@@ -78,14 +78,14 @@ def get_flux(base_path, driver, period, post_amp, tube_r, exp_fac):
     Fperp_line = np.load(path_join("LineVar_{}_Fwperp.npy".format(identifier))).T
     Fphi_line = np.load(path_join("LineVar_{}_Fwphi.npy".format(identifier))).T
 
-    Ftotal = Fpar_line + Fperp_line + Fphi_line
+    Ftotal = np.sqrt(Fpar_line**2 + Fperp_line**2 + Fphi_line**2)
 
-    Fpar_percent  = (Fpar_line / Ftotal) * 100
-    Fperp_percent = (Fperp_line / Ftotal) * 100
-    Fphi_percent  = (Fphi_line / Ftotal) * 100
+    Fpar_percent  = (Fpar_line / Ftotal)
+    Fperp_percent = (Fperp_line / Ftotal)
+    Fphi_percent  = (Fphi_line / Ftotal)
 
     #Filter out the noisy flux values before the wave starts propagating.
-    filter_ftotal = (Ftotal <= 1.)
+    filter_ftotal = (np.abs(Ftotal) <= 1e-5)
     Fpar_percent[filter_ftotal.nonzero()] = np.nan
     Fperp_percent[filter_ftotal.nonzero()] = np.nan
     Fphi_percent[filter_ftotal.nonzero()] = np.nan
