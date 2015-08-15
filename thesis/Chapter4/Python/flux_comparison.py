@@ -8,12 +8,14 @@ Plot THE graph.
 """
 
 import os
+import copy
 import glob
 import numpy as np
 #import matplotlib_cust as mpc
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from collections import OrderedDict
+
 
 def get_combinations(tree_prefix):
     #==============================================================================
@@ -54,6 +56,65 @@ def get_combinations(tree_prefix):
     return combinations
 
 
+def load_files(tree_prefix, pars, wave_flux):
+
+    if pars[4] is None:
+        adir = "%s/%s/%s_%s_%s/"%(tree_prefix, pars[0], pars[1], pars[2], pars[3])
+    else:
+        adir = "%s/%s/%s_%s_%s_%s/"%(tree_prefix, pars[0], pars[1], pars[2], pars[3], pars[4])
+
+#==============================================================================
+# Wave FLux
+#==============================================================================
+    if wave_flux:
+        if pars[4] is None:
+            par = np.load(os.path.join(adir,"LineVar_%s_%s_%s_%s_Fwpar.npy"%(pars[0], pars[1], pars[2], pars[3])))
+            perp = np.load(os.path.join(adir,"LineVar_%s_%s_%s_%s_Fwperp.npy"%(pars[0], pars[1], pars[2], pars[3])))
+            phi = np.load(os.path.join(adir,"LineVar_%s_%s_%s_%s_Fwphi.npy"%(pars[0], pars[1], pars[2], pars[3])))
+        else:
+            par = np.load(os.path.join(adir,"LineVar_%s_%s_%s_%s_%s_Fwpar.npy"%(pars[0], pars[1], pars[2], pars[3], pars[4])))
+            perp = np.load(os.path.join(adir,"LineVar_%s_%s_%s_%s_%s_Fwperp.npy"%(pars[0], pars[1], pars[2], pars[3], pars[4])))
+            phi = np.load(os.path.join(adir,"LineVar_%s_%s_%s_%s_%s_Fwphi.npy"%(pars[0], pars[1], pars[2], pars[3], pars[4])))
+
+
+        par = par **2
+        perp = perp**2
+        phi = phi**2
+
+#==============================================================================
+# Availible Flux
+#==============================================================================
+    else:
+        par = np.load(os.path.join(adir,"LineFlux_%s_%s_%s_Fpar.npy"%(pars[0], pars[1], pars[2])))
+        perp = np.load(os.path.join(adir,"LineFlux_%s_%s_%s_Fperp.npy"%(pars[0], pars[1], pars[2])))
+        phi = np.load(os.path.join(adir,"LineFlux_%s_%s_%s_Fphi.npy"%(pars[0], pars[1], pars[2])))
+
+    return par, perp, phi
+
+
+def get_averages(tree_prefix, wave_flux=True):
+    combinations = get_combinations(tree_prefix)
+
+    drivers = {'Slog':[], 'Sarch':[], 'Suni':[], 'vert':[], 'horiz':[]}
+    tube_rs = {'r10':copy.deepcopy(drivers), 'r30':copy.deepcopy(drivers), 'r60':copy.deepcopy(drivers)}
+
+    for i, pars in enumerate(combinations):
+        par, perp, phi = load_files(tree_prefix, pars, wave_flux)
+
+        tot = par + perp + phi
+
+        apar = (par / tot) * 100
+        aperp = (perp / tot) * 100
+        aphi = (phi / tot) * 100
+
+        avgs = np.array([np.nanmean(apar), np.nanmean(aperp), np.nanmean(aphi)])
+        avgs = np.round(avgs, decimals=1)
+
+        tube_rs[pars[3]][pars[0]] = avgs
+
+    return tube_rs
+
+
 def make_flux_bar_chart(figsize, tree_prefix, wave_flux=True):
 
     combinations = get_combinations(tree_prefix)
@@ -62,38 +123,8 @@ def make_flux_bar_chart(figsize, tree_prefix, wave_flux=True):
     for i,pars in enumerate(combinations):
     #    Flux_file = "Average_Fluxes_%s_%s_%s_%s.npy"%(pars[0], pars[1],
     #                                                  pars[2], pars[3])
-        if pars[4] is None:
-            adir = "%s/%s/%s_%s_%s/"%(tree_prefix, pars[0], pars[1], pars[2], pars[3])
-        else:
-            adir = "%s/%s/%s_%s_%s_%s/"%(tree_prefix, pars[0], pars[1], pars[2], pars[3], pars[4])
 
-    #==============================================================================
-    # Wave FLux
-    #==============================================================================
-        if wave_flux:
-            if pars[4] is None:
-                par = np.load(os.path.join(adir,"LineVar_%s_%s_%s_%s_Fwpar.npy"%(pars[0], pars[1], pars[2], pars[3])))
-                perp = np.load(os.path.join(adir,"LineVar_%s_%s_%s_%s_Fwperp.npy"%(pars[0], pars[1], pars[2], pars[3])))
-                phi = np.load(os.path.join(adir,"LineVar_%s_%s_%s_%s_Fwphi.npy"%(pars[0], pars[1], pars[2], pars[3])))
-            else:
-                par = np.load(os.path.join(adir,"LineVar_%s_%s_%s_%s_%s_Fwpar.npy"%(pars[0], pars[1], pars[2], pars[3], pars[4])))
-                perp = np.load(os.path.join(adir,"LineVar_%s_%s_%s_%s_%s_Fwperp.npy"%(pars[0], pars[1], pars[2], pars[3], pars[4])))
-                phi = np.load(os.path.join(adir,"LineVar_%s_%s_%s_%s_%s_Fwphi.npy"%(pars[0], pars[1], pars[2], pars[3], pars[4])))
-
-
-            par = par **2
-            perp = perp**2
-            phi = phi**2
-
-    #==============================================================================
-    # Availible Flux
-    #==============================================================================
-        else:
-            par = np.load(os.path.join(adir,"LineFlux_%s_%s_%s_Fpar.npy"%(pars[0], pars[1], pars[2])))
-            perp = np.load(os.path.join(adir,"LineFlux_%s_%s_%s_Fperp.npy"%(pars[0], pars[1], pars[2])))
-            phi = np.load(os.path.join(adir,"LineFlux_%s_%s_%s_Fphi.npy"%(pars[0], pars[1], pars[2])))
-
-
+        par, perp, phi = load_files(tree_prefix, pars, wave_flux)
     #==============================================================================
     # Other shit
     #==============================================================================
@@ -165,7 +196,7 @@ def make_flux_bar_chart(figsize, tree_prefix, wave_flux=True):
     #        b3 = axes[i].bar(di, flux[key][1],width=1,bottom=flux[key][0]+flux[key][2],color='k', hatch='.',fill=False)
 
         axes[i].xaxis.set_major_locator(mpl.ticker.FixedLocator(x+0.5))
-        axes[i].xaxis.set_major_formatter(mpl.ticker.FixedFormatter( ['Logarithmic\nSpiral', 'Vertical', 'Uniform\nSpiral', 'Archemedian\nSpiral', 'Horizontal'] ))
+        axes[i].xaxis.set_major_formatter(mpl.ticker.FixedFormatter( ['Logarithmic\nSpiral', 'Horizontal', 'Uniform\nSpiral', 'Archemedian\nSpiral', 'Vertical'] ))
         axes[i].set_ylim((0,100))
         axes[i].set_ylabel("Percentage Flux")
     #    axes[i].set_xlabel("Driver")

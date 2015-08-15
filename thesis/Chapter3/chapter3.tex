@@ -61,7 +61,7 @@ ZZ = u.Quantity(np.linspace(empirical_data['Z'][0], empirical_data['Z'][-1], 128
 table = atm.hs_atmosphere.interpolate_atmosphere(empirical_data, ZZ)
 
 # Create a figure and make space for the axes.
-fig, ax = plt.subplots(gridspec_kw={'right':0.775, 'left':0.13})
+fig, ax = plt.subplots(gridspec_kw={'right':0.790, 'left':0.16, 'bottom':0.13})
 
 # Shortcut all the Mm conversion.
 Z = empirical_data['Z'].to(u.Mm)
@@ -76,8 +76,8 @@ lp_i, = ax2.plot(ZZ.to(u.Mm), table['p'].to(u.Pa), color='green')
 
 ax3 = ax.twinx()
 ax3.spines["right"].set_position(("axes", 1.18))
-lt, = ax3.plot(Z, empirical_data['T'], 'x', color='red')
-lt_i, = ax3.plot(ZZ.to(u.Mm), table['T'], color='red')
+lt, = ax3.plot(Z, empirical_data['T'].to(u.kK), 'x', color='red')
+lt_i, = ax3.plot(ZZ.to(u.Mm), table['T'].to(u.kK), color='red')
 
 
 # Set primary axes properties and labels

@@ -132,19 +132,22 @@ These equations can be solved using plane wave solutions, i.e. solutions of the 
 
 \subsection{Calculating Wave Flux}\label{sec:waveflux}
 
-
-To calculate the relative strengths of the excited waves we compute the `wave energy flux' vector everywhere in the domain using Equation \ref{eq:wave_energy}.
+To calculate the relative strengths of the excited waves we compute the `wave energy flux' vector everywhere in the domain.
+To do this we use the equation for the wave energy flux given in Equation (2.14) of \cite{leroy1985}.
+This equation can be written using notation similar to the rest of this thesis, by applying $\vec{H} = \vec{B}/\mu_0$ and the vector identity $\vec{a} \times (\vec{b} \cdot \vec{c}) = \vec{a} \cdot \vec{c}\vec{b} - \vec{a} \cdot \vec{b}\vec{c}$.
+The result is given in \cref{eq:wave_energy} below.
 \begin{equation}
 \vec{F}_{wave} \equiv \widetilde{p}_k \vec{v} + \frac{1}{\mu_0} \left(\vec{B}_b \cdot \vec{\widetilde{B}}\right) \vec{v} - \frac{1}{\mu_0}\left(\vec{v} \cdot \vec{\widetilde{B}} \right) \vec{B}_b,
 \label{eq:wave_energy}
 \end{equation}
 where a subscript $b$ represents a background variable, a tilda represents a perturbation from the background conditions and $p_k$ represents kinetic pressure.
 
-This equation has been widely used to calculate the energy contained in linear MHD perturbations.
-It is discussed in detail in \cite{bogdan2003} where it is compared to the `true' MHD flux for linear perturbations and found to be generally clearer. 
-It is used in \cite{vigeesh2009, vigeesh2012, khomenko2012}. 
-For a full derivation and discussion relating to time-averaging see \cite{leroy1985}.
-Calculating wave energy flux using Equation \ref{eq:wave_energy} provides a vector which is useful in plotting time distance diagrams and analysing wave modes.
+The validity of this equation for the wave energy flux is widely discussed, while it can be derived by linearising the total MHD energy flux to the second order, as described in \cite{leroy1985}, it is only one of many solutions to the fundamental energy conservation equation.
+This fact is discussed in detail in Section 4 of \cite{bogdan2003}, where the utility of this method of calculating wave energy flux for numerical simulations of the solar atmosphere is considered.
+\cite{bogdan2003} compares the above definition of the wave energy flux to the total nonlinear MHD energy flux, it is shown that the total energy flux is dominated by a `stationary flow` of energy, or local effects, rather than the energy contained in the wave like phenomena that this thesis wishes to study.
+It is because of this that this method of quantifying the energy contained within the MHD waves generated in the simulation domain is chosen.
+It should not however, be taken as a perfect metric, which is why it is chosen only to use \cref{eq:wave_energy} to calculate the relative strengths of the wave modes.
+This analysis provides us the desired result: an understanding of how the different plasma conditions and wave drives change the spectra of MHD wave modes generated, while eliminating any concern about the accuracy of \cref{eq:wave_energy} when accounting for absolute energy values.
 
 \section{Computational Methods}\label{sec:numericalmethods}
 
