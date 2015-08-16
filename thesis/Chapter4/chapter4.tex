@@ -7,6 +7,8 @@
 \begin{pycode}[chapter4]
 from __future__ import print_function
 ch4 = texfigure.Manager(pytex, number=4, base_path='./Chapter4/')
+
+import td_plotting_helpers as ph
 \end{pycode}
 
 %%{\Large Knowledge at start:}
@@ -294,6 +296,9 @@ To gain a clearer understanding of the relative strength of each wave mode ident
 import time_distance_plots as tdp
 from matplotlib.image import NonUniformImage
 
+pflux_labels = {'par_label':r'$V_\parallel[$ ms$^{-1}$]', 
+                'perp_label':r'$V_\perp$ [ms$^{-1}$]',
+                'phi_label':r'$V_\phi$ [ms$^{-1}$]'}
 
 post_amp = "A10"
 period = "p240"
@@ -312,6 +317,8 @@ vtd3 = texfigure.MultiFigure(1, 1, 'All-TD-wave-30')
 vtd2.frontmatter += '\n' + r'\ContinuedFloat'
 vtd3.frontmatter += '\n' + r'\ContinuedFloat'
 
+manual_locations = [(75, 1.4), (25, 1.0), (50, 0.2), (25, 0.01)]
+
 for j, (driver, exp_fac, caption) in enumerate(zip(drivers, exp_facs, captions)):
     print('V:', driver, exp_fac, file=sys.stderr)
     
@@ -319,60 +326,25 @@ for j, (driver, exp_fac, caption) in enumerate(zip(drivers, exp_facs, captions))
     data, beta_line = tdp.get_data(ch4.data_dir, driver, period, post_amp, tube_r, exp_fac)
     va_line, cs_line = tdp.get_speeds(ch4.data_dir, driver, period, post_amp, tube_r, exp_fac)
     
-    
-    xxlim = -150
-    x = all_times[:xxlim]
-    lim = lambda vel: np.max([vel.max(),np.abs(vel.min())])
-    
-    #    def lim(vel):
-    #        scope = np.median(vel) + 4 * np.std(np.array(vel))
-    #        return scope
-    
-    def betaswap(b,pos):
-        return "$%3.0f$"%(1./b)
-    
-    cmap = 'RdBu_r'
+    fd = lambda args: [a.T for a in args]
+       
+    ph.xxlim = -150
     
     fig, axes = plt.subplots(nrows=3, ncols=1, sharex=True, figsize=figsize)
-    plt.subplots_adjust(left=0.25,right=0.90,top=0.95,bottom=0.17)
+    ph.triple_plot(axes, all_times, y, *fd(data), beta_line=1./beta_line,
+                   levels=[1.,3.,5.,7.,10.,100.], manual_locations=manual_locations, **pflux_labels)
     
-    if tube_r == "r30":
-        manual_locations = [(75, 1.4), (25, 1.0), (50, 0.2), (25, 0.01)]
-    else:
-        manual_locations = False
-    
-    colorbars = []
-    for i in range(0,3):
-    
-        im = NonUniformImage(axes[i], interpolation='nearest', extent=[x.min(),x.max(),y.min(),y.max()], rasterized=True)
-        im.set_cmap(cmap)
-        im.set_clim(vmax=lim(data[i][:,:xxlim]),vmin=-lim(data[i][:,:xxlim]))
-        im.set_data(x,y,np.array(data[i])[::-1,:xxlim])
-        axes[i].images.append(im)
-        axes[i].set_xlim(x.min(),x.max())
-        axes[i].set_ylim(y.min(),y.max())
-        colorbars.append(plt.colorbar(im,ax=axes[i],aspect=10))
-        ct = axes[i].contour(x,y,beta_line[:,:xxlim],colors=['k'],levels=[1.,1/3.,1/5.,1/7.,1/10.,1/100.])
-        plt.clabel(ct,fontsize=12,inline_spacing=1, manual=manual_locations,fmt=mpl.ticker.FuncFormatter(betaswap))
-    
-    colorbars[0].ax.set_ylabel(r"V$_\parallel$ [m/s]")
-    colorbars[1].ax.set_ylabel(r"V$_\perp$ [m/s]")
-    colorbars[2].ax.set_ylabel(r"V$_\phi$ [m/s]")
-    
-    # Labels
-    axes[2].set_xlabel("Time [seconds]")
-    axes[0].set_ylabel("Height [Mm]")
-    axes[1].set_ylabel("Height [Mm]")
-    axes[2].set_ylabel("Height [Mm]")
-    
-    for cbar in colorbars:
-        cbar.solids.set_edgecolor("face")
-
-    tdp.overplot_speeds(axes, y, va_line, cs_line)
-    
+    for ax in axes:
+        ph.add_phase_speeds(ax, all_times, y, va_line, cs_line, dx_scale=1e6, color='g')
+        
+    #Remove the top two x labels
+    axes[0].set_xlabel('')
+    axes[1].set_xlabel('')
+    fig.tight_layout(h_pad=0.05)
     Fig = ch4.save_figure("All-TD-wave-30:{}".format(driver), fig, fext='.pdf')
     Fig.subfig_width = r'{}\columnwidth'.format(width)
     Fig.caption = '{} Driver'.format(caption)
+    
     
     if j < 2:
         vtd1.append(Fig)
@@ -380,22 +352,27 @@ for j, (driver, exp_fac, caption) in enumerate(zip(drivers, exp_facs, captions))
         vtd2.append(Fig)
     else:
         vtd3.append(Fig)
-        
 
 vtd1.caption = ''
 vtd2.caption = ''
 vtd3.caption = r"Decomposed velocity perturbation time-distance diagrams along the flux surface at radius $r = 468$ km for all simulated drivers. Horizontal black lines are plasma-$\beta$ contours, over-plotted are characteristic background speeds, the dot-dashed line is the fast speed ($v_f$), the dashed line is the sound speed ($c_s$), the dotted line is the Alfv\'en speed ($v_A$) and the solid line is the slow speed ($v_t$)."
+
 \end{pycode}
+
 
 \py[chapter4]|vtd1|
 \py[chapter4]|vtd2|
 \py[chapter4]|vtd3|
+
 
 %TODO: Wave Flux section needs rewriting
 %Need to reference background section, and remove the avalible flux bullshit.
 \subsection{Wave Energy Flux}\label{sec:energy_flux}
 
 \begin{pycode}[chapter4]
+pflux_labels = {'par_label':r'$F_\parallel / |\vec{F}|$ ', 
+                'perp_label':r'$F_\perp / |\vec{F}|$',
+                'phi_label':r'$F_\phi / |\vec{F}|$'}
 
 Ftd1 = texfigure.MultiFigure(2, 1)
 Ftd2 = texfigure.MultiFigure(2, 1)
@@ -412,57 +389,22 @@ for j, (driver, exp_fac, caption) in enumerate(zip(drivers, exp_facs, captions))
     va_line, cs_line = tdp.get_speeds(ch4.data_dir, driver, period, post_amp, tube_r, exp_fac)
     
     
-    xxlim = -150
-    x = all_times[:xxlim]
-    #lim = lambda vel: np.max([vel.max(),np.abs(vel.min())])
-    lim = lambda x: 1
+    fd = lambda args: [a.T for a in args]
     
-    
-    #    def lim(vel):
-    #        scope = np.median(vel) + 4 * np.std(np.array(vel))
-    #        return scope
-    
-    def betaswap(b,pos):
-        return "$%3.0f$"%(1./b)
-        
-        
-    cmap = 'RdBu_r'
+    ph.xxlim = -150
     
     fig, axes = plt.subplots(nrows=3, ncols=1, sharex=True, figsize=figsize)
-    plt.subplots_adjust(left=0.25,right=0.90,top=0.95,bottom=0.17)
+    ph.triple_plot(axes, all_times, y, *fd(data), beta_line=None,
+    levels=[1.,3.,5.,7.,10.,100.], manual_locations=manual_locations, cmap='PRGn', **pflux_labels)
     
-    if tube_r == "r30":
-        manual_locations = [(75, 1.4), (25, 1.0), (50, 0.2), (25, 0.01)]
-    else:
-        manual_locations = False
+    for ax in axes:
+        ph.add_phase_speeds(ax, all_times, y, va_line, cs_line, dx_scale=1e6, color='c')
     
-    colorbars = []
-    for i in range(0,3):
+    #Remove the top two x labels
+    axes[0].set_xlabel('')
+    axes[1].set_xlabel('')
     
-        im = NonUniformImage(axes[i], interpolation='nearest', extent=[x.min(),x.max(),y.min(),y.max()], rasterized=True)
-        im.set_cmap(cmap)
-        im.set_clim(vmax=lim(data[i][:,:xxlim]),vmin=-lim(data[i][:,:xxlim]))
-        im.set_data(x,y,np.array(data[i])[::-1,:xxlim])
-        axes[i].images.append(im)
-        axes[i].set_xlim(x.min(),x.max())
-        axes[i].set_ylim(y.min(),y.max())
-        colorbars.append(plt.colorbar(im,ax=axes[i],aspect=10))
-        ct = axes[i].contour(x,y,beta_line[:,:xxlim],colors=['k'],levels=[1.,1/3.,1/5.,1/7.,1/10.,1/100.])
-        plt.clabel(ct,fontsize=12,inline_spacing=1, manual=manual_locations,fmt=mpl.ticker.FuncFormatter(betaswap))
-    
-    colorbars[0].ax.set_ylabel(r"F$_\parallel / $F$^2$")
-    colorbars[1].ax.set_ylabel(r"F$_\perp^2 / $F$^2$")
-    colorbars[2].ax.set_ylabel(r"F$_\phi^2 / $F$^2$")
-    
-    # Labels
-    axes[2].set_xlabel("Time [seconds]")
-    [a.set_ylabel("Height [Mm]") for a in axes]
-    
-    
-    for cbar in colorbars:
-        cbar.solids.set_edgecolor("face")
-    
-    tdp.overplot_speeds(axes, y, va_line, cs_line)
+    fig.tight_layout(h_pad=0.05)
     
     Fig = ch4.save_figure("All-Flux-percent-TD:{}".format(driver), fig, fext='.pdf')
     Fig.subfig_width = r'{}\columnwidth'.format(width)

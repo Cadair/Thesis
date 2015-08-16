@@ -211,6 +211,12 @@ class SACConfig(object):
             self.cfg.write(configfile)
 
     def print_config(self, section='all'):
+        print '\n'.join(self.str_config(section=section))
+
+    def __str__(self):
+        return '\n'.join(self.str_config())
+
+    def str_config(self, section='all'):
         SAC = driver = analysis = data = False
         if section == 'all':
             SAC = True
@@ -228,35 +234,38 @@ class SACConfig(object):
         else:
             raise ValueError("Invalid section id")
 
-        print "Current Config is:"
+        lines = list()
+        lines.append("Current Config is:")
         if SAC:
-            print "-"*79
-            print "SAC:"
-            print "-"*79
-            print "compiler:", self.compiler
-            print "compiler_flags:", self.compiler_flags
-            print "vacmodules:", self.vac_modules
-            print "runtime:", self.runtime
-            print "mpi config:", self.mpi_config
-            print "varnames:", self.varnames
+            lines.append("-"*79)
+            lines.append("SAC:")
+            lines.append("-"*79)
+            lines.append("compiler:{}".format(self.compiler))
+            lines.append("compiler_flags:{}".format(self.compiler_flags))
+            lines.append("vacmodules:{}".format(self.vac_modules))
+            lines.append("runtime:{}".format(self.runtime))
+            lines.append("mpi config:{}".format(self.mpi_config))
+            lines.append("varnames:{}".format(self.varnames))
         if driver:
-            print "-"*79
-            print "Driver:"
-            print "-"*79
-            print "period:", self.period
-            print "exp_fac:", self.exp_fac
-            print "amp:", self.amp
-            print "fort_amp:", self.fort_amp
+            lines.append("-"*79)
+            lines.append("Driver:")
+            lines.append("-"*79)
+            lines.append("period: {}".format(self.period))
+            lines.append("exp_fac: {}".format(self.exp_fac))
+            lines.append("amp: {}".format(self.amp))
+            lines.append("fort_amp: {}".format(self.fort_amp))
         if analysis:
-            print "-"*79
-            print "analysis:"
-            print "-"*79
-            print "tube_radii:", self.tube_radii
+            lines.append("-"*79)
+            lines.append("analysis:")
+            lines.append("-"*79)
+            lines.append("tube_radii:".format(self.tube_radii))
         if data:
-            print "-"*79
-            print "data:"
-            print "-"*79
-            print "out_dir:", self.out_dir
-            print "data_dir", self.data_dir
-            print "gdf_dir", self.gdf_dir
-            print "fig_dir", self.fig_dir
+            lines.append("-"*79)
+            lines.append("data:")
+            lines.append("-"*79)
+            lines.append("out_dir: {}".format(self.out_dir))
+            lines.append("data_dir: {}".format(self.data_dir))
+            lines.append("gdf_dir: {}".format(self.gdf_dir))
+            lines.append("fig_dir: {}".format(self.fig_dir))
+
+        return lines
