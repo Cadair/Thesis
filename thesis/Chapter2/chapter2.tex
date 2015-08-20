@@ -63,27 +63,27 @@ Finally, but very importantly, it is assumed that the plasma is non-relativistic
 The application of all these assumptions leads to a formulation of the equations governing the motion of the plasma based on Maxwells equations and the equations of gas dynamics, these are the ideal MHD equations, which are given below:
 \newcommand{\condev}{\left(\frac{\partial}{\partial t} + \vec{v}\cdot\nabla\right)}
 
-\begin{align}\label{eq:idealmhd}                                                  
+\begin{align}                                                  
     \dfrac{\partial \rho }{\partial t} + \nabla \cdot (\rho \vec{v}) = 0,
-    \tag{Mass Conservation}\\
+    &&\text{(Mass Conservation)}\label{eq:imhd_mass}\\
     %                               
     \rho  \condev\vec{v} + \nabla p - \dfrac{1}{\mu}(\nabla \times \vec{B}) \times \vec{B} - \rho \vec{g} = 0,
-    \tag{Equation of Motion}\\
+    &&\text{(Equation of Motion)}\label{eq:imhd_motion}\\
     %
     \frac{\partial}{\partial t} + \vec{v}\cdot\nabla p + \gamma p \nabla \cdot \vec{v}  = 0,
-    \tag{Energy Equation}\\
+    &&\text{(Energy Equation)}\label{eq:imhd_equation}\\
     %
     \dfrac{\partial \mathrm{B}}{\partial t} - \nabla \times (\vec{v} \times \vec{B}) = 0,
-    \tag{Induction Equation}
+    &&\text{(Induction Equation)}\label{eq:imhd_induction}
 \end{align}
 subject to
-\begin{align*}
+\begin{align}
     \nabla \cdot \vec{B} = 0,
-    \tag{Solenoidal Condition}\\
+    &&\text{(Solenoidal Condition)}\\
     %
     p = \mathrm{k_B} \dfrac{\rho}{\mathrm{m}} \mathrm{T},
-    \tag{Ideal Gas Law}\\                        
-\end{align*}
+    &&\text{(Ideal Gas Law)}                    
+\end{align}
 Where $\rho$ is the density, $\vec{v}$ is the velocity, $p$ is the pressure, $\gamma$ is the ratio of specific heats ($5/3$), $\vec{B}$ is the magnetic field, $\mathrm{k_B}$ is Boltzmann's constant, $\mathrm{m}$ is the mass, $\mathrm{T}$ is the temperature, and $\mu$ is the vacuum permeability \citep{goedbloed2004}.
 
 
@@ -110,20 +110,20 @@ Substituting \ref{eq:linearize} into the ideal MHD equations and removing 2nd or
 \begin{align}                                                         
     \dfrac{\partial \rho_1 }{\partial t} + \rho_0 (\nabla \cdot \vec{v}_1) =       
     0,
-    \tag{Mass Conservation}\\
+    &&\text{(Mass Conservation)}\label{eq:lmhd_mass}\\
     %
     \rho_0 \dfrac{\partial \vec{v}_1}{\partial t} =
     -\nabla p_1 + \dfrac{1}{\mu}(\nabla \times \vec{B}_1) \times \vec{B}_0 + \rho_1 \vec{g},
-    \tag{Equation of Motion}\\
+    &&\text{(Equation of Motion)}\label{eq:lmhd_motion}\\
     %
     \dfrac{\partial p_1}{\partial t} + (\vec{v}_1 \cdot \nabla)p_0 - c_s^2 \left( \dfrac{\partial \rho_1}{\partial t} + (\vec{v}_1 \cdot \nabla)\rho_0 \right) = 0,
-    \tag{Energy Equation}\\
+    &&\text{(Energy Equation)}\label{eq:lmhd_energy}\\
     %
     \dfrac{\partial \mathrm{B}_1}{\partial t} = \nabla \times (\vec{v}_1 \times \vec{B}_0),
-    \tag{Induction Equation}\\
+    &&\text{(Induction Equation)}\label{eq:lmhd_induction}\\
     %
     \nabla \cdot \vec{B}_1 = 0.
-    \tag{Solenoid Equation}               
+    &&\text{(Solenoidal Condition)}\label{eq:lmhd_solenoid}              
 \end{align}
 
 These equations can be solved using plane wave solutions, i.e. solutions of the form $\rho(\vec{r}, t) = \hat{\rho} e^{i(\vec{k}\cdot\vec{r} - \omega t)}$.
@@ -149,6 +149,142 @@ It is because of this that this method of quantifying the energy contained withi
 It should not however, be taken as a perfect metric, which is why it is chosen only to use \cref{eq:wave_energy} to calculate the relative strengths of the wave modes.
 This analysis provides us the desired result: an understanding of how the different plasma conditions and wave drives change the spectra of MHD wave modes generated, while eliminating any concern about the accuracy of \cref{eq:wave_energy} when accounting for absolute energy values.
 
+
+
 \section{Computational Methods}\label{sec:numericalmethods}
+Differential equations part of the fundamental language of physics, from their origins describing motion in Newton's laws to the MHD equations which describe the dynamics of plasma in the Sun. 
+Often coupled systems of differential equations can not be solved analytically either at all or without making large assumptions about the nature of the system, such as geometry.
+The most widely known system of equations that can not be solved analytically is the three body problem, where, described by Newton's laws, three masses interact with each other via gravity.
+The numerical solutions to this problem allowed the revolution in modern space flight, and the launch of the two voyager probes on their `grand tour' of the solar system.
+Numerical solutions to the MHD equations are widely used to gain an insight into systems which are too complex to allow analytical solutions of the equations.
+This section covers the basic principals of numerical approximations to differentials and some of the limitations of this method.
+
+A differential is the gradient of a function over an infinitesimally small range.
+The numerical approximation takes this range and makes it finite, calculating the differential from an approximation of some kind, the most simple being a finite difference approximation.
+The finite difference approach is the one used in this report and commonly for computational fluid dynamics problems, it approximates the differential by calculating the gradient over a finite length in space.
+In multiple dimensions this changes to calculating the derivative over a finite grid, the resolution of which determines the accuracy of the solution.
+
+
+
+
+\subsection{Finite Difference Method}
+
+The definition of a derivative is $f'(x)=\lim\limits _{\Delta_{x}\to0}\frac{f(x+\Delta_{x})-f(x)}{\Delta_{x}}$; the finite difference method approximates this equation by making $\Delta_{x}$ finite.
+The general form of a finite difference equation is $f(x+b)-f(x+a)$. The two simplest variations on this equation are the forward and backward differences, $\Delta_{+}f=f(x+\Delta x)-f(x)$ and $\Delta_{-}f=f(x-\Delta x)-f(x)$ respectively.
+These two types of equations can be used to approximate the derivative, $f'(x)\approx\frac{f(x+\Delta_{x})-f(x)}{\Delta_{x}}$ for a forward difference and $f'(x)\approx\frac{f(x)-f(x-\Delta_{x})}{\Delta_{x}}$ for a backward difference.
+
+These equations can be derived from a Taylor expansion of $f(x\pm\Delta_{x})$,
+\begin{eqnarray}
+f(x-\Delta_{x}) & = & f(x)-\Delta_{x}f'(x)+\frac{\Delta_{x}^{2}f''(x)}{2!}-\frac{\Delta_{x}^{3}f'''(x)}{3!}+\frac{\Delta_{x}^{4}f^{iv}(x)}{4!}+...\label{eq:TaylorForward}\\
+f(x+\Delta_{x}) & = & f(x)+\Delta_{x}f'(x)+\frac{\Delta_{x}^{2}f''(x)}{2!}+\frac{\Delta_{x}^{3}f'''(x)}{3!}+\frac{\Delta_{x}^{4}f^{iv}(x)}{4!}+...\label{eq:TaylorBackward}
+\end{eqnarray}
+
+
+The forward difference equation is the first order truncation of the $f(x+\Delta_{x})$ Taylor series, and likewise for the backward difference.
+From this you can see that the truncation error of a forward and backward difference approximation is $O(\Delta_{x})$, and that the accuracy could be improved by increasing the number of terms included.
+
+Another way to fundamentally reduce the error, while maintaining the first order nature of these solutions is to combine the forward and backward difference into a central difference approximation of the form $\delta_{x}f(x)=f(x+\frac{1}{2}\Delta x)-f(x-\frac{1}{2}\Delta x)$.
+To first order the result is 
+\begin{equation}
+f'(x)=\frac{f(x+\Delta_{x})-f(x-\Delta_{x})}{2\Delta_{x}}.\label{eq:First Order CD}
+\end{equation}
+This formulation has error $O(\Delta_{x}^{2})$ due to the combination of the two Taylor series expansions.
+As already mentioned the accuracy of the solution is important, for it determines how well the computed solution represents the true solution.
+The most obvious way to increase the accuracy of the solution is to increase the number of terms included from the Taylor expansion of the forward and backward differences.
+
+The Sheffield Advanced Code (SAC), described in \cref{sec:SAC} uses the 4th order central difference scheme to calculate the spatial derivatives.
+Below the derivation of a fourth order central difference scheme in one dimension is given.
+Starting from (\ref{eq:TaylorForward}) and (\ref{eq:TaylorBackward}) given in the last section and subtracting the second from the first, to the fourth order gives,
+\begin{equation}
+f(x+\Delta_{x})-f(x-\Delta_{x})=2\Delta_{x}f'(x)+\frac{2\Delta_{x}^{3}f'''(x)}{3!}+O(\Delta_{x}^{4}).\label{eq:centraldifferencedx}
+\end{equation}
+The second step is then to calculate the same subtraction for $2\Delta_{x}$ which can be written as
+\begin{equation}
+f(x+2\Delta_{x})-f(x-2\Delta_{x})=4\Delta_{x}f'(x)+\frac{16\Delta_{x}^{3}f'''(x)}{3!}+O(\Delta_{x}^{4}).\label{eq:CentralDifference2dx}
+\end{equation}
+Finally, subtracting (\ref{eq:CentralDifference2dx}) from $8\times$(\ref{eq:CentralDifference2dx}) and rearranging for $f'(x)$ gives
+\begin{equation}
+f'(x)=\frac{8f(x+\Delta_{x})-8f(x-\Delta_{x})-f(x+2\Delta_{x})+f(x-2\Delta_{x})}{12\Delta_{x}}+O(\Delta_{x}^{4}),\label{eq:4thOrderCentralDifferenceUniform}
+\end{equation}
+which is the fourth order central difference scheme in one dimension for a uniform spacing of $\pm\Delta_{x}$.
+This scheme can be expanded into $n$ dimensions by using the basic property of differentiation $\frac{\partial^{2}u}{\partial x\partial y}=\frac{\partial}{\partial x}\left(\frac{\partial u}{\partial y}\right)=\frac{\partial}{\partial y}\left(\frac{\partial u}{\partial x}\right)$.
+This scheme provides good accuracy while being computationally efficient.
+However, as discussed in the next section, it suffers with some numerical stability constraints.
+
+
+\subsubsection{Numerical Stability}
+
+Due to the nature of the approximations used in numerical calculation of derivatives, some schemes are limited in their ability to provide an accurate solution in certain conditions.
+There is a wide variety of methods used to numerically approximate derivatives, this section has dealt with one of the most conceptually and mathematically simple methods.
+This simplicity means it can be implemented in a very computationally efficient manner, however, it also means that the solution can become unstable.
+
+Instability in the calculation of derivatives occurs when a small error in the calculation of the derivative at one point on the mesh is amplified as the calculation proceeds on to subsequent points.
+This error can be removed in one of two primary ways; it can be avoided altogether by employing a different numerical approximation to the derivative, normally one better suited to the properties of the equations or physical parameters of the solution; or it can be numerically suppressed by artificially compensating for it.
+The field of developing numerical approximations to derivatives is very large, and there are many different options available.
+The approach the SAC code takes is to use additional terms in the MHD equations to counteract any instability, this is discussed in \cref{sec:SAC}.
+
 
 \section{Sheffield Advanced Code}\label{sec:SAC}
+
+This thesis uses the Sheffield Advanced Code (SAC) \citep{Shelyag2008} for all MHD simulations.
+The SAC code solves the ideal MHD equations, for a plasma with static background conditions.
+This approach enabled the code to solve for small perturbations, while the background conditions vary by orders of magnitude through the solar atmosphere.
+The successful application of this approach is clearly dependant upon a realistic, magnetohydrostatic background condition.
+The construction of this background is described in \cref{sec:mhsbackground}
+
+The SAC code was developed to simulate MHD waves as solutions to the ideal MHD equations given in \cref{eq:imhd_mass,eq:imhd_induction} to achieve this while maintaining the ability to simulate a realistic solar atmosphere the equations were re-written into a form where they have separate background and perturbation components allowing a stable stratified background model to be setup and then preserved against the effects of gravity.
+
+The equations solved by SAC are a rearranged version of the ideal MHD equations and a given below \citep[taken from][]{Shelyag2008},
+\begin{equation}
+\frac{\partial\tilde{\rho}}{\partial t}+\nabla\cdot[\mathbf{v}(\rho_{b}+\tilde{\rho})]=0+D_{\rho}(\tilde{\rho}),
+\end{equation}
+\begin{equation}
+\frac{\partial[(\rho_{b}+\tilde{\rho})\mathbf{v}]}{\partial t}+\nabla\cdot[\mathbf{v}(\rho_{b}+\tilde{\rho})\mathbf{v}-\mathbf{\tilde{B}\tilde{B}}]-\nabla[\mathbf{\tilde{B}}\mathbf{B_{b}}+\mathbf{B_{b}}\mathbf{\tilde{B}}]+\nabla\tilde{p_{t}}=\tilde{\rho}\mathbf{g}+D_{\rho v}[(\tilde{\rho}+\rho_{b})\mathbf{v}],
+\end{equation}
+\begin{equation}
+\frac{\partial\tilde{e}}{\partial t}+\nabla\cdot[\mathbf{v}(\tilde{e}+e_{b})-\mathbf{\tilde{B}\tilde{B}}\cdot\mathbf{v}+\mathbf{v}\tilde{p_{t}}]-\nabla[(\mathbf{\tilde{B}B_{b}}+\mathbf{B_{b}\tilde{B}})\cdot\mathbf{v}]+p_{tb}\nabla\mathbf{v}-\mathbf{B_{b}}\mathbf{B_{b}}\nabla\mathbf{v}=\tilde{\rho}\mathbf{g}\cdot+D_{e}(\tilde{e}),
+\end{equation}
+\begin{equation}
+\frac{\partial\mathbf{\tilde{B}}}{\partial t}+\nabla\cdot[\mathbf{v}(\mathbf{\tilde{B}}+\mathbf{B}_{b})-(\mathbf{\tilde{B}}+\mathbf{B}_{b})\mathbf{v}=0+D_{B}(\mathbf{\tilde{B}}),
+\end{equation}
+where:
+\[
+\tilde{p_{t}}=\tilde{p_{k}}+\frac{\tilde{\mathbf{B}}^{2}}{2}+\mathbf{B_{b}\tilde{B}},
+\]
+is the total perturbation pressure, and where: 
+\[
+\tilde{p}_{k}=(\gamma-1)\left(\tilde{e}-\frac{(\tilde{\rho}+\rho_{b})\mathbf{v}}{2}-\mathbf{B_{b}\tilde{B}}+-\frac{\tilde{\mathbf{B}}^{2}}{2}\right)
+\]
+so:
+\[
+\tilde{p}_{t}=(\gamma-1)\left[\tilde{e}-\frac{(\tilde{\rho}+\rho_{b})\mathbf{v}^{2}}{2}\right]-(\gamma-2)\left(\mathbf{B_{b}\tilde{B}}+\frac{\tilde{\mathbf{B}}^{2}}{2}\right)
+\]
+and:
+\[
+p_{tb}=(\gamma-1)e_{b}-(\gamma-2)\frac{\mathbf{B}_{b}^{2}}{2}
+\]
+is total background pressure.
+
+The first major change, between these equations and the ones given in \cref{eq:imhd_mass,eq:imhd_induction}, is the addition of the background and perturbation variables for each term.
+As already discussed this allows the study of the perturbations on top of a static background.
+Another, more subtle, change is the move to the energy density per-unit volume $e$ and more importantly the addition of various $D$ terms.
+
+The $D$ terms in the SAC equations are hyper-diffusion or hyper-viscous terms that enforce numerical stability upon the equations, they are adapted from \citep{Nordlund1995} and shall not be replicated here in detail, however they can be seen in \citet{Shelyag2008}.
+The function of the diffusive and viscous terms are to smooth out any deviations from the solution on a local scale to a larger scale, thereby reducing the compounding of the error keeping the solution stable.
+There are secondary effects from using this type of numerical stability enforcement, primarily that if the diffusion terms are too high it can lead to damping of the actual solution and deviation of the approximation from the correct solution, also in regions of rapid change such as shocks it adds an extra non-physical diffusion to the shock.
+However by choosing a minimum value of the coefficients to maintain stability these effects can be reduced to an acceptable level, especially for the linear wave studies presented in this report.
+
+
+\subsection{Grids, accuracy and resolution}
+
+As discussed earlier in the derivation of the central difference approximation to the derivative, the accuracy of the solution is fundamentally dependant upon the step size $\Delta_{x}$.
+In n dimensions this becomes a n dimensional grid with step sizes $\Delta_{x},\Delta_{y}...\Delta_{n}$ in each dimension, this leads to the concept of a computational grid, or mesh, over which the approximation to the differential equations is calculated.
+In physical terms this relates to a resolution below which the solution is not resolved.
+
+There are many approaches to developing computational meshes, the most basic is to generate a uniform gird with the desired resolution over the whole computational domain, in terms of SAC this means having a specific grid size set for each dimension, i.e. $\Delta_{x},\Delta_{y},\Delta_{z}$ for a 3D mesh.
+More complex codes allow for having a variable grid size at different locations in computational space, there are many approaches to this problem one of which will be discussed in more detail shortly.
+An advanced method of generating a non-uniform grid is the AMR or Adaptive Mesh Refinement method.
+In this method the grid automatically increases resolution where a certain accuracy condition is not met.
+This method allows for efficient and high resolution computation as the solutions are only resolved to the accuracy required on a local level, however this is a very complex method which is difficult to implement.
+A more simple method is defining a static but non-uniform grid.
+
