@@ -2,7 +2,7 @@
 %*********************************** Fith Chapter ****************************************
 %*****************************************************************************************
 
-\chapter{Effects of Expansion Factor on Logarithmic Spiral MHD Wave Excitation}
+\chapter{Effects of Expansion Factor on Logarithmic Spiral MHD Wave Excitation}\label{ch:expfac}
 
 \begin{pycode}[chapter5]
 from __future__ import print_function
@@ -49,7 +49,7 @@ A magnetic field is constructed via this method, then added to the hydrostatic b
 (Equation~(\ref{eq:mhs-condition}) corrects the missing negative term in \cite{mumford2015}, the calculations are not affected.)
 By using a magnetic foot point strength of $120$ mT and the background atmosphere as specified by the VALIIIc model, the resulting numerical domain has the plasma $\beta > 1$ at every point.
 
-The Sheffield Advanced Code (SAC) \citep{Shelyag2008} used in this work is configured identically to \cite{mumford2015}. The domain has a spatial extent of $2.0 \times\ 2.0\ \times\ 1.6$ Mm$^3$, in $x$, $y$, $z$ respectively, with the origin in the $z$ direction $0.061$ Mm above the photosphere. The domain is divided up into $128^3$ grid points giving a physical size of $15.6\ \times\ 15.6\ \times\ 12.5$ km$^3$ for each grid cell.
+The Sheffield Advanced Code (SAC) \citep{shelyag2008} used in this work is configured identically to \cite{mumford2015}. The domain has a spatial extent of $2.0 \times\ 2.0\ \times\ 1.6$ Mm$^3$, in $x$, $y$, $z$ respectively, with the origin in the $z$ direction $0.061$ Mm above the photosphere. The domain is divided up into $128^3$ grid points giving a physical size of $15.6\ \times\ 15.6\ \times\ 12.5$ km$^3$ for each grid cell.
 
 The magnetohydrostatic background is perturbed during the simulations using a 3D Gaussian weighted logarithmic spiral velocity driver, as described by Equation~(\ref{eq: slog}) \citep{mumford2015}:
 \begin{subequations}

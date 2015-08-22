@@ -128,12 +128,142 @@ Substituting \ref{eq:linearize} into the ideal MHD equations and removing 2nd or
 
 These equations can be solved using plane wave solutions, i.e. solutions of the form $\rho(\vec{r}, t) = \hat{\rho} e^{i(\vec{k}\cdot\vec{r} - \omega t)}$.
 
+From the dispersion relation three physically interesting solutions can be found, the Alfv\'en wave, and the slow and fast magneoacoutstic waves.
+We can calculate the eigenfrequencies for these waves:
+
+\begin{align}
+    \vec{b} = \frac{\vec{B_0}}{\sqrt{\rho_0}}\label{eq:b}\\
+    c = \sqrt{\frac{\gamma p_0}{\rho_0}}\label{eq:c}\\
+    k = k_\parallel + k_\perp
+\end{align}
+
+\begin{equation}
+\omega^2_A = k^2_\parallel b^2
+\label{eq:omegaA}
+\end{equation}
+
+\begin{equation}
+    \omega^2_{s,f} = \frac{1}{2}k^2(b^2+c^2)\left(1 \pm \sqrt{1 - \sigma (k^2_\parallel/k^2)}\right)
+    \label{eq:omegasf}
+\end{equation}
+where
+\begin{equation}
+    \sigma=\frac{4b^2c^2}{(b^2 + c^2)^2}
+    \label{eq:sigmasf}
+\end{equation}
+
+
+
 \subsection{Velocity Perturbations}\label{sec:Vpert}
+
+The following chapters use the components of the velocity perturbation to identify and characterise the wave modes in the numerical domain.
+In this section it shall be shown that the three wave modes derived in the last section each perturb a different component of the velocity with respect to the magnetic field vector.
+
+First, consider the Alfv\'en wave, with its eigenfrequiencies given by \cref{eq:omegaA}.
+Substituting \cref{eq:omegaA} in to the eigenvalue equation %TODO:REF ME
+we can clearly see that the only component of the velocity perturbed by the Alfv\'en wave is the $v_\phi$ component, or that perpendicular to the plane of $\vec{k}$.
+
+Substituting \cref{eq:omegasf} into the eigenvalue equation leads to the following relationship between $v_\perp$ and $v_\parallel$:
+\begin{equation}
+    v_\parallel = \alpha_{s,f} \frac{k_\parallel}{k_\perp}v_\perp,
+    \label{eq:vyvz}
+\end{equation}
+where
+\begin{equation}
+    \alpha_{s,f} = 1 - \frac{k^2b^2}{\omega^2_{s,f}}.
+    \label{eq:alphasf}
+\end{equation}
+
+At this stage it is helpful to make a simplifying assumption about the domain in which we wish to derive this relationship.
+As will be described in \cref{sec:mhsbackground}, the physical domain to be modelled in this thesis is entirely below the transition region and the plasma $\beta = 1$ line.
+In this region of the solar atmosphere the plasma, or kinetic pressure is much larger than the magnetic pressure.
+In other words, the kinetic effects dominate the dynamics of the plasma.
+This is called the high-$\beta$ regime, as $\displaystyle\beta = \frac{p_k}{p_m}$, in terms of $c$ and $\vec{b}$ as defined in \cref{eq:c,eq:b} above, $\displaystyle\beta = \frac{2c^2}{\gamma b^2}$, so in a high-$\beta$ regime it is clear that $c^2 >> b^2$.
+This assumption can be used to simplify \cref{eq:omegasf} because $(c^2 + b^2) \approx c^2$ and $\displaystyle \frac{c^2}{b^2} \approx c^2$.
+Applying this assumption to \cref{eq:sigmasf} and then to \cref{eq:omegasf}:
+
+\begin{align}
+    \sigma &= \frac{4b^2c^2}{(b^2+c^2)^2}\\
+           &= \frac{4b^2c^2}{c^4}\\
+           &= \frac{4b^2}{c^2}
+\end{align}
+
+\begin{align}
+    \omega^2_{s,f} =& \frac{1}{2}k^2(b^2+c^2)\left(1 \pm \sqrt{1 - \sigma \frac{k^2_\parallel}{k^2}}\,\right),\\
+                   =& \frac{1}{2}k^2c^2\left(1 \pm \sqrt{1 - \frac{4b^2}{c^2} \frac{k^2_\parallel}{k^2}}\,\right),\\
+                   %
+    \text{let }& \delta = \frac{4b^2}{c^2} \frac{k^2_\parallel}{k^2},\notag\\
+                   %
+    \omega^2_{s,f} =& \frac{1}{2}k^2c^2\left(1 \pm (1 - \delta)^{\frac{1}{2}}\,\right),\label{eq:omegasf-highb1}
+\end{align}
+performing a Taylor expansion of $(1-\delta)^{\frac{1}{2}}$ gives,
+\begin{align}
+    f(\delta) &= f(0) + f^\prime(0) + O(\delta^2)\notag\\
+    %
+    (1-\delta)^{\frac{1}{2}} &= 1 + \frac{1}{2}\delta + O(\delta^2)\\
+                             &= 1 + \frac{1}{2}\frac{4b^2}{c^2} \frac{k^2_\parallel}{k^2} + O(\delta^2)\\
+    (1-\delta)^{\frac{1}{2}} &= 1 + \frac{2b^2}{c^2} \frac{k^2_\parallel}{k^2} + O(\delta^2)
+\end{align}
+substituting this back into \cref{eq:omegasf-highb1},
+\begin{align}
+    \omega^2_{s,f} =& \frac{1}{2}k^2c^2\left(1 \pm \left(1 - \frac{2b^2}{c^2} \frac{k^2_\parallel}{k^2}\right)\right).
+\end{align}
+
+It is at this point the slow mode and the fast mode need to be considered in isolation.
+The fast mode is the solution where the positive root is taken, and the slow mode the negative root.
+Considering the slow mode first:
+\begin{align}
+    \omega^2_{s} =& \frac{1}{2}k^2c^2\left(1 - \left(1 - \frac{2b^2}{c^2} \frac{k^2_\parallel}{k^2}\right)\right),\\
+    =& \frac{1}{2}k^2c^2\left(\frac{2b^2k^2_\parallel}{k^2c^2}\right),\\
+    \omega^2_{s} =& b^2k^2_\parallel.
+\end{align}
+Then the fast mode:
+\begin{align}
+    \omega^2_{f} =& \frac{1}{2}k^2c^2\left(1 + \left(1 - \frac{2b^2}{c^2} \frac{k^2_\parallel}{k^2}\right)\right),\\
+                 =& \frac{1}{2}k^2c^2\left(2 - \frac{2b^2}{c^2} \frac{k^2_\parallel}{k^2}\right),\\
+                 =& k^2c^2 - \frac{k^2c^2b^2}{c^2}\frac{k^2_\parallel}{k^2},\\
+                 =& k^2c^2 - k^2b^2\frac{k^2_\parallel}{k^2}
+\end{align}
+applying the high $\beta$ approximation $c^2 >> b^2$,
+\begin{align}
+   \omega^2_{f} =& k^2c^2.
+\end{align}
+Having simplified $\omega_{s,f}$, $\alpha_{s,f}$ can be calculated:
+\begin{align}
+    \alpha_s =& 1 - \frac{k^2b^2}{\omega^2_s}\\
+             =& 1 - \frac{k^2b^2}{b^2k_\parallel^2}\\
+             =& 1 - \frac{k^2}{k_\parallel^2}\\
+             =& 1 - \frac{k^2_\parallel + k^2_\perp}{k^2_\parallel}\\
+             =& 1 - \frac{k_\parallel^2}{k_\parallel^2} + \frac{k^2_\perp}{k^2_\parallel}\\
+             =& \frac{k^2_\perp}{k^2_\parallel}
+\end{align}
+
+\begin{align}
+    \alpha_f =& 1 - \frac{k^2b^2}{\omega^2_f}\\
+    =& 1 - \frac{k^2b^2}{k^2c^2}\\
+    =& 1 - \frac{b^2}{c^2}
+\end{align}
+again, considering the high-$\beta$ approximation, $\displaystyle\frac{b^2}{c^2} \approx 0$
+\begin{align}
+    \alpha_f =& 1
+\end{align}
+
+Substituting into \cref{eq:vyvz} for the slow mode the following relation is obtained:
+\begin{align}
+    v_\parallel =& \alpha_s \frac{k_\parallel}{k_\perp}v_\perp,\\
+    v_\parallel =& \frac{k^2_\perp}{k^2_\parallel}\frac{k_\parallel}{k_\perp}v_\perp,\\
+    v_\parallel =& \frac{k_\perp}{k_\parallel}v_\perp,
+\end{align}
+and for the fast mode:
+\begin{align}
+    v_\parallel =& \alpha_f \frac{k_\parallel}{k_\perp}v_\perp,\\
+    v_\parallel =& \frac{k_\parallel}{k_\perp}v_\perp.
+\end{align}
 
 \subsection{Calculating Wave Flux}\label{sec:waveflux}
 
 To calculate the relative strengths of the excited waves we compute the `wave energy flux' vector everywhere in the domain.
-To do this we use the equation for the wave energy flux given in Equation (2.14) of \cite{leroy1985}.
+To do this we use the equation for the wave energy flux given in equation (2.14) of \cite{leroy1985}.
 This equation can be written using notation similar to the rest of this thesis, by applying $\vec{H} = \vec{B}/\mu_0$ and the vector identity $\vec{a} \times (\vec{b} \cdot \vec{c}) = \vec{a} \cdot \vec{c}\vec{b} - \vec{a} \cdot \vec{b}\vec{c}$.
 The result is given in \cref{eq:wave_energy} below.
 \begin{equation}
@@ -226,15 +356,14 @@ The approach the SAC code takes is to use additional terms in the MHD equations 
 
 \section{Sheffield Advanced Code}\label{sec:SAC}
 
-This thesis uses the Sheffield Advanced Code (SAC) \citep{Shelyag2008} for all MHD simulations.
+This thesis uses the Sheffield Advanced Code (SAC) \citep{shelyag2008} for all MHD simulations.
 The SAC code solves the ideal MHD equations, for a plasma with static background conditions.
-This approach enabled the code to solve for small perturbations, while the background conditions vary by orders of magnitude through the solar atmosphere.
+This approach enables the code to solve for small perturbations, while the background conditions vary by orders of magnitude through the solar atmosphere.
 The successful application of this approach is clearly dependant upon a realistic, magnetohydrostatic background condition.
-The construction of this background is described in \cref{sec:mhsbackground}
+The construction of this background is described in \cref{sec:mhsbackground}.
 
-The SAC code was developed to simulate MHD waves as solutions to the ideal MHD equations given in \cref{eq:imhd_mass,eq:imhd_induction} to achieve this while maintaining the ability to simulate a realistic solar atmosphere the equations were re-written into a form where they have separate background and perturbation components allowing a stable stratified background model to be setup and then preserved against the effects of gravity.
-
-The equations solved by SAC are a rearranged version of the ideal MHD equations and a given below \citep[taken from][]{Shelyag2008},
+The SAC code was developed to simulate MHD waves as solutions to the ideal MHD equations given in \cref{eq:imhd_mass,eq:imhd_induction} with a static background.
+Therefore, the equations solved by SAC are a rearranged version of the ideal MHD equations and a given below \citep[taken from][]{shelyag2008},
 \begin{equation}
 \frac{\partial\tilde{\rho}}{\partial t}+\nabla\cdot[\mathbf{v}(\rho_{b}+\tilde{\rho})]=0+D_{\rho}(\tilde{\rho}),
 \end{equation}
@@ -248,28 +377,28 @@ The equations solved by SAC are a rearranged version of the ideal MHD equations 
 \frac{\partial\mathbf{\tilde{B}}}{\partial t}+\nabla\cdot[\mathbf{v}(\mathbf{\tilde{B}}+\mathbf{B}_{b})-(\mathbf{\tilde{B}}+\mathbf{B}_{b})\mathbf{v}=0+D_{B}(\mathbf{\tilde{B}}),
 \end{equation}
 where:
-\[
+\begin{equation}
 \tilde{p_{t}}=\tilde{p_{k}}+\frac{\tilde{\mathbf{B}}^{2}}{2}+\mathbf{B_{b}\tilde{B}},
-\]
+\end{equation}
 is the total perturbation pressure, and where: 
-\[
+\begin{equation}
 \tilde{p}_{k}=(\gamma-1)\left(\tilde{e}-\frac{(\tilde{\rho}+\rho_{b})\mathbf{v}}{2}-\mathbf{B_{b}\tilde{B}}+-\frac{\tilde{\mathbf{B}}^{2}}{2}\right)
-\]
+\end{equation}
 so:
-\[
+\begin{equation}
 \tilde{p}_{t}=(\gamma-1)\left[\tilde{e}-\frac{(\tilde{\rho}+\rho_{b})\mathbf{v}^{2}}{2}\right]-(\gamma-2)\left(\mathbf{B_{b}\tilde{B}}+\frac{\tilde{\mathbf{B}}^{2}}{2}\right)
-\]
+\end{equation}
 and:
-\[
+\begin{equation}
 p_{tb}=(\gamma-1)e_{b}-(\gamma-2)\frac{\mathbf{B}_{b}^{2}}{2}
-\]
+\end{equation}
 is total background pressure.
 
 The first major change, between these equations and the ones given in \cref{eq:imhd_mass,eq:imhd_induction}, is the addition of the background and perturbation variables for each term.
 As already discussed this allows the study of the perturbations on top of a static background.
 Another, more subtle, change is the move to the energy density per-unit volume $e$ and more importantly the addition of various $D$ terms.
 
-The $D$ terms in the SAC equations are hyper-diffusion or hyper-viscous terms that enforce numerical stability upon the equations, they are adapted from \citep{Nordlund1995} and shall not be replicated here in detail, however they can be seen in \citet{Shelyag2008}.
+The $D$ terms in the SAC equations are hyper-diffusion or hyper-viscous terms that enforce numerical stability upon the equations, they are adapted from \citep{nordlund1995} and shall not be replicated here in detail, however they can be seen in \citet{shelyag2008}.
 The function of the diffusive and viscous terms are to smooth out any deviations from the solution on a local scale to a larger scale, thereby reducing the compounding of the error keeping the solution stable.
 There are secondary effects from using this type of numerical stability enforcement, primarily that if the diffusion terms are too high it can lead to damping of the actual solution and deviation of the approximation from the correct solution, also in regions of rapid change such as shocks it adds an extra non-physical diffusion to the shock.
 However by choosing a minimum value of the coefficients to maintain stability these effects can be reduced to an acceptable level, especially for the linear wave studies presented in this report.

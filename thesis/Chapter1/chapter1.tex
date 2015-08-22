@@ -187,25 +187,19 @@ The driving mechanism for both these energy transfer mechanism are the plasma mo
 It is therefore important to understand the properties of the solar photosphere.
 
 \section{The Photosphere} 
+
 \begin{pycode}[chapter1]
-from astropy.io import fits
-from wcsaxes import WCS
-
-hdu = fits.open(ch1.data_file('gband_image_00200.fits'))[0]
-header = hdu.header
-data = hdu.data[40:960,40:960]
-
-wcs = WCS(header)
+import sunpy.map
 
 fig = plt.figure()
-ax = plt.subplot(1,1,1,projection=wcs)
-im = ax.imshow(data, interpolation=None, origin='lower', cmap='hot')
-x = ax.coords[0]
-y = ax.coords[1]
+mm = sunpy.map.Map(ch1.data_file('gband_image_00200.fits'))
+mm = mm.submap([-440,440]*u.arcsec, [-440,440]*u.arcsec)
+mm.plot_settings['cmap'] = 'hot'
+mm.plot_settings['title'] = ''
+mm.plot()
 
-x.set_axislabel('Solar-x [arcsec]')
-y.set_axislabel('Solar-y [arcsec]')
-
+fig.tight_layout()
+fig.subplots_adjust(bottom=0.15)
 photosphere = ch1.save_figure('gband', fig)
 photosphere.caption = "A G-Band image of the solar photosphere."
 \end{pycode}
@@ -230,4 +224,4 @@ In combination with this, they are highly dynamic structures, formed in the chao
 These plasma motions, in combination with the magnetic fields, are almost certain to drive MHD waves of some variety. 
 
 The rest of this thesis is going to explore the generation of MHD waves in photospheric magnetic structures similar in properties to a MBP.
-Chapter~\ref{ch:Background} will provide the theoretical and technical background for the simulations that are performed and analysed in Chapters~\ref{ch:Three} to \ref{ch:Five}.
+\Cref{ch:Background} will provide the theoretical and technical background for the simulations that are performed and analysed in \cref{ch:drivers,ch:expfac}.
