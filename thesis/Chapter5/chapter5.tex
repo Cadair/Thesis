@@ -210,10 +210,10 @@ The wave flux vector, calculated using \cref{eq:wave_energy}, is used to quantif
 
 \subsection{Results}\label{subsec:results}
 
-To assist in the visualisation and analysis of the results provided by the flux surfaces the vector components along one field line are extracted for all time steps and plotted as time-distance diagrams in Figures \ref{fig:TD_velocity_r30} and \ref{fig:TD_flux_r30}.
+To assist in the visualisation and analysis of the results provided by the flux surfaces the vector components along one field line are extracted for all time steps and plotted as time-distance diagrams in \cref{fig:TD-velocity-r30,fig:TD-flux-r30}.
 
-Combining the decomposed velocity vector plotted in Figure \ref{fig:TD_velocity_r30} and the decomposed wave flux vector plotted in Figure \ref{fig:TD_flux_r30} we can reliably describe the nature of the waves generated in the simulations.
-Overplotted on all panels in Figures~\ref{fig:TD_velocity_r30} \& \ref{fig:TD_flux_r30} are the phase speeds for the background conditions, the dot-dashed line is the fast speed $v_f$, the dashed line is the sound speed $c_s$, the dotted line is the Alfv\'en speed $v_A$ and the solid line is the slow speed $v_s$.
+Combining the decomposed velocity vector plotted in \cref{fig:TD-velocity-r30} and the decomposed wave flux vector plotted in \cref{fig:TD-flux-r30} we can reliably describe the nature of the waves generated in the simulations.
+Overplotted on all panels in \cref{fig:TD-velocity-r30,fig:TD-flux-r30} are the phase speeds for the background conditions, the dot-dashed line is the fast speed $v_f$, the dashed line is the sound speed $c_s$, the dotted line is the Alfv\'en speed $v_A$ and the solid line is the slow speed $v_s$.
 By comparing these characteristic wave mode speeds to the ridges in the time-distance diagrams it can be seen that in the panels for the torsional component (third panel in each figure), the dominant perturbation travels with the Alfv\'en speed (solid line).
 We interpret this perturbation as an Alfv\'en wave.
 For the perpendicular component (second panels) it can be seen that the dominant perturbation travels with the fast speed (dashed line), therefore this perturbation could be interpreted as a fast (kink or sausage) mode.
@@ -221,13 +221,13 @@ We can infer that this perturbation is more likely to be a sausage mode perturba
 The most interesting result is shown for the parallel component (top panel in each figure), where for lower values of $B_L$, the amplitudes are low, but the perturbations that are present travel with the fast speed (dotted line).
 However, as $B_L$ increases the perturbations change form.
 There seems to appear a second, superimposed perturbation travelling with a speed close to that of the slow (or tube) speeds, which could be a slow sausage mode.
-This second perturbation seems to grow proportionally to $B_L$, and can be seen to be dominant in Figures \ref{fig:TD_flux_r30_4} and \ref{fig:TD_flux_r30_5}.
+This second perturbation seems to grow proportionally to $B_L$, and can be seen to be dominant in \cref{fig:TD-flux-r30-045,fig:TD-flux-r30-15}.
 
-The wave flux graphs in Figure \ref{fig:TD_flux_r30} are components normalised to the magnitude of the wave flux vector, thus showing the relative strengths of the components.
-Taking Figure \ref{fig:TD_flux_r30_1} for the $B_L=\py|BL[0]|$ spiral it can be seen that most of the excited wave flux is in the azimuthal component, associated with the Alfv\'en wave.
+The wave flux graphs in \cref{fig:TD-flux-r30} are components normalised to the magnitude of the wave flux vector, thus showing the relative strengths of the components.
+Taking \cref{fig:TD-flux-r30-0015} for the $B_L=\py|BL[0]|$ spiral it can be seen that most of the excited wave flux is in the azimuthal component, associated with the Alfv\'en wave.
 As the expansion factor ($B_L$) increases, the driver becomes more radial, and the flux starts to shift from the azimuthal component into the parallel component.
 This is interpreted as a change of the dominant mode from the torsional Alfv\'en wave into a sausage mode with dominant velocity perturbations parallel to the field lines.
-Considering the range of $B_L$, found by \cite{bonet2008} and illustrated in the range spanned by Figure \ref{fig:TD_velocity_r30_3} and \ref{fig:TD_velocity_r30_4}, it can be seen that even within this parameter range the parallel component becomes substantially more dominant, meaning the change in spectrum of excited MHD wave modes is sensitive to the expansion factor of a spiral driver.
+Considering the range of $B_L$, found by \cite{bonet2008} and illustrated in the range spanned by \cref{fig:TD-velocity-r30-015,fig:TD-velocity-r30-045}, it can be seen that even within this parameter range the parallel component becomes substantially more dominant, meaning the change in spectrum of excited MHD wave modes is sensitive to the expansion factor of a spiral driver.
 
 \cite{mumford2015} reported that there is a small but significant percentage of the wave energy flux contained in the perpendicular component.
 This appears to be inversely coupled to the spiral expansion factor of the driver, as it decreases proportionally with the azimuthal wave flux component.
@@ -269,7 +269,7 @@ for j, bl in enumerate(BL):
     add_triple_phase(ax, 'r30')
     #add_all_bpert(ax, 'r30')
     fig.tight_layout(h_pad=0.05)
-    Fig = ch5.save_figure('TD-velocity-r30{}'.format(str(bl).replace('.','')), fig, fext='.pdf')
+    Fig = ch5.save_figure('TD-velocity-r30-{}'.format(str(bl).replace('.','')), fig, fext='.pdf')
     Fig.caption = r'$B_L = {}$'.format(bl)
     Fig.subfig_width = r'{}\columnwidth'.format(width)
 
@@ -303,6 +303,8 @@ def add_triple_phase(ax, tube_r):
 Ftd1 = texfigure.MultiFigure(2, 1)
 Ftd2 = texfigure.MultiFigure(2, 1)
 Ftd3 = texfigure.MultiFigure(1, 1, 'TD-flux-r30')
+Ftd2.frontmatter += '\n' + r'\ContinuedFloat'
+Ftd3.frontmatter += '\n' + r'\ContinuedFloat'
 for j, bl in enumerate(BL):
     cfg.exp_fac = bl
     
@@ -319,7 +321,7 @@ for j, bl in enumerate(BL):
     add_triple_phase(ax, 'r30')
     #add_all_bpert(ax, 'r30')
     fig.tight_layout(h_pad=0.05)
-    Fig = ch5.save_figure('TD-flux-r30:{}'.format(str(bl).replace('.','')), fig)
+    Fig = ch5.save_figure('TD-flux-r30-{}'.format(str(bl).replace('.','')), fig)
     Fig.caption = r'$B_L = {}$'.format(bl)
     Fig.subfig_width = r'{}\columnwidth'.format(width)
 
@@ -341,3 +343,65 @@ Ftd3.caption = r"Normalised wave energy flux time-distance diagrams for all simu
 This change in excitation of MHD waves is summarised in Figure \ref{fig:flux_comparison}, where the average value of $\displaystyle\frac{F_{\parallel, \perp, \phi}^2}{F_\parallel^2 + F_\perp^2 + F_\phi^2}$ for all time is plotted.
 Figure \ref{fig:flux_comparison} shows that, between the values of $B_L=0.15$ and $B_L=0.45$ there is a turning point where the torsional component becomes less dominant, with expansion factors larger than $0.15$ having the parallel component being the dominant component.
 This turning point occurs within the range of the fitted spirals in \cite{bonet2008} and, therefore, implies that photospheric spirals may indeed generate a variety of different MHD modes with varying strengths.
+
+\begin{pycode}[chapter5]
+int_periods = np.floor(600./cfg.period)*180
+
+def calc_avgs(tube_r):
+    AvgsP = np.zeros([3,len(BL)])
+    for i, bl in enumerate(BL):
+        cfg.exp_fac = bl
+        
+        times = np.load(os.path.join(cfg.data_dir, 'Times_{}.npy'.format(cfg.get_identifier())))
+        max_index = np.argmin(np.abs(int_periods - times))
+        
+        Fpar, Fperp, Fphi = map(np.load,glob_files(cfg, tube_r, 'LineFlux*Fp*npy'))
+        #Fpar, Fperp, Fphi = map(np.load,glob_files(cfg, tube_r, '*vp*npy'))
+        Fpar[np.abs(Fpar)<1e-5], Fperp[np.abs(Fperp)<1e-5], Fphi[np.abs(Fphi)<1e-5] = 0., 0., 0.
+        Fpar, Fperp, Fphi = Fpar[:max_index,:], Fperp[:max_index,:], Fphi[:max_index,:]
+        
+        Ftot2 = (Fpar**2 + Fperp**2 + Fphi**2)
+        Fpar2, Fperp2, Fphi2 = np.array([Fpar, Fperp, Fphi])**2
+        FparP, FperpP, FphiP = (Fpar2/Ftot2)*100, (Fperp2/Ftot2)*100, (Fphi2/Ftot2)*100
+        
+        FparP = np.mean(np.ma.masked_array(FparP,np.isnan(FparP)))
+        FperpP = np.mean(np.ma.masked_array(FperpP,np.isnan(FperpP)))
+        FphiP = np.mean(np.ma.masked_array(FphiP,np.isnan(FphiP)))
+        
+        AvgsP[:, i] = FparP, FperpP, FphiP
+    return AvgsP
+
+fig, axs = plt.subplots(nrows=3, figsize=(6.5,9), sharex=True)
+titles = ["Flux Surface Radius $=156$ km", "Flux Surface Radius $=468$ km", "Flux Surface Radius $=936$ km"]
+tubes = []
+for i, ax in enumerate(axs):
+    AvgsP = calc_avgs(cfg.tube_radii[i])
+    tubes.append(AvgsP)
+    ax.semilogx()
+    ax.plot(BL, AvgsP[0], 'o', label=r"$F_\parallel^2$", mew=2, ms=10)
+    ax.plot(BL, AvgsP[1], '_', label=r"$F_\perp^2$", mew=2, ms=10)
+    ax.plot(BL, AvgsP[2], 'x', label=r"$F_\phi^2$", mew=2, ms=10)
+    ax.set_ylabel("% Square Wave Flux")
+    ax.set_title(titles[i])
+    ax.xaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter())
+    ax.xaxis.set_ticks(BL)
+    ax.set_xlim([0.01, 2.01])
+    ax.set_ylim([0, 85])
+    err = np.array([-1*(0.15-1/(6.4-1.6)), 0.15+1/(6.4+1.6)])
+    ax.fill_betweenx(np.linspace(-5,105), err[0], err[1], alpha=0.3, color='green', linewidth=3)
+
+axs[0].legend(loc=9)
+axs[-1].set_xlabel("Logarithmic Spiral Expansion Factor ($B_L$)")
+
+plt.tight_layout()
+flux_graph = save_fig(cfg, fig=fig, fname='all_flux_graph.pdf')
+pytex.fignum += 1
+\end{pycode}
+
+\begin{figure}
+    \py[chapter5]|get_pgf_include(flux_graph)|
+    \caption{Comparison of percentage square wave energy flux for all simulations and all calculated flux surfaces.
+        The parallel component of wave energy flux is shown as blue circles, the perpendicular component as green dashes and the azimuthal component as red crosses.
+        The green shaded region shows the fit uncertainty in the value observed in \citet{bonet2008}}
+    \label{fig:flux_comparison_expfac}
+\end{figure}
