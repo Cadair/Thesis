@@ -18,6 +18,18 @@ You will also require the following dependancies to Run the embedded Python code
 * mayavi
 * h5py
 * pysac
+* yt
+* texfigure
+
+
+### Using conda
+
+You can build the thesis from inside a conda environment as long as you have 
+TexLive and pythontex installed in your system path. You can create a conda 
+environment with the following command:
+
+`conda create -n thesis --file conda_requirements.txt`
+
 
 Copyright
 ---------
