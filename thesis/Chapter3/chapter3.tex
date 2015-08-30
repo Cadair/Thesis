@@ -177,11 +177,11 @@ import yt
 # Add derived Fields
 def magnetic_field_strength(field, data):
     return np.sqrt(data["magnetic_field_x"]**2 + data["magnetic_field_y"]**2 + data["magnetic_field_z"]**2)
-yt.add_field(("gas","magnetic_field_strength"), function=magnetic_field_strength, units = "T")
+yt.add_field(("gas","magnetic_field_strength"), function=magnetic_field_strength, units=yt.units.T.units)
 
 def alfven_speed(field, data):
     return np.sqrt(2.*data['magnetic_pressure']/data['density'])
-yt.add_field(("gas","alfven_speed"), function=alfven_speed, units = "m/s")
+yt.add_field(("gas","alfven_speed"), function=alfven_speed, units=(yt.units.m/yt.units.s).units)
 
 bbox = u.Quantity([u.Quantity([coords['xmin'], coords['xmax']]),
                    u.Quantity([coords['ymin'], coords['ymax']]),
