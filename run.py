@@ -23,8 +23,6 @@ import bz2
 import subprocess
 
 import docopt
-import progressbar
-import requests
 
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
@@ -51,7 +49,6 @@ if arguments['paper'] or arguments['thesis']:
         os.system('{} {}.pdf'.format(arguments['--viewer'], file_prefix))
     os.chdir('../')
 
-#Download data
 if arguments['notebook']:
     if arguments['--port'] is None:
         arguments['--port'] = 8899

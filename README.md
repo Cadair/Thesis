@@ -9,18 +9,12 @@ Information
 
 This is based on the thesis template [here](https://github.com/kks32/phd-thesis-template).
 To run this you need Python 2.7 with PythonTex, PDFLaTeX and BibTeX.
-You will also require the following dependancies to Run the embedded Python code:
+The dependancies needed are given in `conda_requirements.txt`, the following
+packages are specific or need specific versions:
 
-* numpy
-* scipy
-* astropy
-* matplotlib
-* mayavi
-* h5py
-* pysac
-* yt
-* texfigure
-
+* [matplotlib](http://matplotlib.org/) >= 1.5.dev
+* [texfigure](https://github.com/Cadair/texfigure)
+* [pysac](https://github.com/SWAT-Sheffield/pysac)
 
 ### Using conda
 
@@ -29,6 +23,24 @@ TexLive and pythontex installed in your system path. You can create a conda
 environment with the following command:
 
 `conda create -n thesis --file conda_requirements.txt`
+
+activate the new environment with:
+
+`source activate thesis`
+
+### Obtaining the data
+
+Currently this is not accessible without my ssh key.
+
+
+### Building the Thesis
+
+Once the data has been obtained and the environment built, you can build the
+pdf with the following command:
+
+`python run.py thesis`
+
+This will produce a file: `thesis/smumford_thesis.pdf`.
 
 
 Copyright
