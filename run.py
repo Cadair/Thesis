@@ -1,3 +1,4 @@
+#!/opt/miniconda/envs/thesis/bin/python
 #!/usr/bin/env python2
 """
 Run code, analyis or build documents related to this repository
@@ -38,7 +39,7 @@ file_prefix = 'smumford_thesis'
 if arguments['paper'] or arguments['thesis']:
     os.chdir('thesis')
     os.system('pdflatex -shell-escape -interaction=batchmode {}.tex'.format(file_prefix))
-    os.system('pythontex --interpreter python:python2 {}.tex --rerun={}'.format(file_prefix, arguments['--rerun']))
+    os.system('pythontex --interpreter python:{} {}.tex --rerun={}'.format(sys.executable, file_prefix, arguments['--rerun']))
     os.system('bibtex {}'.format(file_prefix))
     os.system('makeindex {}.aux'.format(file_prefix))
     os.system('makeindex {}.idx'.format(file_prefix))
