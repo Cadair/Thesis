@@ -10,11 +10,13 @@ Information
 This is based on the thesis template [here](https://github.com/kks32/phd-thesis-template).
 To run this you need Python 2.7 with PythonTex, PDFLaTeX and BibTeX.
 The dependancies needed are given in `conda_requirements.txt`, the following
-packages are specific or need specific versions:
+packages need to be installed in addition to the ones given in the 
+conda requirements folder:
 
 * [matplotlib](http://matplotlib.org/) >= 1.5.dev
 * [texfigure](https://github.com/Cadair/texfigure)
 * [pysac](https://github.com/SWAT-Sheffield/pysac)
+* [colormath](https://pypi.python.org/pypi/colormath/)
 
 ### Using conda
 
