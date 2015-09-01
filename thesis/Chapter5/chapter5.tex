@@ -27,7 +27,7 @@ This chapter analyses the effects of the spiral expansion factor on the MHD wave
 In \cite{bonet2008} magnetic bright points (MBPs) were observed spiralling in an inter-granular lane, where cold plasma sinks down into the convection zone.
 \cite{bonet2008} fit the observed locations of the MBP with time to the equation for a logarithmic spiral, shown in \cref{eq:log_spiral},
 \begin{equation}
-\theta = \frac{1}{B_L}\ln(r/a),
+\theta = \frac{1}{B_L}\ln\left(\frac{r}{a}\right),
 \label{eq:log_spiral}
 \end{equation}
 where $r$ is the radius of the spiral and $a$ is a positive real constant, and obtained a value of $B_L^{-1} = 6.4 \pm 1.6 = B_L = 0.15$ for the dimensionless expansion factor parameter.
@@ -40,7 +40,7 @@ The observational result of \cite{bonet2008} is used as a starting point and val
 
 \section{Simulation Configuration}\label{sec:simconfig}
 The numerical domain used for the simulations described in this chapter is identical to that used in \cref{ch:drivers} and described in \cref{sec:mhsbackground}.
-This magnetohydrostatic background is perturbed during the simulations using a 3D Gaussian weighted logarithmic spiral velocity driver, as described by \cref{eq:slog5,eq:Slog} \citep{mumford2015}:
+This magnetohydrostatic background is perturbed during the simulations using a 3D Gaussian weighted logarithmic spiral velocity driver, as described by \cref{eq:slog5,eq:Slog}:
 \begin{subequations}
     \begin{align}
     V_x &= A \frac{\cos(\theta + \phi)}{\sqrt{x^2 + y^2}}\ e^{-\left(\frac{z^2}{\Delta z^2} + \frac{x^2}{\Delta x^2} + \frac{y^2}{\Delta y^2}\right)} \sin \left(2\pi \frac{t}{P}\right),\\
@@ -50,10 +50,10 @@ This magnetohydrostatic background is perturbed during the simulations using a 3
 \end{subequations}
 where:
 \begin{equation*}
-\theta = tan^{-1}\left(\frac{y}{x}\right),\ \phi = tan^{-1}\left(\frac{1}{B_L}\right),\notag	
+\theta = \tan^{-1}\left(\frac{y}{x}\right),\ \phi = \tan^{-1}\left(\frac{1}{B_L}\right),\notag	
 \end{equation*}
 $A=\frac{20}{\sqrt{3}}$, $\Delta x = \Delta y = 0.1$ Mm and $\Delta z = 0.05$ and $P=\py[chapter5]|int(cfg.period)|$ s.
-Here, $B_L$ is the logarithmic spiral expansion factor discussed above.
+Here, $B_L$ is the logarithmic spiral expansion factor discussed above  \citep{mumford2015}.
 
 \Cref{fig:All_log_spirals} shows the calculated velocity profiles for the peak vertical height of the driver.
 Overplotted on these profiles are streamlines that trace a logarithmic spiral with different expansion factors.
@@ -207,7 +207,7 @@ blfigs.caption = r"Cuts in the [$x$-$y$] plane through the driving velocity fiel
 The analysis of these simulations proceeds in the same manner as the analysis described in \cref{sec:fluxsurfaces,sec:driveranalysis}.
 The flux surfaces are constructed and the velocity vector and wave flux vectors are decomposed in to the flux surface frame.
 These vectors are then used to identify and quantify the wave modes propagating within the domain, as described in \cref{sec:Vpert}.
-The wave flux vector, calculated using \cref{eq:wave_energy}, is used to quantify the relative strengths of the components, this is discussed in \cref{sec:waveflux}.
+The wave flux vector, calculated using \cref{eq:wave_energy}, is used to quantify the relative strengths of the components, as discussed in \cref{sec:waveflux}.
 
 \subsection{Results}\label{subsec:results}
 
@@ -217,8 +217,8 @@ Combining the decomposed velocity vector plotted in \cref{fig:TD-velocity-r30} a
 Overplotted on all panels in \cref{fig:TD-velocity-r30,fig:TD-flux-r30} are the phase speeds for the background conditions, the dot-dashed line is the fast speed $v_f$, the dashed line is the sound speed $c_s$, the dotted line is the Alfv\'en speed $v_A$ and the solid line is the slow speed $v_s$.
 By comparing these characteristic wave mode speeds to the ridges in the time-distance diagrams it can be seen that in the panels for the torsional component (third panel in each figure), the dominant perturbation travels with the Alfv\'en speed (solid line).
 We interpret this perturbation as an Alfv\'en wave.
-For the perpendicular component (second panels) it can be seen that the dominant perturbation travels with the fast speed (dashed line), therefore this perturbation could be interpreted as a fast (kink or sausage) mode.
-We can infer that this perturbation is more likely to be a sausage mode perturbation due to the nature of the driver, in that it should not perturb the axis of the flux tube and, that we observe no significant displacement on the flux surfaces during the simulation.
+For the perpendicular component (second panels) it can be seen that the dominant perturbation travels with the fast speed (dashed line), therefore this perturbation could be interpreted as a fast mode.
+We can infer that this perturbation is more likely to be a sausage mode perturbation due to the radial nature of the driver, in that it should not perturb the axis of the flux tube and, that we observe no significant displacement on the flux surfaces during the simulation.
 The most interesting result is shown for the parallel component (top panel in each figure), where for lower values of $B_L$, the amplitudes are low, but the perturbations that are present travel with the fast speed (dotted line).
 However, as $B_L$ increases the perturbations change form.
 There seems to appear a second, superimposed perturbation travelling with a speed close to that of the slow (or tube) speeds.
@@ -227,7 +227,7 @@ This second perturbation seems to grow proportionally to $B_L$, and can be seen 
 The wave flux graphs in \cref{fig:TD-flux-r30} are components normalised to the magnitude of the wave flux vector, thus showing the relative strengths of the components.
 Taking \cref{fig:TD-flux-r30-0015} for the $B_L=\py[chapter5]|BL[0]|$ spiral it can be seen that most of the excited wave flux is in the azimuthal component, associated with the Alfv\'en wave.
 As the expansion factor ($B_L$) increases, the driver becomes more radial, and the flux starts to shift from the azimuthal component into the parallel component.
-This is interpreted as a change of the dominant mode from the torsional Alfv\'en wave into a sausage mode with dominant velocity perturbations parallel to the field lines.
+This is interpreted as a change of the dominant mode from the torsional Alfv\'en wave into a superposition of the fast and slow modes, with dominant velocity perturbations parallel to the field lines.
 Considering the range of $B_L$, found by \cite{bonet2008} and illustrated in the range spanned by \cref{fig:TD-velocity-r30-015,fig:TD-velocity-r30-045}, it can be seen that even within this parameter range the parallel component becomes substantially more dominant, meaning the change in spectrum of excited MHD wave modes is sensitive to the expansion factor of a spiral driver.
 
 In \cref{ch:drivers} it was observed that there is a small but significant percentage of the wave energy flux contained in the perpendicular component.
@@ -250,7 +250,9 @@ def add_triple_phase(ax, tube_r):
         ph.add_phase_speeds(ax0, color='g', **ps)
     
 Vtd1 = texfigure.MultiFigure(2, 1)
+Vtd1.caption = ''
 Vtd2 = texfigure.MultiFigure(2, 1)
+Vtd2.caption = ''
 Vtd3 = texfigure.MultiFigure(1, 1, 'TD-velocity-r30')
 Vtd2.frontmatter += '\n' + r'\ContinuedFloat'
 Vtd3.frontmatter += '\n' + r'\ContinuedFloat'
@@ -290,9 +292,9 @@ Vtd3.caption = r"Velocity time-distance diagrams for all simulated values of $B_
 \py[chapter5]|Vtd3|
 
 \begin{pycode}[chapter5]
-pflux_labels = {'par_label':r'$F_\parallel / |\vec{F}|', 
-                'perp_label':r'$F_\perp / |\vec{F}|',
-                'phi_label':r'$F_\phi / |\vec{F}|'}
+pflux_labels = {'par_label':r'$F_\parallel^2 / \mathbf{F}^2', 
+                'perp_label':r'$F_\perp^2 / \mathbf{F}^2',
+                'phi_label':r'$F_\phi^2 / \mathbf{F}^2'}
 beta = False
 
 def add_triple_phase(ax, tube_r):
@@ -302,7 +304,9 @@ def add_triple_phase(ax, tube_r):
 
 
 Ftd1 = texfigure.MultiFigure(2, 1)
+Ftd1.caption = ''
 Ftd2 = texfigure.MultiFigure(2, 1)
+Ftd2.caption = ''
 Ftd3 = texfigure.MultiFigure(1, 1, 'TD-flux-r30')
 Ftd2.frontmatter += '\n' + r'\ContinuedFloat'
 Ftd3.frontmatter += '\n' + r'\ContinuedFloat'
@@ -341,7 +345,7 @@ Ftd3.caption = r"Normalised wave energy flux time-distance diagrams for all simu
 \py[chapter5]|Ftd3|
 
 
-This change in excitation of MHD waves is summarised in \cref{fig:expfac-flux-comparison}, where the average value of $\displaystyle\frac{F_{\parallel, \perp, \phi}^2}{F_\parallel^2 + F_\perp^2 + F_\phi^2}$ for all time is plotted.
+This change in excitation of MHD waves is summarised in \cref{fig:expfac-flux-comparison}, where the average value of normalised wave flux $\displaystyle\frac{F_{\parallel, \perp, \phi}^2}{F_\parallel^2 + F_\perp^2 + F_\phi^2}$ for all time is plotted.
 \Cref{fig:expfac-flux-comparison} shows that, between the values of $B_L=0.15$ and $B_L=0.45$ there is a turning point where the torsional component becomes less dominant, with expansion factors larger than $0.15$ having the parallel component being the dominant component.
 This turning point occurs within the range of the fitted spirals in \cite{bonet2008} and, therefore, implies that photospheric spirals may indeed generate a variety of different MHD modes with varying strengths.
 
@@ -397,7 +401,7 @@ axs[-1].set_xlabel("Logarithmic Spiral Expansion Factor ($B_L$)")
 
 plt.tight_layout()
 ch5bar = ch5.save_figure('expfac-flux-comparison', fig, fext='.pgf')
-ch5bar.caption = r"Comparison of percentage square wave energy flux for all simulations and all calculated flux surfaces. The parallel component of wave energy flux is shown as blue circles, the perpendicular component as green dashes and the azimuthal component as red crosses. The green shaded region shows the fit uncertainty in the value observed in \citet{bonet2008}"
+ch5bar.caption = r"Comparison of percentage square wave energy flux for all simulations and all calculated flux surfaces, plotted against spiral expansion factor on a log scale. The parallel component of wave energy flux is shown as blue circles, the perpendicular component as green dashes and the azimuthal component as red crosses. The green shaded region shows the fit uncertainty in the value observed in \citet{bonet2008}"
 \end{pycode}
 
 \py[chapter5]|ch5bar|
@@ -407,7 +411,7 @@ ch5bar.caption = r"Comparison of percentage square wave energy flux for all simu
 
 This chapter presented a parameter study of the logarithmic spiral expansion factor.
 This parameter controls how tightly wound the logarithmic spiral is, a series of values were chosen around an observed value from \cite{bonet2008}.
-The analysis of the wave flux indicates that around the value of the logarithmic expansion factor $B_L=0.15$, the value observed in \cite{bonet2008}, the dominant mode changes from the Alfv\'en mode to a superposition of the fast and slow modes.
+The analysis of the wave flux indicates that around the value of the logarithmic expansion factor $B_L=0.15$, the value observed in \cite{bonet2008}, the dominant mode changes from the Alfv\'en mode to a superposition of the fast and slow modes in the parallel component.
 This provides and interesting result, in that if this value is representative of this kind of spiralling motion in the photosphere, then only between $35$\% and $60$\% of the wave flux (depending on the surface width) is in the Alfv\'en mode.
 The next chapter will investigate the relative strengths of the wave modes as period is varied for the logarithmic spiral driver.
 
