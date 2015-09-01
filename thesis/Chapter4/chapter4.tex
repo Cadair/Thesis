@@ -3,7 +3,7 @@
 %********************************** Fourth Chapter ***************************************
 %*****************************************************************************************
 
-\chapter{MHD Waves excited by Different Photospheric Driver Profiles}\label{ch:drivers}
+\chapter{MHD Waves excited by Different Photospheric Drivers}\label{ch:drivers}
 
 \begin{pycode}[chapter4]
 from __future__ import print_function
@@ -40,12 +40,12 @@ As well as these circular and spiral drivers, a horizontal and vertical driver w
 To drive waves in the numerical domain described in \cref{sec:mhsbackground} the plasma has to be `moved' by numerically adding a velocity field to the domain.
 This is done by adding the desired velocity field to a 3D layer close to the bottom of the domain, within the modelled photosphere.
 This velocity field is attenuated with a Gaussian profile in three dimensions and is located at the centre of the domain aligned with the foot point of the magnetic field.
-This velocity field is then multiplied by a sine function to make it periodic. The generic form of the driver is given in \cref{eq:generic_driver}.
+This velocity field is then multiplied by a sine function to make it periodic. The generic form of the driver is given in \cref{eq:generic_driver}:
 \begin{equation}
 	V(x,y,z) = F(x,y,z) \ e^{-\left(\frac{z^2}{\Delta z^2} + \frac{x^2}{\Delta x^2} + \frac{y^2}{\Delta y^2}\right)} \sin \left(2\pi \frac{t}{P}\right),
 	\label{eq:generic_driver}
 \end{equation}
-where, $V(x,y,z)$ is the output velocity field, $F(x,y,x)$ is an arbitrary function which defines the form of the driver, $\Delta x$, $\Delta y$, $\Delta z$ are the widths of the Gaussian function in the three spatial dimensions, and $P$ is the period of the driver.
+where, $V(x,y,z)$ is the output velocity field, $F(x,y,x)$ is an arbitrary function which defines the form of the driver, $\Delta x$, $\Delta y$, $\Delta z$ are the half-widths of the Gaussian function in the three spatial dimensions, and $P$ is the period of the driver.
 The values used for the width of the Gaussians are fixed through out this thesis and are: $\Delta x = \Delta y = 0.1$ Mm and $\Delta z = 0.05$, the origin of the driver is at $z = 100$ km above the photosphere.
 
 The five driving motions, horizontal, vertical, circular, Archemedian spiral and logarithmic spiral are then defined by the form of $F(x,y,z)$. For the horizontal and vertical drivers $F(x,y,z)$ is a constant in the direction of the motion, $x$ for horizontal and $z$ for vertical, for the spiral drivers the forms of $F(x,y,z)$ are given for the circular driver in \cref{eq:Suni},
@@ -78,7 +78,7 @@ and $B_L = 0.05$ is a dimensionless expansion parameter for the logarithmic spir
 $B_A = 0.005$ is similar in nature to $B_L$, \textit{i.e.} a dimensionless expansion parameter.
 The amplitude $A$ of all the drivers is set to $10$ ms$^{-1}$ for all the simulations performed in this chapter and the period is fixed at $240$ s.
 Visualisations of these velocity fields can be seen in \cref{fig:driver_figs}.
-
+%TODO: Explain the choice of 240s
 %TODO: No quiver plot in this image?!
 \begin{pycode}[chapter4]
 from streamlines import Streamlines
@@ -227,7 +227,7 @@ driver_figs.caption = "Horizontal cuts through the spiral driver at the peak amp
 
 Five different simulations, one for each driver profile, were performed using the SAC code as described in \cref{sec:SAC}.
 These simulations were performed using the background conditions described in \cref{sec:mhsbackground} on a $128^3$ grid with physical dimensions of $2.0 \times\ 2.0\ \times\ 1.6$ Mm$^3$ in the $x$, $y$ and $z$ directions respectively, and with an origin in the $z$ direction of $0.061$ Mm above the photosphere.
-The plasma was driven using the different drivers described in \cref{sec:5drivers} continuously for the $600$ s run time of the simulations.
+The plasma was driven using the different drivers described in \cref{sec:5drivers} continuously for the $600$ s of physical time simulated.
 
 Once the MHD simulations were complete, the data was loaded into the Python flux surface analysis pipeline as described in \cref{sec:fluxsurfaces}, this then calculated the velocity perturbation and wave flux vectors in the frame of the flux surfaces, which are analysed in \cref{sec:driveranalysis}.
 
@@ -481,7 +481,7 @@ This chapter has presented 3D numerical simulations showing wave propagation fro
 Simulations were run mimicking five types of photospheric motions: horizontal and vertical drivers, and uniform torsional, Archimedean and logarithmic spiral velocity fields were modelled.
 The resulting perturbations were analysed, the wave modes identified and their percentage wave energy flux contribution determined. 
 It has been determined that for all drivers with a torsional component the main contribution to the flux was the Alfv\'en wave.
-While the vertical driver mainly excites the fast modes and the horizontal driver primarily generated the slow mode.
+While the vertical driver mainly excites the fast modes and the horizontal driver primarily generated the slow mode, in these high $\beta$ simulations.
 
 In this chapter some arbitrary choices were made regarding the parameters for the driver profiles.
 The first of these was the choice of amplitude $A=10$ ms$^{-1}$, this choice, while arbitrary, is largely redundant, because as mentioned, the wave modes under study are linear in nature, this means that the properties of the wave should scale linearly with amplitude.
