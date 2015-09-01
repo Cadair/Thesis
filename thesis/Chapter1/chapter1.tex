@@ -118,8 +118,8 @@ atmos.caption="Density (blue) and Temperature (green) profiles of the solar atmo
 
 The solar corona (Figure~\ref{fig:aia171}) is very hot, with temperatures exceeding 10 Million degrees Kelvin, however, it is also very rarefied, with densities of the order of \py[chapter1]|np.round(mwdata['rho'][-1], 5)|.
 This means that the energy density of the corona is much lower than that of the lower layers of the solar atmosphere, \textit{e.g.} the photosphere, where the temperature is of the order of $5,000$ K.
-In spite of this the solar corona requires a constant energy input in the region of $100$ W/m$^2$ to maintain its high temperatures.
-There is currently no understood mechanism which transports this energy, from the photosphere, through the transition region and into the corona. %TODO: Check the 100 w/m2 number, then reference it.
+In spite of this the solar corona requires a constant energy input in the region of $300$ W/m$^2$ \citep{priest2014} to maintain its high temperatures.
+There is currently no understood mechanism which transports this energy, from the photosphere, through the transition region and into the corona.
 The energy transport in the Sun is understood up to just above the photosphere, it is dominated by either radiation or convection.
 In the layers of the atmosphere above the temperature minimum, there is no longer an obvious mechanism transporting the observed quantities of energy.
 Convection and conduction are both unable to transport enough energy due to the density being too low.
@@ -134,8 +134,8 @@ from sunpy.time import parse_time
 import sunpy.map
 
 vc = vso.VSOClient()
-res = vc.query(vso.attrs.Time('2015/8/15', parse_time('now'), parse_time('now')), vso.attrs.Instrument('AIA'), vso.attrs.Wave(17.1*u.nm, 17.1*u.nm))
-filepath = vc.get(res).wait()[0]
+res = vc.query(vso.attrs.Time('2015/8/28', parse_time('now'), parse_time('now')), vso.attrs.Instrument('AIA'), vso.attrs.Wave(17.1*u.nm, 17.1*u.nm))
+filepath = vc.get(res, site='UCLan', path='{}/{{file}}'.format(ch1.data_dir)).wait()[0]
 
 # Add the file to the pytex data
 ch1.pytex.add_created(filepath)

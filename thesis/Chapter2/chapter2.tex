@@ -1,3 +1,4 @@
+% !TeX root = ../smumford_thesis.tex
 %*****************************************************************************************
 %*********************************** Second Chapter ***************************************
 %*****************************************************************************************
@@ -125,25 +126,55 @@ Substituting \ref{eq:linearize} into the ideal MHD equations and removing 2nd or
     \nabla \cdot \vec{B}_1 = 0.
     &&\text{(Solenoidal Condition)}\label{eq:lmhd_solenoid}              
 \end{align}
-
-These equations can be solved using plane wave solutions, i.e. solutions of the form $\rho(\vec{r}, t) = \hat{\rho} e^{i(\vec{k}\cdot\vec{r} - \omega t)}$.
-
-\pagebreak
-
-From the dispersion relation three physically interesting solutions can be found, the Alfv\'en wave, and the slow and fast magneoacoutstic waves.
-We can calculate the eigenfrequencies for these waves:
-
+The sound speed and the Alfv\'en speed for the static background state are given by 
 \begin{align}
-    \vec{b} = \frac{\vec{B_0}}{\sqrt{\rho_0}}\label{eq:b}\\
-    c = \sqrt{\frac{\gamma p_0}{\rho_0}}\label{eq:c}\\
-    k = k_\parallel + k_\perp
+    c &\equiv \sqrt{\frac{\gamma p_0}{\rho_0}}\label{eq:soundspeed}\\
+    \vec{b} &\equiv \frac{\vec{B}_0}{\sqrt{\rho_0}}\label{eq:alfvenspeed}
 \end{align}
+respectively.
 
+To simplify the analysis and with the aim of describing the velocity perturbations in \cref{sec:Vpert}, it is helpful to describe the system to linearised MHD equations just in terms of the velocity $\vec{v}$.
+This is achieved by substituting \cref{eq:lmhd_mass,eq:lmhd_energy,eq:lmhd_induction} into \cref{eq:lmhd_motion}, which gives
 \begin{equation}
-\omega^2_A = k^2_\parallel b^2
-\label{eq:omegaA}
+    \frac{\partial^2 \vec{v}_1}{\partial t^2} - \left( (\vec{b} \cdot \nabla)^2 \vec{I} + (b^2 + c^2) \nabla\nabla - \vec{b} \cdot \nabla (\nabla\vec{b} + \vec{b}\nabla) \right) \cdot \vec{v}_1 = 0,\label{eq:mhdwaveeq}
 \end{equation}
+where $\vec{I}$ is the identity matrix, $\vec{b}$ is the Alfv\'en speed given in \cref{eq:alfvenspeed} and $c$ is the sound speed given in \cref{eq:soundspeed}.`
+This equation can be solved using plane wave solutions, i.e. solutions of the form $\rho(\vec{r}, t) = \hat{\rho} e^{i(\vec{k}\cdot\vec{r} - \omega t)}$, which equate to performing the following substitutions into \cref{eq:mhdwaveeq}: $\frac{\partial}{\partial t} \rightarrow - i \omega$ and $\nabla \rightarrow i \vec{k}$.
+Which, given in matrix form yields the relation:
+\begin{equation}
+\begin{pmatrix}
+    &-k_\perp(b^2+c^2)-k_\parallel^2 b^2			& 0			& -k_\perp k_\parallel c^2\\
+    & 0									&-k_\parallel b^2	& 0\\
+    &-k_\perp k_\parallel c^2					& 0			& -k_\parallel c^2
+\end{pmatrix}
+\begin{pmatrix}
+v_\parallel\\
+v_\perp\\
+v_\phi
+\end{pmatrix}
+= - \omega^2
+\begin{pmatrix}
+v_\parallel\\
+v_\perp\\
+v_\phi
+\end{pmatrix}.\label{eq:eigenvalue}
+\end{equation}
+%TODO: Calculate the determinant of the eigenvalue eqn.
+Calculating the determinant of this equation yields,
+\begin{equation}
+    (\omega - k_\parallel^2 b^2)\left( \omega^4 - k^2(b^2+c^2)\omega^2 + k_\parallel k^2b^2c^2 \right) = 0
+\end{equation}
+where $k = k_\parallel + k_\perp$.
 
+Tree physically interesting solutions can be found to \cref{eq:eigenvalue}, by equating the two terms to zero.
+The first term $(\omega - k_\parallel^2 b^2)$ leads to the Alfv\'en wave solution:
+\begin{align}
+\omega^2_A &= k^2_\parallel b^2\\
+\omega_A &= \pm k_\parallel b
+\label{eq:omegaA}
+\end{align}
+where the positive solution is forward propagating and the negative solution backward propagating.
+The second term, leads two two solutions, propagating in both directions. Solving the quadratic leads to,
 \begin{equation}
     \omega^2_{s,f} = \frac{1}{2}k^2(b^2+c^2)\left(1 \pm \sqrt{1 - \sigma (k^2_\parallel/k^2)}\right)
     \label{eq:omegasf}
@@ -153,7 +184,10 @@ where
     \sigma=\frac{4b^2c^2}{(b^2 + c^2)^2}
     \label{eq:sigmasf}
 \end{equation}
+which are the fast and slow magneto-acoustic modes, for the positive and negative solutions respectively.
 
+These three modes, and the $\omega = 0$ entropy mode are all the oscillatory solutions supported by a plasma with a uniform background.
+As will be derived in \cref{sec:Vpert} the perturbation of the velocity vector caused by these oscillations can be identified, which will be used throughout this thesis for identification of these modes.
 
 
 \subsection{Velocity Perturbations}\label{sec:Vpert}
@@ -162,8 +196,7 @@ The following chapters use the components of the velocity perturbation to identi
 In this section it shall be shown that the three wave modes derived in the last section each perturb a different component of the velocity with respect to the magnetic field vector.
 
 First, consider the Alfv\'en wave, with its eigenfrequiencies given by \cref{eq:omegaA}.
-Substituting \cref{eq:omegaA} in to the eigenvalue equation %TODO:REF ME
-we can clearly see that the only component of the velocity perturbed by the Alfv\'en wave is the $v_\phi$ component, or that perpendicular to the plane of $\vec{k}$.
+Substituting \cref{eq:omegaA} in to \cref{eq:eigenvalue} we can clearly see that the only component of the velocity perturbed by the Alfv\'en wave is the $v_\phi$ component, or that perpendicular to the plane of $\vec{k}$.
 
 Substituting \cref{eq:omegasf} into the eigenvalue equation leads to the following relationship between $v_\perp$ and $v_\parallel$:
 \begin{equation}
@@ -180,7 +213,7 @@ At this stage it is helpful to make a simplifying assumption about the domain in
 As will be described in \cref{sec:mhsbackground}, the physical domain to be modelled in this thesis is entirely below the transition region and the plasma $\beta = 1$ line.
 In this region of the solar atmosphere the plasma, or kinetic pressure is much larger than the magnetic pressure.
 In other words, the kinetic effects dominate the dynamics of the plasma.
-This is called the high-$\beta$ regime, as $\displaystyle\beta = \frac{p_k}{p_m}$, in terms of $c$ and $\vec{b}$ as defined in \cref{eq:c,eq:b} above, $\displaystyle\beta = \frac{2c^2}{\gamma b^2}$, so in a high-$\beta$ regime it is clear that $c^2 >> b^2$.
+This is called the high-$\beta$ regime, as $\displaystyle\beta = \frac{p_k}{p_m}$, in terms of $c$ and $\vec{b}$ as defined in \cref{eq:soundspeed,eq:alfvenspeed} above, $\displaystyle\beta = \frac{2c^2}{\gamma b^2}$, so in a high-$\beta$ regime it is clear that $c^2 >> b^2$.
 This assumption can be used to simplify \cref{eq:omegasf} because $(c^2 + b^2) \approx c^2$ and $\displaystyle \frac{c^2}{b^2} \approx c^2$.
 Applying this assumption to \cref{eq:sigmasf} and then to \cref{eq:omegasf}:
 
