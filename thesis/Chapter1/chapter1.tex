@@ -40,7 +40,7 @@ Modern study of the Sun focuses on understanding the processes that drive change
 The properties and behaviour of the Sun change dramatically with distance from the centre of the Sun.
 The core of the Sun is where the nuclear fusion reaction occurs, this region is the source of energy for the Sun and the rest of the plasma above this layer transports this energy to the photosphere and beyond.
 Above the solar core the first large region of plasma is the region where energy transport by radiation dominates, this region is very dense and it takes a single high energy photon a long time to travel outwards.
-This radiative zone extends out to XXX, at that point a narrow region called the tachocline exists, where the plasma stops rotating as a solid body, and starts rotating with different velocities at different latitudes.
+This radiative zone extends out to $0.7$ R$_\odot$ \citep{priest2014}, at that point a narrow region called the tachocline exists, where the plasma stops rotating as a solid body, and starts rotating with different velocities at different latitudes.
 Above this tachocline radial energy transport is dominated by convective motions, this convective zone extends out to the visible surface or photosphere.
 The convective plasma motions that move hot plasma up to the photosphere are responsible for a lot of the interesting features and properties of the photosphere and higher layers of the solar atmosphere.
 The photosphere is the point where the Sun becomes mostly transparent to light, it is defined as the region where $\frac{2}{3}$ of the light can escape the solar atmosphere entirely.
@@ -129,27 +129,20 @@ Therefore, another energy transport mechanism has to be heating the solar atmosp
 
 
 \begin{pycode}[chapter1]
-from matplotlib import colors
-from sunpy.net import helioviewer
+from sunpy.net import vso
 from sunpy.time import parse_time
 import sunpy.map
 
-hv = helioviewer.HelioviewerClient()
-filepath = hv.download_jp2('2015/12/31 00:00:00', observatory='SDO',
-                           instrument='AIA', detector='AIA', measurement='171',
-                           directory=ch1.data_dir)
+vc = vso.VSOClient()
+res = vc.query(vso.attrs.Time('2015/8/15', parse_time('now'), parse_time('now')), vso.attrs.Instrument('AIA'), vso.attrs.Wave(17.1*u.nm, 17.1*u.nm))
+filepath = vc.get(res).wait()[0]
+
 # Add the file to the pytex data
 ch1.pytex.add_created(filepath)
 
 map171 = sunpy.map.Map(filepath)
 
-mean = map171.mean()
-std = map171.std()
-
-vmin = max(0, mean - 3 * std)
-vmax = min(map171.max(), mean + 3 * std)
-
-map171.peek(basic_plot=True, norm=colors.Normalize(vmin, vmax))
+map171.peek(basic_plot=True)
 
 aia171 = ch1.save_figure('aia171', fext='.pdf')
 aia171.caption="The solar corona at 17.1 nm, showing plasma in the region of 1 million degrees Kelvin. Taken by the AIA instrument on the SDO spacecraft on {date:%d %b %Y at %H:%M}".format(date=map171.date)

@@ -1,8 +1,8 @@
 %*****************************************************************************************
 %*********************************** Second Chapter ***************************************
 %*****************************************************************************************
-\label{ch:Background}
-\chapter{Background}  %Title of the Second Chapter
+
+\chapter{Background}\label{ch:Background}  %Title of the Second Chapter
 
 \begin{pycode}[chapter2]
 ch2 = texfigure.Manager(pytex, number=2, base_path='./Chapter2/')
@@ -127,6 +127,8 @@ Substituting \ref{eq:linearize} into the ideal MHD equations and removing 2nd or
 \end{align}
 
 These equations can be solved using plane wave solutions, i.e. solutions of the form $\rho(\vec{r}, t) = \hat{\rho} e^{i(\vec{k}\cdot\vec{r} - \omega t)}$.
+
+\pagebreak
 
 From the dispersion relation three physically interesting solutions can be found, the Alfv\'en wave, and the slow and fast magneoacoutstic waves.
 We can calculate the eigenfrequencies for these waves:
