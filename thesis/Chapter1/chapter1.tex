@@ -39,7 +39,7 @@ Modern study of the Sun focuses on understanding the processes that drive change
 
 The properties and behaviour of the Sun change dramatically with distance from the centre of the Sun.
 The core of the Sun is where the nuclear fusion reaction occurs, this region is the source of energy for the Sun and the rest of the plasma above this layer transports this energy to the photosphere and beyond.
-Above the solar core the first large region of plasma is the region where energy transport by radiation dominates, this region is very dense and it takes a single high energy photon a long time to travel outwards.
+Above the solar core the first large region of plasma is the region where energy transport by radiation dominates, this region is very dense and it takes a single high energy photon approximately $170,000$ years to travel outwards from the core to the photosphere \citep{priest2014}.
 This radiative zone extends out to $0.7$ R$_\odot$ \citep{priest2014}, at that point a narrow region called the tachocline exists, where the plasma stops rotating as a solid body, and starts rotating with different velocities at different latitudes.
 Above this tachocline radial energy transport is dominated by convective motions, this convective zone extends out to the visible surface or photosphere.
 The convective plasma motions that move hot plasma up to the photosphere are responsible for a lot of the interesting features and properties of the photosphere and higher layers of the solar atmosphere.
@@ -116,7 +116,8 @@ atmos.caption="Density (blue) and Temperature (green) profiles of the solar atmo
 \py[chapter1]|atmos|
 
 
-The solar corona (Figure~\ref{fig:aia171}) is very hot, with temperatures exceeding 10 Million degrees Kelvin, however, it is also very rarefied, with densities of the order of \py[chapter1]|np.round(mwdata['rho'][-1], 5)|.
+The solar corona (Figure~\ref{fig:aia171}) is very hot, with temperatures exceeding 10 Million degrees Kelvin, however, it is also very rarefied, with densities of the order of \py[chapter1]|np.round(mwdata['rho'][-1], 10)|.
+%TODO: FIX THIS VALUE
 This means that the energy density of the corona is much lower than that of the lower layers of the solar atmosphere, \textit{e.g.} the photosphere, where the temperature is of the order of $5,000$ K.
 In spite of this the solar corona requires a constant energy input in the region of $300$ W/m$^2$ \citep{priest2014} to maintain its high temperatures.
 There is currently no understood mechanism which transports this energy, from the photosphere, through the transition region and into the corona.
@@ -167,12 +168,12 @@ The effect this has, is that plasma motions move the field lines, and magnetic f
 If we consider the region around the base of the photosphere, the top of the convection zone, where hot plasma tied to magnetic field is rising, cooling and then sinking.
 We can foresee a situation where this turbulent motion at the photosphere transfers kinetic energy from the plasma into the magnetic field.
 
-There are two leading mechanisms, by which this energy given to the magnetic field could heat the atmosphere, magnetic reconnection and magnetohydrodynamic (MHD) waves.
+Two leading mechanisms have been proposed, by which this energy given to the magnetic field could heat the atmosphere, magnetic reconnection and magnetohydrodynamic (MHD) waves.
 Magnetic reconnection, is where the plasma is no longer perfectly conducting and the `frozen-in' condition no longer applies.
 The magnetic field, under high stress, will reconfigure itself and in the process transfer a large amount of energy into plasma motions.
 This reconnection mechanism is widely thought to be the driving forces behind some of the largest explosive events observed on the Sun, such as Coronal Mass Ejections (CMEs) and solar flares.
 It is also thought to be a good way to transfer magnetic energy into the plasma in the corona.
-The second, MHD waves, are the focus of the rest of this Thesis.
+The second, MHD waves, are the focus of the rest of this thesis.
 MHD waves have the potential to heat the corona by using the magnetic structures that span the solar atmosphere as wave guides.
 MHD waves excited in the photosphere, then travel up along the magnetic field lines, higher up in the atmosphere these wave motions are damped, by some mechanism, thereby transferring their energy into the surrounding plasma.
 These waves can occur in all scales of magnetic structures, from small scale photospheric flux tubes, to giant coronal loops.
@@ -199,7 +200,7 @@ photosphere.caption = "A G-Band image of the solar photosphere."
 
 \py[chapter1]|photosphere|
 
-The photosphere is the layer of the solar atmosphere to observe, as it dominates all emission from the Sun.
+The photosphere is the easiest layer of the solar atmosphere to observe, as it dominates all emission from the Sun.
 It is a highly dynamic place where hot plasma, having risen through the convection zone, cools and then sinks.
 The plasmas interaction with the magnetic field in the photosphere is obvious through various structures observed in the photosphere.
 These structures vary from the large sunspots, which can be multiple times the size of the Earth, to the small MBPs.
