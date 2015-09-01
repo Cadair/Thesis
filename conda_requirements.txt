@@ -17,6 +17,7 @@ fastcache=1.0.2=py27_0
 fontconfig=2.11.1=4
 freetype=2.5.2=2
 funcsigs=0.4=py27_0
+glymur=0.8.2=py27_0
 h5py=2.5.0=np19py27_3
 hdf5=1.8.15.1=1
 ipykernel=4.0.3=py27_0
@@ -57,7 +58,6 @@ pickleshare=0.5=py27_0
 pillow=2.9.0=py27_0
 pip=7.1.2=py27_0
 pixman=0.26.2=0
-progressbar=2.3=py27_0
 ptyprocess=0.4=py27_0
 py=1.4.30=py27_0
 py2cairo=1.10.0=py27_2
