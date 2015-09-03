@@ -35,7 +35,7 @@
 from __future__ import print_function
 import texfigure
 
-texfigure.configure_latex_plots(pytex)
+texfigure.configure_latex_plots(pytex, font_size=11)
 
 pytex.formatter = texfigure.repr_latex_formatter
 
@@ -49,7 +49,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 mpl.rcParams['font.family'] = 'fourier'
-mpl.rcParams['font.size'] = '11'
+mpl.rcParams['pgf.preamble'] += [r'\renewcommand{\vec}{\mathbf}']
 
 import astropy.units as u
 

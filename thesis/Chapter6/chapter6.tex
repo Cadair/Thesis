@@ -2,5 +2,132 @@
 %*****************************************************************************************
 %*********************************** Sixth Chapter ***************************************
 %*****************************************************************************************
+\begin{pycode}[chapter6]
+from __future__ import print_function
+ch6 = texfigure.Manager(pytex, number=6, base_path='./Chapter6/')
+
+from sacconfig import SACConfig
+cfg = SACConfig()
+
+from streamlines import Streamlines
+\end{pycode}
 
 \chapter{Effects of Period on MHD Wave Generation from a Logarithmic Spiral Driver}\label{ch:period}
+
+\Cref{ch:drivers,ch:expfac} studied the effects of the driving velocity profile and the logarithmic spiral expansion factor ($B_L$) on the MHD wave excitation.
+In both of these previous chapters, arbitrary periods were chosen, in this chapter the effect of this choice of period on the wave excitation by the logarithmic driver is studied.
+The solar photosphere is populated with an outstanding variety of different frequency wave modes.
+Acoustic (p-mode) waves have a wide frequency spectra, with a peak power at 5 minutes, and a large number of MHD waves at different frequencies have been observed in the low solar atmosphere; \cite{Freij2014,Dorotovic2014} observe oscillations in magnetic pores at periods ranging from 3 minutes to 25 minutes; \cite{morton2011} observe sausage modes with periods ranging from $30$ to $447$ seconds; \cite{fujimura2009} observe oscillations with periods between $3$ and $6$ minutes in pores and between $4$ and $9$ minutes in the inter-granular lanes.
+It is therefore interesting to study a range of possible frequencies for our driver, to see what effects this has on the excitation of MHD modes.
+
+\section{Simulation Configuration}\label{sec:periodconfig}
+This chapter employs the same magnetohydrostatic background as \cref{ch:drivers,ch:expfac} which is described in \cref{sec:mhsbackground}.
+The plasma is also driven by the same logarithmic spiral driver as given in \cref{eq:Slog,eq:slog5}, the expansion factor is selected as the central point of the parameter sweep performed in \cref{ch:expfac}, \py[chapter6]|r"$B_L={}$".format(cfg.exp_fac)|.
+A plot of the driver profile is shown in \cref{fig:slog-profile}.
+
+\begin{pycode}[chapter6]
+
+#Use Equation 1 to calculate the vector field in a 2D plane to plot it.
+time = np.linspace(0,60,480)
+dt = time[1:] - time [:-1]
+period = 240.
+
+x = np.linspace(7812.5,1992187.5,128)
+y = np.linspace(7812.5,1992187.5,128)
+
+x_max = x.max()
+y_max = y.max()
+
+xc = 1.0e6
+yc = 1.0e6
+
+xn = x - xc
+yn = y - yc
+
+delta_x=0.1e6
+delta_y=0.1e6
+
+xx, yy = np.meshgrid(xn,yn)
+exp_y = np.exp(-(yn**2.0/delta_y**2.0))
+exp_x = np.exp(-(xn**2.0/delta_x**2.0))
+
+exp_x2, exp_y2= np.meshgrid(exp_x,exp_y)
+exp_xyz = exp_x2 * exp_y2
+
+
+#==============================================================================
+# Define Driver Equations and Parameters
+#==============================================================================
+#A is the amplitude, B is the spiral expansion factor
+A = 10
+
+#Tdamp defines the damping of the driver with time, Tdep is the ocillator
+tdamp = lambda time1: 1.0 #*np.exp(-(time1/(period)))
+tdep = lambda time1: np.sin((time1*2.0*np.pi)/period) * tdamp(time1)
+
+#Define a peak index to use for scaling in the inital frame
+max_ind = np.argmax(tdep(time) > 0.9998)
+
+#Logarithmic
+B = 0.05
+phi = np.arctan2(1,B)
+theta = np.arctan2(yy,xx)
+
+uy = np.sin(theta + phi)
+ux =  np.cos(theta + phi)
+
+vx = lambda time1: (ux / np.sqrt(ux**2 + uy**2)) * exp_xyz * tdep(time1) * A
+vy = lambda time1: (uy / np.sqrt(ux**2 + uy**2)) * exp_xyz * tdep(time1) * A
+
+vv = np.sqrt(vx(time[max_ind])**2 + vy(time[max_ind])**2)
+
+# Calculate Streamline
+slines = Streamlines(x,y,vx(time[max_ind]),vy(time[max_ind]),maxLen=7000,
+x0=xc, y0=yc, direction='forwards')
+
+#============================================================================
+# Do the Plotting
+#============================================================================
+
+fig = plt.figure(figsize=texfigure.figsize(pytex))
+ax = plt.subplot()
+im = ax.imshow(vv, cmap='cubehelix', extent=[7812.5,x_max,7812.5,y_max])
+im.set_norm(matplotlib.colors.Normalize(vmin=0,vmax=10))
+
+Sline, = ax.plot(slines.streamlines[0][0],slines.streamlines[0][1],color='red',linewidth=2, zorder=40)
+
+#Add colourbar
+divider = make_axes_locatable(ax)
+cax = divider.append_axes("right", size="5%", pad=0.2)
+cbar = plt.colorbar(im,cax)
+cbar.set_label(r"$|\vec{V}|$ [ms$^{-1}$]")
+scalar = matplotlib.ticker.ScalarFormatter(useMathText=False,useOffset=False)
+scalar.set_powerlimits((-3,3))
+cbar.formatter = scalar
+cbar.ax.yaxis.get_offset_text().set_visible(True)
+cbar.update_ticks()
+#cbar.solids.set_rasterized(True)
+cbar.solids.set_edgecolor("face")
+
+#Add quiver plot overlay
+#qu = ax.quiver(x,y,vx(time[max_ind]),vy(time[max_ind]),scale=25*A,color='#00DDFF',zorder=20)
+ax.axis([8.0e5,12.0e5,8.0e5,12.0e5])
+
+ax.xaxis.set_major_formatter(scalar)
+ax.yaxis.set_major_formatter(scalar)
+ax.xaxis.set_major_locator(matplotlib.ticker.MaxNLocator(5))
+ax.yaxis.set_major_locator(matplotlib.ticker.MaxNLocator(5))
+ax.xaxis.get_offset_text().set_visible(False)
+ax.yaxis.get_offset_text().set_visible(False)
+ax.set_xlabel("X [Mm]")
+ax.set_ylabel("Y [Mm]")
+
+fig.tight_layout()
+
+slog_fig = ch6.save_figure('slog-profile', fig=fig, fext='.pdf')
+slog_fig.caption = r"Horizontal velocity profile of the logarithmic spiral driver with expansion factor $B_L = {}$. The magnitude of velocity is shown by the colour map and the cyan arrows follow the vector field. The red line is a velocity streamline seeded in the centre of the domain.".format(cfg.exp_fac)
+slog_fig.figure_width=r'\columnwidth'
+\end{pycode}
+
+\py[chapter6]|slog_fig|
+
