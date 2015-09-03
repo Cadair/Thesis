@@ -101,6 +101,76 @@ def calc_avgs(cfg, tube_r, periods, amps, runtime=600.):
 
     return AvgsP
 
+def calc_avgs_period(cfg, tube_r, maxtime):
+    """
+    Calculate the average values of Fpar, Fperp and Fphi for one state of the
+    configuration object.
+
+    Parameters
+    ----------
+    cfg : scripts.sacconfig.SACConfig instance
+        The repo config to use
+
+    tube_r : string
+         The tube radius to use
+
+    maxtime : `int`
+        The maximum time to calculate the average to.
+
+    Returns
+    -------
+    FparP, FperpP, FphiP : ndarray
+        Three arrays with the components of the wave fulx averaged.
+    """
+    times = np.load(os.path.join(cfg.data_dir, 'Times_{}.npy'.format(cfg.get_identifier())))
+    max_index = np.argmin(np.abs(maxtime - times))
+
+    Fpar, Fperp, Fphi = map(np.load,glob_files(cfg, tube_r, 'LineFlux*Fp*npy'))
+    #Fpar, Fperp, Fphi = map(np.load,glob_files(cfg, tube_r, '*vp*npy'))
+    Fpar[np.abs(Fpar)<1e-5], Fperp[np.abs(Fperp)<1e-5], Fphi[np.abs(Fphi)<1e-5] = 0., 0., 0.
+    Fpar, Fperp, Fphi = Fpar[:max_index,:], Fperp[:max_index,:], Fphi[:max_index,:]
+
+    Ftot2 = (Fpar**2 + Fperp**2 + Fphi**2)
+    Fpar2, Fperp2, Fphi2 = np.array([Fpar, Fperp, Fphi])**2
+    FparP, FperpP, FphiP = (Fpar2/Ftot2)*100, (Fperp2/Ftot2)*100, (Fphi2/Ftot2)*100
+
+    FparP = np.mean(np.ma.masked_array(FparP,np.isnan(FparP)))
+    FperpP = np.mean(np.ma.masked_array(FperpP,np.isnan(FperpP)))
+    FphiP = np.mean(np.ma.masked_array(FphiP,np.isnan(FphiP)))
+
+    return FparP, FperpP, FphiP
+def get_all_avgs(cfg, tube_r, sim_params):
+    """
+    Calculate a set of wave flux averages for different states of the config
+    object, as given by the sim_params namedtuple
+
+    Parameters
+    ----------
+    cfg : scripts.sacconfig.SACConfig instance
+        The repo config to use
+
+    tube_r : string
+         The tube radius to use.
+
+    sim_params : namedtuple
+        A named tuple with attributes matching the names of configuration
+        parameters.
+
+    Returns
+    -------
+
+    avgs : ndarray
+        A 3xlen(sim_params) array of average wave fluxes. Ordered (Par, Perp, Phi)
+
+    """
+    avgs = np.zeros([3, len(sim_params)])
+    for i,pfa in enumerate(sim_params):
+        [setattr(cfg, f, getattr(pfa, f)) for f in pfa._fields]
+
+        int_periods = np.floor(cfg.runtime/cfg.period)*cfg.period
+        avgs[:, i] = calc_avgs_period(cfg, tube_r, int_periods)
+
+    return avgs
 def single_plot(data, x, y, axes=None, beta=None, cbar_label='',
                 cmap=plt.get_cmap('RdBu'), vmin=None, vmax=None,
                 phase_speeds=True, manual_locations=False, **kwargs):
