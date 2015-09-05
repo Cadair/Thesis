@@ -8,6 +8,7 @@ ch6 = texfigure.Manager(pytex, number=6, base_path='./Chapter6/')
 
 from sacconfig import SACConfig
 cfg = SACConfig()
+cfg.data_dir = ch6.data_dir
 
 from streamlines import Streamlines
 import td_plotting_helpers as ph
@@ -214,7 +215,7 @@ The result of this calculation is shown in \cref{tab:period-amp}.
 To analyse the MHD wave generation we need to parametrise the relative strength of each component for different periods of driver.
 To do this we decompose the velocity and the wave energy flux as defined in \cite{bogdan2003} onto the field line reference frame.
 The velocity decomposition allows us to analyse the generated modes and identify what types of modes are in the generated spectra.
-The wave energy flux analysis is presented in terms of $\vec{F_j}^2$ percentages, this allows a neat visualisation showing the relative strengths of each component, where the three components sum to $100\%$.
+The wave energy flux analysis is presented in terms of $\vec{F}^2_j$ percentages, this allows a neat visualisation showing the relative strengths of each component, where the three components sum to $100\%$.
 
 
 To make visualisation and analysis of the surfaces easier the values of the decomposed parameter is shown for one field line for all time steps in the simulation.
@@ -241,19 +242,19 @@ Figure \ref{fig:TD_fwave_r30} also shows that in the $F^2_\perp$ (middle) panel,
 This observation should be considered when drawing conclusions from the relative strength of the $F^2_\parallel$ component.
 The $F^2_\phi$ (bottom) panel is again dominated by the Alfv\'en component.
 
-In Figure \ref{fig:period-flux} a summary of the average percentage square wave flux is presented for each of the \py|len(all_periods)| simulations performed.
+In Figure \ref{fig:period-flux} a summary of the average percentage square wave flux is presented for each of the \py[chapter6]|len(all_periods)| simulations performed.
 The average value was taken for one field line for all time throughout the simulation.
 The three panels of Figure \ref{fig:period-flux} are for three flux surfaces seeded at different initial radii at the top of the domain, showing results for different parts of the simulation domain.
 In all three panels it can be seen that the averages for the perpendicular component (green dashes), remain constant with respect to period.
 While the torsional (red crosses) and parallel (blue dots) components fluxes are clearly period dependant.
 Recalling the analysis of Figures \ref{fig:TD_vel_r30} and \ref{fig:TD_fwave_r30} from above, we can attribute the perpendicular flux to the slow wave, the parallel flux to the fast wave and the torsional flux to the Alfv\'en wave.
 We can therefore conclude that the relative strengths of the fast mode and the Alfv\'en mode are period dependant, with the Alfv\'en mode overall dominating more at larger periods.
-While the growth in relative strength of the Alfv\'en mode is reasonably linear for the $156$ km radius flux surface, the larger flux surfaces show some variation in average wave flux.
+While the growth in relative strength of the Alfv\'en mode is reasonably linear for the $156$ km radius flux surface, the larger flux surfaces show some variation in average wave flux. 
 
 
 % SIX Velocity T-D Graphs:
 \begin{pycode}[chapter6]
-
+from period_amps import periods, str_amps
 velocity_labels = {'par_label':r'$ \vec{V}_\parallel$ ms$^{-1}$', 
                    'perp_label':r'$ \vec{V}_\perp$ ms$^{-1}$',
                    'phi_label':r'$ \vec{V}_\phi$ ms$^{-1}$'}
@@ -280,15 +281,10 @@ def add_triple_phase(ax, tube_r):
     for ax0 in ax:
         ph.add_phase_speeds(ax0, color='g', **ps)
 
-captions = {30.:r'Period: $30$ s Amplitude: $20\sqrt{2}$ ms$^{-1}$',
-            90.:r'Period: $90$ s Amplitude: $20\sqrt{\frac{2}{3}}$ ms$^{-1}$',
-            150.:r'Period: $150$ s Amplitude: $4\sqrt{10}$ ms$^{-1}$',
-            210.:r'Period: $210$ s Amplitude: $20\sqrt{\frac{2}{7}}$ ms$^{-1}$',
-            270.:r'Period: $270$ s Amplitude: $\frac{20}{3}\sqrt{2}$ ms$^{-1}$',
-            300.:r'Period: $300$ s Amplitude: $4\sqrt{5}$ ms$^{-1}$'}
-
-figsize = texfigure.figsize(pytex, scale=0.49, height_ratio=0.85)
-multifig = texfigure.MultiFigure(3, 2, reference='TD_vel_r30')
+captions = {p: r"Period: ${}$ s Amplitude:".format(p) + a + r" ms$^{{-1}}$" for p, a in zip(periods, str_amps)[:10]}
+#print(captions, file=sys.stderr)
+figsize = texfigure.figsize(pytex, height_ratio=0.85)
+multifig = texfigure.MultiFigure(3, 1, reference='TD_vel_r30')
 for i, paf in enumerate(all_periods[::4]):
     [setattr(cfg, f, getattr(paf, f)) for f in paf._fields]
 
@@ -306,13 +302,13 @@ for i, paf in enumerate(all_periods[::4]):
     
     Lfig = ch6.save_figure('TD_vel_r30_p{}'.format(str(paf.period).replace('.','-')), fig=fig, fext='.pdf')
     Lfig.caption = "Velocity components for " + captions[paf.period]
-    multifig.figures[i,0] = Lfig
+    multifig.append(Lfig)
 
 multifig.caption = r"""Velocity time-distance diagrams for six different period and amplitude combinations are plotted, in each pane three components of velocity are plotted for a flux surface of $r=468$ km. Overlaid on the velocity are magnetic field perturbation contours which are thicker for larger values and dashed for negative values. Shown in green are the phase speeds for the background conditions, the dot-dashed line is the fast speed $v_f$, the dashed line is the sound speed $c_s$, the dotted line is the Alfv\'en speed $v_a$ and the solid line is the slow speed $v_s$."""
 
 \end{pycode}
 
-%\py[TD]|multifig|
+\py[chapter6]|multifig|
 
 
 \begin{pycode}[chapter6]
@@ -320,7 +316,7 @@ flux_labels = {'par_label':r'$ \vec{F}_\parallel^2$ \%',
                'perp_label':r'$ \vec{F}_\perp^2$ \%',
                'phi_label':r'$ \vec{F}_\phi^2$ \%'}
 
-#multifig = texfigure.MultiFigure(3, 2, reference='TD_fwave_r30')
+multifig = texfigure.MultiFigure(3, 1, reference='TD_fwave_r30')
 for i, paf in enumerate(all_periods[::4]):
     [setattr(cfg, f, getattr(paf, f)) for f in paf._fields]
     
@@ -383,3 +379,6 @@ period_flux.caption = r"""Average percentage square wave flux plotted against pe
 \py[chapter6]|period_flux|
 
 \section{Conclusion}\label{sec:conclusion}
+
+In this chapter the same logarithmic spiral driver that was studied in \cref{ch:drivers,ch:expfac}, but varied the oscillatory period of the driver.
+
