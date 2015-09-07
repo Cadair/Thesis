@@ -295,6 +295,28 @@ and for the fast mode:
     v_\parallel =& \frac{k_\parallel}{k_\perp}v_\perp.
 \end{align}
 
+Finally, to demonstrate the relative strength of the parallel and perpendicular modes the following ratio is calculated:
+\begin{equation}
+    \frac{|v_z|}{|v_x|+|v_z|}.
+\end{equation}
+For the fast mode this becomes:
+\begin{align}
+\frac{|v_\parallel|}{|v_\perp|+|v_\parallel|} &= \frac{-\frac{k_\parallel}{k_\perp}|v_\perp|}{|v_\perp|+\frac{k_\parallel}{k_\perp}|v_\perp|},\\
+&= \frac{-\frac{k_\parallel}{k_\perp}}{1+\frac{k_\parallel}{k_\perp}},\\
+&= \frac{1}{\frac{k_\perp}{k_\parallel}+1}.
+\end{align}
+Assuming that $k_\parallel >> k_\perp$, in that the waves propagate parallel to the magnetic field, i.e. upwards through the atmosphere.
+Therefore, $\displaystyle \frac{k_\perp}{k_\parallel} << 1$ and it can be seen that $|v_\parallel| >> |v_\perp|$, and therefore the fast mode can be seen to perturb the parallel component of the velocity.
+
+However, the slow mode this becomes:
+\begin{align}
+    \frac{|v_\parallel|}{|v_\perp|+|v_\parallel|} &= \frac{\frac{k_\perp}{k_\parallel}|v_\perp|}{|v_\perp|+\frac{k_\perp}{k_\parallel}|v_\perp|},\\
+    &= \frac{\frac{k_\perp}{k_\parallel}}{1+\frac{k_\perp}{k_\parallel}},\\
+    &= \frac{1}{\frac{k_\parallel}{k_\perp} + 1},
+\end{align}
+Again, assuming that $k_\parallel >> k_\perp$, $\displaystyle \frac{k_\parallel}{k_\perp} >> 1$, therefore for the slow mode, $|v_\parallel| << |v_\perp|$, so the slow mode perturbs predominately in the perpendicular component of velocity.  
+
+
 \subsection{Calculating Wave Flux}\label{sec:waveflux}
 
 To calculate the relative strengths of the excited waves we compute the `wave energy flux' vector everywhere in the domain.
@@ -302,7 +324,7 @@ To do this we use the equation for the wave energy flux given in equation (2.14)
 This equation can be written using notation similar to the rest of this thesis, by applying $\vec{H} = \vec{B}/\mu_0$ and the vector identity $\vec{a} \times (\vec{b} \cdot \vec{c}) = \vec{a} \cdot \vec{c}\vec{b} - \vec{a} \cdot \vec{b}\vec{c}$.
 The result is given in \cref{eq:wave_energy} below.
 \begin{equation}
-\vec{F}_{wave} \equiv \widetilde{p}_k \vec{v} + \frac{1}{\mu_0} \left(\vec{B}_b \cdot \vec{\widetilde{B}}\right) \vec{v} - \frac{1}{\mu_0}\left(\vec{v} \cdot \vec{\widetilde{B}} \right) \vec{B}_b,
+\vec{F}_{\textbf{wave}} \equiv \widetilde{p}_k \vec{v} + \frac{1}{\mu_0} \left(\vec{B}_b \cdot \vec{\widetilde{B}}\right) \vec{v} - \frac{1}{\mu_0}\left(\vec{v} \cdot \vec{\widetilde{B}} \right) \vec{B}_b,
 \label{eq:wave_energy}
 \end{equation}
 where a subscript $b$ represents a background variable, a tilda represents a perturbation from the background conditions and $p_k$ represents kinetic pressure.
@@ -318,7 +340,7 @@ This analysis provides us the desired result: an understanding of how the differ
 
 \section{Computational Methods}\label{sec:numericalmethods}
 Differential equations part of the fundamental language of physics, from their origins describing motion in Newton's laws to the MHD equations which describe the dynamics of plasma in the Sun. 
-Often coupled systems of differential equations can not be solved analytically either at all or without making large assumptions about the nature of the system, such as geometry.
+Often coupled systems of differential equations can not be solved analytically either at all or without making large assumptions about the nature of the system, such as the geometry.
 The most widely known system of equations that can not be solved analytically is the three body problem, where, described by Newton's laws, three masses interact with each other via gravity.
 The numerical solutions to this problem allowed the revolution in modern space flight, and the launch of the two voyager probes on their `grand tour' of the solar system.
 Numerical solutions to the MHD equations are widely used to gain an insight into systems which are too complex to allow analytical solutions of the equations.
@@ -339,10 +361,10 @@ The general form of a finite difference equation is $f(x+b)-f(x+a)$. The two sim
 These two types of equations can be used to approximate the derivative, $f'(x)\approx\frac{f(x+\Delta_{x})-f(x)}{\Delta_{x}}$ for a forward difference and $f'(x)\approx\frac{f(x)-f(x-\Delta_{x})}{\Delta_{x}}$ for a backward difference.
 
 These equations can be derived from a Taylor expansion of $f(x\pm\Delta_{x})$,
-\begin{eqnarray}
-f(x-\Delta_{x}) & = & f(x)-\Delta_{x}f'(x)+\frac{\Delta_{x}^{2}f''(x)}{2!}-\frac{\Delta_{x}^{3}f'''(x)}{3!}+\frac{\Delta_{x}^{4}f^{iv}(x)}{4!}+...\label{eq:TaylorForward}\\
-f(x+\Delta_{x}) & = & f(x)+\Delta_{x}f'(x)+\frac{\Delta_{x}^{2}f''(x)}{2!}+\frac{\Delta_{x}^{3}f'''(x)}{3!}+\frac{\Delta_{x}^{4}f^{iv}(x)}{4!}+...\label{eq:TaylorBackward}
-\end{eqnarray}
+\begin{align}
+f(x-\Delta_{x}) & = f(x)-\Delta_{x}f'(x)+\frac{\Delta_{x}^{2}f''(x)}{2!}-\frac{\Delta_{x}^{3}f'''(x)}{3!}+\frac{\Delta_{x}^{4}f^{iv}(x)}{4!}+...\label{eq:TaylorForward}\\
+f(x+\Delta_{x}) & = f(x)+\Delta_{x}f'(x)+\frac{\Delta_{x}^{2}f''(x)}{2!}+\frac{\Delta_{x}^{3}f'''(x)}{3!}+\frac{\Delta_{x}^{4}f^{iv}(x)}{4!}+...\label{eq:TaylorBackward}
+\end{align}
 
 
 The forward difference equation is the first order truncation of the $f(x+\Delta_{x})$ Taylor series, and likewise for the backward difference.
@@ -359,7 +381,7 @@ The most obvious way to increase the accuracy of the solution is to increase the
 
 The Sheffield Advanced Code (SAC), described in \cref{sec:SAC} uses the 4th order central difference scheme to calculate the spatial derivatives.
 Below the derivation of a fourth order central difference scheme in one dimension is given.
-Starting from (\ref{eq:TaylorForward}) and (\ref{eq:TaylorBackward}) given in the last section and subtracting the second from the first, to the fourth order gives,
+Starting from \cref{eq:TaylorForward,eq:TaylorBackward} and subtracting the second from the first, to the fourth order gives,
 \begin{equation}
 f(x+\Delta_{x})-f(x-\Delta_{x})=2\Delta_{x}f'(x)+\frac{2\Delta_{x}^{3}f'''(x)}{3!}+O(\Delta_{x}^{4}).\label{eq:centraldifferencedx}
 \end{equation}
@@ -367,7 +389,7 @@ The second step is then to calculate the same subtraction for $2\Delta_{x}$ whic
 \begin{equation}
 f(x+2\Delta_{x})-f(x-2\Delta_{x})=4\Delta_{x}f'(x)+\frac{16\Delta_{x}^{3}f'''(x)}{3!}+O(\Delta_{x}^{4}).\label{eq:CentralDifference2dx}
 \end{equation}
-Finally, subtracting (\ref{eq:CentralDifference2dx}) from $8\times$(\ref{eq:CentralDifference2dx}) and rearranging for $f'(x)$ gives
+Finally, subtracting \cref{eq:CentralDifference2dx} from $8\times$(\ref{eq:CentralDifference2dx}) and rearranging for $f'(x)$ gives
 \begin{equation}
 f'(x)=\frac{8f(x+\Delta_{x})-8f(x-\Delta_{x})-f(x+2\Delta_{x})+f(x-2\Delta_{x})}{12\Delta_{x}}+O(\Delta_{x}^{4}),\label{eq:4thOrderCentralDifferenceUniform}
 \end{equation}
@@ -417,7 +439,7 @@ where:
 \end{equation}
 is the total perturbation pressure, and where: 
 \begin{equation}
-\tilde{p}_{k}=(\gamma-1)\left(\tilde{e}-\frac{(\tilde{\rho}+\rho_{b})\mathbf{v}}{2}-\mathbf{B_{b}\tilde{B}}+-\frac{\tilde{\mathbf{B}}^{2}}{2}\right)
+\tilde{p}_{k}=(\gamma-1)\left(\tilde{e}-\frac{(\tilde{\rho}+\rho_{b})\mathbf{v}}{2}-\mathbf{B}_b\mathbf{\tilde{B}}+-\frac{\tilde{\mathbf{B}}^{2}}{2}\right)
 \end{equation}
 so:
 \begin{equation}
@@ -433,22 +455,8 @@ The first major change, between these equations and the ones given in \cref{eq:i
 As already discussed this allows the study of the perturbations on top of a static background.
 Another, more subtle, change is the move to the energy density per-unit volume $e$ and more importantly the addition of various $D$ terms.
 
-The $D$ terms in the SAC equations are hyper-diffusion or hyper-viscous terms that enforce numerical stability upon the equations, they are adapted from \citep{nordlund1995} and shall not be replicated here in detail, however they can be seen in \citet{shelyag2008}.
+The $D$ terms in the SAC equations are hyper-diffusion or hyper-viscous terms that enforce numerical stability upon the equations, they are adapted from \citep{nordlund1995} and shall not be replicated here in detail, however they are described in \citet{shelyag2008}.
 The function of the diffusive and viscous terms are to smooth out any deviations from the solution on a local scale to a larger scale, thereby reducing the compounding of the error keeping the solution stable.
 There are secondary effects from using this type of numerical stability enforcement, primarily that if the diffusion terms are too high it can lead to damping of the actual solution and deviation of the approximation from the correct solution, also in regions of rapid change such as shocks it adds an extra non-physical diffusion to the shock.
-However by choosing a minimum value of the coefficients to maintain stability these effects can be reduced to an acceptable level, especially for the linear wave studies presented in this report.
-
-
-\subsection{Grids, accuracy and resolution}
-
-As discussed earlier in the derivation of the central difference approximation to the derivative, the accuracy of the solution is fundamentally dependant upon the step size $\Delta_{x}$.
-In n dimensions this becomes a n dimensional grid with step sizes $\Delta_{x},\Delta_{y}...\Delta_{n}$ in each dimension, this leads to the concept of a computational grid, or mesh, over which the approximation to the differential equations is calculated.
-In physical terms this relates to a resolution below which the solution is not resolved.
-
-There are many approaches to developing computational meshes, the most basic is to generate a uniform gird with the desired resolution over the whole computational domain, in terms of SAC this means having a specific grid size set for each dimension, i.e. $\Delta_{x},\Delta_{y},\Delta_{z}$ for a 3D mesh.
-More complex codes allow for having a variable grid size at different locations in computational space, there are many approaches to this problem one of which will be discussed in more detail shortly.
-An advanced method of generating a non-uniform grid is the AMR or Adaptive Mesh Refinement method.
-In this method the grid automatically increases resolution where a certain accuracy condition is not met.
-This method allows for efficient and high resolution computation as the solutions are only resolved to the accuracy required on a local level, however this is a very complex method which is difficult to implement.
-A more simple method is defining a static but non-uniform grid.
+However by choosing a minimum value of the coefficients to maintain stability these effects can be reduced to an acceptable level, especially for the linear wave studies presented in this thesis.
 
