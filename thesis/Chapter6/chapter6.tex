@@ -97,7 +97,7 @@ x0=xc, y0=yc, direction='forwards')
 
 fig = plt.figure(figsize=texfigure.figsize(pytex))
 ax = plt.subplot()
-im = ax.imshow(vv, cmap='cubehelix', extent=[7812.5,x_max,7812.5,y_max])
+im = ax.imshow(vv, cmap='Blues', extent=[7812.5,x_max,7812.5,y_max])
 im.set_norm(matplotlib.colors.Normalize(vmin=0,vmax=10))
 
 Sline, = ax.plot(slines.streamlines[0][0],slines.streamlines[0][1],color='red',linewidth=2, zorder=40)
@@ -174,7 +174,7 @@ This means that \cref{eq:Et_xyz} can only be numerically integrated and therefor
     E_T = \frac{nPA^2V}{4}\ \left( \sum_{x,y,z} \rho(x,y,z)\ G^2(x,y,z) \right),\label{eq:ET}
 \end{equation}
 
-\Cref{eq:ET} provides a relationship between the amplitude and period of the driver, however, it can be simplified by considering that many of the variables remain constant for each simulation performed in this work.
+\Cref{eq:ET} provides a relationship between the amplitude and period of the driver, however, it can be simplified by considering that many of the variables remain constant for each simulation performed in this chapter.
 For all simulations run in this work the driver is the same, meaning $G(x,y,z)$ is constant, the background conditions and therefore $\rho(x,y,z)$ are also constant as is the numerical domain and therefore $V$.
 It is therefore possible to let,
 \begin{equation}
@@ -219,11 +219,11 @@ The wave energy flux analysis is presented in terms of $\vec{F}^2_j$ percentages
 
 
 To make visualisation and analysis of the surfaces easier the values of the decomposed parameter is shown for one field line for all time steps in the simulation.
-In Figure \ref{fig:TD_vel_r30} the values of velocity are shown in the form of time-distance diagrams for these field line strips, in Figure \ref{fig:TD_fwave_r30} the decomposed square wave flux is shown. Overlaid on both sets of plots are the characteristic phase speeds of a uniform plasma; the Alfv\'en speed $v_A$ and sound speed $c_s$, as well as the fast speed $v_f^2 = \sqrt{c_s^2 + v_A^2}$ and the slow (tube) speed $v_t^{-2} = \sqrt{c_s^{-2} + v_A^{-2}}$.
+In Figure \ref{fig:TD-vel-r30} the values of velocity are shown in the form of time-distance diagrams for these field line strips, in Figure \ref{fig:TD-fwave-r30} the decomposed square wave flux is shown. Overlaid on both sets of plots are the characteristic phase speeds of a uniform plasma; the Alfv\'en speed $v_A$ and sound speed $c_s$, as well as the fast speed $v_f^2 = \sqrt{c_s^2 + v_A^2}$ and the slow (tube) speed $v_t^{-2} = \sqrt{c_s^{-2} + v_A^{-2}}$.
 While these speeds will deviate from the true speeds in the non-uniform simulation domain, we can use them, in combination with knowledge of high-$\beta$ plasma properties to identify the wave modes present in the simulations.
 
 
-It is clear from the $V_\phi$ (lowest) frames in Figure \ref{fig:TD_vel_r30} that the dominant perturbation is travelling at approximately the Alfv\'en speed, we can therefore reliably deduce that the torsional component of the velocity is, as expected, the Alfv\'en wave.
+It is clear from the $V_\phi$ (lowest) frames in Figure \ref{fig:TD-vel-r30} that the dominant perturbation is travelling at approximately the Alfv\'en speed, we can therefore reliably deduce that the torsional component of the velocity is, as expected, the Alfv\'en wave.
 The $V_\perp$ (second) panels also a wave front propagating at the slow speed. For the high-$\beta$ plasma in the sub-chromosphere region of the solar atmosphere, this is the velocity component that is perturbed by the slow wave in a uniform plasma. In the shorter-period frames ($30$s and $90$s) there is a lower-amplitude front propagating close to the fast or sound speeds.
 This is attributed to the coupling of the fast and slow wave modes due to the inhomogeneity of the plasma.
 Finally, in the $V_\parallel$ (top) panels, there is not one dominant wave front, however evidence of two wave fronts, one propagating at the slow speed and one at the fast speed can be discerned.
@@ -231,14 +231,15 @@ The front propagating with the fast speed can be attributed to the fast mode, as
 As with the $V_\perp$ component the existence of the slow mode is attributed to the non-uniform nature of the simulation domain.
 
 
-The identification of the wave modes in the velocity perturbations can inform the analysis of the wave flux time-distance diagrams in Figure \ref{fig:TD_fwave_r30}.
-In Figure \ref{fig:TD_fwave_r30} the total square wave flux is calculated as the sum of the square of each component, $ F^2 = F_\parallel^2 + F_\perp ^2  + F_\phi^2$, the square of each component is then normalised by this square total to give a percentage value for each component.
+The identification of the wave modes in the velocity perturbations can inform the analysis of the wave flux time-distance diagrams in Figure \
+ref{fig:TD-fwave-r30}.
+In Figure \ref{fig:TD-fwave-r30} the total square wave flux is calculated as the sum of the square of each component, $ F^2 = F_\parallel^2 + F_\perp ^2  + F_\phi^2$, the square of each component is then normalised by this square total to give a percentage value for each component.
 This is then plotted along one field line, like the velocity components.
 
 
-The percentage wave flux shown in Figure \ref{fig:TD_fwave_r30}, can be combined with the analysis of Figure \ref{fig:TD_vel_r30} to determine the relative strengths of the wave modes.
-In comparison to the upper panels of Figure \ref{fig:TD_vel_r30}, where it was difficult to distinguish between the fronts travelling at the fast and slow speeds, in the $F^2_\parallel$ (top) panel of Figure \ref{fig:TD_fwave_r30} it is clear that the component with the most flux is the fast mode.
-Figure \ref{fig:TD_fwave_r30} also shows that in the $F^2_\perp$ (middle) panel, the flux is more evenly shared between the two superimposed components, with the ratio apparently changing dependant upon period.
+The percentage wave flux shown in Figure \ref{fig:TD-fwave-r30}, can be combined with the analysis of Figure \ref{fig:TD-vel-r30} to determine the relative strengths of the wave modes.
+In comparison to the upper panels of Figure \ref{fig:TD-vel-r30}, where it was difficult to distinguish between the fronts travelling at the fast and slow speeds, in the $F^2_\parallel$ (top) panel of Figure \ref{fig:TD-fwave-r30} it is clear that the component with the most flux is the fast mode.
+Figure \ref{fig:TD-fwave-r30} also shows that in the $F^2_\perp$ (middle) panel, the flux is more evenly shared between the two superimposed components, with the ratio apparently changing dependant upon period.
 This observation should be considered when drawing conclusions from the relative strength of the $F^2_\parallel$ component.
 The $F^2_\phi$ (bottom) panel is again dominated by the Alfv\'en component.
 
@@ -247,13 +248,14 @@ The average value was taken for one field line for all time throughout the simul
 The three panels of Figure \ref{fig:period-flux} are for three flux surfaces seeded at different initial radii at the top of the domain, showing results for different parts of the simulation domain.
 In all three panels it can be seen that the averages for the perpendicular component (green dashes), remain constant with respect to period.
 While the torsional (red crosses) and parallel (blue dots) components fluxes are clearly period dependant.
-Recalling the analysis of Figures \ref{fig:TD_vel_r30} and \ref{fig:TD_fwave_r30} from above, we can attribute the perpendicular flux to the slow wave, the parallel flux to the fast wave and the torsional flux to the Alfv\'en wave.
+Recalling the analysis of Figures \ref{fig:TD-vel-r30} and \ref{fig:TD-fwave-r30} from above, we can attribute the perpendicular flux to the slow wave, the parallel flux to the fast wave and the torsional flux to the Alfv\'en wave.
 We can therefore conclude that the relative strengths of the fast mode and the Alfv\'en mode are period dependant, with the Alfv\'en mode overall dominating more at larger periods.
 While the growth in relative strength of the Alfv\'en mode is reasonably linear for the $156$ km radius flux surface, the larger flux surfaces show some variation in average wave flux. 
 
 
 % SIX Velocity T-D Graphs:
 \begin{pycode}[chapter6]
+
 from period_amps import periods, str_amps
 velocity_labels = {'par_label':r'$ \vec{V}_\parallel$ ms$^{-1}$', 
                    'perp_label':r'$ \vec{V}_\perp$ ms$^{-1}$',
@@ -301,7 +303,7 @@ for i, paf in enumerate(all_periods):
     ax[1].set_xlabel('')
     fig.tight_layout(h_pad=0.05)
     
-    Lfig = ch6.save_figure('TD_vel_r30_p{}'.format(str(paf.period).replace('.','-')), fig=fig, fext='.pdf')
+    Lfig = ch6.save_figure('TD-vel-r30_p{}'.format(str(paf.period).replace('.','-')), fig=fig, fext='.pdf')
     Lfig.caption = "Velocity components for " + captions[paf.period]
     Lfig.subfig_width = r"{}\columnwidth".format(width)
     multifig.append(Lfig)
@@ -317,9 +319,9 @@ multifig.caption = r"""Velocity time-distance diagrams for six different period 
 
 
 \begin{pycode}[chapter6]
-flux_labels = {'par_label':r'$ \vec{F}_\parallel^2$ \%', 
-               'perp_label':r'$ \vec{F}_\perp^2$ \%',
-               'phi_label':r'$ \vec{F}_\phi^2$ \%'}
+flux_labels = {'par_label':r'$F_\parallel^2$ \%', 
+               'perp_label':r'$F_\perp^2$ \%',
+               'phi_label':r'$F_\phi^2$ \%'}
 
 multifig = texfigure.MultiFigure(len(all_periods), 1, reference='TD-fwave-r30')
 for i, paf in enumerate(all_periods):
@@ -329,7 +331,7 @@ for i, paf in enumerate(all_periods):
     
     kwargs = ph.get_single_percentage_flux(cfg, 'r30', beta=beta)
     kwargs.update(flux_labels)
-    kwargs.update({'cmap':'PiYG'})
+    kwargs.update({'cmap': 'PRGn'})
     ph.triple_plot(ax, **kwargs)
     add_triple_phase(ax, 'r30')
     #Remove the top two x labels
@@ -367,9 +369,9 @@ tubes = []
 for i, ax in enumerate(axs):
     AvgsP = ph.get_all_avgs(cfg, cfg.tube_radii[i], sim_params)
     tubes.append(AvgsP)
-    ax.plot(periods, AvgsP[0], 'o', label=r"$F_\parallel^2$", mew=0, ms=5)
-    ax.plot(periods, AvgsP[1], '_', label=r"$F_\perp^2$", mew=2, ms=5)
-    ax.plot(periods, AvgsP[2], 'x', label=r"$F_\phi^2$", mew=2, ms=5)
+    ax.plot(periods, AvgsP[0], 'o', label=r"$F_\parallel^2$", mew=0, ms=7)
+    ax.plot(periods, AvgsP[1], '_', label=r"$F_\perp^2$", mew=2, ms=7)
+    ax.plot(periods, AvgsP[2], 'x', label=r"$F_\phi^2$", mew=2, ms=7)
     ax.set_ylabel("% Square \n Wave Flux")
     ax.set_title(titles[i])
     ax.xaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter())
