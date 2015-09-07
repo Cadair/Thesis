@@ -11,7 +11,7 @@ Usage:
 Options:
     --view  Compile and then open pdf.
     --viewer=PDF  PDF Viewer. [default: evince]
-    --rerun=RR PythonTeX rerun flag. [default: modified]
+    --rerun=RR PythonTeX rerun flag. [default: errors]
     --port=P Port for IPython Notebook [default: 8898]
 
 """
@@ -30,7 +30,7 @@ arguments = docopt.docopt(__doc__, version='1.0.0')
 
 #Fix rerun bug
 if arguments['--rerun'] is None:
-    arguments['--rerun'] = 'modified'
+    arguments['--rerun'] = 'errors'
 
 file_prefix = 'smumford_thesis'
 #Compile Paper
