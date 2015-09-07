@@ -24,7 +24,7 @@ periods = periods[:10]
 In both of these previous chapters, arbitrary periods were chosen, in this chapter the effect of this choice of period on the wave excitation by the logarithmic driver is studied.
 The solar photosphere is populated with an outstanding variety of different frequency wave modes.
 Acoustic (p-mode) waves have a wide frequency spectra, with a peak power at 5 minutes, and a large number of MHD waves at different frequencies have been observed in the low solar atmosphere; \cite{Freij2014,Dorotovic2014} observe oscillations in magnetic pores at periods ranging from 3 minutes to 25 minutes; \cite{morton2011} observe sausage modes with periods ranging from $30$ to $447$ seconds; \cite{fujimura2009} observe oscillations with periods between $3$ and $6$ minutes in pores and between $4$ and $9$ minutes in the inter-granular lanes.
-It is therefore interesting to study a range of possible frequencies for our driver, to see what effects this has on the excitation of MHD modes.
+It is therefore interesting to study a range of possible frequencies for the driving motions, to see what effects this has on the excitation of MHD waves.
 
 \section{Simulation Configuration}\label{sec:periodconfig}
 This chapter employs the same magnetohydrostatic background as \cref{ch:drivers,ch:expfac} which is described in \cref{sec:mhsbackground}.
@@ -283,9 +283,10 @@ def add_triple_phase(ax, tube_r):
 
 captions = {p: r"Period: ${}$ s Amplitude:".format(p) + a + r" ms$^{{-1}}$" for p, a in zip(periods, str_amps)[:10]}
 #print(captions, file=sys.stderr)
-figsize = texfigure.figsize(pytex, height_ratio=0.85)
-multifig = texfigure.MultiFigure(3, 1, reference='TD_vel_r30')
-for i, paf in enumerate(all_periods[::4]):
+width = 0.75
+figsize = texfigure.figsize(pytex, scale=width, height_ratio=0.85)
+multifig = texfigure.MultiFigure(len(all_periods), 1, reference='TD-vel-r30')
+for i, paf in enumerate(all_periods):
     [setattr(cfg, f, getattr(paf, f)) for f in paf._fields]
 
     fig, ax = plt.subplots(nrows=3, ncols=1, figsize=figsize)
@@ -302,13 +303,17 @@ for i, paf in enumerate(all_periods[::4]):
     
     Lfig = ch6.save_figure('TD_vel_r30_p{}'.format(str(paf.period).replace('.','-')), fig=fig, fext='.pdf')
     Lfig.caption = "Velocity components for " + captions[paf.period]
+    Lfig.subfig_width = r"{}\columnwidth".format(width)
     multifig.append(Lfig)
 
 multifig.caption = r"""Velocity time-distance diagrams for six different period and amplitude combinations are plotted, in each pane three components of velocity are plotted for a flux surface of $r=468$ km. Overlaid on the velocity are magnetic field perturbation contours which are thicker for larger values and dashed for negative values. Shown in green are the phase speeds for the background conditions, the dot-dashed line is the fast speed $v_f$, the dashed line is the sound speed $c_s$, the dotted line is the Alfv\'en speed $v_a$ and the solid line is the slow speed $v_s$."""
-
 \end{pycode}
 
-\py[chapter6]|multifig|
+\py[chapter6]|multifig[:2]|
+\py[chapter6]|multifig[2:4]|
+\py[chapter6]|multifig[4:6]|
+\py[chapter6]|multifig[6:8]|
+\py[chapter6]|multifig[8:10]|
 
 
 \begin{pycode}[chapter6]
@@ -316,8 +321,8 @@ flux_labels = {'par_label':r'$ \vec{F}_\parallel^2$ \%',
                'perp_label':r'$ \vec{F}_\perp^2$ \%',
                'phi_label':r'$ \vec{F}_\phi^2$ \%'}
 
-multifig = texfigure.MultiFigure(3, 1, reference='TD_fwave_r30')
-for i, paf in enumerate(all_periods[::4]):
+multifig = texfigure.MultiFigure(len(all_periods), 1, reference='TD-fwave-r30')
+for i, paf in enumerate(all_periods):
     [setattr(cfg, f, getattr(paf, f)) for f in paf._fields]
     
     fig, ax = plt.subplots(nrows=3, ncols=1, figsize=figsize)
@@ -334,13 +339,19 @@ for i, paf in enumerate(all_periods[::4]):
     
     Lfig = ch6.save_figure('TD_wave_r30_p{}'.format(str(paf.period).replace('.','-')), fig=fig, fext='.pdf')
     Lfig.caption = "Percentage $F^2$ components for " + captions[paf.period]
+    Lfig.subfig_width = r"{}\columnwidth".format(width)
     multifig.append(Lfig)
 
 multifig.caption = r"""Percentage square wave flux along one field line is plotted over the length of the simulation, for different period and amplitude combinations. Shown in green are the phase speeds for the background conditions, the dot-dashed line is the fast speed $v_f$, the dashed line is the sound speed $c_s$, the dotted line is the Alfv\'en speed $v_a$ and the solid line is the slow speed $v_s$."""
 
 \end{pycode}
 
-\py[chapter6]|multifig|
+
+\py[chapter6]|multifig[:2]|
+\py[chapter6]|multifig[2:4]|
+\py[chapter6]|multifig[4:6]|
+\py[chapter6]|multifig[6:8]|
+\py[chapter6]|multifig[8:10]|
 
 
 \begin{pycode}[chapter6]
@@ -381,4 +392,5 @@ period_flux.caption = r"""Average percentage square wave flux plotted against pe
 \section{Conclusion}\label{sec:conclusion}
 
 In this chapter the same logarithmic spiral driver that was studied in \cref{ch:drivers,ch:expfac}, but varied the oscillatory period of the driver.
+
 
