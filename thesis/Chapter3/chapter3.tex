@@ -41,12 +41,13 @@ ch3 = texfigure.Manager(pytex, number=3, base_path='./Chapter3/')
 \section{Magnetohydrostatic Background Conditions}\label{sec:mhsbackground}
 
 The numerical simulations performed for the MHD wave mode analysis in this thesis, all make use of the ability of SAC (\cref{sec:SAC}) to solve for perturbations on top of a static MHD equilibria.
-To perform these experiments, it is needed that a background atmosphere be constructed, for all the work in this thesis, quiet Sun regions were chosen for study.
+To perform these experiments, a background atmosphere needs to be constructed.
+Quiet Sun regions were chosen for study, therefore this section details the construction of an atmosphere representative of the quiet Sun.
 This choice reduces the complexity of the modelled magnetic field and should allow for more accurate separation of the MHD wave effect from any other energy transfer processes, such as bulk flows.
 
 %HS Background
 The first step in constructing a static model for the solar atmosphere is to understand the hydrodynamic properties of the background plasma.
-Models of properties such as the density, and pressure have been created for various heights in the solar atmosphere, based on observations and theory.
+Models of properties such as the density and pressure have been created for various heights in the solar atmosphere, based on observations and theory.
 The profiles used in this thesis are from the \cite{vernazza1981} model C, which covers the range of height in the solar atmosphere from the photosphere ($0$ km) to $2.5$ Mm above the photosphere.
 A plot of the density, pressure and temperature from this model is shown in \cref{fig:val3c}.
 
@@ -61,7 +62,7 @@ ZZ = u.Quantity(np.linspace(empirical_data['Z'][0], empirical_data['Z'][-1], 128
 table = atm.hs_atmosphere.interpolate_atmosphere(empirical_data, ZZ)
 
 # Create a figure and make space for the axes.
-fig, ax = plt.subplots(gridspec_kw={'right':0.790, 'left':0.16, 'bottom':0.13})
+fig, ax = plt.subplots(gridspec_kw={'right':0.78, 'left':0.16, 'bottom':0.13})
 
 # Shortcut all the Mm conversion.
 Z = empirical_data['Z'].to(u.Mm)
@@ -75,7 +76,7 @@ lp_i, = ax2.plot(ZZ.to(u.Mm), table['p'].to(u.Pa), color='green')
 
 
 ax3 = ax.twinx()
-ax3.spines["right"].set_position(("axes", 1.18))
+ax3.spines["right"].set_position(("axes", 1.2))
 lt, = ax3.plot(Z, empirical_data['T'].to(u.kK), 'x', color='red')
 lt_i, = ax3.plot(ZZ.to(u.Mm), table['T'].to(u.kK), color='red')
 
@@ -114,11 +115,11 @@ On top of this hydrostatic background, a magnetic field is required to study MHD
 %MBPs and magnetic structures
 The type of magnetic phenomena to be investigated are small scale photospheric structures, that occur frequently over the disk of the Sun.
 Magnetic Bright Points (MBPs) were chosen as an observational feature to use as a guide for the background model, MBPs are well studied and there are good estimates of their physical properties.
-\cite{feng2013} performed a study of Photospheric Bright Points (PBPs), which are assumed to be analogous to MBPs, using the Dutch Open Telescope, and find the peak of the log-normal distribution give a diameter of $232\pm40$ km for the quiet Sun.
-They also show that $50$\% of the PBPs they analysed had the major axis of their ellipse less than $1.5$ times longer than the minor axis.
-Showing that they are to a first approximation circular, however, with some PBPs having quite a large deviation from this approximation.
-\cite{utz2013} perform a similar study looking at the average magnetic field strength of MBPs using the Hinode SOT instrument, they find that in a quiet Sun region the average magnetic field strength of a MBP is $135.0 \pm 1.0$ mT.
-\cite{sanchezalmeida2004} also perform a statistical study of MBPs, they find that in their sample most MBPs have lifetimes of less than 10 minutes.
+\cite{feng2013} performed a study of Photospheric Bright Points (PBPs), which are assumed to be analogous to MBPs, using the Dutch Open Telescope, and found that the peak of the log-normal distribution gave a diameter of $232\pm40$ km for the quiet Sun.
+They also show that $50$\% of the PBPs they analysed had the major axis of their ellipse less than $1.5$ times longer than the minor axis, showing that they are to a first approximation circular, however, with some PBPs having quite a large deviation from this approximation.
+\cite{utz2013} performed a similar study looking at the average magnetic field strength of MBPs using the Hinode SOT instrument.
+They find that in a quiet Sun region the average magnetic field strength of a MBP is $135.0 \pm 1.0$ mT.
+\cite{sanchezalmeida2004} also performed a statistical study of MBPs, finding that in their sample that most MBPs have lifetimes of less than 10 minutes.
 They also note, and present some evidence, that this is probably an upper bound estimate, and true lifetimes may be shorter.
 
 
@@ -198,7 +199,6 @@ data = {'magnetic_field_x':yt.YTQuantity.from_astropy(Bx.decompose()),
 ds = yt.load_uniform_grid(data, x.shape, length_unit='m', magnetic_unit='T', mass_unit='kg', periodicity=[False]*3, bbox=bbox)
 \end{pycode}
 
-
 \begin{pycode}[chapter3]
 from astropy.modeling import models, fitting
 
@@ -228,9 +228,9 @@ fwtm = fwtm.to(u.km)
 \newcommand{\zb}{{z_{2}}}
 
 From this information, and taking into account the properties of the hydrostatic background chosen, a magnetic field can be constructed with properties similar to the MBPs.
-The 3D magnetic field was generated using work of \cite{gent2013, gent2014}, and the implementation of that paper in the pysac library\footnote{https://github.com/SWAT-Sheffield/pysac}.
-The magnetic field is constructed as a self-similar field, in the same manner as \cite{schluter1958}, it is constructed for a axis-symmetric flux tube, with a Gaussian radial profile given in \cref{eq:G}.
-The vertical profile of the magnetic field, along the axis of the flux tube, is given in \cref{eq:BO}, and it is a summation of two exponentials, one for controlling the profile in the low atmosphere and one for controlling the profile in the upper atmosphere.
+The 3D magnetic field will be generated using work of \cite{gent2013, gent2014}, and the implementation of that paper in the pysac library\footnote{https://github.com/SWAT-Sheffield/pysac}.
+The magnetic field will be constructed as a self-similar field, in the same manner as \cite{schluter1958}, it is constructed for a axis-symmetric flux tube, with a Gaussian radial profile given in \cref{eq:G}.
+The vertical profile of the magnetic field, along the axis of the flux tube, is given in \cref{eq:BO}, as a summation of two exponentials, one for controlling the profile in the low atmosphere and one for controlling the profile in the upper atmosphere.
 The magnetic field is therefore specified by \cref{eq:Bxyz,eq:f,eq:G,eq:r,eq:BO}, which are modified versions of the equations presented in \cite{gent2014}, simplified for a single flux tube model.
 
 \begin{equation}\label{eq:Bxyz}
@@ -258,8 +258,9 @@ r \,   &= \sqrt{(x-x )^2+(y-y )^2},\\  \label{eq:r}
 +
 \bb\exp\left(-\frac{z}{\zb}\right),
 \end{equation}
-where $B_{b}$ are the components of the background magnetic field; $f_0$ is the horizontal scaling length; $x_0,y_0,z_0$ are the coordinates of the footpoint of the field where $z_0=0$ which is considered to be the photosphere as shown in \cref{fig:val3c}; $b_{01}$ and $b_{02}$ are two real constants that sum to $1$ and specify the relative strength of the two exponentials controlling the vertical field strength profile, while $z_1$ and $z_2$ control the field strength profile with height; finally $S$ is the footpoint field strength.
-Similarly to \cite{gent2014} a uniform background field ($\bc$) is also added to the model, this weak ambient vertical field provides for a more realistic atmosphere, instead of an atmosphere where there is only one magnetic flux tube present.
+where $B_{bi}$ are the components of the background magnetic field; $f_0$ is the horizontal scaling length; $x_0,y_0,z_0$ are the coordinates of the footpoint of the field where $z_0=0$ which is considered to be the photosphere as shown in \cref{fig:val3c}; $b_{01}$ and $b_{02}$ are two real constants that sum to $1$ and specify the relative strength of the two exponentials controlling the vertical field strength profile, while $z_1$ and $z_2$ control the field strength profile with height; finally $S$ is the footpoint field strength.
+Similarly to \cite{gent2014} a uniform background field ($\bc$) is also added to the model.
+This weak ambient vertical field provides for a more realistic atmosphere, instead of an atmosphere where there is only one magnetic flux tube present.
 The parameters used in constructing the background atmosphere in this thesis are given in \cref{tab:bgparams}.
 
 \begin{table}
@@ -348,12 +349,13 @@ alf2d.caption = r"Vertical slice through the background atmosphere, with the Alf
 
 \py[chapter3]|alf2d|
 
-The result of the flux tube construction in \cite{gent2013, gent2014} is a 2D Gaussian profile for the cross-sectional magnetic field, with a full width at half maximum (FWHM) of $\approx$ \py[chapter3]|np.round(fwhm, -1)|, and a full width at a 10th of maximum (FWTM) of \py[chapter3]|np.round(fwtm, -1)| at the photosphere, which corresponds to the lower bound of the observations in \cite{utz2013}.
+The result of the flux tube construction in \cite{gent2013, gent2014} was a 2D Gaussian profile for the cross-sectional magnetic field, with a full width at half maximum (FWHM) of $\approx$ \py[chapter3]|np.round(fwhm, -1)|, and a full width at a 10th of maximum (FWTM) of \py[chapter3]|np.round(fwtm, -1)| at the photosphere, which corresponds to the lower bound of the observations in \cite{utz2013}.
 The primary reason for the smaller footpoint, in comparison with the observations in \cite{utz2013}, is the hydrodynamical model used for the photosphere, which has an upper limit to the amount of magnetic pressure it can support.
 Plots of the magnetic field strength in the photosphere are shown in \cref{fig:guassian}, for both a 1D and 2D profile.
 A vertical slice through the background atmosphere is then shown in \cref{fig:alf2d}, with the structure of the magnetic field shown over-plotted on the Alfv\'en speed.
-As can be seen in \cref{fig:alf2d,fig:domain-3d} that the magnetic field expands non-linearly as the kinetic pressure decreases with height.
-It should also be noted that the background atmosphere has been constructed up to $1.6$ Mm above the photosphere defined in \cite{vernazza1981}, this is a deliberate choice to exclude the region where the plasma $\beta = 1$.
+As can be seen in \cref{fig:alf2d,fig:domain-3d}, the magnetic field expands non-linearly as the kinetic pressure decreases with height.
+It should also be noted that the background atmosphere has been constructed up to $1.6$ Mm above the photosphere defined in \cite{vernazza1981}.
+This is a deliberate choice to exclude the region where the plasma $\beta = 1$.
 The reasons for this choice lie in the studies to be performed using this atmosphere, this thesis is explicitly studying the generation of MHD waves in the photosphere and chromosphere and not their propagation into the higher layers of the solar atmosphere.
 It is therefore easier to exclude the very interesting, but also complex physics that occurs around the $\beta = 1$ region.
 
@@ -370,7 +372,7 @@ This is done using the principal of magnetohydrostatic equilibrium as described 
 \end{equation}
 %\nabla P = (\mathbf{B}\cdot \nabla)\mathbf{B} + \nabla\left(\frac{\mathbf{B}^2}{2}\right) + \nabla p = \rho\mathbf{g},
 which describes the pressure balance between the kinetic and magnetic forces present in a MHD plasma;
-where $P$ is the total pressure, $p$ is the kinetic pressure $\rho$ is the density and $g$ is the acceleration due to gravity (assumed to be constant), and $\mu_0$ is the vacuum magnetic permeability coefficient.
+where $P$ is the total pressure, $p$ is the kinetic pressure $\rho$ is the density, $g$ is the acceleration due to gravity (assumed to be constant), and $\mu_0$ is the vacuum magnetic permeability coefficient.
 The solution to this equation with the magnetic field specified above is derived in \cite{gent2013,gent2014}.
 
 
@@ -528,17 +530,17 @@ Once the background atmosphere has been constructed and simulations performed, i
 This section describes the analysis method developed for the research presented in this thesis, which the proceeding chapters will utilize.
 
 As shown in \cref{sec:Vpert}, MHD waves propagating through a plasma cause perturbations in velocity.
-As the perturbation velocity is one of the physical variables calculated by the SAC code this fact provides a mechanism by which we can identify the waves in the simulation domain.
-However, the challenge is decomposing the velocity vector calculated by SAC in the reference frame of the simulation domain ($V_x$, $V_y$, $V_z$) into the frame of the magnetic field \textit{i.e.} a velocity parallel to the magnetic field, $V_\parallel$, perpendicular to the magnetic field, $V_\perp$, and a component perpendicular to the magnetic field in the other plane $V_\phi$, in which the waves are mathematically described.
+As the perturbation velocity is one of the physical variables calculated by the SAC code, this fact provides a mechanism by which we can identify the waves in the simulation domain.
+However, the challenge is decomposing the velocity vector, calculated by SAC in the reference frame of the simulation domain ($V_x$, $V_y$, $V_z$) into the frame of the magnetic field \textit{i.e.} a velocity parallel to the magnetic field, $V_\parallel$, perpendicular to the magnetic field, $V_\perp$, and a component perpendicular to the magnetic field in the other plane $V_\phi$, in which the waves are mathematically described.
 
 Considering this problem more closely, the $V_\parallel$ component is trivial to calculate, as it is the projection of $\vec{V}$ onto $\vec{B}$.
 The $V_\phi$, the azimuthal component, can be defined as $V_\phi = V_\parallel \times V_\perp$.
-Therefore, the challenging component to calculate is the $V_\perp$ component, the component perpendicular to the magnetic field.
-When only a two dimensional system is considered the vector perpendicular to the magnetic field is well defined, it is perpendicular to the parallel vector in the one degree of freedom available to it.
+Therefore, the challenging component to calculate is $V_\perp$, the component perpendicular to the magnetic field.
+When only a two dimensional system is considered, the vector perpendicular to the magnetic field is well defined, as it is perpendicular to the parallel vector in the one degree of freedom available to it.
 In three dimensions however, there is a whole plane perpendicular to the parallel vector.
 It is therefore obvious that some other construct is needed.
 
-The chosen solution to finding the $\vec{V_\perp}$ vector is to construct a magnetic flux tube.
+The chosen solution to finding the $V_\perp$ vector is to construct a magnetic flux tube.
 A flux tube is a mathematical construct in a magnetic field that encloses a constant amount of magnetic flux over its whole length.
 Flux tubes, as a consequence of the fact they contain a fixed amount of magnetic flux, trace the field and move with the magnetic field lines.
 A flux tube constructed in the numerical domain would have a boundary, a `flux surface' which would allow the computation of a normal vector from this surface.
@@ -553,7 +555,7 @@ The equation of a plane is defined by three arbitrary points in a Cartesian geom
 	ax_{1,2,3}+by_{1,2,3}+cz_{1,2,3}+d=0.
     \label{eq:plane}
 \end{equation}
-\cref{eq:plane} can therefore be used to calculate the normal vector to the numerically constructed flux surface.
+\Cref{eq:plane} can therefore be used to calculate the normal vector to the numerically constructed flux surface.
 The three points which define the plane and setting $d=0$ leads to a set of simultaneous equations which can be solved for $\vec{n}$.
 
 \subsection{Constructing Flux Surfaces Numerically}
@@ -689,15 +691,14 @@ normvec.glyph.glyph_source.glyph_position = 'tail'
 
 zoomed_glyphs = ch3.save_figure('zoomed-glyphs', fig, fext='.png', azimuth = 85, elevation = 80, distance=50, focalpoint=[63, 120, 110], aa=20)
 zoomed_glyphs.figure_width = vtk_width
-zoomed_glyphs.caption=r"By using the surface triangles a vector normal to the surface can be calculated at each vertex. This is done automatically by the vtkRuledSurfaceFilter algorithm."
+zoomed_glyphs.caption=r"By using the surface triangles, a vector normal to the surface can be calculated at each vertex. This is done automatically by the vtkRuledSurfaceFilter algorithm."
 zoomed_glyphs.placement = 'H'
 \end{pycode}
 
-This section describes the numerical construction the flux surfaces, and the set of normal vectors defined upon it.
-This algorithm makes use of the Visualisation Tool Kit (VTK\footnote{VTK 6.1 (\url{www.vtk.org})}) and the MayaVi package \cite{Ramachandran2011} to provide a high level Python interface to VTK.
-The flux surface is constructed based on the definition of flux tubes and field lines, a flux tube will enclose a fixed number of field lines dependant upon the magnetic flux density.
-Therefore the edge of the flux tube can be thought of as a set of field lines.
-We can therefore calculate the surface of the flux tube by computing the field lines that form its outer boundary.
+This section describes the numerical construction of the flux surfaces, and the set of normal vectors defined upon them.
+This algorithm makes use of the Visualisation Tool Kit (VTK\footnote{VTK 6.1 (\url{www.vtk.org})}) and the MayaVi package \citep{Ramachandran2011} to provide a high level Python interface to VTK.
+A flux surface is defined as the set of field lines which form a boundary of a flux tube.
+Due to the fact that the magnetic field constructed in \cref{sec:mhsbackground} is continuous the choice of `boundary' is arbitrary, as any axisymmetric boundary could be chosen.
 The process of computing these flux surfaces is illustrated in \cref{fig:circ-seeds,fig:fieldlines,fig:flux-surface,fig:zoomed-surface,fig:zoomed-glyphs}.
 
 The first step, shown in \cref{fig:circ-seeds} as blue dots, is the selection of the seed points for the field lines.
@@ -709,7 +710,7 @@ The radius of this circle defines which arbitrary flux surface is constructed.
 
 \py[chapter3a]|fig_fieldlines|
 
-The second step (\cref{fig:fieldlines}), is the tracing of the field lines from the defined seed points through the domain.
+The second step (\cref{fig:fieldlines}) is the tracing of the field lines from the defined seed points through the domain.
 This calculation is performed using the \verb|vtkStreamTracer| algorithm, using the Runge Kutta 4 integrator, integrating backwards along the field lines.
 
 
@@ -730,12 +731,12 @@ Therefore a check is implemented in the pipeline to ensure the normal vector is 
 The resulting normal vectors are shown in \cref{fig:zoomed-glyphs}
 
 The number of normal vectors calculated is dependant on the number of triangles which is determined by the number of seed points and the step size of the field line integrator.
-The number of seed points used for all the analysis is $100$ for all the analysis in this simulation.
-The resolution of the integrator is left at the default calculated by VTK.
+The number of seed points used $100$ for all the analysis in this thesis.
+The resolution of the integrator is left at the default as calculated by VTK.
 
 \py[chapter3a]|zoomed_glyphs|
 
-Once the normal vectors have been constructed, it is simple to compute the azimuthal vector from the magnetic field unit vector and the normal vector $\vec{n_\phi}= \vec{n_\perp} \times \vec{n_\parallel}$ where $\vec{n_\perp},\ \vec{n_\parallel} $ are also both unit vectors. 
+Once the normal vectors have been constructed, it is simple to compute the azimuthal vector from the magnetic field unit vector, and the normal vector $\vec{n_\phi}= \vec{n_\perp} \times \vec{n_\parallel}$ where $\vec{n_\perp},\ \vec{n_\parallel} $ are also both unit vectors. 
 Using  $\vec{n_\perp},\ \vec{n_\parallel}$ and $\vec{n_\phi}$ it  is possible to project any vector quantity calculated in the simulations into this reference frame, and use it for the analysis of MHD waves.
 
 
