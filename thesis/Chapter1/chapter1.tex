@@ -6,6 +6,8 @@
 \chapter{Introduction}  %Title of the First Chapter
 
 \begin{pycode}[chapter1]
+from __future__ import print_function
+
 ch1 = texfigure.Manager(pytex, number=1, base_path='./Chapter1/')
 \end{pycode}
 
@@ -55,68 +57,46 @@ Above this region is the solar corona, which is a low density, high temperature 
 The changes in Temperature and Density from the photosphere to the low corona is shown in Figure~\ref{fig:atmos}.
 
 \begin{pycode}[chapter1]
-#TODO: Use Fred's new pysac routines here?!
-from astropy import constants
-from astropy.table import Table
-"""
-Load in data from Table 12 in Vernazza 1981,
-data is:
-    H(km) | \rho (g cm^-3) | Ptot (dyn cm^-2) | T (K) | Pgas / Ptot
-and in McWhirter 1975 data is:
-    H(km) | T (K)          | Ptot (dyn cm^-2) | Pgas / Ptot (?)
-"""
+import pysac.mhs_atmosphere as atm
 
-val3c = Table.read(ch1.data_file("VALIIIC.dat"),
-				  names=('H', 'rho', 'Ptot', 'T', 'Pgas / Ptot'),
-				  format='ascii')
-tunits=(u.km, u.Unit('g cm^-3'), u.Unit('dyn cm^-2'), u.K, u.dimensionless_unscaled)
-val3c = dict((col, u.Quantity(val3c[col], unit=tunits[i]).si.decompose()) for i, col in enumerate(val3c.colnames))
+#Read in the VAL3C model
+empirical_data = atm.hs_atmosphere.read_VAL3c_MTW()[:-7]
 
-mwdata = Table.read(ch1.data_file("mcwhirter.dat"),
-				  names=('H', 'T', 'Ptot', 'Pgas / Ptot'),
-				  format='ascii', comment='#')
-mwdata = mwdata[:-1]
-tunits=(u.km, u.K, u.Unit('dyn cm^-2'), u.dimensionless_unscaled)
-mwdata = dict((col, u.Quantity(mwdata[col], unit=tunits[i]).si.decompose()) for i, col in enumerate(mwdata.colnames))
+# Create a figure and make space for the axes.
+fig, ax = plt.subplots(gridspec_kw={'right':0.790, 'left':0.16, 'bottom':0.13})
 
-mu = 0.602  # mean molecullar weight fully ionized 0.908 H 0.092 He
-mwdata['rho'] = (mwdata['Ptot'] / constants.k_B / mwdata['T'] * constants.m_p * mu).decompose()
+# Shortcut all the Mm conversion.
+Z = empirical_data['Z'].to(u.Mm)
 
-mwdata['H'] = mwdata['H'].to(u.Mm)
-val3c['H'] = val3c['H'].to(u.Mm)
+lrho, = ax.plot(Z, empirical_data['rho'].quantity.si, 'x', color='blue')
 
-fig, ax = plt.subplots()
+ax3 = ax.twinx()
+lt, = ax3.plot(Z, empirical_data['T'], 'x', color='green')
+ax3.semilogy()
 
-lt, = ax.semilogy(mwdata['H'], mwdata['T'], 'gx')
-ax.semilogy(val3c['H'], val3c['T'], 'gx')
+# Set primary axes properties and labels
+ax.semilogy()
+ax.set_ylabel(r"Density [{}]".format(lrho._yorig.unit._repr_latex_()))
+ax.set_xlabel(r"Height [{}]".format(lrho._xorig.unit._repr_latex_()))
+ax.set_xlim(Z[0].value-0.1, Z[-1].value+0.1)
 
-ax.set_xlabel("Height [{}]".format(mwdata['H'].unit.to_string()))
-ax.set_ylabel("Temperature [{}]".format(mwdata['T'].unit.to_string(format='latex')))
-
-ax2 = ax.twinx()
-
-lrho, = ax2.semilogy(mwdata['H'], mwdata['rho'], 'bx')
-ax2.semilogy(val3c['H'], val3c['rho'], 'bx')
-
-ax2.set_ylabel(r"Density [{}]".format(mwdata['rho'].unit.to_string(format='latex')))
-ax2.set_xlim(0,6)
+# Temp axis
+ax3.set_ylabel(r"Temperature [{}]".format(lt._yorig.unit._repr_latex_()))
 
 # Set the colours for the ticks and the labels.
-ax2.tick_params(axis='y', colors=lrho.get_color())
-ax.tick_params(axis='y', colors=lt.get_color())
+ax.tick_params(axis='y', colors=lrho.get_color())
+ax3.tick_params(axis='y', colors=lt.get_color())
 
-ax2.yaxis.label.set_color(lrho.get_color())
-ax.yaxis.label.set_color(lt.get_color())
+ax.yaxis.label.set_color(lrho.get_color())
+ax3.yaxis.label.set_color(lt.get_color())
 
-fig.tight_layout()
-atmos = ch1.save_figure('atmos', fig=fig, fext='.pgf')
-atmos.caption="Density (blue) and Temperature (green) profiles of the solar atmosphere, above the photosphere, combining the \cite{mcwhirter1975} and \cite{vernazza1981} models."
+atmos = ch1.save_figure('atmos', fig, fext='.pgf')
+atmos.caption = r"Density ({}) and Temperature ({}) profiles of the solar atmosphere, above the photosphere, combining the \cite{{mcwhirter1975}} and \cite{{vernazza1981}} models.".format(lrho.get_color(), lt.get_color())
 \end{pycode}
 
 \py[chapter1]|atmos|
 
-
-The solar corona (Figure~\ref{fig:aia171}) is very hot, with temperatures exceeding 10 Million degrees Kelvin, however, it is also very rarefied, with densities of the order of \py[chapter1]|np.round(mwdata['rho'][-1], 10)|.
+The solar corona (Figure~\ref{fig:aia171}) is very hot, with temperatures exceeding 10 Million degrees Kelvin, however, it is also very rarefied, with densities of the order of \py[chapter1]|np.round(empirical_data['rho'][-1], 10)|.
 %TODO: FIX THIS VALUE
 This means that the energy density of the corona is much lower than that of the lower layers of the solar atmosphere, \textit{e.g.} the photosphere, where the temperature is of the order of $5,000$ K.
 In spite of this the solar corona requires a constant energy input in the region of $300$ W/m$^2$ \citep{priest2014} to maintain its high temperatures.
