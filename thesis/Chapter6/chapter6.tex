@@ -188,8 +188,13 @@ Substituting this into \cref{eq:ET} the final result is obtained:
     A^2 &\propto \frac{1}{P}
 \end{align}
 
-Using the arbitrary amplitude selected in \cref{ch:drivers} of $10$ ms$^{-1}$, the desired amplitude for each of the periods selected can be calculated.
+Using the arbitrary amplitude selected in \cref{ch:drivers} of $10$ ms$^{-1}$, the desired amplitude for each of the periods selected can be calculated relative to this.
 The result of this calculation is shown in \cref{tab:period-amp}.
+Periods varying from $30$ to $300$ seconds are chosen in increments of $30$ seconds, this provides 10 points in the parameter space.
+The upper limit of $300$ seconds was chosen to give two complete periods within the $600$ second upper lifetime estimate given in \cite{sanchezalmeida2004}.
+The $300$ second limit was also partly chosen for practical purposes, as with the background atmosphere described in \cref{sec:mhsbackground} and run times over $600$ s some reflections effects from the top numerical boundary start to affect the results.
+
+
 \begin{table}
     \centering
     \begin{tabular}{cc}
@@ -212,28 +217,29 @@ The result of this calculation is shown in \cref{tab:period-amp}.
 
 \subsection{Results}\label{subsec:results}
 
-To analyse the MHD wave generation we need to parametrise the relative strength of each component for different periods of driver.
+To analyse the MHD wave generation effectively the relative strength of each component must be parametrised for different periods of driver.
 To do this we decompose the velocity and the wave energy flux as defined in \cite{bogdan2003} onto the field line reference frame.
 The velocity decomposition allows us to analyse the generated modes and identify what types of modes are in the generated spectra.
 The wave energy flux analysis is presented in terms of $\vec{F}^2_j$ percentages, this allows a neat visualisation showing the relative strengths of each component, where the three components sum to $100\%$.
 
 
 To make visualisation and analysis of the surfaces easier the values of the decomposed parameter is shown for one field line for all time steps in the simulation.
-In Figure \ref{fig:TD-vel-r30} the values of velocity are shown in the form of time-distance diagrams for these field line strips, in Figure \ref{fig:TD-fwave-r30} the decomposed square wave flux is shown. Overlaid on both sets of plots are the characteristic phase speeds of a uniform plasma; the Alfv\'en speed $v_A$ and sound speed $c_s$, as well as the fast speed $v_f^2 = \sqrt{c_s^2 + v_A^2}$ and the slow (tube) speed $v_t^{-2} = \sqrt{c_s^{-2} + v_A^{-2}}$.
+In Figure \ref{fig:TD-vel-r30} the values of velocity are shown in the form of time-distance diagrams for these field line strips, in Figure \ref{fig:TD-fwave-r30} the decomposed square wave flux is shown. Overlaid on both sets of plots are the characteristic phase speeds of a uniform plasma; the Alfv\'en speed $v_A$ and sound speed $c_s$, as well as the fast speed $v_f = \sqrt{c_s^2 + v_A^2}$ and the slow (tube) speed $v_t = \sqrt{c_s^{-2} + v_A^{-2}}$.
 While these speeds will deviate from the true speeds in the non-uniform simulation domain, we can use them, in combination with knowledge of high-$\beta$ plasma properties to identify the wave modes present in the simulations.
 
 
 It is clear from the $V_\phi$ (lowest) frames in Figure \ref{fig:TD-vel-r30} that the dominant perturbation is travelling at approximately the Alfv\'en speed, we can therefore reliably deduce that the torsional component of the velocity is, as expected, the Alfv\'en wave.
-The $V_\perp$ (second) panels also a wave front propagating at the slow speed. For the high-$\beta$ plasma in the sub-chromosphere region of the solar atmosphere, this is the velocity component that is perturbed by the slow wave in a uniform plasma. In the shorter-period frames ($30$s and $90$s) there is a lower-amplitude front propagating close to the fast or sound speeds.
+The $V_\perp$ (second) panels also a wave front propagating at the slow speed. For the high-$\beta$ plasma in the sub-chromosphere region of the solar atmosphere, this is the velocity component that is perturbed by the slow wave in a uniform plasma. 
+It can be noted that as the period gets longer this perturbation becomes more pronounced in the $V_\perp$ panel.
+In the shorter-period frames ($30$s and $90$s) there is a lower-amplitude front propagating close to the fast or sound speeds.
 This is attributed to the coupling of the fast and slow wave modes due to the inhomogeneity of the plasma.
 Finally, in the $V_\parallel$ (top) panels, there is not one dominant wave front, however evidence of two wave fronts, one propagating at the slow speed and one at the fast speed can be discerned.
 The front propagating with the fast speed can be attributed to the fast mode, as in a uniform high-$\beta$ plasma the fast mode would perturb the parallel component of the velocity vector.
 As with the $V_\perp$ component the existence of the slow mode is attributed to the non-uniform nature of the simulation domain.
 
 
-The identification of the wave modes in the velocity perturbations can inform the analysis of the wave flux time-distance diagrams in Figure \
-ref{fig:TD-fwave-r30}.
-In Figure \ref{fig:TD-fwave-r30} the total square wave flux is calculated as the sum of the square of each component, $ F^2 = F_\parallel^2 + F_\perp ^2  + F_\phi^2$, the square of each component is then normalised by this square total to give a percentage value for each component.
+The identification of the wave modes in the velocity perturbations can inform the analysis of the wave flux time-distance diagrams in \cref{fig:TD-fwave-r30}.
+In \cref{fig:TD-fwave-r30} the total square wave flux is calculated as the sum of the square of each component, $ F^2 = F_\parallel^2 + F_\perp ^2  + F_\phi^2$, the square of each component is then normalised by this square total to give a percentage value for each component.
 This is then plotted along one field line, like the velocity components.
 
 
@@ -243,14 +249,16 @@ Figure \ref{fig:TD-fwave-r30} also shows that in the $F^2_\perp$ (middle) panel,
 This observation should be considered when drawing conclusions from the relative strength of the $F^2_\parallel$ component.
 The $F^2_\phi$ (bottom) panel is again dominated by the Alfv\'en component.
 
-In Figure \ref{fig:period-flux} a summary of the average percentage square wave flux is presented for each of the \py[chapter6]|len(all_periods)| simulations performed.
+In \cref{fig:period-flux} a summary of the average percentage square wave flux is presented for each of the \py[chapter6]|len(all_periods)| simulations performed.
 The average value was taken for one field line for all time throughout the simulation.
-The three panels of Figure \ref{fig:period-flux} are for three flux surfaces seeded at different initial radii at the top of the domain, showing results for different parts of the simulation domain.
+The three panels of \cref{fig:period-flux} are for three flux surfaces seeded at different initial radii at the top of the domain, showing results for different parts of the simulation domain.
 In all three panels it can be seen that the averages for the perpendicular component (green dashes), remain constant with respect to period.
 While the torsional (red crosses) and parallel (blue dots) components fluxes are clearly period dependant.
-Recalling the analysis of Figures \ref{fig:TD-vel-r30} and \ref{fig:TD-fwave-r30} from above, we can attribute the perpendicular flux to the slow wave, the parallel flux to the fast wave and the torsional flux to the Alfv\'en wave.
+Recalling the analysis of \cref{fig:TD-vel-r30,fig:TD-fwave-r30} from above, we can attribute the perpendicular flux to the slow wave, the parallel flux to the fast wave and the torsional flux to the Alfv\'en wave.
 We can therefore conclude that the relative strengths of the fast mode and the Alfv\'en mode are period dependant, with the Alfv\'en mode overall dominating more at larger periods.
-While the growth in relative strength of the Alfv\'en mode is reasonably linear for the $156$ km radius flux surface, the larger flux surfaces show some variation in average wave flux. 
+While the growth in relative strength of the Alfv\'en mode is reasonably linear for the $156$ km radius flux surface, the larger flux surfaces show some non-linear variation in average wave flux. 
+The percentage of the flux in the torsional component, which is dominant for all periods, only varies by $<10$ \% for the $936$ and $468$ km flux surfaces.
+For the $156$ km flux surface the variation is larger, $\approx 20$ \%.
 
 
 % SIX Velocity T-D Graphs:
@@ -263,6 +271,7 @@ velocity_labels = {'par_label':r'$ V_\parallel$ [ms$^{-1}$]',
 beta = False
 cfg.exp_fac = 0.15
 ph.xxlim = 600
+tube_r = 'r10'
 
 def add_all_bpert(ax, tube_r, N=4, levels=None):
     kwargs = ph.get_triple(cfg, beta=beta, single='bpert')
@@ -293,12 +302,12 @@ for i, paf in enumerate(all_periods):
 
     fig, ax = plt.subplots(nrows=3, ncols=1, figsize=figsize)
     
-    kwargs = ph.get_single_velocity(cfg, 'r30', beta=beta)
+    kwargs = ph.get_single_velocity(cfg, tube_r, beta=beta)
     kwargs.update(velocity_labels)
     
     ph.triple_plot(ax, **kwargs)
-    add_triple_phase(ax, 'r30')
-    #add_all_bpert(ax, 'r30', N=4)
+    add_triple_phase(ax, tube_r)
+    #add_all_bpert(ax, tube_r, N=4)
     #Remove the top two x labels
     ax[0].set_xlabel('')
     ax[1].set_xlabel('')
@@ -330,11 +339,11 @@ for i, paf in enumerate(all_periods):
     
     fig, ax = plt.subplots(nrows=3, ncols=1, figsize=figsize)
     
-    kwargs = ph.get_single_percentage_flux(cfg, 'r30', beta=beta)
+    kwargs = ph.get_single_percentage_flux(cfg, tube_r, beta=beta)
     kwargs.update(flux_labels)
     kwargs.update({'cmap': 'PRGn'})
     ph.triple_plot(ax, **kwargs)
-    add_triple_phase(ax, 'r30')
+    add_triple_phase(ax, tube_r)
     #Remove the top two x labels
     ax[0].set_xlabel('')
     ax[1].set_xlabel('')
@@ -358,7 +367,6 @@ multifig.caption = r"""Percentage square wave flux along one field line is plott
 
 
 \begin{pycode}[chapter6]
-
 from period_amps import periods, sim_params
 sim_params = sim_params[:10]
 periods = periods[:10]
@@ -396,5 +404,11 @@ period_flux.caption = r"""Average percentage square wave flux plotted against pe
 \section{Conclusion}\label{sec:conclusion}
 
 In this chapter the same logarithmic spiral driver that was studied in \cref{ch:drivers,ch:expfac}, but varied the oscillatory period of the driver.
+\Cref{fig:period-flux} gives an overview of the results, it shows that overall the percentage of the wave flux attributed to the Alfv\'en wave only varies by $<20$ \%.
+It is interesting to note that the slow mode perturbation seen in the $V_\perp$ panels of \cref{fig:TD-vel-r30} becomes more prominent in the longer period simulations.
+While this observation is not clearly presented in the average wave flux results (\cref{fig:period-flux}), some evidence of this shift can be seen in the wave flux time-distance diagrams in \cref{fig:TD-fwave-r30}.
+This is interesting result, the longer period drivers appear to excite slightly more slow mode, from the same driver profile.
+In spite of this result however, it does not appear to make a significant difference to the total amount of energy in the different identified wave modes.
+
 
 
