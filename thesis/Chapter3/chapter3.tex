@@ -40,7 +40,7 @@ ch3 = texfigure.Manager(pytex, number=3, base_path='./Chapter3/')
 
 \section{Magnetohydrostatic Background Conditions}\label{sec:mhsbackground}
 
-The numerical simulations performed for the MHD wave mode analysis in this thesis, all make use of the ability of SAC (\cref{sec:SAC}) to solve for perturbations on top of a static MHD equilibria.
+The numerical simulations performed for the MHD wave mode analysis in this thesis, all make use of the ability of SAC (\cref{sec:SAC}, \cite{shelyag2008}) to solve for perturbations on top of a static MHD equilibria.
 To perform these experiments, a background atmosphere needs to be constructed.
 Quiet Sun regions were chosen for study, therefore this section details the construction of an atmosphere representative of the quiet Sun.
 This choice reduces the complexity of the modelled magnetic field and should allow for more accurate separation of the MHD wave effect from any other energy transfer processes, such as bulk flows.
@@ -48,7 +48,7 @@ This choice reduces the complexity of the modelled magnetic field and should all
 %HS Background
 The first step in constructing a static model for the solar atmosphere is to understand the hydrodynamic properties of the background plasma.
 Models of properties such as the density and pressure have been created for various heights in the solar atmosphere, based on observations and theory.
-The profiles used in this thesis are from the \cite{vernazza1981} model C, which covers the range of height in the solar atmosphere from the photosphere ($0$ km) to $2.5$ Mm above the photosphere.
+The profile used in this thesis is the \cite{vernazza1981} model C, which covers the range of height in the solar atmosphere from the photosphere ($0$ km) to $2.5$ Mm above the photosphere.
 A plot of the density, pressure and temperature from this model is shown in \cref{fig:val3c}.
 
 \begin{pycode}[chapter3]
@@ -117,7 +117,7 @@ The type of magnetic phenomena to be investigated are small scale photospheric s
 Magnetic Bright Points (MBPs) were chosen as an observational feature to use as a guide for the background model, MBPs are well studied and there are good estimates of their physical properties.
 \cite{feng2013} performed a study of Photospheric Bright Points (PBPs), which are assumed to be analogous to MBPs, using the Dutch Open Telescope, and found that the peak of the log-normal distribution gave a diameter of $232\pm40$ km for the quiet Sun.
 They also show that $50$\% of the PBPs they analysed had the major axis of their ellipse less than $1.5$ times longer than the minor axis, showing that they are to a first approximation circular, however, with some PBPs having quite a large deviation from this approximation.
-\cite{utz2013} performed a similar study looking at the average magnetic field strength of MBPs using the Hinode SOT instrument.
+\cite{utz2013} performed a similar study investigating the average magnetic field strength of MBPs using the Hinode SOT instrument.
 They find that in a quiet Sun region the average magnetic field strength of a MBP is $135.0 \pm 1.0$ mT.
 \cite{sanchezalmeida2004} also performed a statistical study of MBPs, finding that in their sample that most MBPs have lifetimes of less than 10 minutes.
 They also note, and present some evidence, that this is probably an upper bound estimate, and true lifetimes may be shorter.
@@ -544,7 +544,7 @@ The chosen solution to finding the $V_\perp$ vector is to construct a magnetic f
 A flux tube is a mathematical construct in a magnetic field that encloses a constant amount of magnetic flux over its whole length.
 Flux tubes, as a consequence of the fact they contain a fixed amount of magnetic flux, trace the field and move with the magnetic field lines.
 A flux tube constructed in the numerical domain would have a boundary, a `flux surface' which would allow the computation of a normal vector from this surface.
-As described in \cref{sec:mhsbackground}, the magnetic field has a Gaussian profile, and is therefore continuous at every point in the domain.
+The magnetic field described in \cref{sec:mhsbackground}, has a Gaussian profile, and is therefore continuous at every point in the domain.
 This means that there is no defined `edge' upon which to draw a flux surface, meaning that it is possible to define any number of arbitrary flux surfaces at any point in the domain.
 
 
@@ -696,7 +696,7 @@ zoomed_glyphs.placement = 'H'
 \end{pycode}
 
 This section describes the numerical construction of the flux surfaces, and the set of normal vectors defined upon them.
-This algorithm makes use of the Visualisation Tool Kit (VTK\footnote{VTK 6.1 (\url{www.vtk.org})}) and the MayaVi package \citep{Ramachandran2011} to provide a high level Python interface to VTK.
+This algorithm employs the Visualisation Tool Kit (VTK\footnote{VTK 6.1 (\url{www.vtk.org})}) and the MayaVi package \citep{Ramachandran2011} to provide a high-level Python interface to VTK.
 A flux surface is defined as the set of field lines which form a boundary of a flux tube.
 Due to the fact that the magnetic field constructed in \cref{sec:mhsbackground} is continuous the choice of `boundary' is arbitrary, as any axisymmetric boundary could be chosen.
 The process of computing these flux surfaces is illustrated in \cref{fig:circ-seeds,fig:fieldlines,fig:flux-surface,fig:zoomed-surface,fig:zoomed-glyphs}.
