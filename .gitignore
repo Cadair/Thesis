@@ -97,3 +97,6 @@ sympy-plots-for-*.tex/
 *.pytxcode
 *pythontex-*
 *.ipynb_checkpoints/
+
+# Figures?!
+thesis/Chapter*/Figs/*
