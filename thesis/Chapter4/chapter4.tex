@@ -27,12 +27,12 @@ import td_plotting_helpers as ph
 \section{Driving Waves from the Photosphere}\label{sec:5drivers}
 
 As discussed in \cref{ch:Background} the plasma conditions in the photosphere are conducive to the generation of MHD waves.
-The photosphere is seeded with small scale magnetic features and dynamic plasma motions as a result of the granulation.
+The photosphere is seeded with small-scale magnetic features and dynamic plasma motions as a result of the granulation.
 In this chapter the motions that are common in the inter-granular lanes will be studied for their potential ability to drive MHD waves in small scale magnetic flux tubes.
 Considering the physical conditions of the inter-granular lanes, where parcels of hot plasma rise, expand and then sink down these lanes.
-It is easy to imagine the motions present: vertical motion caused by rising and sinking plasma; horizontal motion caused by the expansion and contraction of the plasma as it cools; spiralling motion in which plasma sinks down magnetic field lines, analogous to that of water down a plug hole.
+It is possible to imagine the motions present: vertical motion caused by rising and sinking plasma; horizontal motion caused by the expansion and contraction of the plasma as it cools; spiralling motion in which plasma sinks down magnetic field lines, analogous to that of water down a plug hole.
 
-The horizontal and vertical motions are commonly observed in high resolution observations, the spiralling motions were observed in an inter-granular lane by \cite{bonet2008, bonet2010} and various types of spirals have been observed in the higher layers of the atmosphere by \cite{wedemeyer-bohm2009,wedemeyer-bohm2012,wedemeyer2013}.
+The horizontal and vertical motions are commonly observed in high-resolution observations, the spiralling motions were observed in an inter-granular lane by \cite{bonet2008, bonet2010} and various types of spirals have been observed in the higher layers of the atmosphere by \cite{wedemeyer-bohm2009,wedemeyer-bohm2012,wedemeyer2013}.
 These different types of spiral observed in the atmosphere will be modelled by a variety of drivers.
 A circular driver, an Archemedian spiral, a spiral which expands by a fixed amount for each rotation, and a logarithmic spiral where the spiral expands by an exponentially increasing amount with every rotation will be simulated.
 As well as these circular and spiral drivers, a horizontal and vertical driver will be simulated, to model the rising of the plasma, and the horizontal granular buffeting observed in the inter-granular lanes.
@@ -48,11 +48,11 @@ This velocity field is then multiplied by a sine function to make it periodic. T
 where, $V(x,y,z)$ is the output velocity field, $F(x,y,x)$ is an arbitrary function which defines the form of the driver, $\Delta x$, $\Delta y$, $\Delta z$ are the half-widths of the Gaussian function in the three spatial dimensions, and $P$ is the period of the driver.
 The values used for the width of the Gaussians are fixed through out this thesis and are: $\Delta x = \Delta y = 0.1$ Mm and $\Delta z = 0.05$, the origin of the driver is at $z = 100$ km above the photosphere.
 
-The five driving motions, horizontal, vertical, circular, Archemedian spiral and logarithmic spiral are then defined by the form of $F(x,y,z)$. For the horizontal and vertical drivers $F(x,y,z)$ is a constant in the direction of the motion, $x$ for horizontal and $z$ for vertical, for the spiral drivers the forms of $F(x,y,z)$ are given for the circular driver in \cref{eq:Suni},
+The five representative driving motions, horizontal, vertical, circular, Archemedian spiral and logarithmic spiral are then defined by the form of $F(x,y,z)$. For the horizontal and vertical drivers $F(x,y,z)$ is a constant in the direction of the motion, $x$ for horizontal and $z$ for vertical, for the spiral drivers the forms of $F(x,y,z)$ are given for the circular driver in \cref{eq:Suni},
 
 \begin{subequations}
 	\begin{align}
-		F(x) &= A \frac{y}{\sqrt{x^2 + y^2}}\\
+		F(x) &= A \frac{y}{\sqrt{x^2 + y^2}},\\
 		F(y) &= - A \frac{x}{\sqrt{x^2 + y^2}},
 	\end{align}
 	\label{eq:Suni}
@@ -218,14 +218,14 @@ driver_figs.figures[1,0].caption = "Logarithmic spiral velocity field with expan
 driver_figs.figures[2,0].caption = "Uniform spiral velocity field"
 driver_figs.placement = 'h'
 
-driver_figs.caption = "Horizontal cuts through the spiral driver at the peak amplitude height $z = 0.01$ Mm for the three torsional drivers. Red lines are a streamline of the velocity vector field, overplotted on the velocity magnitude $|V|$."
+driver_figs.caption = "Horizontal cuts through the spiral driver at the peak amplitude height $z = 0.01$ Mm for the three torsional drivers. Red lines are streamlines of the velocity vector field, overplotted on the velocity magnitude $|V|$."
 \end{pycode}
 
 \py[chapter4]|driver_figs|
 
 \section{Running and Analysing Simulations}
 
-Five different simulations, one for each driver profile, were performed using the SAC code as described in \cref{sec:SAC}.
+The five simulations, one for each driver profile, were performed using the SAC code as described in \cref{sec:SAC}.
 These simulations were performed using the background conditions described in \cref{sec:mhsbackground} on a $128^3$ grid with physical dimensions of $2.0 \times\ 2.0\ \times\ 1.6$ Mm$^3$ in the $x$, $y$ and $z$ directions respectively, and with an origin in the $z$ direction of $0.061$ Mm above the photosphere.
 The plasma was driven using the different drivers described in \cref{sec:5drivers} continuously for the $600$ s of physical time simulated.
 
@@ -257,11 +257,12 @@ The strength and positions of these perturbations change as the simulations prog
 Also shown is a vector plane at the peak vertical height of the driver, which illustrates the velocity field driving the oscillations.
 To analyse the propagation of separate wave modes we extracted the velocity components along a magnetic field line on the flux surface and constructed time-distance diagrams for each component. 
 One magnetic field line is chosen at the beginning of the simulation and the values on the polygons between this field line and an adjacent field line are extracted for each time-step and presented in the time-distance diagrams in \cref{fig:All-TD-wave-30}. 
-The perturbations are assumed to be linear, as no correction is made for the (vertical) movement of the surface itself. 
+The perturbations are assumed to be linear, therefore no correction is made for the (vertical) movement of the surface itself. 
 This assumption is verified by calculating the variation in the coordinates for the polygons at each time-step and it is found to be substantially less than one grid point for all the results presented here.
 
 %In \cref{fig:All-TD-wave-30} it can be seen that the torsional driver excites perturbations in each velocity component, \textit{e.g.} $V_\phi$,  $V_\perp$, $V_\parallel$, as would be expected for a driver that is not exactly a linear eigenmode of the system. 
 
+%TODO: R: More text here
 \subsubsection{Mode Identification}
 To identify the observed MHD wave modes we shall initially consider the phase speed of the perturbations in the time-distance diagrams. 
 In our numerical domain, both inside and outside the flux tube, the plasma $\beta > 1$.
@@ -270,7 +271,8 @@ It should be noted that this analysis is still an approximation of our simulated
 
 First, we take the case of the horizontal driver, \cref{fig:All-TD-wave-30:horiz}, in the most detail. 
 In the $V_\parallel$ component we expect to see the fast mode being the dominant mode, which is observed.
-There is also a weaker presence of a perturbation with the phase speed closer to that of the Alfv\'en and slow speeds but offset from the starting point of the over-plotted lines; This is attributed to the coupling of the wave modes in our non-homogeneous plasma.
+There is also a weaker presence of a perturbation with the phase speed closer to that of the Alfv\'en and slow speeds but offset from the starting point of the over-plotted lines.
+This is attributed to the coupling of the wave modes in our non-homogeneous plasma.
 In the $V_\perp$ component the presence of a slow mode travelling close to the tube speed $v_t$ (solid line).
 This mode is the dominant contribution in this panel and is much more pronounced than the parallel component. 
 Finally, the azimuthal velocity component ($V_\phi$) has a very small contribution, of an order of magnitude less, travelling at the Alfv\'en speed, which we attribute to our driver not being perfectly centred upon the flux tube axis.
@@ -278,7 +280,7 @@ Finally, the azimuthal velocity component ($V_\phi$) has a very small contributi
 Comparing the results of the wave excitation by the vertical periodic driver to that of the horizontal driver, it is easy to draw parallels in the description.
 However, there are some key differences. 
 In this case, of wave excitation by the vertical driver, most of the perturbation is in the $V_\parallel$ velocity component, with a much stronger contribution from the fast sausage mode ($\approx 20 \times$ stronger than $V_\perp$).
-There is also evidence of a rapidly spatially damped mode observed in the top panel of \cref{fig:All-TD-wave-30:vert}.
+There is also evidence of a rapidly spatially attenuated mode observed in the top panel of \cref{fig:All-TD-wave-30:vert}.
 This spatial damping is attributed to the expansion of the magnetic flux tube, and the dispersion of the wave energy over a wider volume as the tube expands.
 The $V_\perp$ component on the vertical driver's time-distance diagram is very weak, with only a weak fast kink mode component easily visible, apart from some reflection from the top boundary after $\approx300$ s. 
 Finally, the vertical driver's $V_\phi$ component is, like its horizontally driven $V_\phi$ counterpart, substantially weaker than the other two components.
@@ -421,7 +423,7 @@ for j, (driver, exp_fac, caption) in enumerate(zip(drivers, exp_facs, captions))
 
 Ftd1.caption = ''
 Ftd2.caption = ''
-Ftd3.caption = r"Decomposed wave energy flux time-distance diagrams along the flux surface at radius $r = 468$ km (approximately central in the flux tube) for all simulated drivers. The three components of Energy flux ($F_\parallel$, $F_\perp$ and $F_\phi$) are calculated, then, the proportion for each component is shown for a strip up the flux surface."
+Ftd3.caption = r"Decomposed wave energy flux time-distance diagrams along the flux surface at radius $r = 468$ km (approximately central in the flux tube) for all simulated drivers. The three components of energy flux ($F_\parallel$, $F_\perp$ and $F_\phi$) are calculated, then, the proportion for each component is shown for a strip up the flux surface."
 \end{pycode}
 
 \py[chapter4]|Ftd1|
@@ -476,6 +478,7 @@ For higher radii surfaces the $F_\parallel$ component dominates the $F_\perp$ co
 In the case of the horizontal and vertical drivers, most of the flux is excited in the slow kink and sausage modes respectively.
 In the horizontal case, for the larger radius tube, the sausage mode, in the $F_\parallel$ component, again begins to dominate the kink mode, in the $F_\perp$ component.
 
+%TODO: R: More text here
 \section{Conclusion}
 This chapter has presented 3D numerical simulations showing wave propagation from simulated photospheric drivers, up through the low solar atmosphere towards the transition region.
 Simulations were run mimicking five types of photospheric motions: horizontal and vertical drivers, and uniform torsional, Archimedean and logarithmic spiral velocity fields were modelled.

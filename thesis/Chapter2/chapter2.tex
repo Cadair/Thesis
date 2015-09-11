@@ -96,8 +96,8 @@ For the analysis performed in this chapter we shall consider a plasma with a sta
 As we shall see, this configuration leads to the existence of three wave modes, called the fast-magnetoacoustic wave, the slow-magnetoacoustic wave and the Alfv\'en wave.
 
 In this section we are going to summarise the derivation of the MHD wave equation for a uniform plasma.
-The starting point for this analysis is the ideal MHD equations that are described in \ref{sec:MHD}.
-Our static background conditions are described by \ref{eq:linearize} below,
+The starting point for this analysis is the ideal MHD equations that are described in \cref{sec:MHD}.
+Our static background conditions are described by \cref{eq:linearize} below,
 \begin{equation}\label{eq:linearize}
     \begin{aligned}                                                    
         \vec{B} &= \vec{B}_0 + \vec{B}_1(\vec{r},t)\\
@@ -107,7 +107,7 @@ Our static background conditions are described by \ref{eq:linearize} below,
     \end{aligned}
 \end{equation}
 where a subscript $0$ is the background component, and a subscript $1$ is the perturbation component, and the perturbation component is much smaller than the background component.
-Substituting \ref{eq:linearize} into the ideal MHD equations and removing 2nd order or higher terms and any gradients of the background quantities because the background is uniform, leads to the linearised MHD equations given below,
+Substituting \cref{eq:linearize} into the ideal MHD equations and removing 2nd order or higher terms and any gradients of the background quantities because the background is uniform, leads to the linearised MHD equations given below,
 \begin{align}                                                         
     \dfrac{\partial \rho_1 }{\partial t} + \rho_0 (\nabla \cdot \vec{v}_1) =       
     0,
@@ -389,7 +389,7 @@ The second step is then to calculate the same subtraction for $2\Delta_{x}$ whic
 \begin{equation}
 f(x+2\Delta_{x})-f(x-2\Delta_{x})=4\Delta_{x}f'(x)+\frac{16\Delta_{x}^{3}f'''(x)}{3!}+O(\Delta_{x}^{4}).\label{eq:CentralDifference2dx}
 \end{equation}
-Finally, subtracting \cref{eq:CentralDifference2dx} from $8\times$(\ref{eq:CentralDifference2dx}) and rearranging for $f'(x)$ gives
+Finally, subtracting \cref{eq:CentralDifference2dx} from $8\times$(\cref{eq:CentralDifference2dx}) and rearranging for $f'(x)$ gives
 \begin{equation}
 f'(x)=\frac{8f(x+\Delta_{x})-8f(x-\Delta_{x})-f(x+2\Delta_{x})+f(x-2\Delta_{x})}{12\Delta_{x}}+O(\Delta_{x}^{4}),\label{eq:4thOrderCentralDifferenceUniform}
 \end{equation}
