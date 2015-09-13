@@ -55,12 +55,15 @@ A plot of the density, pressure and temperature from this model is shown in \cre
 import pysac.mhs_atmosphere as atm
 
 #Read in the VAL3C model
-empirical_data = atm.hs_atmosphere.read_VAL3c_MTW(MTW_file=False)
+empirical_data = atm.hs_atmosphere.read_VAL3c_MTW(MTW_file=False)[:-26]
+
+print(empirical_data['Z'], file=sys.stderr)
 
 # Create a Z array at the interpolated resolution and interpolate.
 ZZ = u.Quantity(np.linspace(empirical_data['Z'][0], empirical_data['Z'][-1], 128), unit=empirical_data['Z'].unit)
 table = atm.hs_atmosphere.interpolate_atmosphere(empirical_data, ZZ)
 
+print(len(table), file=sys.stderr)
 # Create a figure and make space for the axes.
 fig, ax = plt.subplots(gridspec_kw={'right':0.78, 'left':0.16, 'bottom':0.13})
 
@@ -141,6 +144,7 @@ coords = atm.model_pars.get_coords(model_pars['Nxyz'], u.Quantity(model_pars['xy
 #interpolate the hs 1D profiles from empirical data source[s]
 empirical_data = atm.hs_atmosphere.read_VAL3c_MTW(mu=physical_constants['mu'])
 table = atm.hs_atmosphere.interpolate_atmosphere(empirical_data, coords['Zext'])
+table['rho'] += table['rho'].min()*3.6
 
 # calculate 1d hydrostatic balance from empirical density profile
 # the hs pressure balance is enhanced by pressure equivalent to the

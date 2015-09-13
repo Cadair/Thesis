@@ -77,8 +77,8 @@ and $B_L = 0.05$ is a dimensionless expansion parameter for the logarithmic spir
 \end{subequations}
 $B_A = 0.005$ is similar in nature to $B_L$, \textit{i.e.} a dimensionless expansion parameter.
 The amplitude $A$ of all the drivers is set to $10$ ms$^{-1}$ for all the simulations performed in this chapter and the period is fixed at $240$ s.
+The period of $240$ s was chosen arbitrarily, but primarily to allow for two complete periods within the $600$ s run time of the simulations, with a small margin.
 Visualisations of these velocity fields can be seen in \cref{fig:driver_figs}.
-%TODO: Explain the choice of 240s
 %TODO: No quiver plot in this image?!
 \begin{pycode}[chapter4]
 from streamlines import Streamlines
@@ -265,7 +265,7 @@ This assumption is verified by calculating the variation in the coordinates for 
 %TODO: R: More text here
 \subsubsection{Mode Identification}
 To identify the observed MHD wave modes we shall initially consider the phase speed of the perturbations in the time-distance diagrams. 
-In our numerical domain, both inside and outside the flux tube, the plasma $\beta > 1$.
+In the numerical domain, both inside and outside the flux tube, the plasma $\beta > 1$.
 To aid in the analysis of \cref{fig:All-TD-wave-30} overplotted are the Alfv\'en speed $v_A$ and sound speed $c_s$, as well as the speed of the fast magneto-acoustic wave (fast speed) $v_f^2 = \sqrt{c_s^2 + v_A^2}$ and the slow speed (or tube speed) $v_t^{-2} = \sqrt{c_s^{-2} + v_A^{-2}}$ for the equilibrium background, starting at $60$ s, the first peak of the driver amplitude. 
 It should be noted that this analysis is still an approximation of our simulated system because we have non-constant, non-uniform, non-straight magnetic field in a stratified solar atmosphere, where one would expect the observed phase speed to deviate from these first-order estimations, as can be seen in \cref{fig:All-TD-wave-30}.
 
@@ -279,7 +279,7 @@ Finally, the azimuthal velocity component ($V_\phi$) has a very small contributi
 
 Comparing the results of the wave excitation by the vertical periodic driver to that of the horizontal driver, it is easy to draw parallels in the description.
 However, there are some key differences. 
-In this case, of wave excitation by the vertical driver, most of the perturbation is in the $V_\parallel$ velocity component, with a much stronger contribution from the fast sausage mode ($\approx 20 \times$ stronger than $V_\perp$).
+In this case, of wave excitation by the vertical driver, most of the perturbation is in the $V_\parallel$ velocity component, with a much stronger contribution from the fast mode ($\approx 20 \times$ stronger than $V_\perp$).
 There is also evidence of a rapidly spatially attenuated mode observed in the top panel of \cref{fig:All-TD-wave-30:vert}.
 This spatial damping is attributed to the expansion of the magnetic flux tube, and the dispersion of the wave energy over a wider volume as the tube expands.
 The $V_\perp$ component on the vertical driver's time-distance diagram is very weak, with only a weak fast kink mode component easily visible, apart from some reflection from the top boundary after $\approx300$ s. 
@@ -485,9 +485,11 @@ Simulations were run mimicking five types of photospheric motions: horizontal an
 The resulting perturbations were analysed, the wave modes identified and their percentage wave energy flux contribution determined. 
 It has been determined that for all drivers with a torsional component the main contribution to the flux was the Alfv\'en wave.
 While the vertical driver mainly excites the fast modes and the horizontal driver primarily generated the slow mode, in these high $\beta$ simulations.
+Notably, the average wave flux excited into the Alfv\'en mode by the torsional drives was $<60$ \% for all combinations of drivers and flux surfaces.
+For the 
 
 In this chapter some arbitrary choices were made regarding the parameters for the driver profiles.
 The first of these was the choice of amplitude $A=10$ ms$^{-1}$, this choice, while arbitrary, is largely redundant, because as mentioned, the wave modes under study are linear in nature, this means that the properties of the wave should scale linearly with amplitude.
-The other choices made, namely the choice of $P=240$ s and $B_L = 0.05$ are going to be the study of the next two chapters.
+The other choices made, namely the choice of $B_L = 0.05$ and $P=240$ s are going to be the study of the next two chapters.
 
 
