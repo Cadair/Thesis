@@ -51,16 +51,16 @@ ch2 = texfigure.Manager(pytex, number=2, base_path='./Chapter2/')
 \section{Magnetohydrodynamics}\label{sec:MHD}
 
 Ideal magnetohydrodynamics (MHD) is the description of a plasma as a single perfectly conducting fluid.
-This description of the plasma has certain constraints on it's validity, but as we will see, for the purposes of study in the thesis, the ideal MHD equations are a very applicable description of the plasma in the solar atmosphere.
-The first and primary assumption of the nature of the plasma the MHD description makes is that it behaves like a fluid.
-This means that there are very frequent collisions between the particles comprising the plasma.
+This description of the plasma has certain constraints on it's validity, but as we will see, for the purposes of study in this thesis, the ideal MHD equations are a very applicable description of the plasma in the solar atmosphere.
+The first assumption the MHD description makes regarding the nature of the solar plasma is that it behaves like a fluid.
+This means that there are very frequent collisions between the particles that comprise the plasma.
 Connected to this is the assumption that the temperature of the electrons and the ions are equal, implying that there are frequent interactions between the two species, and that the plasma can be treated as a single fluid.
 Secondly, the MHD description is only valid in a certain window of temporal and length scales.
-The characteristic length of the plasma has to be sufficiently large so that the particle motion around the magnetic field, the kinetic effects, can be ignored.
+The characteristic length of the plasma has to be sufficiently large so that the particle motion around the magnetic field can be ignored.
 The temporal scales also have to be substantially longer than the frequency of the kinetic motions.
 However, the temporal scale has to be short enough that the slow dissipative effects, such as resistive decay of the magnetic field, can be neglected.
 Two other approximations are made, which enable the description of the plasma as a single fluid, these are the quasi-neutrality assumption, which is the assumption that there are very similar numbers of positive and negative charges present in the plasma; and the assumptions that the relative velocities of the positive and negative charges are small.
-Finally, but very importantly, it is assumed that the plasma is non-relativistic, i.e. the motion of the plasma is substantially smaller than the speed of light.
+Finally, but very importantly, it is assumed that the plasma is non-relativistic, i.e. the motions of the plasma are substantially smaller than the speed of light.
 The application of all these assumptions leads to a formulation of the equations governing the motion of the plasma based on Maxwells equations and the equations of gas dynamics, these are the ideal MHD equations, which are given below:
 \newcommand{\condev}{\left(\frac{\partial}{\partial t} + \vec{v}\cdot\nabla\right)}
 
@@ -85,14 +85,14 @@ subject to
     p = \mathrm{k_B} \dfrac{\rho}{\mathrm{m}} \mathrm{T},
     &&\text{(Ideal Gas Law)}                    
 \end{align}
-Where $\rho$ is the density, $\vec{v}$ is the velocity, $p$ is the pressure, $\gamma$ is the ratio of specific heats ($5/3$), $\vec{B}$ is the magnetic field, $\mathrm{k_B}$ is Boltzmann's constant, $\mathrm{m}$ is the mass, $\mathrm{T}$ is the temperature, and $\mu$ is the vacuum permeability \citep{goedbloed2004}.
+Where $\rho$ is the density, $\vec{v}$ is the velocity, $p$ is the pressure, $\gamma$ is the ratio of specific heats (usually taken as $5/3$), $\vec{B}$ is the magnetic field, $\mathrm{k_B}$ is Boltzmann's constant, $\mathrm{m}$ is the mass, $\mathrm{T}$ is the temperature, and $\mu$ is the magnetic permeability of free space \citep{goedbloed2004}.
 
 
 \subsection{MHD Waves}\label{sec:MHDwaves}
 Just like a non-ionised fluid, which supports a sound wave, due to the restoring force of the pressure, plasma supports wave phenomena.
 Waves in plasmas also interact with the magnetic field, and the coupling of the magnetic field to the motion of the plasma.
-This leads to the presence of a wide variety of wave modes in plasma, dependant upon the geometry and physical properties of the plasma being perturbed.
-For the analysis performed in this chapter we shall consider a plasma with a static, and uniform background, the magnetic field shall be of a constant strength and aligned solely to the $z$ axis.
+This leads to the presence of a wide variety of wave modes in plasma, dependent upon the geometry and physical properties of the plasma being perturbed.
+For the analysis performed in this chapter we shall consider a plasma with a static, and uniform background, the magnetic field shall be of a constant strength and aligned solely with the $z$ axis.
 As we shall see, this configuration leads to the existence of three wave modes, called the fast-magnetoacoustic wave, the slow-magnetoacoustic wave and the Alfv\'en wave.
 
 In this section we are going to summarise the derivation of the MHD wave equation for a uniform plasma.
@@ -106,18 +106,19 @@ Our static background conditions are described by \cref{eq:linearize} below,
         \rho &= \rho_0 + {\rho_1}(\vec{r},t)\\
     \end{aligned}
 \end{equation}
-where a subscript $0$ is the background component, and a subscript $1$ is the perturbation component, and the perturbation component is much smaller than the background component.
-Substituting \cref{eq:linearize} into the ideal MHD equations and removing 2nd order or higher terms and any gradients of the background quantities because the background is uniform, leads to the linearised MHD equations given below,
+where the subscript $0$ denotes a background quantity, and the subscript $1$ denotes a perturbation to this quantity.
+The perturbation is much smaller than the background quantity.
+Substituting \cref{eq:linearize} into the ideal MHD equations and neglected 2nd order or higher terms and any gradients of the homogeneous background quantities, leads to the linearised MHD equations given below,
 \begin{align}                                                         
     \dfrac{\partial \rho_1 }{\partial t} + \rho_0 (\nabla \cdot \vec{v}_1) =       
     0,
     &&\text{(Mass Conservation)}\label{eq:lmhd_mass}\\
     %
     \rho_0 \dfrac{\partial \vec{v}_1}{\partial t} =
-    -\nabla p_1 + \dfrac{1}{\mu}(\nabla \times \vec{B}_1) \times \vec{B}_0 + \rho_1 \vec{g},
+    -\nabla p_1 + \dfrac{1}{\mu}(\nabla \times \vec{B}_1) \times \vec{B}_0,
     &&\text{(Equation of Motion)}\label{eq:lmhd_motion}\\
     %
-    \dfrac{\partial p_1}{\partial t} + (\vec{v}_1 \cdot \nabla)p_0 - c_s^2 \left( \dfrac{\partial \rho_1}{\partial t} + (\vec{v}_1 \cdot \nabla)\rho_0 \right) = 0,
+    \dfrac{\partial p_1}{\partial t} + \gamma p_0 \left( \nabla \cdot \vec{v}_1 \right) = 0,
     &&\text{(Energy Equation)}\label{eq:lmhd_energy}\\
     %
     \dfrac{\partial \mathrm{B}_1}{\partial t} = \nabla \times (\vec{v}_1 \times \vec{B}_0),
@@ -133,12 +134,12 @@ The sound speed and the Alfv\'en speed for the static background state are given
 \end{align}
 respectively.
 
-To simplify the analysis and with the aim of describing the velocity perturbations in \cref{sec:Vpert}, it is helpful to describe the system to linearised MHD equations just in terms of the velocity $\vec{v}$.
+To simplify the analysis and, with the aim of describing the velocity perturbations in \cref{sec:Vpert}, it is helpful to describe the system to linearised MHD equations just in terms of the velocity $\vec{v}$.
 This is achieved by substituting \cref{eq:lmhd_mass,eq:lmhd_energy,eq:lmhd_induction} into \cref{eq:lmhd_motion}, which gives
 \begin{equation}
     \frac{\partial^2 \vec{v}_1}{\partial t^2} - \left( (\vec{b} \cdot \nabla)^2 \vec{I} + (b^2 + c^2) \nabla\nabla - \vec{b} \cdot \nabla (\nabla\vec{b} + \vec{b}\nabla) \right) \cdot \vec{v}_1 = 0,\label{eq:mhdwaveeq}
 \end{equation}
-where $\vec{I}$ is the identity matrix, $\vec{b}$ is the Alfv\'en speed given in \cref{eq:alfvenspeed} and $c$ is the sound speed given in \cref{eq:soundspeed}.`
+where $\vec{I}$ is the identity matrix, $\vec{b}$ is the Alfv\'en speed given in \cref{eq:alfvenspeed} and $c$ is the sound speed given in \cref{eq:soundspeed} \citep{goedbloed2004}.
 This equation can be solved using plane wave solutions, i.e. solutions of the form $\rho(\vec{r}, t) = \hat{\rho} e^{i(\vec{k}\cdot\vec{r} - \omega t)}$, which equate to performing the following substitutions into \cref{eq:mhdwaveeq}: $\frac{\partial}{\partial t} \rightarrow - i \omega$ and $\nabla \rightarrow i \vec{k}$.
 Which, given in matrix form yields the relation:
 \begin{equation}
@@ -160,7 +161,7 @@ v_\phi
 \end{pmatrix}.\label{eq:eigenvalue}
 \end{equation}
 %TODO: Calculate the determinant of the eigenvalue eqn.
-Calculating the determinant of this equation yields,
+To obtain non-trivial solutions the determinant of \cref{eq:eigenvalue} is calculated,
 \begin{equation}
     (\omega - k_\parallel^2 b^2)\left( \omega^4 - k^2(b^2+c^2)\omega^2 + k_\parallel k^2b^2c^2 \right) = 0
 \end{equation}
@@ -174,7 +175,7 @@ The first term $(\omega - k_\parallel^2 b^2)$ leads to the Alfv\'en wave solutio
 \label{eq:omegaA}
 \end{align}
 where the positive solution is forward propagating and the negative solution backward propagating.
-The second term, leads two two solutions, propagating in both directions. Solving the quadratic leads to,
+The second term, leads to two solutions, propagating in both directions. Solving the quadratic leads to,
 \begin{equation}
     \omega^2_{s,f} = \frac{1}{2}k^2(b^2+c^2)\left(1 \pm \sqrt{1 - \sigma (k^2_\parallel/k^2)}\right)
     \label{eq:omegasf}
@@ -187,7 +188,7 @@ where
 which are the fast and slow magneto-acoustic modes, for the positive and negative solutions respectively.
 
 These three modes, and the $\omega = 0$ entropy mode are all the oscillatory solutions supported by a plasma with a uniform background.
-As will be derived in \cref{sec:Vpert} the perturbation of the velocity vector caused by these oscillations can be identified, which will be used throughout this thesis for identification of these modes.
+As will be derived in \cref{sec:Vpert}, the perturbation of the velocity vector caused by these oscillations can be identified, which will be used throughout this thesis for identification of these modes.
 
 
 \subsection{Velocity Perturbations}\label{sec:Vpert}
@@ -214,24 +215,25 @@ As will be described in \cref{sec:mhsbackground}, the physical domain to be mode
 In this region of the solar atmosphere the plasma, or kinetic pressure is much larger than the magnetic pressure.
 In other words, the kinetic effects dominate the dynamics of the plasma.
 This is called the high-$\beta$ regime, as $\displaystyle\beta = \frac{p_k}{p_m}$, in terms of $c$ and $\vec{b}$ as defined in \cref{eq:soundspeed,eq:alfvenspeed} above, $\displaystyle\beta = \frac{2c^2}{\gamma b^2}$, so in a high-$\beta$ regime it is clear that $c^2 >> b^2$.
-This assumption can be used to simplify \cref{eq:omegasf} because $(c^2 + b^2) \approx c^2$ and $\displaystyle \frac{c^2}{b^2} \approx c^2$.
+This assumption can be used to simplify \cref{eq:omegasf} because $(c^2 + b^2) \approx c^2$.
 Applying this assumption to \cref{eq:sigmasf} and then to \cref{eq:omegasf}:
 
 \begin{align}
-    \sigma &= \frac{4b^2c^2}{(b^2+c^2)^2}\\
-           &= \frac{4b^2c^2}{c^4}\\
-           &= \frac{4b^2}{c^2}
+    \sigma &\approx \frac{4b^2c^2}{(b^2+c^2)^2}\\
+           &\approx \frac{4b^2c^2}{c^4}\\
+           &\approx \frac{4b^2}{c^2}
 \end{align}
 
 \begin{align}
     \omega^2_{s,f} =& \frac{1}{2}k^2(b^2+c^2)\left(1 \pm \sqrt{1 - \sigma \frac{k^2_\parallel}{k^2}}\,\right),\\
                    =& \frac{1}{2}k^2c^2\left(1 \pm \sqrt{1 - \frac{4b^2}{c^2} \frac{k^2_\parallel}{k^2}}\,\right),\\
                    %
-    \text{let }& \delta = \frac{4b^2}{c^2} \frac{k^2_\parallel}{k^2},\notag\\
-                   %
+    \text{let,}\notag\\
+    \delta =& \frac{4b^2}{c^2} \frac{k^2_\parallel}{k^2},\notag\\
+    \text{such that,}\notag\\                   %
     \omega^2_{s,f} =& \frac{1}{2}k^2c^2\left(1 \pm (1 - \delta)^{\frac{1}{2}}\,\right),\label{eq:omegasf-highb1}
 \end{align}
-performing a Taylor expansion of $(1-\delta)^{\frac{1}{2}}$ gives,
+performing a Taylor expansion of $(1-\delta)^{\frac{1}{2}}$ and considering $\delta << 1$, gives,
 \begin{align}
     f(\delta) &= f(0) + f^\prime(0) + O(\delta^2)\notag\\
     %
@@ -239,7 +241,7 @@ performing a Taylor expansion of $(1-\delta)^{\frac{1}{2}}$ gives,
                              &= 1 + \frac{1}{2}\frac{4b^2}{c^2} \frac{k^2_\parallel}{k^2} + O(\delta^2)\\
     (1-\delta)^{\frac{1}{2}} &= 1 + \frac{2b^2}{c^2} \frac{k^2_\parallel}{k^2} + O(\delta^2)
 \end{align}
-substituting this back into \cref{eq:omegasf-highb1},
+substituting this back into \cref{eq:omegasf-highb1} one obtains,
 \begin{align}
     \omega^2_{s,f} =& \frac{1}{2}k^2c^2\left(1 \pm \left(1 - \frac{2b^2}{c^2} \frac{k^2_\parallel}{k^2}\right)\right).
 \end{align}
@@ -278,7 +280,7 @@ Having simplified $\omega_{s,f}$, $\alpha_{s,f}$ can be calculated:
     =& 1 - \frac{k^2b^2}{k^2c^2}\\
     =& 1 - \frac{b^2}{c^2}
 \end{align}
-again, considering the high-$\beta$ approximation, $\displaystyle\frac{b^2}{c^2} \approx 0$
+again, considering the high-$\beta$ approximation, $\displaystyle\frac{b^2}{c^2} << 1$
 \begin{align}
     \alpha_f =& 1
 \end{align}
@@ -301,20 +303,21 @@ Finally, to demonstrate the relative strength of the parallel and perpendicular 
 \end{equation}
 For the fast mode this becomes:
 \begin{align}
-\frac{|v_\parallel|}{|v_\perp|+|v_\parallel|} &= \frac{-\frac{k_\parallel}{k_\perp}|v_\perp|}{|v_\perp|+\frac{k_\parallel}{k_\perp}|v_\perp|},\\
-&= \frac{-\frac{k_\parallel}{k_\perp}}{1+\frac{k_\parallel}{k_\perp}},\\
+\frac{|v_\parallel|}{|v_\perp|+|v_\parallel|} &= \frac{\frac{k_\parallel}{k_\perp}|v_\perp|}{|v_\perp|+\frac{k_\parallel}{k_\perp}|v_\perp|},\\
+&= \frac{\frac{k_\parallel}{k_\perp}}{1+\frac{k_\parallel}{k_\perp}},\\
 &= \frac{1}{\frac{k_\perp}{k_\parallel}+1}.
 \end{align}
 Assuming that $k_\parallel >> k_\perp$, in that the waves propagate parallel to the magnetic field, i.e. upwards through the atmosphere.
 Therefore, $\displaystyle \frac{k_\perp}{k_\parallel} << 1$ and it can be seen that $|v_\parallel| >> |v_\perp|$, and therefore the fast mode can be seen to perturb the parallel component of the velocity.
 
-However, the slow mode this becomes:
+However, for the slow mode this becomes:
 \begin{align}
     \frac{|v_\parallel|}{|v_\perp|+|v_\parallel|} &= \frac{\frac{k_\perp}{k_\parallel}|v_\perp|}{|v_\perp|+\frac{k_\perp}{k_\parallel}|v_\perp|},\\
     &= \frac{\frac{k_\perp}{k_\parallel}}{1+\frac{k_\perp}{k_\parallel}},\\
     &= \frac{1}{\frac{k_\parallel}{k_\perp} + 1},
 \end{align}
-Again, assuming that $k_\parallel >> k_\perp$, $\displaystyle \frac{k_\parallel}{k_\perp} >> 1$, therefore for the slow mode, $|v_\parallel| << |v_\perp|$, so the slow mode perturbs predominately in the perpendicular component of velocity.  
+Again, assuming that $k_\parallel >> k_\perp$, \textit{i.e.} $\displaystyle \frac{k_\parallel}{k_\perp} >> 1$, so that for the slow mode, $|v_\parallel| << |v_\perp|$.
+The slow mode perturbs, predominately, the perpendicular component of velocity.  
 
 
 \subsection{Calculating Wave Flux}\label{sec:waveflux}
@@ -339,7 +342,7 @@ This analysis provides us the desired result: an understanding of how the differ
 
 
 \section{Computational Methods}\label{sec:numericalmethods}
-Differential equations part of the fundamental language of physics, from their origins describing motion in Newton's laws to the MHD equations which describe the dynamics of plasma in the Sun. 
+Differential equations are part of the fundamental language of physics, from their origins describing motion in Newton's laws to the MHD equations which describe the dynamics of plasma in the Sun. 
 Often coupled systems of differential equations can not be solved analytically either at all or without making large assumptions about the nature of the system, such as the geometry.
 The most widely known system of equations that can not be solved analytically is the three body problem, where, described by Newton's laws, three masses interact with each other via gravity.
 The numerical solutions to this problem allowed the revolution in modern space flight, and the launch of the two voyager probes on their `grand tour' of the solar system.
@@ -370,7 +373,9 @@ f(x+\Delta_{x}) & = f(x)+\Delta_{x}f'(x)+\frac{\Delta_{x}^{2}f''(x)}{2!}+\frac{\
 The forward difference equation is the first order truncation of the $f(x+\Delta_{x})$ Taylor series, and likewise for the backward difference.
 From this you can see that the truncation error of a forward and backward difference approximation is $O(\Delta_{x})$, and that the accuracy could be improved by increasing the number of terms included.
 
-Another way to fundamentally reduce the error, while maintaining the first order nature of these solutions is to combine the forward and backward difference into a central difference approximation of the form $\delta_{x}f(x)=f(x+\frac{1}{2}\Delta x)-f(x-\frac{1}{2}\Delta x)$.
+Another way to fundamentally reduce the error, while maintaining the first order nature of these solutions is to combine the forward and backward difference into a central difference approximation of the form 
+%TODO: THIS IS WRONG (Freddie)
+$\Delta_{x}f(x)=f(x+\frac{1}{2}\Delta x)-f(x-\frac{1}{2}\Delta x)$.
 To first order the result is 
 \begin{equation}
 f'(x)=\frac{f(x+\Delta_{x})-f(x-\Delta_{x})}{2\Delta_{x}}.\label{eq:First Order CD}
@@ -389,7 +394,7 @@ The second step is then to calculate the same subtraction for $2\Delta_{x}$ whic
 \begin{equation}
 f(x+2\Delta_{x})-f(x-2\Delta_{x})=4\Delta_{x}f'(x)+\frac{16\Delta_{x}^{3}f'''(x)}{3!}+O(\Delta_{x}^{4}).\label{eq:CentralDifference2dx}
 \end{equation}
-Finally, subtracting \cref{eq:CentralDifference2dx} from $8\times$(\cref{eq:CentralDifference2dx}) and rearranging for $f'(x)$ gives
+Finally, subtracting \cref{eq:CentralDifference2dx} from $8\times$(\cref{eq:centraldifferencedx}) and rearranging for $f'(x)$ gives
 \begin{equation}
 f'(x)=\frac{8f(x+\Delta_{x})-8f(x-\Delta_{x})-f(x+2\Delta_{x})+f(x-2\Delta_{x})}{12\Delta_{x}}+O(\Delta_{x}^{4}),\label{eq:4thOrderCentralDifferenceUniform}
 \end{equation}
