@@ -24,6 +24,7 @@ periods = periods[:10]
 In both of these previous chapters, arbitrary periods were chosen, in this chapter the effect of this choice of period on the wave excitation by the logarithmic driver is studied.
 The solar photosphere is populated with an outstanding variety of different frequency wave modes.
 Acoustic (p-mode) waves have a wide frequency spectra, with a peak power at 5 minutes, and a large number of MHD waves at different frequencies have been observed in the low solar atmosphere; \cite{Freij2014,Dorotovic2014} observe oscillations in magnetic pores at periods ranging from 3 minutes to 25 minutes; \cite{morton2011} observe sausage modes with periods ranging from $30$ to $447$ seconds; \cite{fujimura2009} observe oscillations with periods between $3$ and $6$ minutes in pores and between $4$ and $9$ minutes in the inter-granular lanes.
+Multiple other studies have also observed oscillations at different frequencies  \cite[e.g.][]{mathioudakis2013,reznikova2012,morton2012,mcintosh2011,zaqarashvili2009,jess2009,vecchio2007,kobanov2006,bogdan2006}
 It is therefore interesting to study a range of possible frequencies for the driving motions, to see what effects this has on the excitation of MHD waves.
 
 \section{Simulation Configuration}\label{sec:periodconfig}
@@ -146,18 +147,16 @@ The kinetic energy for any point in space at any instant in time is given by:
     E_k = \frac{1}{2}\ m\ v^2\label{eq:Ek}
 \end{equation}
 where $m$ is the mass and $v$ is the velocity.
-Initially $E_T$ can be computed over an arbitrary volume $V$, which leads to:
+$E_k$ can be computed over an arbitrary volume $V$, which leads to:
 \begin{equation}
     m = \rho(x,y,z)\ V.\label{eq:mass}
 \end{equation}
-
 The simulations are perturbed by a driver with the following general profile:
 \begin{equation}
     v(x,y,z,t) = A\ G(x,y,z) \sin \left( \frac{2\pi t}{P} \right),\label{eq:vprofile}
 \end{equation}
 where $A$ is the amplitude of the velocity and $G(x,y,z)$ is a normalised spatial distribution.
-
-Substituting \cref{eq:vprofile} into \cref{eq:Ek} for velocity gives:
+Substituting \cref{eq:vprofile} into \cref{eq:Ek} for velocity and integrating for all time gives,
 \begin{align}
     E_{T}(x,y,z) &= \int_T \frac{1}{2}\ \rho(x,y,z)\ V\ A^2\ G^2(x,y,z)\ \sin^2\left(\frac{2\pi t}{P} \right) dt \\
     &= \frac{1}{2}\ \rho(x,y,z)\ V\ A^2\ G^2(x,y,z) \int_T \sin^2\left(\frac{2\pi t}{P} \right) dt \\
@@ -173,7 +172,6 @@ This means that \cref{eq:Et_xyz} can only be numerically integrated and therefor
 \begin{equation}
     E_T = \frac{nPA^2V}{4}\ \left( \sum_{x,y,z} \rho(x,y,z)\ G^2(x,y,z) \right),\label{eq:ET}
 \end{equation}
-
 \Cref{eq:ET} provides a relationship between the amplitude and period of the driver, however, it can be simplified by considering that many of the variables remain constant for each simulation performed in this chapter.
 For all simulations run in this work the driver is the same, meaning $G(x,y,z)$ is constant, the background conditions and therefore $\rho(x,y,z)$ are also constant as is the numerical domain and therefore $V$.
 It is therefore possible to let,
@@ -188,12 +186,11 @@ Substituting this into \cref{eq:ET} the final result is obtained:
     A^2 &\propto \frac{1}{P}
 \end{align}
 
-Using the arbitrary amplitude selected in \cref{ch:drivers} of $10$ ms$^{-1}$, the desired amplitude for each of the periods selected can be calculated relative to this.
-The result of this calculation is shown in \cref{tab:period-amp}.
+Using the arbitrary amplitude selected in \cref{ch:drivers} of $10$ ms$^{-1}$ for the $240$ s driver, the desired amplitude for each of the periods selected can be calculated relative to this.
+The result of these calculations is shown in \cref{tab:period-amp}.
 Periods varying from $30$ to $300$ seconds are chosen in increments of $30$ seconds, this provides 10 points in the parameter space.
 The upper limit of $300$ seconds was chosen to give two complete periods within the $600$ second upper lifetime estimate given in \cite{sanchezalmeida2004}.
-The $300$ second limit was also partly chosen for practical purposes, as with the background atmosphere described in \cref{sec:mhsbackground} and run times over $600$ s some reflections effects from the top numerical boundary start to affect the results.
-
+The $300$ second limit was also partly chosen for practical purposes; with the background atmosphere described in \cref{sec:mhsbackground} and run times over $600$ s some reflections effects from the top numerical boundary start to affect the results.
 
 \begin{table}
     \centering
@@ -211,25 +208,23 @@ The $300$ second limit was also partly chosen for practical purposes, as with th
         $300.0$          & $4\sqrt{5}$           	\\[2ex]
         % $330.0$          & $20\sqrt{\frac{2}{11}}$ \\[2ex]
     \end{tabular}
-    \caption{Tabulation of the period and amplitude pairs used in this work so that total kinetic energy input is constant.}
+    \caption{Tabulation of the period and amplitude pairs used in this work such that total kinetic energy input remains constant.}
     \label{tab:period-amp}
 \end{table}
 
 \subsection{Results}\label{subsec:results}
 
 To analyse the MHD wave generation effectively the relative strength of each component must be parametrised for different periods of driver.
-To do this we decompose the velocity and the wave energy flux as defined in \cite{bogdan2003} onto the field line reference frame.
+To do this we decompose the velocity and the wave energy flux as described in \cref{sec:waveflux} onto the surface of the flux surfaces as detailed in \cref{sec:fluxsurfaces}.
 The velocity decomposition allows us to analyse the generated modes and identify what types of modes are in the generated spectra.
-The wave energy flux analysis is presented in terms of $\vec{F}^2_j$ percentages, this allows a neat visualisation showing the relative strengths of each component, where the three components sum to $100\%$.
-
+The wave energy flux analysis is presented in terms of $F^2_j$ percentages, this allows for a neat visualisation showing the relative strengths of each component, where the three components sum to $100\%$.
 
 To make visualisation and analysis of the surfaces easier the values of the decomposed parameter is shown for one field line for all time steps in the simulation.
 In Figure \ref{fig:TD-vel-r30} the values of velocity are shown in the form of time-distance diagrams for these field line strips, in Figure \ref{fig:TD-fwave-r30} the decomposed square wave flux is shown. Overlaid on both sets of plots are the characteristic phase speeds of a uniform plasma; the Alfv\'en speed $v_A$ and sound speed $c_s$, as well as the fast speed $v_f = \sqrt{c_s^2 + v_A^2}$ and the slow (tube) speed $v_t = \sqrt{c_s^{-2} + v_A^{-2}}$.
-While these speeds will deviate from the true speeds in the non-uniform simulation domain, we can use them, in combination with knowledge of high-$\beta$ plasma properties to identify the wave modes present in the simulations.
-
+While these speeds will deviate from the true wave speeds in the inhomogeneous simulation domain, they provide a useful guide.
 
 It is clear from the $V_\phi$ (lowest) frames in Figure \ref{fig:TD-vel-r30} that the dominant perturbation is travelling at approximately the Alfv\'en speed, we can therefore reliably deduce that the torsional component of the velocity is, as expected, the Alfv\'en wave.
-The $V_\perp$ (second) panels also a wave front propagating at the slow speed. For the high-$\beta$ plasma in the sub-chromosphere region of the solar atmosphere, this is the velocity component that is perturbed by the slow wave in a uniform plasma. 
+The $V_\perp$ (second) panels also show a wave front propagating at the slow speed. For the high-$\beta$ plasma in the sub-chromosphere region of the solar atmosphere, this is the velocity component that is perturbed by the slow wave in a uniform plasma (as described in \cref{sec:Vpert}).
 It can be noted that as the period gets longer this perturbation becomes more pronounced in the $V_\perp$ panel.
 In the shorter-period frames ($30$s and $90$s) there is a lower-amplitude front propagating close to the fast or sound speeds.
 This is attributed to the coupling of the fast and slow wave modes due to the inhomogeneity of the plasma.
@@ -403,11 +398,10 @@ period_flux.caption = r"""Average percentage square wave flux plotted against pe
 
 \section{Conclusion}\label{sec:conclusion}
 
-In this chapter the same logarithmic spiral driver that was studied in \cref{ch:drivers,ch:expfac}, but varied the oscillatory period of the driver.
+In this chapter the same logarithmic spiral driver that was studied in \cref{ch:drivers,ch:expfac}, with the oscillatory period of the driver varied.
 \Cref{fig:period-flux} gives an overview of the results, it shows that overall the percentage of the wave flux attributed to the Alfv\'en wave only varies by $<20$ \%.
 It is interesting to note that the slow mode perturbation seen in the $V_\perp$ panels of \cref{fig:TD-vel-r30} becomes more prominent in the longer period simulations.
 While this observation is not clearly presented in the average wave flux results (\cref{fig:period-flux}), some evidence of this shift can be seen in the wave flux time-distance diagrams in \cref{fig:TD-fwave-r30}.
-This is interesting result, the longer period drivers appear to excite slightly more slow mode, from the same driver profile.
 In spite of this result however, it does not appear to make a significant difference to the total amount of energy in the different identified wave modes.
 It appears therefore that the period of the logarithmic spiral driver is not as critical to the wave modes it excites as the expansion factor or indeed the driving profile.
 
