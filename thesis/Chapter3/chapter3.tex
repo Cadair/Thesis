@@ -10,34 +10,6 @@ from __future__ import print_function
 ch3 = texfigure.Manager(pytex, number=3, base_path='./Chapter3/')
 \end{pycode}
 
-%
-%{\Large Knowledge at end:}
-%\begin{itemize}
-%	\item Static background conditions
-%	\item Construction of flux surfaces
-%	\item our domain setup, size, etc.
-%\end{itemize}
-
-%\section*{Outline}
-%
-%\begin{enumerate}
-%
-%	\item MHD
-%	\begin{enumerate}
-%		\item Ideal MHD
-%		\item MHD Waves
-%		
-%	\end{enumerate}
-%	\item Computational Methods
-%	\begin{enumerate}
-%		\item Numerical Solutions to Partial Differential Equations
-%		\item Numerical MHD
-%		\item The Sheffield Advanced Code (SAC)
-%	\end{enumerate}
-%	\item Magneto-static Background Conditions
-%	
-%\end{enumerate}
-
 \section{Magnetohydrostatic Background Conditions}\label{sec:mhsbackground}
 
 The numerical simulations performed for the MHD wave mode analysis in this thesis, all make use of the ability of SAC (\cref{sec:SAC}, \cite{shelyag2008}) to solve for perturbations on top of a static MHD equilibria.
@@ -340,7 +312,7 @@ gaussian.caption = "Magnetic field strength plots for the photospheric layer in 
 \begin{pycode}[chapter3]
 slc = yt.SlicePlot(ds, 'x', 'alfven_speed', origin='lower-center-domain', axes_unit='Mm')
 slc.set_figure_size(texfigure.figsize(pytex)[0])
-slc.set_cmap('all', 'BuPu')
+slc.set_cmap('all', 'virdis')
 
 seed_points = np.zeros([11,2]) + 1.52
 seed_points[:,0] = np.linspace(-0.99, 0.95, seed_points.shape[0], endpoint=True)

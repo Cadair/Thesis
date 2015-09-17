@@ -433,7 +433,9 @@ Ftd3.caption = r"Decomposed wave energy flux time-distance diagrams along the fl
 To calculate the relative strengths of the excited waves we compute the `wave energy flux' vector everywhere in the domain using \cref{eq:wave_energy} (see \cref{sec:waveflux} for a discussion on this choice).
 Once the wave energy flux has been computed, it is decomposed into parallel, perpendicular and azimuthal components using the same method as the velocity vector. 
 Using the analysis method outlined in \cref{sec:driveranalysis} time-distance diagrams are computed for the relative wave energy flux (see \cref{fig:All-Flux-percent-TD}). 
-
+Due to the ratio nature of the data being displayed in \cref{fig:All-Flux-percent-TD}, the plots are filtered such that all points where $F^2 < 1e-5$ are masked from display.
+This prevents the early points in the simulation biasing the results when no pertubations have yet reached those points in the domain.
+This filtering is also applied to the calculation of the average wave energy flux.
 
 \begin{pycode}[chapter4]
 #This is a direct yank of an old script
