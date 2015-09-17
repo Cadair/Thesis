@@ -212,7 +212,7 @@ The $300$ second limit was also partly chosen for practical purposes; with the b
     \label{tab:period-amp}
 \end{table}
 
-\subsection{Results}\label{subsec:results}
+\section{Results}\label{subsec:results}
 
 To analyse the MHD wave generation effectively the relative strength of each component must be parametrised for different periods of driver.
 To do this we decompose the velocity and the wave energy flux as described in \cref{sec:waveflux} onto the surface of the flux surfaces as detailed in \cref{sec:fluxsurfaces}.
@@ -289,7 +289,7 @@ def add_triple_phase(ax, tube_r):
 
 captions = {p: r"Period: ${}$ s Amplitude: ".format(p) + a + r" ms$^{{-1}}$" for p, a in zip(periods, str_amps)[:10]}
 #print(captions, file=sys.stderr)
-width = 0.75
+width = 0.80
 figsize = texfigure.figsize(pytex, scale=width, height_ratio=0.85)
 multifig = texfigure.MultiFigure(len(all_periods), 1, reference='TD-vel-r30')
 for i, paf in enumerate(all_periods):
@@ -313,7 +313,7 @@ for i, paf in enumerate(all_periods):
     Lfig.subfig_width = r"{}\columnwidth".format(width)
     multifig.append(Lfig)
 
-multifig.caption = r"""Velocity time-distance diagrams for six different period and amplitude combinations are plotted, in each pane three components of velocity are plotted for a flux surface of $r=468$ km. Overlaid on the velocity are magnetic field perturbation contours which are thicker for larger values and dashed for negative values. Shown in green are the phase speeds for the background conditions, the dot-dashed line is the fast speed $v_f$, the dashed line is the sound speed $c_s$, the dotted line is the Alfv\'en speed $v_a$ and the solid line is the slow speed $v_s$."""
+multifig.caption = r"""Velocity time-distance diagrams for six different period and amplitude combinations are plotted, in each pane three components of velocity are plotted for a flux surface of $r=468$ km. Shown in green are the phase speeds for the background conditions, the dot-dashed line is the fast speed $v_f$, the dashed line is the sound speed $c_s$, the dotted line is the Alfv\'en speed $v_a$ and the solid line is the slow speed $v_s$."""
 \end{pycode}
 
 \py[chapter6]|multifig[:2]|

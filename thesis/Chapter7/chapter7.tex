@@ -3,7 +3,9 @@
 %********************************* Seventh Chapter ***************************************
 %*****************************************************************************************
 
-\chapter{Conclusions}\label{ch:conclusions}
+\chapter{Conclusions and Future Work}\label{ch:conclusions}
+
+\section{Summary and Conclusions}
 
 This thesis has studied the generation of Magnetohydrodynamic waves in the solar photosphere, and their propagation from the photosphere to the base of the chromosphere.
 In \cref{ch:drivers} five different photospheric drivers were used to excite MHD waves.
@@ -35,3 +37,28 @@ At higher periods there is a small shift in the velocity perturbations from the 
 This observation is not really reflected in the average wave flux results, however, there is a small increase in the perpendicular component for the last $3$ or $4$ periods in the sample.
 Overall therefore it can be concluded that while the period has some effect on the wave modes generated, especially close to the axis of the flux tube, the effect is much less pronounced than for the other changes made to the driver in this thesis.
 
+\section{Future Work}
+
+The research documented in this thesis, has explored a variety of parameters of the velocity fields that drive waves in the solar atmosphere.
+The logarithmic spiral driver was studied the most intensely with the period and its expansion factor both studied.
+While the scope for future work is vast, with substantially more parameters that could be varied.
+One set of parameters which has remained constant over all the simulations run in this thesis is the FWHM of the gaussian driving volume.
+This parameter defines in what volume the majority  of the driving energy is added to the simulation.
+In this thesis, this volume has been quite small, meaning most of the energy has been added close to the centre of the magnetic flux tube.
+This may not be completely physical, because the plasma motions in the photosphere are not limited to the volume of a MBP, or even the inter-granular lane in which it is embedded.
+When varying the FWHM of the driving profile it would be important to reconsider the analysis undertaken in \cref{ch:period} to ensure the total kinetic energy remained constant.
+This would involve moving the $G(x,y,z)$ term out of the constant of proportionality, and accounting for it when selecting the amplitude.
+The results of this study would be interesting, especially when analysing the difference between the flux surfaces closet to the centre of the magnetic flux tube, to the ones further away.
+
+More fundamentally, the magnetic configuration itself could be varied.
+With the work performed in \cite{gent2013,gent2014} it is trivial and computationally efficient to calculate multiple stable background atmospheres.
+The atmosphere used in this work, is physically limited to below the transition region, the expansion properties of the magnetic field as used would cause the pressure and density to become un-physical above this region.
+Therefore, a different more self-consistent atmosphere should be built and the effects of the changing expansion rate on the wave generation studied.
+If an atmosphere was constructed which had the same footpoint properties, \textit{e.g.} magnetic field strength and FWHM, the author hypothesises that the effects on the flux profiles would be minimal.
+However, it is more than possible that the changes in plasma properties in the higher regions of the simulation domain would cause some deviation from the results presented in this thesis.
+
+Finally, an interesting avenue for future study is to construct more complex background atmospheres from multiple flux tubes, such as in \cite{gent2014} and future extensions to that work.
+This would allow for construction of an atmosphere based on observation data of the magnetic field, and more interestingly co-aligned observations of the photospheric velocity field.
+While these results would more accurately mimic the reality of the solar surface they would present significant challenges in the analysis of the simulations.
+The magnetic flux surface algorithm presented in \cref{sec:fluxsurfaces} is capable of selecting any flux surface even in a highly unstructured domain.
+This would enable similar analysis to that of this thesis, however care would have to be taken in the interpretation.
