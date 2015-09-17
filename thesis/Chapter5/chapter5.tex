@@ -3,7 +3,7 @@
 %*********************************** Fith Chapter ****************************************
 %*****************************************************************************************
 
-\chapter{Effects of Expansion Factor on Logarithmic Spiral MHD Wave Excitation}\label{ch:expfac}
+\chapter[]{Effects of Expansion Factor on Logarithmic Spiral MHD Wave Excitation\footnote{This chapter is based on \cite{mumford2015a} the authors retained the copyright.}}\label{ch:expfac}
 
 \begin{pycode}[chapter5]
 from __future__ import print_function
@@ -294,9 +294,9 @@ Vtd3.caption = r"Velocity time-distance diagrams for all simulated values of $B_
 \py[chapter5]|Vtd3|
 
 \begin{pycode}[chapter5]
-pflux_labels = {'par_label':r'$F_\parallel^2 / \vec{F}^2', 
-                'perp_label':r'$F_\perp^2 / \vec{F}^2',
-                'phi_label':r'$F_\phi^2 / \vec{F}^2'}
+pflux_labels = {'par_label':r'$F_\parallel^2 / F^2', 
+                'perp_label':r'$F_\perp^2 / F^2',
+                'phi_label':r'$F_\phi^2 / F^2'}
 beta = False
 
 def add_triple_phase(ax, tube_r):

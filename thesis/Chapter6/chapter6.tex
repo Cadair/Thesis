@@ -295,7 +295,7 @@ multifig = texfigure.MultiFigure(len(all_periods), 1, reference='TD-vel-r30')
 for i, paf in enumerate(all_periods):
     [setattr(cfg, f, getattr(paf, f)) for f in paf._fields]
 
-    fig, ax = plt.subplots(nrows=3, ncols=1, figsize=figsize)
+    fig, ax = plt.subplots(nrows=3, ncols=1, figsize=figsize, sharex=True)
     
     kwargs = ph.get_single_velocity(cfg, tube_r, beta=beta)
     kwargs.update(velocity_labels)
@@ -332,7 +332,7 @@ multifig = texfigure.MultiFigure(len(all_periods), 1, reference='TD-fwave-r30')
 for i, paf in enumerate(all_periods):
     [setattr(cfg, f, getattr(paf, f)) for f in paf._fields]
     
-    fig, ax = plt.subplots(nrows=3, ncols=1, figsize=figsize)
+    fig, ax = plt.subplots(nrows=3, ncols=1, figsize=figsize, sharex=True)
     
     kwargs = ph.get_single_percentage_flux(cfg, tube_r, beta=beta)
     kwargs.update(flux_labels)
@@ -364,7 +364,7 @@ multifig.caption = r"""Percentage square wave flux along one field line is plott
 \begin{pycode}[chapter6]
 from period_amps import periods, sim_params
 sim_params = sim_params[:10]
-periods = periods[:10]
+periods = np.array(periods[:10])
 
 size = texfigure.figsize(pytex, height_ratio=1.2)
 fig, axs = plt.subplots(nrows=3, figsize=size, sharex=True)
@@ -380,6 +380,7 @@ for i, ax in enumerate(axs):
     ax.set_title(titles[i])
     ax.xaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter())
     ax.xaxis.set_ticks(periods)
+    #ax.set_xticklabels(["{}\n{:n}".format(p, 600//p) for p in periods])
     ax.set_ylim([10, 75])
     ax.set_xlim([25, 305])
 
