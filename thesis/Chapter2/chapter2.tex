@@ -8,43 +8,6 @@
 \begin{pycode}[chapter2]
 ch2 = texfigure.Manager(pytex, number=2, base_path='./Chapter2/')
 \end{pycode}
-
-%{\Large Knowledge at start:}
-%\begin{itemize}
-%	\item The coronal heating problem
-%	\item MHD waves as a solution to the corona heating problem
-%	\item photospheric dynamics
-%	\item Magnetic wave guides.
-%\end{itemize}
-%
-%{\Large Knowledge at end:}
-%\begin{itemize}
-%	\item The ideal MHD equations
-%	\item Wave solutions for a uniform media
-%	\item velocity perturbation calculations
-%	\item Wave flux calcs
-%	\item SAC, and numerical solutions to the ideal MHD equations
-%\end{itemize}
-
-%\section*{Outline}
-%
-%\begin{enumerate}
-%
-%	\item MHD
-%	\begin{enumerate}
-%		\item Ideal MHD
-%		\item MHD Waves
-%		
-%	\end{enumerate}
-%	\item Computational Methods
-%	\begin{enumerate}
-%		\item Numerical Solutions to Partial Differential Equations
-%		\item Numerical MHD
-%		\item The Sheffield Advanced Code (SAC)
-%	\end{enumerate}
-%	\item Magneto-static Background Conditions
-%	
-%\end{enumerate}
 	
 
 %********************************** %First Section  **************************************
@@ -89,7 +52,7 @@ Where $\rho$ is the density, $\vec{v}$ is the velocity, $p$ is the pressure, $\g
 
 
 \subsection{MHD Waves}\label{sec:MHDwaves}
-Just like a non-ionised fluid, which supports a sound wave, due to the restoring force of the pressure, plasma supports wave phenomena.
+Just like a non-ionised fluid, which supports a sound wave, due to the restoring force of the pressure, plasma supports wave phenomena \cite{alfven1942}.
 Waves in plasmas also interact with the magnetic field, and the coupling of the magnetic field to the motion of the plasma.
 This leads to the presence of a wide variety of wave modes in plasma, dependent upon the geometry and physical properties of the plasma being perturbed.
 For the analysis performed in this chapter we shall consider a plasma with a static, and uniform background, the magnetic field shall be of a constant strength and aligned solely with the $z$ axis.
@@ -373,9 +336,7 @@ f(x+\Delta_{x}) & = f(x)+\Delta_{x}f'(x)+\frac{\Delta_{x}^{2}f''(x)}{2!}+\frac{\
 The forward difference equation is the first order truncation of the $f(x+\Delta_{x})$ Taylor series, and likewise for the backward difference.
 From this you can see that the truncation error of a forward and backward difference approximation is $O(\Delta_{x})$, and that the accuracy could be improved by increasing the number of terms included.
 
-Another way to fundamentally reduce the error, while maintaining the first order nature of these solutions is to combine the forward and backward difference into a central difference approximation of the form 
-%TODO: THIS IS WRONG (Freddie)
-$\Delta_{x}f(x)=f(x+\frac{1}{2}\Delta x)-f(x-\frac{1}{2}\Delta x)$.
+Another way to fundamentally reduce the error, while maintaining the first order nature of these solutions is to combine the forward and backward difference into a central difference approximation of the form  $f(x)=\frac{1}{2} \left(f(x + \Delta x) + f(x - \Delta x)\right)$.
 To first order the result is 
 \begin{equation}
 f'(x)=\frac{f(x+\Delta_{x})-f(x-\Delta_{x})}{2\Delta_{x}}.\label{eq:First Order CD}

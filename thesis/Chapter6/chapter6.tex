@@ -66,7 +66,7 @@ exp_xyz = exp_x2 * exp_y2
 # Define Driver Equations and Parameters
 #==============================================================================
 #A is the amplitude, B is the spiral expansion factor
-A = 10
+A = 1
 
 #Tdamp defines the damping of the driver with time, Tdep is the ocillator
 tdamp = lambda time1: 1.0 #*np.exp(-(time1/(period)))
@@ -99,7 +99,7 @@ x0=xc, y0=yc, direction='forwards')
 fig = plt.figure(figsize=texfigure.figsize(pytex))
 ax = plt.subplot()
 im = ax.imshow(vv, cmap='Blues', extent=[7812.5,x_max,7812.5,y_max])
-im.set_norm(matplotlib.colors.Normalize(vmin=0,vmax=10))
+im.set_norm(matplotlib.colors.Normalize(vmin=0,vmax=A))
 
 Sline, = ax.plot(slines.streamlines[0][0],slines.streamlines[0][1],color='red',linewidth=2, zorder=40)
 
@@ -133,7 +133,7 @@ fig.tight_layout()
 
 slog_fig = ch6.save_figure('slog-profile', fig=fig, fext='.pdf')
 slog_fig.caption = r"Horizontal velocity profile of the logarithmic spiral driver with expansion factor $B_L = {}$. The magnitude of velocity is shown by the colour map and the cyan arrows follow the vector field. The red line is a velocity streamline seeded in the centre of the domain.".format(cfg.exp_fac)
-slog_fig.figure_width=r'\columnwidth'
+#slog_fig.figure_width=r'\columnwidth'
 \end{pycode}
 
 \py[chapter6]|slog_fig|
@@ -255,8 +255,6 @@ While the growth in relative strength of the Alfv\'en mode is reasonably linear 
 The percentage of the flux in the torsional component, which is dominant for all periods, only varies by $<10$ \% for the $936$ and $468$ km flux surfaces.
 For the $156$ km flux surface the variation is larger, $\approx 20$ \%.
 
-
-% SIX Velocity T-D Graphs:
 \begin{pycode}[chapter6]
 
 from period_amps import periods, str_amps
@@ -289,7 +287,7 @@ def add_triple_phase(ax, tube_r):
 
 captions = {p: r"Period: ${}$ s Amplitude: ".format(p) + a + r" ms$^{{-1}}$" for p, a in zip(periods, str_amps)[:10]}
 #print(captions, file=sys.stderr)
-width = 0.80
+width = 0.79
 figsize = texfigure.figsize(pytex, scale=width, height_ratio=0.85)
 multifig = texfigure.MultiFigure(len(all_periods), 1, reference='TD-vel-r30')
 for i, paf in enumerate(all_periods):
@@ -324,9 +322,9 @@ multifig.caption = r"""Velocity time-distance diagrams for six different period 
 
 
 \begin{pycode}[chapter6]
-flux_labels = {'par_label':r'$F_\parallel^2 / \vec{F}^2$', 
-               'perp_label':r'$F_\perp^2 / \vec{F}^2$',
-               'phi_label':r'$F_\phi^2 / \vec{F}^2$'}
+flux_labels = {'par_label':r'$F_\parallel^2 / F^2$', 
+               'perp_label':r'$F_\perp^2 / F^2$',
+               'phi_label':r'$F_\phi^2 / F^2$'}
 
 multifig = texfigure.MultiFigure(len(all_periods), 1, reference='TD-fwave-r30')
 for i, paf in enumerate(all_periods):
@@ -376,7 +374,7 @@ for i, ax in enumerate(axs):
     ax.plot(periods, AvgsP[0], 'o', label=r"$F_\parallel^2$", mew=0, ms=7)
     ax.plot(periods, AvgsP[1], '_', label=r"$F_\perp^2$", mew=2, ms=7)
     ax.plot(periods, AvgsP[2], 'x', label=r"$F_\phi^2$", mew=2, ms=7)
-    ax.set_ylabel("% Square \n Wave Flux")
+    ax.set_ylabel("% Square Wave Flux")
     ax.set_title(titles[i])
     ax.xaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter())
     ax.xaxis.set_ticks(periods)

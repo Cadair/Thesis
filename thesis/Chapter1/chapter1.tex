@@ -11,27 +11,6 @@ from __future__ import print_function
 ch1 = texfigure.Manager(pytex, number=1, base_path='./Chapter1/')
 \end{pycode}
 
-%{\Large Inital Assumptions:}
-%\begin{itemize}
-%	\item Understanding of the fusion power source.
-%	\item Understanding of basic thermodynamics and hydrodynamics.
-%	\item Basic understanding of the concepts of EM.
-%	\item Understanding of differential equations etc.
-%	\item Comprehension of numerical solutions to differential equations, and their ability to solve physical problems.
-%\end{itemize}
-%
-%
-%{\Large Outline}
-%\begin{enumerate}
-%	\item What's a Sun??
-%	\item Solar stratification.
-%	\item The Coronal Heating problem / energy deficit.
-%	\item Potential solutions and MHD waves. (Maths in Chapter 2)
-%	\item Photospheric dynamics, granulation, MBPs etc.
-%	\item Magnetic structures and wave guides.
-%\end{enumerate}
-
-
 %********************************** %First Section  **************************************
 \section{The Sun} %Section - 1.1
 The Sun has been the subject of study by humanity since the dawn of civilisation.
@@ -126,10 +105,11 @@ map171 = sunpy.map.Map(filepath)
 map171.peek(basic_plot=True)
 
 aia171 = ch1.save_figure('aia171', fext='.pdf')
-aia171.caption="The solar corona at 17.1 nm, showing plasma in the region of 1 million degrees Kelvin. Taken by the AIA instrument on the SDO spacecraft on {date:%d %b %Y at %H:%M}".format(date=map171.date)
+aia171.caption="The solar corona at 17.1 nm, showing plasma in the region of 1 million degrees Kelvin. Taken by the AIA instrument on the SDO spacecraft on {date:%d %b %Y at %H:%M}. \citep{{pesnell2012,thesunpycommunity2015a}}".format(date=map171.date)
 \end{pycode}
-%TODO: reference SunPy here.
+
 \py[chapter1]|aia171|
+
 
 \section{Coronal Heating}
 
@@ -198,4 +178,4 @@ In combination with this, they are highly dynamic structures, formed in the chao
 These plasma motions, in combination with the magnetic fields, are almost certain to drive MHD waves of some variety. 
 The rest of this thesis is going to explore the generation of MHD waves in photospheric magnetic structures similar in properties to a MBP.
 
-\Cref{ch:Background} will provide the theoretical background, while \cref{ch:methodology} describes the numerical configuration and analysis methodology for the simulations that are described in \cref{ch:drivers,ch:expfac,ch:period}, finally the conclusions are summarised in \cref{ch:conclusions}.
+\Cref{ch:background} will provide the theoretical background, while \cref{ch:methodology} describes the numerical configuration and analysis methodology for the simulations that are described in \cref{ch:drivers,ch:expfac,ch:period}, finally the conclusions are summarised in \cref{ch:conclusions}.

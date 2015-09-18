@@ -3,7 +3,7 @@
 %*********************************** Fith Chapter ****************************************
 %*****************************************************************************************
 
-\chapter[]{Effects of Expansion Factor on Logarithmic Spiral MHD Wave Excitation\footnote{This chapter is based on \cite{mumford2015a} the authors retained the copyright.}}\label{ch:expfac}
+\chapter[]{Effects of Expansion Factor on Logarithmic Spiral MHD Wave Excitation\footnote{This chapter is based on Mumford and Erd\'elyi (2015) which is licensed under the terms of the CC-BY 4.0 License.}}\label{ch:expfac}
 
 \begin{pycode}[chapter5]
 from __future__ import print_function
@@ -31,7 +31,7 @@ In \cite{bonet2008} magnetic bright points (MBPs) were observed spiralling in an
 \theta = \frac{1}{B_L}\ln\left(\frac{r}{a}\right),
 \label{eq:log_spiral}
 \end{equation}
-where $r$ is the radius of the spiral and $a$ is a positive real constant, and obtained a value of $B_L^{-1} = 6.4 \pm 1.6 = B_L = 0.15$ for the dimensionless expansion factor parameter.
+\citep{feynman1964} where $r$ is the radius of the spiral and $a$ is a positive real constant, and obtained a value of $B_L^{-1} = 6.4 \pm 1.6 = B_L = 0.15$ for the dimensionless expansion factor parameter.
 
 In \cite{bonet2010} a larger sample of photospheric vortices were studied, despite not fitting spirals to the observed motions, a number density of photospheric vortices was calculated as $d \simeq 3.1 \times 10^{-3}$ vortices Mm$^{-2}$ minute$^{-1}$, which therefore provides an upper limit of the number of logarithmic spiral-like vortices in the solar photosphere.
 
@@ -413,7 +413,15 @@ ch5bar.caption = r"Comparison of percentage square wave energy flux for all simu
 
 This chapter presented a parameter study of the logarithmic spiral expansion factor.
 This parameter controls how tightly wound the logarithmic spiral is, a series of values were chosen around an observed value from \cite{bonet2008}.
-The analysis of the wave flux indicates that around the value of the logarithmic expansion factor $B_L=0.15$, the value observed in \cite{bonet2008}, the dominant mode changes from the Alfv\'en mode to a superposition of the fast and slow modes in the parallel component.
-This provides and interesting result, in that if this value is representative of this kind of spiralling motion in the photosphere, then only between $35$\% and $60$\% of the wave flux (depending on the surface width) is in the Alfv\'en mode.
+The simulations that were run with expansion factors less than $B_L=0.15$ (the value in \cite{bonet2008}), result in the Alfv\'en wave being dominant, with the exception of the $156$ km flux surface.
+The behaviour of the wave modes on the $156$ km flux surface is worthy of note, the $F_\phi$ and $F_\perp$ components, attributed to the Alfv\'en and slow modes respectively, track each other closely for all values of the expansion factor.
+This has two potential interpretations, firstly, that the slow mode and the Alfv\'en mode, close to the axis of the magnetic flux tube are both weakened equally as the expansion factor increases or secondly, that there is some coupling between the perturbations in both the $F_\phi$ and $F_\perp$ components.
+It can be seen that this link between the $F_\phi$ and $F_\perp$ components can not be seen in the results from the $936$ km surface, and to a substantially lesser extent in the $468$ km surface results.
+
+As the expansion period increases beyond $B_L=0.15$ the $F_\parallel$ component becomes dominant, with $\approx 80$\% of the flux being in the $F_\parallel$ component for $B_L=1.5$ and the $156$ km surface.
+As can be seen in \cref{fig:All_log_spirals} the driver profile for $B_L=1.5$ is largely radial, making it expected that some significant change in the wave mode distribution would occur.
+The results shown in \cref{fig:TD-velocity-r30-15,fig:TD-flux-r30-15} resemble those of the vertical driver simulated in \cref{ch:drivers} and the results in \cref{fig:All-TD-wave-30:Slog,fig:All-Flux-percent-TD:Slog}.
+This is probably a result of the spherical geometry of the problem, as it is interpreted by the author as both drivers exciting sausage mode oscillations.
+
 The next chapter will investigate the relative strengths of the wave modes as period is varied for the logarithmic spiral driver.
 

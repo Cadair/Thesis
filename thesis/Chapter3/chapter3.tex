@@ -17,7 +17,6 @@ To perform these experiments, a background atmosphere needs to be constructed.
 Quiet Sun regions were chosen for study, therefore this section details the construction of an atmosphere representative of the quiet Sun.
 This choice reduces the complexity of the modelled magnetic field and should allow for more accurate separation of the MHD wave effect from any other energy transfer processes, such as bulk flows.
 
-%HS Background
 The first step in constructing a static model for the solar atmosphere is to understand the hydrodynamic properties of the background plasma.
 Models of properties such as the density and pressure have been created for various heights in the solar atmosphere, based on observations and theory.
 The profile used in this thesis is the \cite{vernazza1981} model C, which covers the range of height in the solar atmosphere from the photosphere ($0$ km) to $2.5$ Mm above the photosphere.
@@ -27,15 +26,14 @@ A plot of the density, pressure and temperature from this model is shown in \cre
 import pysac.mhs_atmosphere as atm
 
 #Read in the VAL3C model
-empirical_data = atm.hs_atmosphere.read_VAL3c_MTW(MTW_file=False)[:-26]
+empirical_data = atm.hs_atmosphere.read_VAL3c_MTW(MTW_file=False)
 
-print(empirical_data['Z'], file=sys.stderr)
 
 # Create a Z array at the interpolated resolution and interpolate.
 ZZ = u.Quantity(np.linspace(empirical_data['Z'][0], empirical_data['Z'][-1], 128), unit=empirical_data['Z'].unit)
-table = atm.hs_atmosphere.interpolate_atmosphere(empirical_data, ZZ)
+table = atm.hs_atmosphere.interpolate_atmosphere(empirical_data, ZZ, s=0)
 
-print(len(table), file=sys.stderr)
+
 # Create a figure and make space for the axes.
 fig, ax = plt.subplots(gridspec_kw={'right':0.78, 'left':0.16, 'bottom':0.13})
 
@@ -52,8 +50,8 @@ lp_i, = ax2.plot(ZZ.to(u.Mm), table['p'].to(u.Pa), color='green')
 
 ax3 = ax.twinx()
 ax3.spines["right"].set_position(("axes", 1.2))
-lt, = ax3.plot(Z, empirical_data['T'].to(u.kK), 'x', color='red')
-lt_i, = ax3.plot(ZZ.to(u.Mm), table['T'].to(u.kK), color='red')
+lt, = ax3.plot(Z, empirical_data['T'].to(u.K), 'x', color='red')
+lt_i, = ax3.plot(ZZ.to(u.Mm), table['T'].to(u.K), color='red')
 
 
 # Set primary axes properties and labels
@@ -71,6 +69,8 @@ ax2.set_ylabel(r"Pressure [{}]".format(lp._yorig.unit._repr_latex_()))
 # Temp axis
 ax3.set_ylabel(r"Temperature [{}]".format(lt._yorig.unit._repr_latex_()))
 
+ax.set_xlim([-0.02,1.62])
+ax3.set_ylim([3500,7500])
 # Set the colours for the ticks and the labels.
 ax.tick_params(axis='y', colors=lrho.get_color())
 ax2.tick_params(axis='y', colors=lp.get_color())
@@ -87,7 +87,6 @@ val3c.caption = r"Graph of the \cite{{vernazza1981}} model C showing the density
 \py[chapter3]|val3c|
 
 On top of this hydrostatic background, a magnetic field is required to study MHD waves.
-%MBPs and magnetic structures
 The type of magnetic phenomena to be investigated are small scale photospheric structures, that occur frequently over the disk of the Sun.
 Magnetic Bright Points (MBPs) were chosen as an observational feature to use as a guide for the background model, MBPs are well studied and there are good estimates of their physical properties.
 \cite{feng2013} performed a study of Photospheric Bright Points (PBPs), which are assumed to be analogous to MBPs, using the Dutch Open Telescope, and found that the peak of the log-normal distribution gave a diameter of $232\pm40$ km for the quiet Sun.
@@ -98,7 +97,6 @@ They find that in a quiet Sun region the average magnetic field strength of a MB
 They also note, and present some evidence, that this is probably an upper bound estimate, and true lifetimes may be shorter.
 
 
-%MHS background construction
 \begin{pycode}[chapter3]
 from pysac.mhs_atmosphere.parameters.model_pars import mfe_setup as model_pars
 import pysac.mhs_atmosphere as atm
@@ -239,7 +237,6 @@ Similarly to \cite{gent2014} a uniform background field ($\bc$) is also added to
 This weak ambient vertical field provides for a more realistic atmosphere, instead of an atmosphere where there is only one magnetic flux tube present.
 The parameters used in constructing the background atmosphere in this thesis are given in \cref{tab:bgparams}.
 
-%TODO: pysac parameters are wrong!
 \begin{table}
     \centering
     \begin{tabular}{|c|c|}
@@ -281,7 +278,7 @@ plt.xlim([-0.5, 0.5])
 
 bmagf = ch3.save_figure('bmag-footpoint', fig, fext='.pgf')
 bmagf.subfig_width = r'\columnwidth'
-bmagf.caption = "1D slice through the centre of the domain. The {} line shows a fitted gaussian to the numerical domain. The {} lines show the FWHM and the {} line shows the FWTM.".format(lb_f.get_color(), lhm.get_color(), ltm.get_color())
+bmagf.caption = "1D slice through the centre of the domain. The {} line shows a fitted gaussian to the numerical domain. The {} lines show the FWHM and the {} line shows the FWTM. \citep{{theastropycollaboration2013}}".format(lb_f.get_color(), lhm.get_color(), ltm.get_color())
 gaussian.append(bmagf)
 \end{pycode}
 
@@ -672,7 +669,7 @@ zoomed_glyphs.placement = 'H'
 \end{pycode}
 
 This section describes the numerical construction of the flux surfaces, and the set of normal vectors defined upon them.
-This algorithm employs the Visualisation Tool Kit (VTK\footnote{VTK 6.1 (\url{www.vtk.org})}) and the MayaVi package \citep{Ramachandran2011} to provide a high-level Python interface to VTK.
+This algorithm employs the Visualisation Tool Kit (VTK\footnote{VTK 6.1 (\url{www.vtk.org})}) and the MayaVi package \citep{ramachandran2011} to provide a high-level Python interface to VTK.
 A flux surface is defined as the set of field lines which form a boundary of a flux tube.
 Due to the fact that the magnetic field constructed in \cref{sec:mhsbackground} is continuous the choice of `boundary' is arbitrary, as any axisymmetric boundary could be chosen.
 The process of computing these flux surfaces is illustrated in \cref{fig:circ-seeds,fig:fieldlines,fig:flux-surface,fig:zoomed-surface,fig:zoomed-glyphs}.

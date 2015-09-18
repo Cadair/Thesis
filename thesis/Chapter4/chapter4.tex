@@ -3,7 +3,7 @@
 %********************************** Fourth Chapter ***************************************
 %*****************************************************************************************
 
-\chapter[]{MHD Waves excited by Different Photospheric Drivers\footnote{This chapter is based on \cite{mumford2015} with permission from the copyright holder.}}\label{ch:drivers}
+\chapter[MHD Waves excited by Different Photospheric Drivers]{MHD Waves excited by Different Photospheric Drivers \footnote{This chapter is based on Mumford et al. (2015) with permission from the copyright holder.}}\label{ch:drivers}
 
 \begin{pycode}[chapter4]
 from __future__ import print_function
@@ -48,7 +48,7 @@ This velocity field is then multiplied by a sine function to make it periodic. T
 where, $V(x,y,z)$ is the output velocity field, $F(x,y,x)$ is an arbitrary function which defines the form of the driver, $\Delta x$, $\Delta y$, $\Delta z$ are the half-widths of the Gaussian function in the three spatial dimensions, and $P$ is the period of the driver.
 The values used for the width of the Gaussians are fixed through out this thesis and are: $\Delta x = \Delta y = 0.1$ Mm and $\Delta z = 0.05$, the origin of the driver is at $z = 100$ km above the photosphere.
 
-The five representative driving motions, horizontal, vertical, circular, Archemedian spiral and logarithmic spiral are then defined by the form of $F(x,y,z)$. For the horizontal and vertical drivers $F(x,y,z)$ is a constant in the direction of the motion, $x$ for horizontal and $z$ for vertical, for the spiral drivers the forms of $F(x,y,z)$ are given for the circular driver in \cref{eq:Suni},
+The five representative driving motions, horizontal, vertical, circular, Archemedian spiral and logarithmic spiral \cite{feynman1964} are then defined by the form of $F(x,y,z)$. For the horizontal and vertical drivers $F(x,y,z)$ is a constant in the direction of the motion, $x$ for horizontal and $z$ for vertical, for the spiral drivers the forms of $F(x,y,z)$ are given for the circular driver in \cref{eq:Suni},
 
 \begin{subequations}
 	\begin{align}
@@ -232,17 +232,17 @@ The plasma was driven using the different drivers described in \cref{sec:5driver
 Once the MHD simulations were complete, the data was loaded into the Python flux surface analysis pipeline as described in \cref{sec:fluxsurfaces}, this then calculated the velocity perturbation and wave flux vectors in the frame of the flux surfaces, which are analysed in \cref{sec:driveranalysis}.
 
 \begin{figure}[H]
-    \begin{subfigure}[b]{0.9\columnwidth}
+    \begin{subfigure}[b]{0.95\columnwidth}
         \centering
         \includegraphics[width=0.55\columnwidth]{Chapter4/Figs/Mayavi_Slog_p240_A10_r60_vphi_00150.png}
         \caption{Snapshot at $t=154$ s}
     \end{subfigure}
-    \begin{subfigure}[b]{0.9\columnwidth}
+    \begin{subfigure}[b]{0.95\columnwidth}
         \centering
         \includegraphics[width=0.55\columnwidth]{Chapter4/Figs/Mayavi_Slog_p240_A10_r60_vphi_00450.png}
         \caption{Snapshot at $t=461$ s}
     \end{subfigure}
-    \begin{subfigure}[b]{0.9\columnwidth}
+    \begin{subfigure}[b]{0.95\columnwidth}
         \centering
         \includegraphics[width=0.55\columnwidth]{Chapter4/Figs/Mayavi_Slog_p240_A10_r60_vphi_00586.png}
         \caption{Snapshot at  $t=600$ s}
@@ -368,14 +368,12 @@ vtd3.caption = r"Decomposed velocity perturbation time-distance diagrams along t
 \py[chapter4]|vtd3|
 
 
-%TODO: Wave Flux section needs rewriting
-%Need to reference background section, and remove the avalible flux bullshit.
 \subsection{Wave Energy Flux}\label{sec:energy_flux}
 
 \begin{pycode}[chapter4]
-pflux_labels = {'par_label':r'$F_\parallel / |\vec{F}|$ ', 
-                'perp_label':r'$F_\perp / |\vec{F}|$',
-                'phi_label':r'$F_\phi / |\vec{F}|$'}
+pflux_labels = {'par_label':r'$F_\parallel / F^2$ ', 
+                'perp_label':r'$F_\perp / F^2$',
+                'phi_label':r'$F_\phi / F^2$'}
 
 Ftd1 = texfigure.MultiFigure(2, 1)
 Ftd2 = texfigure.MultiFigure(2, 1)
