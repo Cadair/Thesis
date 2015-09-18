@@ -1,75 +1,92 @@
 % !TeX root = ../smumford_thesis.tex
 %*****************************************************************************************
-%********************************* Seventh Chapter ***************************************
+%*********************************** Sixth Chapter ***************************************
 %*****************************************************************************************
+\begin{pycode}[chapter7]
+from __future__ import print_function
+ch7 = texfigure.Manager(pytex, number=7, base_path='./Chapter7/')
 
-\chapter{Conclusions and Future Work}\label{ch:conclusions}
+\end{pycode}
 
-\section{Summary and Conclusions}
+\chapter[]{SunPy: A Tool for Open Solar Physics}\label{ch:sunpy}
 
-This thesis has studied the generation of Magnetohydrodynamic waves in the solar photosphere, and their propagation from the photosphere to the base of the chromosphere.
-In \cref{ch:drivers} five different photospheric drivers were used to excite MHD waves.
-The vertical driver was found to excite primarily fast mode perturbations in the $V_\parallel$ component of velocity.
-The horizontal driver primarily excited slow mode perturbations in the perpendicular $V_\perp$ component.
-The three torsional drivers, a circular driver as well as Archemedian and logarithmic spirals all excited between $40$ and $60$ \% of their wave flux in the Alfv\'en mode, with the rest distributed between the fast and slow modes.
-The uniformly low proportion of excited Alfv\'en wave for all the torsional drivers has an interesting implications for the generation of the widely sort after Alfv\'en wave.
-If even idealised circular motions in the photosphere only excite $\approx 45$\% of their wave flux in the Alfv\'en mode, then the estimates of the total amount of available Alfv\'en flux, which could propagate through the chromosphere at potentially heat it and the corona, may be over estimated.
+The SunPy project \citep{thesunpycommunity2015a} aims to facilitate and promote the use and development of a community-led, free and open-source solar data-analysis software based on the scientific Python environment.
+Utilizing the scientific Python environment which has an extensive tool-set, allows the creation of high-quality data-analysis software package for Solar Physics.
+The adoption of Python as a scientific programming language is, in part, due to that fact that Python is a free, general-purpose, powerful, and easy-to-learn high-level programming language.
+This fact has fostered a large community that is slowly growing into many fields both inside and outside of science, Python is also widely used in areas such as `big data' analytics, web development, and educational environments.
 
-\Cref{ch:expfac} continued the study of the logarithmic spiral driver.
-In this chapter, the expansion factor was varied and the effects on the distribution of excited wave modes studied.
-In \cref{ch:drivers} the expansion factor was arbitrarily chosen to be $B_L = 0.05$, in \cref{ch:expfac} a variety of expansion factors were simulated based around the observational results of \cite{bonet2008}.
-\cite{bonet2008} observed a MBP spiralling in a inter-granular lane, a logarithmic spiral was fitted to the observed locations of the MBP and a expansion factor of $B_L^{-1} = 6.4 \pm 1.6 = B_L = 0.15$ calculated.
-Unlike the logarithmic spiral driver used in \cref{ch:drivers}, not all the expansion factors simulated in \cref{ch:expfac}, resulted in the Alfv\'en wave being the dominant mode.
-In fact, the mid point of the parameter space studied, $B_L = 0.15$ was the last point simulated where the Alfv\'en mode was dominant, the two points with higher expansion factors that this the fast mode was the dominant mode.
-This accentuates the results of \cref{ch:drivers}, in that even less Alfv\'en flux is generated for driver profiles based on observational data.
-If a normal distribution of expansion factors were chosen around the observed expansion factor $B_L = 0.15$ a large proportion of these vortexes would be generating more fast mode flux than Alfv\'en flux.
+A perfect example is the \texttt{pandas} \citep{mckinney2010, mckinney2012} Python module, which was started to simply analysis of financial data and has since grown into a generalised time-series data-analysis package.
+Further, Python has seen extensive adoption within the astronomy community \citep{greenfield2011} which is a field that shares many goals and challenges with the solar physics community.
 
-\Cref{ch:period} varied the driving period of the logarithmic spiral driver, while keeping the expansion factor at $B_L = 0.15$, in line with the simulations presented in \cref{ch:expfac}.
-The period choices in \cref{ch:drivers,ch:expfac} were $240$ and $180$ s respectively, both of these were selected arbitrarily.
-To cover a good range of the period parameter space, $10$ periods were selected varying from $30$ to $300$ seconds, in steps of $30$ s.
-The upper limit of $300$ seconds being chosen for a combination of physical and practical purposes.
-The maximum lifetime of the MBPs observed by \cite{sanchezalmeida2004} was $10$ minutes, so setting the upper limit as $300$ s allows for two complete periods with this upper bound of MBP lifetime.
-In addition to this, running simulations for a much longer time period leads to interference by some reflection from the top numerical boundary.
-The effects of the period on the excited wave mode distribution were varied.
-The Alfv\'en fluxes varied up to a maximum of $20$\% for the narrowest flux surface, and substantially less than that for the other two wider surfaces.
-Interestingly, however, there were some variation in the form of the observed wave fronts in the velocity time-distance diagrams.
-At higher periods there is a small shift in the velocity perturbations from the fast mode to the slow mode ($V_\parallel$ to $V_\perp$).
-This observation is not really reflected in the average wave flux results, however, there is a small increase in the perpendicular component for the last $3$ or $4$ periods in the sample.
-Overall therefore it can be concluded that while the period has some effect on the wave modes generated, especially close to the axis of the flux tube, the effect is much less pronounced than for the other changes made to the driver in this thesis.
+The development of a package such as SunPy is made possible by the rich ecosystem of scientific packages available in Python.
+Core packages such as \texttt{NumPy}, 
+\texttt{SciPy} \citep{jones2001}, and \texttt{matplotlib} \citep{hunter2007} provide the basic functionality expected of a scientific programming language, such as array manipulation, core numerical algorithms, and visualisation, respectively.
+Building upon these foundations, packages such as \texttt{astropy} \citep[astronomy;][]{theastropycollaboration2013}, \texttt{pandas} \citep[time-series;][]{mckinney2012}, and \texttt{scikit-image} \citep[image processing;][]{vanderwalt2014} provide more domain-specific functionality.
 
-When considering the conclusion of this thesis, namely that spiral drivers excite a spectra of wave modes, it is worth keeping in mind the limitations of the analysis.
-Primarily, the limitation of the spatial extent of the data studied.
-Due to the need to construct flux surfaces to successfully decompose the vector quantities into a reference frame that lends itself to the analysis of MHD wave modes, these wave modes can, by definition, only be analysed on the constructed surfaces.
-Throughout this thesis, three representative surfaces have been used to understand the dynamics at different points throughout the domain.
-However, when considering the observations, especially in \cref{ch:period}, where interesting results were observed close to the axis of the magnetic flux tube, it would be advantageous to be able to study the variation of the analysis continuously through the domain.
+Within Solar Physics, the SolarSoft (SSW) library \citep{freeland1998} is widely used, which is built upon the IDL (Interactive Data Language), a proprietary data-analysis environment. In contract, SunPy is a open-source package that provides the \textit{core} tools for solar data analysis and aims to be a free and modern alternative.
 
-Beyond the fundamental limit of the analysis method applied, the theoretical description of the plasma used to interpret the results presents some limitations.
-Firstly, a uniform field approximation was described in \cref{ch:background}, this is an over-simplification of the numerical domain, where a plasma with some degree of spherical symmetry, in a stratified atmosphere was studied.
-While much theory exists surrounding the nature of MHD waves in spherical geometry, this too would prove inadequate to analytically describe the plasma conditions in the simulation, indeed this is the purpose of numerical experiments.
-However, some further analysis using this theory could be performed, especially utilising the spatial coordinates of the flux surfaces in the domain, to measure the displacement of the surface from the equilibria.
+\section{Community Development}
+SunPy is a community developed package, the source code is hosted on GitHub \url{https://github.com/sunpy} and two mailing lists and an IRC channel serve as the projects communication channels.
+This collaborative nature of the project is it's greatest strength.
+This chapter will detail the authors primary contributions to the project, but it is to be understood that they were all developed in a collaborative manner with the other members of the SunPy community.
 
-\section{Future Work}
+\section{Representation of Imaging Data}
 
-The research documented in this thesis, has explored a variety of parameters of the velocity fields that drive waves in the solar atmosphere.
-The logarithmic spiral driver was studied the most intensely with the period and its expansion factor both studied.
-While the scope for future work is vast, with substantially more parameters that could be varied.
-One set of parameters which has remained constant over all the simulations run in this thesis is the FWHM of the Gaussian driving volume.
-This parameter defines in what volume the majority  of the driving energy is added to the simulation.
-In this thesis, this volume has been quite small, meaning most of the energy has been added close to the centre of the magnetic flux tube.
-This may not be completely physical, because the plasma motions in the photosphere are not limited to the volume of a MBP, or even the inter-granular lane in which it is embedded.
-When varying the FWHM of the driving profile it would be important to reconsider the analysis undertaken in \cref{ch:period} to ensure the total kinetic energy remained constant.
-This would involve moving the $G(x,y,z)$ term out of the constant of proportionality, and accounting for it when selecting the amplitude.
-The results of this study would be interesting, especially when analysing the difference between the flux surfaces closet to the centre of the magnetic flux tube, to the ones further away.
+One of the main submodules of SunPy is the `Map' submodule which presents a unified interface to different sources of imaging data.
+Most image data in solar physics is stored in the FITS (Flexible Image Transport System) file format \cite{pence2010}.
+However, even where data to be loaded by SunPy is in the FITS file format the critical information, the meta data, describing the observations is not stored in a uniform manner.
+Despite the description of standard ways to describe coordinate information in FITS files (FITS-WCS) \citep{greisen2002,thompson2006} data generated before these standards were adopted and other meta data not related to the coordinates of the images do not follow these standards.
+The problem of non-standard meta data is the primary motivator for the architecture of the SunPy `Map' submodule.
 
-More fundamentally, the magnetic configuration itself could be varied.
-With the work performed in \cite{gent2013,gent2014} it is trivial and computationally efficient to calculate multiple stable background atmospheres.
-The atmosphere used in this work, is physically limited to below the transition region, the expansion properties of the magnetic field as used would cause the pressure and density to become un-physical above this region.
-Therefore, a different more self-consistent atmosphere should be built and the effects of the changing expansion rate on the wave generation studied.
-If an atmosphere was constructed which had the same footpoint properties, \textit{e.g.} magnetic field strength and FWHM, the author hypothesises that the effects on the flux profiles would be minimal.
-However, it is more than possible that the changes in plasma properties in the higher regions of the simulation domain would cause some deviation from the results presented in this thesis.
+The `Map' module used the object orientated (OO) nature of the Python programming language to allow specific data sources, such as different instruments, to map their meta data to a standard SunPy interface to that data.
+The \verb|GenericMap| class defines this standard interface, it provides human readable properties to access common meta data, such as the FITS-WCS coordinate information and other common meta data such as instrument and date.
+The \verb|GenericMap| class defines these mappings using a strict interpreation of the standards and the most common conventions in solar physics.
+Specific instruments that deviate from these standards, or desire other specialisations, define a subclass of the \verb|GenericMap| class to override any properties to provide the correct information to the user in the standard manner.
+This design results in a class hierarchy where each instrument has a associated class, and the user would have to manually load the data into the correct class to obtain the desired behaviour.
+To improve the user experience a unified interface to the `Map' module was designed for the first official release of SunPy (v0.2).
 
-Finally, an interesting avenue for future study is to construct more complex background atmospheres from multiple flux tubes, such as in \cite{gent2014} and future extensions to that work.
-This would allow for construction of an atmosphere based on observation data of the magnetic field, and more interestingly co-aligned observations of the photospheric velocity field.
-While these results would more accurately mimic the reality of the solar surface they would present significant challenges in the analysis of the simulations.
-The magnetic flux surface algorithm presented in \cref{sec:fluxsurfaces} is capable of selecting any flux surface even in a highly unstructured domain.
-This would enable similar analysis to that of this thesis, however care would have to be taken in the interpretation.
+The function of this unified interface was to extract the data from a file provided by the user and load it into the correct class.
+The implementation of this original interface, named \verb|make_map| was complex and hard to extend.
+It is for this reason that for SunPy v0.3 the interface to the Map submodule was redesigned, a process which the author of this thesis lead.
+The new design of the `Map' module made use of a system where each subclass of \verb|GenericMap| registers itself with a `Factory' class upon its initilisation.
+This registration procedure supplies a function to the factory class to use to ascertain from the meta data which class should be used to interpret the data.
+The implementation of the \verb|RegisteredFactoryBase| was provided by a contributor to SunPy, and the integration of it into the `Map' module was performed by the author.
+
+\section{Solar Physics Coordinate Systems}
+
+\cite{thompson2006} describes a set of commonly used coordinate systems for solar physics data analysis.
+These systems are frequently used by any person performing analysis of solar imaging data.
+As of SunPy v0.6 SunPy handles representation of these coordinate systems by pairs of floating point numbers, and the conversion between the systems by calls to functions where the extra information needed to perform the conversion is explicitly provided.
+This system, while functional for the current internal needs of the SunPy library, is not intuitive or powerful for the end users of the library.
+
+The Astropy library \citep{theastropycollaboration2013} in its v0.4 release provided an modular and general framework for the representation of celestial coordinate systems and the transformations between them.
+Prior to the development and subsequent release of this new submodule, the author collaborated with the Astropy developers to ensure that the design of this new system would be compatible with the requirements of solar physicists and the coordinate systems described in \cite{thompson2006}.
+The author also contributed to the implementation of the Astropy submodule, by co-writing the coordinate representation system.
+
+Since the development of the Astropy coordinates framework, the author has lead the work to implement the solar physics coordinates systems within the SunPy library.
+This work is expected to form a part of the upcoming v0.7 release of the SunPy library.
+The implementation of these systems presented some challenges specific to solar physics.
+The main convention difference between astronomy and solar astronomy is the `wrapping' of the longitude coordinate in spherical coordinate systems.
+In most astrophysical systems the longitude runs between $0^\circ$ and $360^\circ$, where as in solar physical systems, including the most commonly used helio-projective system, the longitude coordinate takes values between $-180^\circ$ and $+180^\circ$.
+This difference in convention required subclassing the Astropy `Representation' classes to change the default values of the coordinate wrapping.
+This itself lead to extra requirements to sanitise inputs and ensure the Astropy library did not override the change in defaults.
+
+The second major solar physics specific challenge that was overcome in the implementation was the transition from the projective coordinate frame of imaging data to the three-dimensional solar centric coordinate systems commonly used to describe features independent of the location of the observer.
+The mathematics of this coordinate conversion are described in \cite{thompson2006}, and regularly utilised by a multitude of codes and analysis pipelines.
+The process however, is not without its assumptions and it was important in the design of the user interface that no flexibility was lost and all options exposed to the user.
+This required that the fundamental assumption of this conversion, that the Sun emits radiation on a solid sphere of known radius was customisable by the user.
+The assumption of a fixed radius sphere allows the calculation of the distance between an observer and the point on the sphere corresponding to a position in an image.
+This calculation of distance converts a two dimensional projective coordinate system into a three dimensional observer centric coordinate system, which in turn allows the conversion to different coordinate frames.
+This conversion step, is only applied either when the user explicitly requests it without changing coordinate system, or when it is required to perform a coordinate transformation requested by the user.
+Conversion from the two dimensional to the three dimensional system uses the \verb|RSun| attribute of the \verb|HelioProjectiveFrame| class which allows the user to customise the physical radius of the Sun being observed.
+
+This implementation of the solar physics coordinate systems on top of the Astropy coordinates module provides a massive advantage to the SunPy library.
+Due to the coordinate independent nature of the design, tools that are built for astrophysical applications can support solar physics coordinate systems with no extra work required by the authors of these tools.
+This, therefore, provides both an excellent, user friendly interface to a set of very common solar physics coordinate representations and transformations while getting access to the high quality tools which make use of this framework.
+
+\section{The Future of SunPy}
+
+Adoption of the SunPy library by the wider solar physics community is predicated on the provision of high quality tools which enable new and exciting discoveries.
+The new features described in this chapter form part of the wider effort to enable solar physics data analysis within the Python ecosystem.
+The author has contributed to the SunPy library in many smaller ways, and has acted in the role of lead developer, while building the community around the project.
+
