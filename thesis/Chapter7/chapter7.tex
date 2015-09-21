@@ -47,10 +47,13 @@ To improve the user experience a unified interface to the `Map' module was desig
 
 The function of this unified interface was to extract the data from a file provided by the user and load it into the correct class.
 The implementation of this original interface, named \verb|make_map| was complex and hard to extend.
-It is for this reason that for SunPy v0.3 the interface to the Map submodule was redesigned, a process which the author of this thesis lead.
+It is for this reason that for SunPy v0.3 the interface to the Map submodule was redesigned, a process which the author lead.
 The new design of the `Map' module made use of a system where each subclass of \verb|GenericMap| registers itself with a `Factory' class upon its initilisation.
 This registration procedure supplies a function to the factory class to use to ascertain from the meta data which class should be used to interpret the data.
 The implementation of the \verb|RegisteredFactoryBase| was provided by a contributor to SunPy, and the integration of it into the `Map' module was performed by the author.
+The \verb|Map| class provides a high-level interface to the user, it is deisgned to be able to parse a wide variety of inputs, including filenames, filenames with wildcards, and raw data and meta data pairs.
+This flexibility makes it simple for the user to initialise a Map object specific to the data being loaded, without the user having to understand or appreciate the underlying architecture.
+This design also makes it simple for developers of SunPy or advanced users to create a Map class for a custom instrument or data source, and continue using their existing code.
 
 \section{Solar Physics Coordinate Systems}
 

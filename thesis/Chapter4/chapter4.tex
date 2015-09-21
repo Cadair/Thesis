@@ -435,6 +435,7 @@ Due to the ratio nature of the data being displayed in \cref{fig:All-Flux-percen
 This prevents the early points in the simulation biasing the results when no pertubations have yet reached those points in the domain.
 This filtering is also applied to the calculation of the average wave energy flux.
 
+
 \begin{pycode}[chapter4]
 #This is a direct yank of an old script
 
@@ -442,7 +443,7 @@ from flux_comparison import make_flux_bar_chart, get_averages
 
 Favgs = get_averages(ch4.data_dir)
 
-fig = make_flux_bar_chart((texfigure.figsize(pytex)[0], 4.5), ch4.data_dir)
+fig = make_flux_bar_chart(texfigure.figsize(pytex,height_ratio=0.8), ch4.data_dir)
 driver_flux = ch4.save_figure('flux-bar-graph', fig, fext='.pgf')
 driver_flux.caption = r"Percentage total available energy flux comparison (calculated using \cref{eq:wave_energy}), for all drivers and all flux surfaces. The $F_\parallel$ component is shown as green, the $F_\perp$ component is shown in red and the $F_\phi$ component is shown in blue."
 \end{pycode}
