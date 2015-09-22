@@ -35,7 +35,7 @@ table = atm.hs_atmosphere.interpolate_atmosphere(empirical_data, ZZ, s=0)
 
 
 # Create a figure and make space for the axes.
-fig, ax = plt.subplots(gridspec_kw={'right':0.78, 'left':0.16, 'bottom':0.13})
+fig, ax = plt.subplots(gridspec_kw={'right':0.77, 'left':0.16, 'bottom':0.13})
 
 # Shortcut all the Mm conversion.
 Z = empirical_data['Z'].to(u.Mm)
@@ -284,7 +284,7 @@ gaussian.append(bmagf)
 
 \begin{pycode}[chapter3]
 slc = yt.SlicePlot(ds, 'z', 'magnetic_field_strength', origin='center-domain',
-axes_unit='km', center=("max", "magnetic_field_strength"), width=(1.0, "Mm"))
+axes_unit='km', center=("max", "magnetic_field_strength"), width=(0.5, "Mm"))
 slc.set_figure_size(texfigure.figsize(pytex, scale=0.8)[0])
 
 slc.set_cmap('all', 'Oranges')
