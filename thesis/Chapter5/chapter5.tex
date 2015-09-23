@@ -54,7 +54,7 @@ where:
 \theta = \tan^{-1}\left(\frac{y}{x}\right),\ \phi = \tan^{-1}\left(\frac{1}{B_L}\right),\notag	
 \end{equation*}
 $A=\frac{20}{\sqrt{3}}$, $\Delta x = \Delta y = 0.1$ Mm and $\Delta z = 0.05$ and $P=\py[chapter5]|int(cfg.period)|$ s.
-Here, $B_L$ is the logarithmic spiral expansion factor discussed above  \citep{mumford2015}.
+$B_L$ is the logarithmic spiral expansion factor discussed above  \citep{mumford2015}.
 
 \Cref{fig:All_log_spirals} shows the calculated velocity profiles for the peak vertical height of the driver.
 Overplotted on these profiles are streamlines that trace a logarithmic spiral with different expansion factors.
@@ -213,14 +213,15 @@ The wave flux vector, calculated using \cref{eq:wave_energy}, is used to quantif
 %TODO: R: more details (in terms of Physics) (2x)
 \subsection{Results}\label{subsec:expfac-results}
 
-To assist in the visualisation and analysis of the results provided by the flux surfaces the vector components along one field line are extracted for all time steps and plotted as time-distance diagrams in \cref{fig:TD-velocity-r30,fig:TD-flux-r30}.
+To assist in the visualisation and analysis of the results provided by the flux surfaces the vector components along one field line are extracted for all time steps.
+These data are then plotted as time-distance diagrams, as described in \cref{sec:driveranalysis}, the resulting figures are show in \cref{fig:TD-velocity-r30,fig:TD-flux-r30}.
 
 Combining the decomposed velocity vector plotted in \cref{fig:TD-velocity-r30} and the decomposed wave flux vector plotted in \cref{fig:TD-flux-r30} we can reliably describe the nature of the waves generated in the simulations.
 Overplotted on all panels in \cref{fig:TD-velocity-r30,fig:TD-flux-r30} are the phase speeds for the background conditions, the dot-dashed line is the fast speed $v_f$, the dashed line is the sound speed $c_s$, the dotted line is the Alfv\'en speed $v_A$ and the solid line is the slow speed $v_s$.
-By comparing these characteristic wave mode speeds to the ridges in the time-distance diagrams it can be seen that in the panels for the torsional component (third panel in each figure), the dominant perturbation travels with the Alfv\'en speed (solid line).
-We interpret this perturbation as an Alfv\'en wave.
+By comparing these characteristic phase speeds to the ridges in the time-distance diagrams it can be seen that in the panels for the torsional component (third panel in each figure), the dominant perturbation travels with the Alfv\'en speed (solid line).
+This perturbation is interpreted as an Alfv\'en wave.
 For the perpendicular component (second panels) it can be seen that the dominant perturbation travels with the fast speed (dashed line), therefore this perturbation could be interpreted as a fast mode.
-We can infer that this perturbation is more likely to be a sausage mode perturbation due to the radial nature of the driver, in that it should not perturb the axis of the flux tube and, that we observe no significant displacement on the flux surfaces during the simulation.
+It can be inferred that this perturbation is more likely to be a sausage mode perturbation due to the radial nature of the driver, in that it should not perturb the axis of the flux tube and, that we observe no significant displacement on the flux surfaces during the simulation.
 The most interesting result is shown for the parallel component (top panel in each figure), where for lower values of $B_L$, the amplitudes are low, but the perturbations that are present travel with the fast speed (dotted line).
 However, as $B_L$ increases the perturbations change form.
 There seems to appear a second, superimposed perturbation travelling with a speed close to that of the slow (or tube) speeds.
@@ -230,7 +231,8 @@ The wave flux graphs in \cref{fig:TD-flux-r30} are components normalised to the 
 Taking \cref{fig:TD-flux-r30-0015} for the $B_L=\py[chapter5]|BL[0]|$ spiral it can be seen that most of the excited wave flux is in the azimuthal component, associated with the Alfv\'en wave.
 As the expansion factor ($B_L$) increases, the driver becomes more radial, and the flux starts to shift from the azimuthal component into the parallel component.
 This is interpreted as a change of the dominant mode from the torsional Alfv\'en wave into a superposition of the fast and slow modes, with dominant velocity perturbations parallel to the field lines.
-Considering the range of $B_L$, found by \cite{bonet2008} and illustrated in the range spanned by \cref{fig:TD-velocity-r30-015,fig:TD-velocity-r30-045}, it can be seen that even within this parameter range the parallel component becomes substantially more dominant, meaning the change in spectrum of excited MHD wave modes is sensitive to the expansion factor of a spiral driver.
+It can be seen that within the parameter range observed in \cite{bonet2008} and the simulations spanning this range (shown in \cref{fig:TD-velocity-r30-015,fig:TD-velocity-r30-045}), the parallel component becomes substantially more dominant.
+This means that the change in the spectrum of excited MHD wave modes is sensitive to the expansion factor of a spiral driver, in the region of the expansion factors observed in the photosphere.
 
 In \cref{ch:drivers} it was observed that there is a small but significant percentage of the wave energy flux contained in the perpendicular component.
 This appears to be inversely coupled to the spiral expansion factor of the driver, as it decreases proportionally with the azimuthal wave flux component.
@@ -347,8 +349,8 @@ Ftd3.caption = r"Normalised wave energy flux time-distance diagrams for all simu
 \py[chapter5]|Ftd3|
 
 
-This change in excitation of MHD waves is summarised in \cref{fig:expfac-flux-comparison}, where the average value of normalised wave flux $\displaystyle\frac{F_{\parallel, \perp, \phi}^2}{F_\parallel^2 + F_\perp^2 + F_\phi^2}$ for all time is plotted.
-\Cref{fig:expfac-flux-comparison} shows that, between the values of $B_L=0.15$ and $B_L=0.45$ there is a turning point where the torsional component becomes less dominant, with expansion factors larger than $0.15$ having the parallel component being the dominant component.
+This change in excitation of MHD waves is summarised in \cref{fig:expfac-flux-comparison}, where the average value of normalised wave flux $\displaystyle\frac{F_{\parallel, \perp, \phi}^2}{F_\parallel^2 + F_\perp^2 + F_\phi^2}$ over all time is plotted.
+\Cref{fig:expfac-flux-comparison} shows that, between the values of $B_L=0.15$ and $B_L=0.45$ there is a turning point where the torsional component becomes less dominant, with expansion factors larger than $B_L=0.15$ having the parallel component being the dominant component.
 This turning point occurs within the range of the fitted spirals in \cite{bonet2008} and, therefore, implies that photospheric spirals may indeed generate a variety of different MHD modes with varying strengths.
 
 \begin{pycode}[chapter5]
@@ -418,10 +420,10 @@ The behaviour of the wave modes on the $156$ km flux surface is worthy of note, 
 This has two potential interpretations, firstly, that the slow mode and the Alfv\'en mode, close to the axis of the magnetic flux tube are both weakened equally as the expansion factor increases or secondly, that there is some coupling between the perturbations in both the $F_\phi$ and $F_\perp$ components.
 It can be seen that this link between the $F_\phi$ and $F_\perp$ components can not be seen in the results from the $936$ km surface, and to a substantially lesser extent in the $468$ km surface results.
 
-As the expansion period increases beyond $B_L=0.15$ the $F_\parallel$ component becomes dominant, with $\approx 80$\% of the flux being in the $F_\parallel$ component for $B_L=1.5$ and the $156$ km surface.
+As the expansion factor increases beyond $B_L=0.15$ the $F_\parallel$ component becomes dominant, with $\approx 80$\% of the flux being in the $F_\parallel$ component for $B_L=1.5$ and the $156$ km surface.
 As can be seen in \cref{fig:All_log_spirals} the driver profile for $B_L=1.5$ is largely radial, making it expected that some significant change in the wave mode distribution would occur.
 The results shown in \cref{fig:TD-velocity-r30-15,fig:TD-flux-r30-15} resemble those of the vertical driver simulated in \cref{ch:drivers} and the results in \cref{fig:All-TD-wave-30:Slog,fig:All-Flux-percent-TD:Slog}.
-This is probably a result of the spherical geometry of the problem, as it is interpreted by the author as both drivers exciting sausage mode oscillations.
+This is probably a result of the spherical geometry of the problem, and it is interpreted by the author as both drivers exciting sausage mode oscillations.
 
 
 The next chapter will investigate the relative strengths of the wave modes as period is varied for the logarithmic spiral driver.
