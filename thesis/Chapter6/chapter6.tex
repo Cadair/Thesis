@@ -380,23 +380,24 @@ for i, ax in enumerate(axs):
     ax.set_title(titles[i])
     ax.xaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter())
     ax.xaxis.set_ticks(periods)
-    #ax.set_xticklabels(["{}\n{:n}".format(p, 600//p) for p in periods])
+    ax.set_xticklabels(["{}\n[{:n}]".format(p, 600//p) for p in periods])
     ax.set_ylim([10, 75])
     ax.set_xlim([25, 305])
 
-axs[-1].set_xlabel("Period [s]")
+axs[-1].set_xlabel("Period [s] \n [Number of periods averaged]")
 axs[0].legend(loc=9)
 
 #axs[0].legend(bbox_to_anchor=(1.06, 1.05))
 plt.tight_layout(h_pad=0.1)
 
 period_flux = ch6.save_figure('period-flux', fig=fig, fext='.pgf')
-period_flux.caption = r"""Average percentage square wave flux plotted against period. For each vector component on the flux surface the value of the wave flux squared along one field line is taken and then the fraction of the square total calculated, and then averaged over all time. This provides a high-level overview of the relative strengths of each mode. The azimuthal component is shown as red crosses, the parallel component as blue circles and the perpendicular component is shown as green dashes. The top panel displays the average wave flux for the flux surface closest to the centre of the domain at $r=156$ km the second panel at $r=468$ km and the bottom panel at $r=936$ km."""
+period_flux.caption = r"""Average percentage square wave flux plotted against period. For each vector component on the flux surface the value of the wave flux squared along one field line is taken and then the fraction of the square total calculated, and then averaged over an integer number of periods, shown in brackets on the x axis. This provides a high-level overview of the relative strengths of each mode. The azimuthal component is shown as red crosses, the parallel component as blue circles and the perpendicular component is shown as green dashes. The top panel displays the average wave flux for the flux surface closest to the centre of the domain at $r=156$ km the second panel at $r=468$ km and the bottom panel at $r=936$ km."""
 
 \end{pycode}
 
 \py[chapter6]|period_flux|
 
+\pagebreak
 \section{Conclusion}\label{sec:conclusion}
 
 In this chapter the same logarithmic spiral driver that was studied in \cref{ch:drivers,ch:expfac}, with the oscillatory period of the driver varied.
@@ -405,6 +406,18 @@ It is interesting to note that the slow mode perturbation seen in the $V_\perp$ 
 While this observation is not clearly presented in the average wave flux results (\cref{fig:period-flux}), some evidence of this shift can be seen in the wave flux time-distance diagrams in \cref{fig:TD-fwave-r30}.
 In spite of this result however, it does not appear to make a significant difference to the total amount of energy in the different identified wave modes.
 It appears therefore that the period of the logarithmic spiral driver is not as critical to the wave modes it excites as the expansion factor or indeed the driving profile.
+
+The small ($<20$\%) variation in the Alfv\'en mode flux is largely non-linear for short periods ($<180$ s).
+However, the variation becomes more linear at shorter periods for the flux surfaces that are closer to the centre of the domain.
+The presence of this variation at short periods is most interesting because of the relative importance of these periods.
+If the lifetime of MBPs is short, $<10$ minutes \citep{sanchezalmeida2004}, then the shorter period modes have a larger chance of being excited and surviving for multiple periods.
+This non-linearity is therefore an interesting result, with potential effects on the strength of the wave modes present in the low chromosphere.
+When analysing these results however it is important to remember a limitation of the analysis.
+The percentage square wave flux was averaged over an integer number of periods to ensure a constant total amount of kinetic energy was added to the domain (see \cref{sec:periodconfig}).
+However, the total run time of all the simulations was fixed at $600$ s, this means that the shorter period simulations were averaged over a larger number of periods than the long period ones.
+There does however, seem to be no correlation between the non-linearity and the number of periods averaged over.
+This result should be investigated further to confirm its validity.
+
 
 
 
