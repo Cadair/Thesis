@@ -287,7 +287,7 @@ def add_triple_phase(ax, tube_r):
     for ax0 in ax:
         ph.add_phase_speeds(ax0, color='g', **ps)
 
-captions = {p: r"Period: ${}$ s Amplitude: ".format(p) + a + r" ms$^{{-1}}$" for p, a in zip(periods, str_amps)[:10]}
+captions = {p: r"Period: ${}$ s amplitude: ".format(p) + a + r" ms$^{{-1}}$" for p, a in zip(periods, str_amps)[:10]}
 #print(captions, file=sys.stderr)
 width = 0.79
 figsize = texfigure.figsize(pytex, scale=width, height_ratio=0.85)
@@ -309,7 +309,7 @@ for i, paf in enumerate(all_periods):
     fig.tight_layout(h_pad=0.05)
     
     Lfig = ch6.save_figure('TD-vel-r30_p{}'.format(str(paf.period).replace('.','-')), fig=fig, fext='.pdf')
-    Lfig.caption = "Velocity components for " + captions[paf.period]
+    Lfig.caption = captions[paf.period]
     Lfig.subfig_width = r"{}\columnwidth".format(width)
     multifig.append(Lfig)
 
@@ -345,7 +345,7 @@ for i, paf in enumerate(all_periods):
     fig.tight_layout(h_pad=0.05)
     
     Lfig = ch6.save_figure('TD_wave_r30_p{}'.format(str(paf.period).replace('.','-')), fig=fig, fext='.pdf')
-    Lfig.caption = "Percentage $F^2$ components for " + captions[paf.period]
+    Lfig.caption = captions[paf.period]
     Lfig.subfig_width = r"{}\columnwidth".format(width)
     multifig.append(Lfig)
 
