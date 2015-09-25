@@ -275,6 +275,7 @@ plt.axvline(x=-1*fwhm.to(u.Mm).value/2., color='cyan', linestyle=':')
 plt.axvline(x=fwhm.to(u.Mm).value/2., color='cyan', linestyle=':')
 
 plt.xlim([-0.5, 0.5])
+plt.tight_layout()
 
 bmagf = ch3.save_figure('bmag-footpoint', fig, fext='.pgf')
 bmagf.subfig_width = r'\columnwidth'
@@ -324,7 +325,7 @@ alf2d.caption = r"Vertical slice through the background atmosphere, with the Alf
 \py[chapter3]|alf2d|
 
 %TODO: check these numbers
-The result of this flux tube construction is a 2D Gaussian profile for the cross-sectional magnetic field, with a full width at half maximum (FWHM) of $\approx$ \py[chapter3]|np.round(fwhm, -1)|, and a full width at a 10th of maximum (FWTM) of \py[chapter3]|np.round(fwtm, -1)| at the photosphere, which corresponds to the lower bound of the observations in \cite{utz2013}.
+The result of this flux tube construction is a 2D Gaussian profile for the cross-sectional magnetic field, with a full width at half maximum (FWHM) of $\approx$ \py[chapter3]|np.round(fwhm, -1)|, and a full width at a 10th of maximum (FWTM) of \py[chapter3]|np.round(fwtm, -1)| at the photosphere, which corresponds to the lower bound of the observations in \cite{sanchezalmeida2004}.
 The primary reason for the smaller footpoint, in comparison with the observations in \cite{utz2013}, is the hydrodynamical model used for the photosphere, which has an upper limit to the amount of magnetic pressure it can support.
 Plots of the magnetic field strength in the photosphere are shown in \cref{fig:guassian}, for both a 1D and 2D profile.
 A vertical slice through the background atmosphere is then shown in \cref{fig:alf2d}, with the structure of the magnetic field shown over-plotted on the Alfv\'en speed.
@@ -680,13 +681,8 @@ This effectively defines the location of the flux surface.
 For the background conditions described in \cref{sec:mhsbackground} the magnetic field is axisymmetric, therefore a circle of seed points is chosen at the top of the domain, centred around the axis of the magnetic field defined in \cref{sec:mhsbackground}.
 The radius of this circle defines which arbitrary flux surface is constructed.
 
-\py[chapter3a]|circ_seeds|
-
-\py[chapter3a]|fig_fieldlines|
-
 The second step (\cref{fig:fieldlines}) is the tracing of the field lines from the given seed points through the domain.
 This calculation is performed using the \verb|vtkStreamTracer| class, using the Runge Kutta 4 integrator, integrating backwards along the field lines.
-
 
 The third step is the construction of a surface from the set of field lines traced in step 2.
 The result of this is shown in \cref{fig:flux-surface}.
@@ -695,12 +691,8 @@ This is then repeated for each field line calculated, and between the last and f
 A zoomed in view of the constructed surface is shown in \cref{fig:zoomed-surface} with the edges of the component polygons shown.
 The result of the \verb|vtkRuledSurfaceFilter| is a series of triangles connecting each point in adjoining field lines.
 
-
-\py[chapter3a]|fig_flux_surface|
-\py[chapter3a]|zoomed_surface|
-
 Finally, now that a set of triangular planes have been defined between the field lines, normal vectors can be extracted.
-This is done automatically by \verb|vtkRuledSurfaceFilter|, however, the orientation of the vector can vary.
+This is done automatically by\\ \verb|vtkRuledSurfaceFilter|, however, the orientation of the vector can vary.
 Therefore a check is implemented in the pipeline to ensure the normal vector is always orientated away from the original axis of the background magnetic field.
 The resulting normal vectors are shown in \cref{fig:zoomed-glyphs}
 
@@ -708,9 +700,13 @@ The number of normal vectors calculated is dependant on the number of triangles,
 The number of seed points used is $100$ for all the analysis in this thesis.
 The resolution of the integrator is left at the default as calculated by VTK.
 
-\py[chapter3a]|zoomed_glyphs|
-
 Once the normal vectors have been constructed, it is simple to compute the azimuthal vector from the magnetic field unit vector, and the normal vector $\vec{n_\phi}= \vec{n_\perp} \times \vec{n_\parallel}$ where $\vec{n_\perp},\ \vec{n_\parallel} $ are also both unit vectors. 
 Using  $\vec{n_\perp},\ \vec{n_\parallel}$ and $\vec{n_\phi}$ it  is possible to project any vector quantity calculated in the simulations into this reference frame, and use it for the analysis of MHD waves.
 
+
+\py[chapter3a]|circ_seeds|
+\py[chapter3a]|fig_fieldlines|
+\py[chapter3a]|fig_flux_surface|
+\py[chapter3a]|zoomed_surface|
+\py[chapter3a]|zoomed_glyphs|
 
