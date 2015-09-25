@@ -32,7 +32,8 @@ activate the new environment with:
 
 ### Obtaining the data
 
-Currently this is not accessible without my ssh key.
+Currently this is not accessible without my ssh key. This will be fixed as soon
+as I can work out a techincal way of doing it, and I have had a break.
 
 
 ### Building the Thesis
@@ -48,9 +49,16 @@ This will produce a file: `thesis/smumford_thesis.pdf`.
 Copyright
 ---------
 
-The LaTeX and Python source code in this repository are copyright Krishna Kumar or Stuart Mumford
-and are released under the MIT licence. The content of the thesis is a much more copyright murky
-area, with some of it having been published and therefore copyright the journal it was published in
-etc. If you wish to reuse any figures or content from the thesis, the safest option is to contact
-Stuart.
+The LaTeX [here](https://github.com/kks32/phd-thesis-template) I used is 
+copyright Krishna Kumar and licensed under the terms of the MIT licence. All
+LaTeX code (not embedded Python) is licenced under the MIT license.
+All Python code contained in this repository is copyright Stuart Mumford and 
+is made availble under the MIT or 2-clause BSD license.
+
+The actually content of the document is made availble under the terms of the
+CC-BY 4.0 license. The contents of Chapter 4 form part of [Mumford et. al
+(2015)](http://dx.doi.org/10.1088/0004-637X/799/1/6) and is subject to the
+license of that journal. Permission for the material to be included and
+distributed as part of this thesis has been obtained, but derivative works are
+a murky area.
 
