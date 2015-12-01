@@ -102,11 +102,11 @@ Therefore, other energy transport mechanisms have to be heating the solar atmosp
 
 \begin{pycode}[chapter1]
 from sunpy.net import vso
-from sunpy.time import parse_time
+from datetime import datetime
 import sunpy.map
 
 vc = vso.VSOClient()
-res = vc.query(vso.attrs.Time('2015/8/28', parse_time('now'), parse_time('now')), vso.attrs.Instrument('AIA'), vso.attrs.Wave(17.1*u.nm, 17.1*u.nm))
+res = vc.query(vso.attrs.Time('2015/8/28', datetime.now(), datetime.now()), vso.attrs.Instrument('AIA'), vso.attrs.Wave(17.1*u.nm, 17.1*u.nm))
 filepath = vc.get(res, site='UCLan', path='{}/{{file}}'.format(ch1.data_dir)).wait()[0]
 
 # Add the file to the pytex data
