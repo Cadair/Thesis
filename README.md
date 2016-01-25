@@ -55,7 +55,7 @@ LaTeX code (not embedded Python) is licenced under the MIT license.
 All Python code contained in this repository is copyright Stuart Mumford and 
 is made availble under the MIT or 2-clause BSD license.
 
-The actually content of the document is made availble under the terms of the
+The actual content of the document is made availble under the terms of the
 CC-BY 4.0 license. The contents of Chapter 4 form part of [Mumford et. al
 (2015)](http://dx.doi.org/10.1088/0004-637X/799/1/6) and is subject to the
 license of that journal. Permission for the material to be included and
