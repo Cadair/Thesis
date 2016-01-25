@@ -36,8 +36,10 @@ CLOSED: [2016-01-25 Mon 13:51]
 ** DONE This is fixed by correctly explaining the notation convention. It is in fact in Cartesian coordinates. %%there should be curvature term in the equation (2.16) when you use cylindrical coordinates!
 CLOSED: [2016-01-25 Mon 13:51]
 ** TODO  %%p.10, Eq.(2.17): the definition of k is WRONG! There is a square root missing… (see p.199, Eq.(5.53) Goedbloed and Poedts, 2004).
-** TODO  Fixed in Eq (2.16), component notation was incorrect. %%p.11, l.5: this is WRONG! According to Eq.(2.16), only the perpendicular component is non-vanishing for Alfvén waves…!?
-** TODO  %%p.12,Eq.(2.28) should end with a dot (end of sentence).
+** DONE Fixed in Eq (2.16), component notation was incorrect. %%p.11, l.5: this is WRONG! According to Eq.(2.16), only the perpendicular component is non-vanishing for Alfvén waves…!?
+CLOSED: [2016-01-25 Mon 14:03]
+** DONE Fixed %%p.12,Eq.(2.28) should end with a dot (end of sentence).
+CLOSED: [2016-01-25 Mon 14:03]
 ** TODO  %%p.12,equation before Eq.(2.32) is WRONG: there is a delta missing in the second RHS term!?
 ** TODO  %%p.12,Eqs.(2.32-2.34) are WRONG: there should be minus signs in the second term in the RHS in each of these equations.
 ** TODO  %%p.15, end of 2.1.2: so the polarization is exactly opposite as in a low-beta plasma?
