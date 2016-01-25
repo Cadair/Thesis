@@ -1,7 +1,8 @@
 * Questions viva Stuart Mumford
 
 * Questions on Chapter 1: Introduction
-** TODO p.1, l.-1: this is a ‘strange’ definition of photosphere, at least for me! What is the source of this definition? And what is the relation to the optical depth = 1 definition?
+** DONE Modified  sentence to remove ambiguity. % p.1, l.-1: this is a ‘strange’ definition of photosphere, at least for me! What is the source of this definition? And what is the relation to the optical depth = 1 definition?
+CLOSED: [2016-01-25 Mon 10:54]
 ** TODO Fig.1.2: what is observed and what is calculated from a model? what model? how is the temperature observed?
 ** TODO p.4, l.4: you call coronal loops ‘massive’ (= consisting of or forming a large mass; bulky and heavy). Are they?
 ** TODO p.4, l.5: you claim the plasma in the solar atmosphere is ‘perfectly conducting’. Is this true? In all the atmosphere? what about the photosphere and corona where the ionization degree is 0.01%?
