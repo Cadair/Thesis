@@ -15,7 +15,8 @@ CLOSED: [2016-01-25 Mon 12:09]
 CLOSED: [2016-01-25 Mon 12:09]
 ** DONE %%p.6, l.4: plasma and magnetic field are locked together in MHD simulations of the motions in the photosphere, but this is by definition (MHD). Can we be sure it is also true on the real Sun, given the remarks above?
 CLOSED: [2016-01-25 Mon 12:09]
-** TODO Add a caveat to this sentence and again punt to CH 2 %%p.6, l.-7: There are two problems with this statement on ‘almost certainly driven MHD waves’: the non-magnetization of the ions and electrons due to the enormous collision frequencies as mentioned above if MHD waves are generated at all, they should be dissipated extremely efficiently due to the high viscosity/high collision frequency in the photosphere and lower chromosphere!?
+** DONE Add a caveat to this sentence and again punt to CH 2 %%p.6, l.-7: There are two problems with this statement on ‘almost certainly driven MHD waves’: the non-magnetization of the ions and electrons due to the enormous collision frequencies as mentioned above if MHD waves are generated at all, they should be dissipated extremely efficiently due to the high viscosity/high collision frequency in the photosphere and lower chromosphere!?
+CLOSED: [2016-01-25 Mon 12:16]
 
 * Questions on Chapter 2: Background
 ** TODO p.7, middle: can you give an idea on the typical time and length scales in the photosphere/chromosphere/corona and what you mean by ‘sufficiently large’ then?
