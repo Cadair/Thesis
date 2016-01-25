@@ -51,7 +51,8 @@ CLOSED: [2016-01-25 Mon 13:49]
 ** TODO  %%What about the plasma density in this model? How does it look/behave?
 ** TODO  %%p.18,Eq.(2.72): I think the central difference scheme in this equation is ONLY 3rd order accurate, not 4th?
 ** TODO  %%p.18, the section on numerical stability is a bit mysterious to me. Are you refereeing to the CFL condition due to the explicitness of the scheme? Are the ‘additional terms’ you mention involving some artificial dissipation?
-** TODO  %%p.19, section 2.3: here you seem to use the alternative notation again for background and linear perturbation? or is this not the linear perturbation?
+** DONE Fixed.%%p.19, section 2.3: here you seem to use the alternative notation again for background and linear perturbation? or is this not the linear perturbation?
+CLOSED: [2016-01-25 Mon 15:43]
 ** DONE Fixed.%%p.19, Eq.(2.75) there is a scalar product dot (\cdot) too much in the RHS.
 CLOSED: [2016-01-25 Mon 15:42]
 
