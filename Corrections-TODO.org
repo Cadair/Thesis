@@ -27,17 +27,21 @@ CLOSED: [2016-01-25 Mon 12:16]
 ** TODO  %%Actually, in the real Sun the situation is far more complex. When inhomogeneity of the plasma is taken into account, the MHD wave spectrum includes continuous parts with singular wave mode solutions. Did this not come up and cause problems in the simulations? The waves should phase-mix as they propagate along the magnetic field lines, especially in the case of the circular driver, when you impose a phi-component only, i.e. directly drive an Alfvén wave…
 ** TODO  %%Eq.(2.7): you perturb a static plasma while the coronal plasma is all but static. Can you elaborate on the effects/complications of background flow, and the consequences of ignoring it in the model?
 ** TODO  %%p.9, Eq.(2.11): B1 should be bold face as it is a vector!
-** TODO  %%p.10, Eq.(2.16): to get this simple form of decoupled equations you have to consider a coordinate system chosen such that the (x.z)-plane is the plane determined by the wave vector k and the magnetic field B. If ky is not equal to zero, the equations are coupled!
-** TODO  %%p.10, Eq.(2.16): also, you seem to use cylindrical coordinates? what is the meaning of phi then, as I though phi is the perpendicular direction!!
-** TODO  %%there should be curvature term in the equation (2.16) when you use cylindrical coordinates!
+** DONE Fixed by explaining notation. %%p.10, Eq.(2.16): to get this simple form of decoupled equations you have to consider a coordinate system chosen such that the (x.z)-plane is the plane determined by the wave vector k and the magnetic field B. If ky is not equal to zero, the equations are coupled!
+CLOSED: [2016-01-25 Mon 13:52]
+** DONE Fixed by explaining notation. %%p.10, Eq.(2.16): also, you seem to use cylindrical coordinates? what is the meaning of phi then, as I though phi is the perpendicular direction!!
+CLOSED: [2016-01-25 Mon 13:51]
+** DONE This is fixed by correctly explaining the notation convention. It is in fact in Cartesian coordinates. %%there should be curvature term in the equation (2.16) when you use cylindrical coordinates!
+CLOSED: [2016-01-25 Mon 13:51]
 ** TODO  %%p.10, Eq.(2.17): the definition of k is WRONG! There is a square root missing… (see p.199, Eq.(5.53) Goedbloed and Poedts, 2004).
-** TODO  %%p.11, l.5: this is WRONG! According to Eq.(2.16), only the perpendicular component is non-vanishing for Alfvén waves…!?
+** TODO  Fixed in Eq (2.16), component notation was incorrect. %%p.11, l.5: this is WRONG! According to Eq.(2.16), only the perpendicular component is non-vanishing for Alfvén waves…!?
 ** TODO  %%p.12,Eq.(2.28) should end with a dot (end of sentence).
 ** TODO  %%p.12,equation before Eq.(2.32) is WRONG: there is a delta missing in the second RHS term!?
 ** TODO  %%p.12,Eqs.(2.32-2.34) are WRONG: there should be minus signs in the second term in the RHS in each of these equations.
 ** TODO  %%p.15, end of 2.1.2: so the polarization is exactly opposite as in a low-beta plasma?
 ** TODO  %%p.15, l.-1: the vector product is WRONG as you multiply a vector with a scalar!?
-** TODO  %%p.15, section 2.1.3: why this sudden change of notation with tildes on the perturbed ? = B1…? and v = v1? quantities? I guess you mean Bb = B0 and 𝐁𝐁
+** DONE Changed all notation up to this point to use this notation. %%p.15, section 2.1.3: why this sudden change of notation with tildes on the perturbed ? = B1…? and v = v1? quantities? I guess you mean Bb = B0 and 𝐁𝐁
+CLOSED: [2016-01-25 Mon 13:49]
 ** TODO  %%P.15, Eq.(2.66): this I a second order equation/quantity, is this OK since you linearized the equations before!? Linear is first order… Actually, why do you consider only the second order form of this wave flux, instead of the full nonlinear form?
 ** TODO  %%And why do you not simply consider the Poynting flux???
 ** TODO  %%What about the plasma density in this model? How does it look/behave?

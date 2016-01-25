@@ -2,7 +2,6 @@
 %*****************************************************************************************
 %*********************************** Second Chapter ***************************************
 %*****************************************************************************************
-
 \chapter{Background}\label{ch:background}  %Title of the Second Chapter
 
 \begin{pycode}[chapter2]
@@ -64,44 +63,44 @@ The starting point for this analysis is the ideal MHD equations that are describ
 Our static background conditions are described by \cref{eq:linearize} below,
 \begin{equation}\label{eq:linearize}
     \begin{aligned}                                                    
-        \vec{B} &= \vec{B}_0 + \vec{B}_1(\vec{r},t),\\
-        \vec{v} &= 0 + \vec{v}_1(\vec{r},t),\\
-        p &= p_0 + {p_1}(\vec{r},t),\\
-        \rho &= \rho_0 + {\rho_1}(\vec{r},t),\\
+        \vec{B} &= \vec{B}_b + \tilde{\vec{B}}(\vec{r},t),\\
+        \vec{v} &= 0 + \tilde{{v}}(\vec{r},t),\\
+        p &= p_b + \tilde{p}(\vec{r},t),\\
+        \rho &= \rho_b + {\tilde{\rho}}(\vec{r},t),\\
     \end{aligned}
 \end{equation}
-where the subscript $0$ denotes a background quantity, and the subscript $1$ denotes a perturbation to this quantity.
+where the subscript $b$ denotes a background quantity, and the tilde denotes a perturbation to this quantity.
 The perturbation is much smaller than the background quantity.
 Substituting \cref{eq:linearize} into the ideal MHD equations and neglecting 2nd order or higher terms and any gradients of the homogeneous background quantities, leads to the linearised MHD equations given below,
 \begin{align}                                                         
-    \dfrac{\partial \rho_1 }{\partial t} + \rho_0 (\nabla \cdot \vec{v}_1) =       
+    \dfrac{\partial \tilde{\rho} }{\partial t} + \rho_b (\nabla \cdot \tilde{\vec{v}}) =       
     0,
     &&\text{(Mass Conservation)}\label{eq:lmhd_mass}\\
     %
-    \rho_0 \dfrac{\partial \vec{v}_1}{\partial t} =
-    -\nabla p_1 + \dfrac{1}{\mu}(\nabla \times \vec{B}_1) \times \vec{B}_0,
+    \rho_0 \dfrac{\partial \tilde{\vec{v}}}{\partial t} =
+    -\nabla \tilde{p} + \dfrac{1}{\mu}(\nabla \times \tilde{\vec{B}}) \times \vec{B}_b,
     &&\text{(Equation of Motion)}\label{eq:lmhd_motion}\\
     %
-    \dfrac{\partial p_1}{\partial t} + \gamma p_0 \left( \nabla \cdot \vec{v}_1 \right) = 0,
+    \dfrac{\partial \tilde{p}}{\partial t} + \gamma p_b \left( \nabla \cdot \tilde{\vec{v}} \right) = 0,
     &&\text{(Energy Equation)}\label{eq:lmhd_energy}\\
     %
-    \dfrac{\partial \mathrm{B}_1}{\partial t} = \nabla \times (\vec{v}_1 \times \vec{B}_0),
+    \dfrac{\partial \tilde{\mathrm{B}}}{\partial t} = \nabla \times (\tilde{\vec{v}} \times \vec{B}_b),
     &&\text{(Induction Equation)}\label{eq:lmhd_induction}\\
     %
-    \nabla \cdot \vec{B}_1 = 0.
+    \nabla \cdot \tilde{\vec{B}} = 0.
     &&\text{(Solenoidal Condition)}\label{eq:lmhd_solenoid}              
 \end{align}
 The sound speed and the Alfv\'en speed for the static background state are given by 
 \begin{align}
-    c &\equiv \sqrt{\frac{\gamma p_0}{\rho_0}},\label{eq:soundspeed}\\
-    \vec{b} &\equiv \frac{\vec{B}_0}{\sqrt{\rho_0}},\label{eq:alfvenspeed}
+    c &\equiv \sqrt{\frac{\gamma p_b}{\rho_b}},\label{eq:soundspeed}\\
+    \vec{b} &\equiv \frac{\vec{B}_b}{\sqrt{\rho_b}},\label{eq:alfvenspeed}
 \end{align}
 respectively.
 
 To simplify the analysis and, with the aim of describing the velocity perturbations in \cref{sec:Vpert}, it is helpful to describe the system of linearised MHD equations just in terms of the velocity $\vec{v}$.
 This is achieved by substituting \cref{eq:lmhd_mass,eq:lmhd_energy,eq:lmhd_induction} into \cref{eq:lmhd_motion}, which gives
 \begin{equation}
-    \frac{\partial^2 \vec{v}_1}{\partial t^2} - \left( (\vec{b} \cdot \nabla)^2 \vec{I} + (b^2 + c^2) \nabla\nabla - \vec{b} \cdot \nabla (\nabla\vec{b} + \vec{b}\nabla) \right) \cdot \vec{v}_1 = 0,\label{eq:mhdwaveeq}
+    \frac{\partial^2 \tilde{\vec{v}}}{\partial t^2} - \left( (\vec{b} \cdot \nabla)^2 \vec{I} + (b^2 + c^2) \nabla\nabla - \vec{b} \cdot \nabla (\nabla\vec{b} + \vec{b}\nabla) \right) \cdot \tilde{\vec{v}} = 0,\label{eq:mhdwaveeq}
 \end{equation}
 where $\vec{I}$ is the identity matrix, $\vec{b}$ is the Alfv\'en speed given in \cref{eq:alfvenspeed} and $c$ is the sound speed given in \cref{eq:soundspeed} \citep{goedbloed2004}.
 This equation can be solved using plane wave solutions, i.e. solutions of the form $\rho(\vec{r}, t) = \hat{\rho} e^{i(\vec{k}\cdot\vec{r} - \omega t)}$, which equate to performing the following substitutions into \cref{eq:mhdwaveeq}: $\frac{\partial}{\partial t} \rightarrow - i \omega$ and $\nabla \rightarrow i \vec{k}$.
@@ -114,17 +113,18 @@ Which, given in matrix form yields the relation:
 \end{pmatrix}
 \begin{pmatrix}
 v_\parallel\\
-v_\perp\\
-v_\phi
+v_\phi\\
+v_\perp
 \end{pmatrix}
 = - \omega^2
 \begin{pmatrix}
 v_\parallel\\
-v_\perp\\
-v_\phi
+v_\phi\\
+v_\perp
 \end{pmatrix}.\label{eq:eigenvalue}
 \end{equation}
-%TODO Post-Submission: Calculate the determinant of the eigenvalue eqn.
+In this form the notation for the components of the velocity is with respect to the magnetic field. $v_\parallel$ is the velocity component parallel to the magnetic field, $v_\perp$ is perpendicular to the magnetic field in one plane and $v_\phi$ represents velocity perpendicular to the magnetic field in the other plane. It should also be noted that the notation for perturbed velocity is dropped for the rest of this chapter, as there is no background velocity, so all velocity terms are perturbations.
+
 To obtain non-trivial solutions the determinant of \cref{eq:eigenvalue} is calculated,
 \begin{equation}
     (\omega - k_\parallel^2 b^2)\left( \omega^4 - k^2(b^2+c^2)\omega^2 + k_\parallel k^2b^2c^2 \right) = 0,
