@@ -1,16 +1,16 @@
 * Questions viva Stuart Mumford
 
 * Questions on Chapter 1: Introduction
-** DONE Modified  sentence to remove ambiguity. % p.1, l.-1: this is a ‘strange’ definition of photosphere, at least for me! What is the source of this definition? And what is the relation to the optical depth = 1 definition?
+** DONE Modified  sentence to remove ambiguity. %p.1, l.-1: this is a ‘strange’ definition of photosphere, at least for me! What is the source of this definition? And what is the relation to the optical depth = 1 definition?
 CLOSED: [2016-01-25 Mon 10:54]
-** TODO Fig.1.2: what is observed and what is calculated from a model? what model? how is the temperature observed?
-** TODO p.4, l.4: you call coronal loops ‘massive’ (= consisting of or forming a large mass; bulky and heavy). Are they?
-** TODO p.4, l.5: you claim the plasma in the solar atmosphere is ‘perfectly conducting’. Is this true? In all the atmosphere? what about the photosphere and corona where the ionization degree is 0.01%?
-** TODO p4., l.10: you claim the plasma in the photosphere is tied to the magnetic field. But there not only the ionization degree is only 0.01%, but also the density is so high that for ions the collision frequency is four orders of magnitude larger than the gyro frequency, I.e. the ions collide 10.000 times in one turn around the magnetic field line. SO they are ‘unmagnetized’!?
-** TODO p.4, l.-6: the statement on magnetic reconnection contradicts the previous statement on perfectly conducting plasma…?
-** TODO p.6, l.4: plasma and magnetic field are locked together in MHD simulations of the motions in the photosphere, but this is by definition (MHD). Can we be sure it is also true on the real Sun, given the remarks above?
-** TODO p.6, l.-7: There are two problems with this statement on ‘almost certainly driven MHD waves’:
-** TODO the non-magnetization of the ions and electrons due to the enormous collision frequencies as mentioned above
+** TODO Add semi-empirical to the caption %Fig.1.2: what is observed and what is calculated from a model? what model? how is the temperature observed?
+** TODO  %p.4, l.4: you call coronal loops ‘massive’ (= consisting of or forming a large mass; bulky and heavy). Are they?
+** TODO  %p.4, l.5: you claim the plasma in the solar atmosphere is ‘perfectly conducting’. Is this true? In all the atmosphere? what about the photosphere and corona where the ionization degree is 0.01%?
+** TODO  %p4., l.10: you claim the plasma in the photosphere is tied to the magnetic field. But there not only the ionization degree is only 0.01%, but also the density is so high that for ions the collision frequency is four orders of magnitude larger than the gyro frequency, I.e. the ions collide 10.000 times in one turn around the magnetic field line. SO they are ‘unmagnetized’!?
+** TODO  %p.4, l.-6: the statement on magnetic reconnection contradicts the previous statement on perfectly conducting plasma…?
+** TODO  %p.6, l.4: plasma and magnetic field are locked together in MHD simulations of the motions in the photosphere, but this is by definition (MHD). Can we be sure it is also true on the real Sun, given the remarks above?
+** TODO  %p.6, l.-7: There are two problems with this statement on ‘almost certainly driven MHD waves’:
+** TODO  %the non-magnetization of the ions and electrons due to the enormous collision frequencies as mentioned above
 ** TODO if MHD waves are generated at all, they should be dissipated extremely efficiently due to the high viscosity/high collision frequency in the photosphere and lower chromosphere!?
 
 * Questions on Chapter 2: Background
