@@ -19,31 +19,31 @@ CLOSED: [2016-01-25 Mon 12:09]
 CLOSED: [2016-01-25 Mon 12:16]
 
 * Questions on Chapter 2: Background
-** TODO p.7, middle: can you give an idea on the typical time and length scales in the photosphere/chromosphere/corona and what you mean by ‘sufficiently large’ then?
-** TODO You should include a quantitative check of the satisfaction of the assumptions to show the MHD model can indeed be used in this situation, i.e. all the assumptions that are made to derive the MHD equations are satisfied!
-** TODO p.7, l.-6: are the relative velocities of positive and negative charges small, given the statements above and the large discrepancy between the mass of electrons and ions?
-** TODO Eq.(2.4): the B should be in bold as it is a vector!
-** TODO p.8,l.-11: you mention ‘a wide variety of wave modes in plasma’(cf. Jess et al. 2015), but a few lines down you claim there are only 3 wave modes? Where did the other go?
-** TODO Actually, in the real Sun the situation is far more complex. When inhomogeneity of the plasma is taken into account, the MHD wave spectrum includes continuous parts with singular wave mode solutions. Did this not come up and cause problems in the simulations? The waves should phase-mix as they propagate along the magnetic field lines, especially in the case of the circular driver, when you impose a phi-component only, i.e. directly drive an Alfvén wave…
-** TODO Eq.(2.7): you perturb a static plasma while the coronal plasma is all but static. Can you elaborate on the effects/complications of background flow, and the consequences of ignoring it in the model?
-** TODO p.9, Eq.(2.11): B1 should be bold face as it is a vector!
-** TODO p.10, Eq.(2.16): to get this simple form of decoupled equations you have to consider a coordinate system chosen such that the (x.z)-plane is the plane determined by the wave vector k and the magnetic field B. If ky is not equal to zero, the equations are coupled!
-** TODO p.10, Eq.(2.16): also, you seem to use cylindrical coordinates? what is the meaning of phi then, as I though phi is the perpendicular direction!!
-** TODO there should be curvature term in the equation (2.16) when you use cylindrical coordinates!
-** TODO p.10, Eq.(2.17): the definition of k is WRONG! There is a square root missing… (see p.199, Eq.(5.53) Goedbloed and Poedts, 2004).
-** TODO p.11, l.5: this is WRONG! According to Eq.(2.16), only the perpendicular component is non-vanishing for Alfvén waves…!?
-** TODO p.12,Eq.(2.28) should end with a dot (end of sentence).
-** TODO p.12,equation before Eq.(2.32) is WRONG: there is a delta missing in the second RHS term!?
-** TODO p.12,Eqs.(2.32-2.34) are WRONG: there should be minus signs in the second term in the RHS in each of these equations.
-** TODO p.15, end of 2.1.2: so the polarization is exactly opposite as in a low-beta plasma?
-** TODO p.15, l.-1: the vector product is WRONG as you multiply a vector with a scalar!?
-** TODO p.15, section 2.1.3: why this sudden change of notation with tildes on the perturbed ? = B1…? and v = v1? quantities? I guess you mean Bb = B0 and 𝐁𝐁
-** TODO P.15, Eq.(2.66): this I a second order equation/quantity, is this OK since you linearized the equations before!? Linear is first order… Actually, why do you consider only the second order form of this wave flux, instead of the full nonlinear form?
-** TODO And why do you not simply consider the Poynting flux???
-** TODO What about the plasma density in this model? How does it look/behave?
-** TODO p.18,Eq.(2.72): I think the central difference scheme in this equation is ONLY 3rd order accurate, not 4th?
-** TODO p.18, the section on numerical stability is a bit mysterious to me. Are you refereeing to the CFL condition due to the explicitness of the scheme? Are the ‘additional terms’ you mention involving some artificial dissipation?
-** TODO p.19, section 2.3: here you seem to use the alternative notation again for background and linear perturbation? or is this not the linear perturbation?
+** TODO  %%p.7, middle: can you give an idea on the typical time and length scales in the photosphere/chromosphere/corona and what you mean by ‘sufficiently large’ then?
+** TODO  %%You should include a quantitative check of the satisfaction of the assumptions to show the MHD model can indeed be used in this situation, i.e. all the assumptions that are made to derive the MHD equations are satisfied!
+** TODO  %%p.7, l.-6: are the relative velocities of positive and negative charges small, given the statements above and the large discrepancy between the mass of electrons and ions?
+** TODO  %%Eq.(2.4): the B should be in bold as it is a vector!
+** TODO  %%p.8,l.-11: you mention ‘a wide variety of wave modes in plasma’(cf. Jess et al. 2015), but a few lines down you claim there are only 3 wave modes? Where did the other go?
+** TODO  %%Actually, in the real Sun the situation is far more complex. When inhomogeneity of the plasma is taken into account, the MHD wave spectrum includes continuous parts with singular wave mode solutions. Did this not come up and cause problems in the simulations? The waves should phase-mix as they propagate along the magnetic field lines, especially in the case of the circular driver, when you impose a phi-component only, i.e. directly drive an Alfvén wave…
+** TODO  %%Eq.(2.7): you perturb a static plasma while the coronal plasma is all but static. Can you elaborate on the effects/complications of background flow, and the consequences of ignoring it in the model?
+** TODO  %%p.9, Eq.(2.11): B1 should be bold face as it is a vector!
+** TODO  %%p.10, Eq.(2.16): to get this simple form of decoupled equations you have to consider a coordinate system chosen such that the (x.z)-plane is the plane determined by the wave vector k and the magnetic field B. If ky is not equal to zero, the equations are coupled!
+** TODO  %%p.10, Eq.(2.16): also, you seem to use cylindrical coordinates? what is the meaning of phi then, as I though phi is the perpendicular direction!!
+** TODO  %%there should be curvature term in the equation (2.16) when you use cylindrical coordinates!
+** TODO  %%p.10, Eq.(2.17): the definition of k is WRONG! There is a square root missing… (see p.199, Eq.(5.53) Goedbloed and Poedts, 2004).
+** TODO  %%p.11, l.5: this is WRONG! According to Eq.(2.16), only the perpendicular component is non-vanishing for Alfvén waves…!?
+** TODO  %%p.12,Eq.(2.28) should end with a dot (end of sentence).
+** TODO  %%p.12,equation before Eq.(2.32) is WRONG: there is a delta missing in the second RHS term!?
+** TODO  %%p.12,Eqs.(2.32-2.34) are WRONG: there should be minus signs in the second term in the RHS in each of these equations.
+** TODO  %%p.15, end of 2.1.2: so the polarization is exactly opposite as in a low-beta plasma?
+** TODO  %%p.15, l.-1: the vector product is WRONG as you multiply a vector with a scalar!?
+** TODO  %%p.15, section 2.1.3: why this sudden change of notation with tildes on the perturbed ? = B1…? and v = v1? quantities? I guess you mean Bb = B0 and 𝐁𝐁
+** TODO  %%P.15, Eq.(2.66): this I a second order equation/quantity, is this OK since you linearized the equations before!? Linear is first order… Actually, why do you consider only the second order form of this wave flux, instead of the full nonlinear form?
+** TODO  %%And why do you not simply consider the Poynting flux???
+** TODO  %%What about the plasma density in this model? How does it look/behave?
+** TODO  %%p.18,Eq.(2.72): I think the central difference scheme in this equation is ONLY 3rd order accurate, not 4th?
+** TODO  %%p.18, the section on numerical stability is a bit mysterious to me. Are you refereeing to the CFL condition due to the explicitness of the scheme? Are the ‘additional terms’ you mention involving some artificial dissipation?
+** TODO  %%p.19, section 2.3: here you seem to use the alternative notation again for background and linear perturbation? or is this not the linear perturbation?
 ** TODO p.19, Eq.(2.75) there is a scalar product dot (\cdot) too much in the RHS.
 
 * Questions on Chapter 3: Methodology
