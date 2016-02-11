@@ -156,7 +156,7 @@ import sunpy.map
 fig = plt.figure(dpi=100)
 mm = sunpy.map.Map(ch1.data_file('gband_image_00200.fits'))
 mm = mm.submap([-440,440]*u.arcsec, [-440,440]*u.arcsec)
-mm.plot_settings['cmap'] = 'plasma'
+#mm.plot_settings['cmap'] = 'plasma'
 mm.plot_settings['title'] = ''
 mm.plot()
 
