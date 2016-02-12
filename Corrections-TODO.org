@@ -57,7 +57,8 @@ CLOSED: [2016-01-25 Mon 15:43]
 CLOSED: [2016-01-25 Mon 15:42]
 
 * Questions on Chapter 3: Methodology
-** TODO p.21-23: To maintain the HD equilibrium, the added magnetic field should be potential, or at least force-free. Is it?
+** DONE Expanded description around solving pressure balance %%p.21-23: To maintain the HD equilibrium, the added magnetic field should be potential, or at least force-free. Is it?
+CLOSED: [2016-02-12 Fri 11:10]
 ** TODO p.27: is v_perp not simply v_phi x v_par? The background field is kept constant, right? and you have the magnetic field analytically, so the perpendicular direction can be determined analytically!
 ** TODO p.28-29: Why do you not simply use flux coordinates? These can readily be constructed since you have the analytic expressions for the magnetic field, and the background is constant anyway!?
 ** TODO In fact, how do you keep the background fixed? Do you use this B0+B1 decomposition or something similar but for all variables?

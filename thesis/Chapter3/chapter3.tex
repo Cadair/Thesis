@@ -176,7 +176,7 @@ ds = yt.load_uniform_grid(data, x.shape, length_unit='m', magnetic_unit='T', mas
 \begin{pycode}[chapter3]
 from astropy.modeling import models, fitting
 
-x_lin = np.linspace(coords['xmin'], coords['xmax'], model_pars['Nxyz'][0])
+x_lin = np.linspace(coords['xmin'].value, coords['xmax'].value, model_pars['Nxyz'][0])*coords['xmin'].unit
 bmag = np.sqrt((Bx**2 + By**2 + Bz**2))[:,64,0].to(u.mT)
 
 gaussian = models.Gaussian1D()
@@ -212,7 +212,7 @@ The magnetic field is therefore specified by \cref{eq:Bxyz,eq:f,eq:G,eq:r,eq:BO}
 B_{bx} &= -S(x-x_0) {\, \BO\GO \:} \frac{\partial \BO}{\partial z},
 \\
 B_{by} &= -S(y-y_0) {\, \BO\GO \:} \frac{\partial \BO}{\partial z},
-\\        
+\\
 B_{bz} &= \phantom{-}S{\BO^2\GO  \,} + \bc,
 \end{aligned}
 \end{equation}
@@ -227,7 +227,7 @@ r \,   &= \sqrt{(x-x )^2+(y-y )^2},\\  \label{eq:r}
 \end{align}
 
 \begin{equation}\label{eq:BO}
-\BO = 
+\BO =
 \bF\exp\left(-\frac{z}{\za}\right)\,
 +
 \bb\exp\left(-\frac{z}{\zb}\right),
@@ -240,17 +240,17 @@ The parameters used in constructing the background atmosphere in this thesis are
 \begin{table}
     \centering
     \begin{tabular}{|c|c|}
-        \hline Parameter & Value \\ 
-        \hline $\bc$ & \py[chapter3]|model_pars['B_corona'].to(u.mT)| \\ 
-        \hline $\bF$ & \py[chapter3]|model_pars['coratio']| \\ 
-        \hline $\bb$ & \py[chapter3]|model_pars['chratio']| \\ 
-        \hline $f_0$ & \py[chapter3]|model_pars['radial_scale']| \\ 
-        \hline $\za$ & \py[chapter3]|model_pars['chrom_scale']| \\ 
+        \hline Parameter & Value \\
+        \hline $\bc$ & \py[chapter3]|model_pars['B_corona'].to(u.mT)| \\
+        \hline $\bF$ & \py[chapter3]|model_pars['coratio']| \\
+        \hline $\bb$ & \py[chapter3]|model_pars['chratio']| \\
+        \hline $f_0$ & \py[chapter3]|model_pars['radial_scale']| \\
+        \hline $\za$ & \py[chapter3]|model_pars['chrom_scale']| \\
         \hline $\zb$ & \py[chapter3]|model_pars['corona_scale']| \\
         \hline $S$   & \py[chapter3]|Si[0][0].to(u.mT)| \\
         \hline
     \end{tabular}
-    
+
     \caption{Table showing all the parameters for \cref{eq:Bxyz,eq:f,eq:G,eq:r,eq:BO} used in constructing the background atmosphere for the simulations in this thesis.}
     \label{tab:bgparams}
 \end{table}
@@ -262,7 +262,7 @@ gaussian = texfigure.MultiFigure(2, 1, "guassian")
 
 fig, ax = plt.subplots(figsize=texfigure.figsize(pytex))#, gridspec_kw={'left':0.15})
 lb, = plt.plot(x_lin, bmag.to(u.mT), 'x')
-X = np.linspace(coords['xmin'], coords['xmax'], 1000)
+X = np.linspace(coords['xmin'].value, coords['xmax'].value, 1000)*coords['xmin'].unit
 lb_f, = plt.plot(X, bmag_fit(X.value), color='green')
 
 plt.xlabel("X [{}]".format(lb._xorig.unit._repr_latex_()))
@@ -285,15 +285,17 @@ gaussian.append(bmagf)
 
 \begin{pycode}[chapter3]
 slc = yt.SlicePlot(ds, 'z', 'magnetic_field_strength', origin='center-domain',
-axes_unit='km', center=("max", "magnetic_field_strength"), width=(0.5, "Mm"))
+                   axes_unit='km', center=("max", "magnetic_field_strength"),
+                   width=(0.5, "Mm"))
 slc.set_figure_size(texfigure.figsize(pytex, scale=0.8)[0])
 
 slc.set_cmap('all', 'Oranges')
 bmax = ds.all_data().quantities.extrema("magnetic_field_strength")[1]
+print(bmax, file=sys.stderr)
 slc.annotate_contour('magnetic_field_strength', take_log=False,
-plot_args={'levels':[bmax/2., bmax/10.],
-           'linewidths':3,
-           'colors':['black', 'green']})
+                     plot_args={'levels': [bmax/10., bmax/2.],
+                                'linewidths': 3,
+                                'colors': ['black', 'green']})
 
 bmag2d = ch3.save_figure('bmag-cut', slc)
 bmag2d.subfig_width = r'0.8\columnwidth'
@@ -307,15 +309,18 @@ gaussian.caption = "Magnetic field strength plots for the photospheric layer in 
 \py[chapter3]|gaussian|
 
 \begin{pycode}[chapter3]
-slc = yt.SlicePlot(ds, 'x', 'alfven_speed', origin='lower-center-domain', axes_unit='Mm')
+slc = yt.SlicePlot(ds, 'x', 'alfven_speed', origin='lower-center-domain',
+                   axes_unit='Mm')
 slc.set_figure_size(texfigure.figsize(pytex)[0])
 slc.set_cmap('all', 'Reds')
 
 seed_points = np.zeros([11,2]) + 1.52
 seed_points[:,0] = np.linspace(-0.99, 0.95, seed_points.shape[0], endpoint=True)
-#slc.annotate_streamlines('magnetic_field_y', 'magnetic_field_z', field_color='magnetic_field_strength',
-#plot_args={'start_points':seed_points, 'density':15, 'cmap':'Blues', 'linewidth':2,
-#'norm': mpl.colors.LogNorm(*ds.all_data().quantities.extrema("magnetic_field_strength"))})
+slc.annotate_streamlines('magnetic_field_y', 'magnetic_field_z',
+                         field_color='magnetic_field_strength',
+                         plot_args={'start_points': seed_points, 'density': 15,
+                                    'cmap': 'Blues', 'linewidth':2,
+                                    'norm': mpl.colors.LogNorm(*ds.all_data().quantities.extrema("magnetic_field_strength"))})
 
 alf2d = ch3.save_figure('alf2d', slc)
 alf2d.caption = r"Vertical slice through the background atmosphere, with the Alfv\'en Speed shown in the background with magnetic field lines overplotted in blue."
@@ -339,16 +344,18 @@ To achieve this in a way that creates a physical and magnetohydrostatic backgrou
 This is done using the principal of magnetohydrostatic equilibrium as described by \cref{eq:mhs-condition},
 
 \begin{equation}
-\nabla P = 
+\nabla P =
 \nabla p + \nabla \frac{|\vec{B}|^2}{2\mu_0} - (\vec{B}\cdot\nabla)
 {\frac{\vec{B}}{\mu_0} }
-= \rho \vec{g}, 
+= \rho \vec{g},
 \label{eq:mhs-condition}
 \end{equation}
 %\nabla P = (\mathbf{B}\cdot \nabla)\mathbf{B} + \nabla\left(\frac{\mathbf{B}^2}{2}\right) + \nabla p = \rho\mathbf{g},
 which describes the pressure balance between the kinetic and magnetic forces present in a MHD plasma;
 where $P$ is the total pressure, $p$ is the kinetic pressure $\rho$ is the density, $g$ is the acceleration due to gravity (assumed to be constant), and $\mu_0$ is the vacuum magnetic permeability coefficient.
-The solution to this equation with the magnetic field specified above is derived in~\cite{gent2013,gent2014}.
+The solution to this equation with the magnetic field specified above is analytically derived in~\cite{gent2013,gent2014}.
+The solution to the pressure balance equation is such that the kinetic pressure is modified to compensate for the magnetic pressure and tension forces.
+This leads to an analytically stable solution to be used by the SAC code. 
 
 
 The numerical domain chosen for the work presented in this thesis is $2.0 \times 2.0 \times 1.6$ Mm in size in the $x$, $y$ and $z$ directions, with a resolution of $128^3$ grid points, giving a physical size of $15.6\ \times\ 15.6\ \times\ 12.5$ km$^3$ for each grid cell.
@@ -390,7 +397,7 @@ bfield = vector_field(cg['mag_field_x']*1e3,
                       cg['mag_field_y']*1e3,
                       cg['mag_field_z']*1e3,
                       figure=None)
-                      
+
 bmag = mlab.pipeline.extract_vector_norm(bfield, name="Field line Normals")
 
 density = scalar_field(cg['density']*1e6, name="Density", figure=None)
@@ -527,7 +534,7 @@ This means that there is no defined `edge' upon which to draw a flux surface, me
 The flux surface would be constructed numerically in the domain, and therefore would be a series of small planes connected together to form the surface.
 The equation of a plane is defined by three arbitrary points in a Cartesian geometry, $x_{1,2,3}$, $y_{1,2,3}$, and $y_{1,2,3}$, where the numerical subscript denotes the index of the point; the normal vector $\vec{n}=(a,b,c)$ and a constant $d$:
 \begin{equation}
-	ax_{1,2,3}+by_{1,2,3}+cz_{1,2,3}+d=0.
+    ax_{1,2,3}+by_{1,2,3}+cz_{1,2,3}+d=0.
     \label{eq:plane}
 \end{equation}
 \Cref{eq:plane} can therefore be used to calculate the normal vector to the numerically constructed flux surface.
@@ -700,7 +707,7 @@ The number of normal vectors calculated is dependant on the number of triangles,
 The number of seed points used is $100$ for all the analysis in this thesis.
 The resolution of the integrator is left at the default as calculated by VTK.
 
-Once the normal vectors have been constructed, it is simple to compute the azimuthal vector from the magnetic field unit vector, and the normal vector $\vec{n_\phi}= \vec{n_\perp} \times \vec{n_\parallel}$ where $\vec{n_\perp},\ \vec{n_\parallel} $ are also both unit vectors. 
+Once the normal vectors have been constructed, it is simple to compute the azimuthal vector from the magnetic field unit vector, and the normal vector $\vec{n_\phi}= \vec{n_\perp} \times \vec{n_\parallel}$ where $\vec{n_\perp},\ \vec{n_\parallel} $ are also both unit vectors.
 Using  $\vec{n_\perp},\ \vec{n_\parallel}$ and $\vec{n_\phi}$ it  is possible to project any vector quantity calculated in the simulations into this reference frame, and use it for the analysis of MHD waves.
 
 
@@ -709,4 +716,3 @@ Using  $\vec{n_\perp},\ \vec{n_\parallel}$ and $\vec{n_\phi}$ it  is possible to
 \py[chapter3a]|fig_flux_surface|
 \py[chapter3a]|zoomed_surface|
 \py[chapter3a]|zoomed_glyphs|
-
