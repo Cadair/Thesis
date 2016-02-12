@@ -84,7 +84,8 @@ CLOSED: [2016-02-12 Fri 15:02]
 CLOSED: [2016-02-12 Fri 15:18]
 ** DONE Added small clarification. Again the scaling on the plots are important.%%p.38 and Fig.4.3c-e: how do you explain the asymmetry in these cases (much more asymmetric response than the others)? Also, you claim in the text that for these three torsional driving cases the vast majority of the perturbation is in the phi component. This is not true as it seems to me that the perpendicular component is dominant!? Or is this just an impression from the larger colored areas in the plots? 
 CLOSED: [2016-02-12 Fri 15:45]
-** TODO What are the solid and dashed and dotted lines in these plots?
+** DONE These are described in the caption.%%What are the solid and dashed and dotted lines in these plots?
+CLOSED: [2016-02-12 Fri 15:46]
 ** TODO p.46, Fig.4.5: how come there is no AW flux in the horizontal and vertical driving case while these waves are clearly visible in the velocity height-time plots?
 
 * Questions on Chapter 5: Effects of expansion factor
