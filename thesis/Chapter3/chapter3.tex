@@ -514,6 +514,8 @@ This section describes the analysis method developed for the research presented 
 As shown in \cref{sec:Vpert}, MHD waves propagating through a plasma cause perturbations in velocity.
 As the perturbation velocity is one of the physical variables calculated by the SAC code, this fact provides a mechanism by which we can identify the waves in the simulation domain.
 However, the challenge is decomposing the velocity vector, calculated by SAC in the reference frame of the simulation domain ($V_x$, $V_y$, $V_z$) into the frame of the magnetic field \textit{i.e.} a velocity parallel to the magnetic field, $V_\parallel$, perpendicular to the magnetic field, $V_\perp$, and a component perpendicular to the magnetic field in the other plane $V_\phi$, in which the waves are mathematically described.
+To fully support all the types of linear and non-linear calculations SAC is capable of this method needs to calculate this decomposition for each time step.
+This is not strictly required for the simulations analysed in this thesis, as only linear perturbations are studied, however, this analysis method was developed to be general.
 
 Considering this problem more closely, the $V_\parallel$ component is trivial to calculate, as it is the projection of $\vec{V}$ onto $\vec{B}$.
 $V_\phi$, the azimuthal component, can be defined as $V_\phi = V_\parallel \times V_\perp$.

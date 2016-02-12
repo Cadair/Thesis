@@ -59,9 +59,12 @@ CLOSED: [2016-01-25 Mon 15:42]
 * Questions on Chapter 3: Methodology
 ** DONE Expanded description around solving pressure balance %%p.21-23: To maintain the HD equilibrium, the added magnetic field should be potential, or at least force-free. Is it?
 CLOSED: [2016-02-12 Fri 11:10]
-** TODO p.27: is v_perp not simply v_phi x v_par? The background field is kept constant, right? and you have the magnetic field analytically, so the perpendicular direction can be determined analytically!
-** TODO p.28-29: Why do you not simply use flux coordinates? These can readily be constructed since you have the analytic expressions for the magnetic field, and the background is constant anyway!?
-** TODO In fact, how do you keep the background fixed? Do you use this B0+B1 decomposition or something similar but for all variables?
+** DONE This is only true in the background conditions description added about the generality of the method.%%p.27: is v_perp not simply v_phi x v_par? The background field is kept constant, right? and you have the magnetic field analytically, so the perpendicular direction can be determined analytically!
+CLOSED: [2016-02-12 Fri 11:50]
+** DONE This is also only true for the background conditions where the analytical solution is known.%%p.28-29: Why do you not simply use flux coordinates? These can readily be constructed since you have the analytic expressions for the magnetic field, and the background is constant anyway!?
+CLOSED: [2016-02-12 Fri 11:50]
+** DONE In fact, how do you keep the background fixed? Do you use this B0+B1 decomposition or something similar but for all variables?
+CLOSED: [2016-02-12 Fri 11:50]
 
 * Questions on Chapter 4: MHD waves excited by different photospheric motions
 ** TODO p.34: I do not understand this driver. The velocity is a VECTOR field but Eq.(4.1) seems to define a scalar field!? What are the components of the velocity in the different cases? In your slides (short presentation at the viva) you actually had vectors, but this should be also corrected in the thesis text.
