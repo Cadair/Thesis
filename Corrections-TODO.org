@@ -67,8 +67,10 @@ CLOSED: [2016-02-12 Fri 11:50]
 CLOSED: [2016-02-12 Fri 11:50]
 
 * Questions on Chapter 4: MHD waves excited by different photospheric motions
-** TODO p.34: I do not understand this driver. The velocity is a VECTOR field but Eq.(4.1) seems to define a scalar field!? What are the components of the velocity in the different cases? In your slides (short presentation at the viva) you actually had vectors, but this should be also corrected in the thesis text.
-** TODO p.34-35: Actually, also in the following equations (4.2)-(4.4) your notations is WRONG as these are the components of the vector field F, so F(x) should be Fx and F(y) = Fy.
+** DONE Notation fixed.%%p.34: I do not understand this driver. The velocity is a VECTOR field but Eq.(4.1) seems to define a scalar field!? What are the components of the velocity in the different cases? In your slides (short presentation at the viva) you actually had vectors, but this should be also corrected in the thesis text.
+CLOSED: [2016-02-12 Fri 13:30]
+** DONE Fixed.%%p.34-35: Actually, also in the following equations (4.2)-(4.4) your notations is WRONG as these are the components of the vector field F, so F(x) should be Fx and F(y) = Fy.
+CLOSED: [2016-02-12 Fri 13:31]
 ** TODO p.34: You cited a paper of Bonet observing spiraling down flows in intergranular lanes which are the inspiration for the spiral driver profiles you considered. However, Bonet did not report oscillatory spiraling down flows, did he? Yet, you assume such profiles. Are these not highly artificial, i.e. is such time-dependent (oscillatory) behavior with such a complex profile not highly unlikely to occur in the real photosphere?
 ** TODO In fact, you did not consider down flows at all, rather horizontal and vertical and spiraling flows. The latter are also purely horizontal is it not? So no down flows at all!!?
 ** TODO p.34-35:why 240 sec periods? I thought 5 min (and 3 min) where most common?
