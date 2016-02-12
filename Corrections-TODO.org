@@ -86,7 +86,8 @@ CLOSED: [2016-02-12 Fri 15:18]
 CLOSED: [2016-02-12 Fri 15:45]
 ** DONE These are described in the caption.%%What are the solid and dashed and dotted lines in these plots?
 CLOSED: [2016-02-12 Fri 15:46]
-** TODO p.46, Fig.4.5: how come there is no AW flux in the horizontal and vertical driving case while these waves are clearly visible in the velocity height-time plots?
+** DONE These plots are percentage wave flux.%%p.46, Fig.4.5: how come there is no AW flux in the horizontal and vertical driving case while these waves are clearly visible in the velocity height-time plots?
+CLOSED: [2016-02-12 Fri 15:55]
 
 * Questions on Chapter 5: Effects of expansion factor
 ** DONE Added comment referencing chapter 4%%p.51, Fig.5.1: the profile observed by Bonet is a continuous down flow profile, i.e. not oscillatory, or not?
