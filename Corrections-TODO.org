@@ -75,7 +75,8 @@ CLOSED: [2016-02-12 Fri 13:31]
 CLOSED: [2016-02-12 Fri 14:18]
 ** DONE Comment added to clarify.%%In fact, you did not consider down flows at all, rather horizontal and vertical and spiraling flows. The latter are also purely horizontal is it not? So no down flows at all!!?
 CLOSED: [2016-02-12 Fri 14:33]
-** TODO p.34-35:why 240 sec periods? I thought 5 min (and 3 min) where most common?
+** DONE This is already said to be arbitrary in the manuscript.%%p.34-35:why 240 sec periods? I thought 5 min (and 3 min) where most common?
+CLOSED: [2016-02-12 Fri 14:36]
 ** TODO p.34-35: the 10 m/s at bottom yield up to 300 m/s at 1.5 Mm height (see Fig.4.3). What is the corresponding perturbation of the magnetic field? Is it still small (linear!?) compared to the background field? You assumed they are linear everywhere!?
 ** TODO p.38 and Fig.4.3a: horizontal is perpendicular, right? On page 10 you showed that the Alfvén waves decouples form the acoustic waves. You are driving the slow wave here directly. So why is the Alfvén wave excited in this case?
 ** TODO p.38 and Fig.4.3b: vertical is parallel (vertical field), right? On page 15 you claimed the fast mode perturbs mostly the parallel component of the velocity. So this is the one you drive directly in Fig.4.3b (vertical = parallel to B))? So why is the Alfvén wave dominant in the response? You write in the text that the phi component is ‘substantially weaker than the two other components’, but this is clearly not true!!? This turns out to be a scaling problem, the color scale is different in the different plots!!! 
