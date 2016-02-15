@@ -94,8 +94,10 @@ CLOSED: [2016-02-12 Fri 15:55]
 CLOSED: [2016-02-12 Fri 14:40]
 ** DONE Added small clarification.%%p.51, bottom: you mention a second superimposed perturbation traveling at slow speed. This is presumably because you only implemented boundary conditions on the velocity field. What BCs did you impose for the magnetic field components?
 CLOSED: [2016-02-12 Fri 16:19]
-** TODO Fig.5.3e, p.56: Are you sure the panels have not been interchanged. For B_L = 1.5 the velocity is almost radial (see Fig.5.2.c), so one would expect most energy in the perpendicular component (which is the radial component here , is it not?), and not in the phi component which is almost perpendicular to that, and so should receive almost no energy…!?
-** TODO P.61, Fig.5.5: Again, it is strange that her for BL = 1.5 most energy seems to go to the fast (parallel) component!? Even though you are driving horizontally in this case, or not?
+** DONE Explained in text by referencing the vertical driver in ch4.%%TODO Fig.5.3e, p.56: Are you sure the panels have not been interchanged. For B_L = 1.5 the velocity is almost radial (see Fig.5.2.c), so one would expect most energy in the perpendicular component (which is the radial component here , is it not?), and not in the phi component which is almost perpendicular to that, and so should receive almost no energy…!?
+CLOSED: [2016-02-15 Mon 10:35]
+** DONE Explained by above.%%P.61, Fig.5.5: Again, it is strange that her for BL = 1.5 most energy seems to go to the fast (parallel) component!? Even though you are driving horizontally in this case, or not?
+CLOSED: [2016-02-15 Mon 10:35]
 
 * Questions on Chapter 6: Effects on period
 ** TODO The effect of the driving motions on the excitation of MHD waves actually depends on the oscillation spectrum of the MBP structure you are modeling. Do you have any idea of the eigenvalue spectrum of this configuration?
