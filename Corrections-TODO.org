@@ -106,7 +106,8 @@ CLOSED: [2016-02-15 Mon 11:40]
 CLOSED: [2016-02-15 Mon 11:40]
 ** DONE Fixed.%%p.65, Eq.(6.3): again, the velocity field is a vector field, what are the components of this vector field? You seem to define only a scalar field here? Correct this, like you did in your slides during the viva!
 CLOSED: [2016-02-15 Mon 10:43]
-** TODO p.70, Fig.6.2: It had occurred to me earlier but in these figures it is more apparent that in the phi and perpendicular components of the velocity you do not get an oscillatory response at all!? As a matter of fact, the phi component does not become positive and the perpendicular component does not become negative. So in these components the response is more like a series of pulses, rather than an oscillatory wave. Only in the parallel component you seem to get oscillations!?
+** DONE This is attributed to the intertia of the system after it has been accelerated from the stationary initial conditions.%%p.70, Fig.6.2: It had occurred to me earlier but in these figures it is more apparent that in the phi and perpendicular components of the velocity you do not get an oscillatory response at all!? As a matter of fact, the phi component does not become positive and the perpendicular component does not become negative. So in these components the response is more like a series of pulses, rather than an oscillatory wave. Only in the parallel component you seem to get oscillations!?
+CLOSED: [2016-02-15 Mon 11:42]
 ** DONE The scales on the plots are slightly different, but the results are the same.%%p.80, Fig.6.4: I do not understand the contrast of this figure with Fig.5.5. In fact, the case P = 180 s is the same as in Fig.5.5, right? But the results seem different here? Now the phi component is by far the most energetic while it used to be comparable to the parallel component in Fig.5.5. What happened?
 CLOSED: [2016-02-15 Mon 11:40]
 
