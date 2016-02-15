@@ -100,12 +100,15 @@ CLOSED: [2016-02-15 Mon 10:35]
 CLOSED: [2016-02-15 Mon 10:35]
 
 * Questions on Chapter 6: Effects on period
-** TODO The effect of the driving motions on the excitation of MHD waves actually depends on the oscillation spectrum of the MBP structure you are modeling. Do you have any idea of the eigenvalue spectrum of this configuration?
-** TODO Do you have any idea on how it could be computed, i.e. how you could formulate the problem as an eigenvalue problem instead of an initial value problem?
+** DONE Discussion point.%%The effect of the driving motions on the excitation of MHD waves actually depends on the oscillation spectrum of the MBP structure you are modeling. Do you have any idea of the eigenvalue spectrum of this configuration?
+CLOSED: [2016-02-15 Mon 11:40]
+** DONE Discussion point.%%Do you have any idea on how it could be computed, i.e. how you could formulate the problem as an eigenvalue problem instead of an initial value problem?
+CLOSED: [2016-02-15 Mon 11:40]
 ** DONE Fixed.%%p.65, Eq.(6.3): again, the velocity field is a vector field, what are the components of this vector field? You seem to define only a scalar field here? Correct this, like you did in your slides during the viva!
 CLOSED: [2016-02-15 Mon 10:43]
 ** TODO p.70, Fig.6.2: It had occurred to me earlier but in these figures it is more apparent that in the phi and perpendicular components of the velocity you do not get an oscillatory response at all!? As a matter of fact, the phi component does not become positive and the perpendicular component does not become negative. So in these components the response is more like a series of pulses, rather than an oscillatory wave. Only in the parallel component you seem to get oscillations!?
-** TODO p.80, Fig.6.4: I do not understand the contrast of this figure with Fig.5.5. In fact, the case P = 180 s is the same as in Fig.5.5, right? But the results seem different here? Now the phi component is by far the most energetic while it used to be comparable to the parallel component in Fig.5.5. What happened?
+** DONE The scales on the plots are slightly different, but the results are the same.%%p.80, Fig.6.4: I do not understand the contrast of this figure with Fig.5.5. In fact, the case P = 180 s is the same as in Fig.5.5, right? But the results seem different here? Now the phi component is by far the most energetic while it used to be comparable to the parallel component in Fig.5.5. What happened?
+CLOSED: [2016-02-15 Mon 11:40]
 
 * Questions on Chapter 7: Conclusions and future work
 ** TODO What if the driver would be on B instead of on v? It should be equivalent in ideal MHD. But did you try it?
