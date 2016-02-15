@@ -23,8 +23,8 @@ periods = periods[:10]
 \Cref{ch:drivers,ch:expfac} studied the effects of the driving velocity profile and the logarithmic spiral expansion factor ($B_L$) on the MHD wave excitation.
 In both of these previous chapters, arbitrary periods were chosen, in this chapter the effect of this choice of period on the wave excitation by the logarithmic driver is studied.
 The solar photosphere is populated with an outstanding variety of different frequency wave modes.
-Acoustic (p-mode) waves have a wide frequency spectra, with a peak power at 5 minutes \citep{leighton1962}, and a large number of MHD waves at different frequencies have been observed in the low solar atmosphere; \cite{Freij2014,Dorotovic2014} observe oscillations in magnetic pores at periods ranging from 3 minutes to 25 minutes; \cite{morton2011} observe sausage modes with periods ranging from $30$ to $447$ seconds; and \cite{fujimura2009} observe oscillations with periods between $3$ and $6$ minutes in pores and between $4$ and $9$ minutes in the inter-granular lanes.
-Multiple other studies have also observed oscillations at different frequencies  \cite[e.g.][]{mathioudakis2013,reznikova2012,morton2012,mcintosh2011,zaqarashvili2009,jess2009,vecchio2007,kobanov2006,bogdan2006}.
+Acoustic (p-mode) waves have a wide frequency spectra, with a peak power at 5 minutes~\citep{leighton1962}, and a large number of MHD waves at different frequencies have been observed in the low solar atmosphere; \cite{Freij2014,Dorotovic2014} observe oscillations in magnetic pores at periods ranging from 3 minutes to 25 minutes; \cite{morton2011} observe sausage modes with periods ranging from $30$ to $447$ seconds; and \cite{fujimura2009} observe oscillations with periods between $3$ and $6$ minutes in pores and between $4$ and $9$ minutes in the inter-granular lanes.
+Multiple other studies have also observed oscillations at different frequencies ~\cite[e.g.][]{mathioudakis2013,reznikova2012,morton2012,mcintosh2011,zaqarashvili2009,jess2009,vecchio2007,kobanov2006,bogdan2006}.
 It is therefore interesting to study a range of possible frequencies for the driving motions, to see what effects this has on the excitation of MHD waves.
 
 \section{Simulation Configuration}\label{sec:periodconfig}
@@ -153,9 +153,9 @@ $E_k$ can be computed over an arbitrary volume $V$, which leads to:
 \end{equation}
 The simulations are perturbed by a driver with the following general profile:
 \begin{equation}
-    v(x,y,z,t) = A\ G(x,y,z) \sin \left( \frac{2\pi t}{P} \right),\label{eq:vprofile}
-\end{equation}
-where $A$ is the amplitude of the velocity and $G(x,y,z)$ is a normalised spatial distribution.
+    \vec{v}(x,y,z,t) = A\ \vec{G}(x,y,z) \sin \left( \frac{2\pi t}{P} \right),\label{eq:vprofile}
+  \end{equation}
+where $A$ is the amplitude of the velocity and $\vec{G}(x,y,z)$ is a normalised spatial distribution.
 Substituting \cref{eq:vprofile} into \cref{eq:Ek} for velocity and integrating for all time gives,
 \begin{align}
     E_{T}(x,y,z) &= \int_T \frac{1}{2}\ \rho(x,y,z)\ V\ A^2\ G^2(x,y,z)\ \sin^2\left(\frac{2\pi t}{P} \right) dt \\
@@ -190,7 +190,7 @@ Substituting this into \cref{eq:ET} the final result is obtained:
 Using the arbitrary amplitude selected in \cref{ch:drivers} of $10$ ms$^{-1}$ for the $240$ s driver, the desired amplitude for each of the periods selected can be calculated relative to this.
 The result of these calculations is shown in \cref{tab:period-amp}.
 Periods varying from $30$ to $300$ seconds are chosen in increments of $30$ seconds, this provides 10 points in the parameter space.
-The upper limit of $300$ seconds was chosen to give two complete periods within the $600$ second upper lifetime estimate given in \cite{sanchezalmeida2004}.
+The upper limit of $300$ seconds was chosen to give two complete periods within the $600$ second upper lifetime estimate given in~\cite{sanchezalmeida2004}.
 The $300$ second limit was also partly chosen for practical purposes; with the background atmosphere described in \cref{sec:mhsbackground} and run times over $600$ s some reflections effects from the top numerical boundary start to affect the results.
 
 \begin{table}
@@ -410,7 +410,7 @@ It appears therefore that the period of the logarithmic spiral driver is not as 
 The small ($<20$\%) variation in the Alfv\'en mode flux is largely non-linear for short periods ($<180$ s).
 However, the variation becomes more linear at shorter periods for the flux surfaces that are closer to the centre of the domain.
 The presence of this variation at short periods is most interesting because of the relative importance of these periods.
-If the lifetime of MBPs is short, $<10$ minutes \citep{sanchezalmeida2004}, then the shorter period modes have a larger chance of being excited and surviving for multiple periods.
+If the lifetime of MBPs is short, $<10$ minutes~\citep{sanchezalmeida2004}, then the shorter period modes have a larger chance of being excited and surviving for multiple periods.
 This non-linearity is therefore an interesting result, with potential effects on the strength of the wave modes present in the low chromosphere.
 When analysing these results however it is important to remember a limitation of the analysis.
 The percentage square wave flux was averaged over an integer number of periods to ensure a constant total amount of kinetic energy was added to the domain (see \cref{sec:periodconfig}).
