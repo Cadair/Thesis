@@ -26,7 +26,8 @@ CLOSED: [2016-01-25 Mon 12:16]
 CLOSED: [2016-01-25 Mon 14:01]
 ** DONE Added extra clarification.%%p.8,l.-11: you mention ‘a wide variety of wave modes in plasma’(cf. Jess et al. 2015), but a few lines down you claim there are only 3 wave modes? Where did the other go?
 CLOSED: [2016-02-16 Tue 09:58]
-** TODO  %%Actually, in the real Sun the situation is far more complex. When inhomogeneity of the plasma is taken into account, the MHD wave spectrum includes continuous parts with singular wave mode solutions. Did this not come up and cause problems in the simulations? The waves should phase-mix as they propagate along the magnetic field lines, especially in the case of the circular driver, when you impose a phi-component only, i.e. directly drive an Alfvén wave…
+** DONE Added comments about limitation of the model. Discussion of the limitations of the model when applied to the simulations is in the results sections of the proceeding chapters.%%Actually, in the real Sun the situation is far more complex. When inhomogeneity of the plasma is taken into account, the MHD wave spectrum includes continuous parts with singular wave mode solutions. Did this not come up and cause problems in the simulations? The waves should phase-mix as they propagate along the magnetic field lines, especially in the case of the circular driver, when you impose a phi-component only, i.e. directly drive an Alfvén wave…
+CLOSED: [2016-02-16 Tue 10:03]
 ** TODO  %%Eq.(2.7): you perturb a static plasma while the coronal plasma is all but static. Can you elaborate on the effects/complications of background flow, and the consequences of ignoring it in the model?
 ** DONE Fixed %%p.9, Eq.(2.11): B1 should be bold face as it is a vector!
 CLOSED: [2016-01-25 Mon 14:02]
