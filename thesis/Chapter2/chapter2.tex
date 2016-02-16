@@ -9,7 +9,6 @@ ch2 = texfigure.Manager(pytex, number=2, base_path='./Chapter2/')
 \end{pycode}
 	
 
-%********************************** %First Section  **************************************
 \section{Magnetohydrodynamics}\label{sec:MHD}
 
 Ideal magnetohydrodynamics (MHD) is the description of a plasma as a single perfectly conducting fluid.
@@ -74,6 +73,9 @@ Our static background conditions are described by \cref{eq:linearize} below,
 \end{equation}
 where the subscript $b$ denotes a background quantity, and the tilde denotes a perturbation to this quantity.
 The perturbation is much smaller than the background quantity.
+In assuming a static background plasma, we are implicitly assuming the solar atmosphere largely static, and there are no bulk flows present.
+This is clearly false on most time scales observed on the Sun, however, the assumption going forward is that on the short ($\approx 10$ minute) time scales discussed for the rest of this thesis, that we can assume the background solar atmosphere is static.
+The presence of flows and other background movement in the plasma will change the behaviour of wave modes in the solar atmosphere and is the subject of study. %TODO: reference
 Substituting \cref{eq:linearize} into the ideal MHD equations and neglecting 2nd order or higher terms and any gradients of the homogeneous background quantities, leads to the linearised MHD equations given below,
 \begin{align}                                                         
     \dfrac{\partial \tilde{\rho} }{\partial t} + \rho_b (\nabla \cdot \tilde{\vec{v}}) =       
@@ -306,7 +308,7 @@ where a subscript $b$ represents a background variable, a tilde represents a per
 The validity of this equation for the wave energy flux is widely discussed, %TODO: Ref
 while it can be derived by linearising the total MHD energy flux to the second order, as described in~\cite{leroy1985}, it is only one of many solutions to the fundamental energy conservation equation.
 This fact is discussed in detail in Section 4 of~\cite{bogdan2003}, where the utility of this method of calculating wave energy flux for numerical simulations of the solar atmosphere is considered.
-\cite{bogdan2003} compares the above definition of the wave energy flux to the total nonlinear MHD energy flux, it is shown that the total energy flux is dominated by a `stationary flow` of energy, or local effects, rather than the energy contained in the wave like phenomena that this thesis wishes to study.
+\cite{bogdan2003} compares the above definition of the wave energy flux to the total nonlinear MHD energy flux, it is shown that the total energy flux is dominated by a `stationary flow' of energy, or local effects, rather than the energy contained in the wave like phenomena that this thesis wishes to study.
 It is because of this that this method of quantifying the energy contained within the MHD waves generated in the simulation domain is chosen.
 It should not however, be taken as a perfect metric, which is why it is chosen only to use \cref{eq:wave_energy} to calculate the relative strengths of the wave modes.
 This analysis provides the desired result: an understanding of how the different plasma conditions and wave drives change the spectra of MHD wave modes generated, while eliminating any concern about the accuracy of \cref{eq:wave_energy} when accounting for absolute energy values.

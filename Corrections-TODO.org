@@ -28,7 +28,8 @@ CLOSED: [2016-01-25 Mon 14:01]
 CLOSED: [2016-02-16 Tue 09:58]
 ** DONE Added comments about limitation of the model. Discussion of the limitations of the model when applied to the simulations is in the results sections of the proceeding chapters.%%Actually, in the real Sun the situation is far more complex. When inhomogeneity of the plasma is taken into account, the MHD wave spectrum includes continuous parts with singular wave mode solutions. Did this not come up and cause problems in the simulations? The waves should phase-mix as they propagate along the magnetic field lines, especially in the case of the circular driver, when you impose a phi-component only, i.e. directly drive an Alfvén wave…
 CLOSED: [2016-02-16 Tue 10:03]
-** TODO  %%Eq.(2.7): you perturb a static plasma while the coronal plasma is all but static. Can you elaborate on the effects/complications of background flow, and the consequences of ignoring it in the model?
+** DONE Added some comments on validity of static background for small time frame simulations.%%Eq.(2.7): you perturb a static plasma while the coronal plasma is all but static. Can you elaborate on the effects/complications of background flow, and the consequences of ignoring it in the model?
+CLOSED: [2016-02-16 Tue 14:57]
 ** DONE Fixed %%p.9, Eq.(2.11): B1 should be bold face as it is a vector!
 CLOSED: [2016-01-25 Mon 14:02]
 ** DONE Fixed by explaining notation. %%p.10, Eq.(2.16): to get this simple form of decoupled equations you have to consider a coordinate system chosen such that the (x.z)-plane is the plane determined by the wave vector k and the magnetic field B. If ky is not equal to zero, the equations are coupled!
