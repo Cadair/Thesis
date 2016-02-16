@@ -305,11 +305,13 @@ The result is given in \cref{eq:wave_energy} below.
 \end{equation}
 where a subscript $b$ represents a background variable, a tilde represents a perturbation from the background conditions and $p_k$ represents kinetic pressure.
 
-The validity of this equation for the wave energy flux is widely discussed, %TODO: Ref
-while it can be derived by linearising the total MHD energy flux to the second order, as described in~\cite{leroy1985}, it is only one of many solutions to the fundamental energy conservation equation.
+The validity of this equation for the wave energy flux is widely discussed, as it is only one of many solutions to the fundamental energy conservation equation.
 This fact is discussed in detail in Section 4 of~\cite{bogdan2003}, where the utility of this method of calculating wave energy flux for numerical simulations of the solar atmosphere is considered.
 \cite{bogdan2003} compares the above definition of the wave energy flux to the total nonlinear MHD energy flux, it is shown that the total energy flux is dominated by a `stationary flow' of energy, or local effects, rather than the energy contained in the wave like phenomena that this thesis wishes to study.
 It is because of this that this method of quantifying the energy contained within the MHD waves generated in the simulation domain is chosen.
+\Cref{eq:wave_energy} is derived in~\cite{leroy1985} for linear MHD waves by both a perturbation method from the general form of the MHD equations and from the linearised equations.
+The relative merits of these two derivations is discussed in~\cite{leroy1985}.
+This equation for wave energy flux is selected due to it being designed to represent the energy in the linear MHD wave modes, and from other sources present in the equations.
 It should not however, be taken as a perfect metric, which is why it is chosen only to use \cref{eq:wave_energy} to calculate the relative strengths of the wave modes.
 This analysis provides the desired result: an understanding of how the different plasma conditions and wave drives change the spectra of MHD wave modes generated, while eliminating any concern about the accuracy of \cref{eq:wave_energy} when accounting for absolute energy values.
 
