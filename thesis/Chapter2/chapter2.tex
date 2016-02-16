@@ -48,15 +48,16 @@ subject to
     p = \mathrm{k_B} \dfrac{\rho}{\mathrm{m}} \mathrm{T},
     &&\text{(Ideal Gas Law)}                    
 \end{align}
-where $\rho$ is the density, $\vec{v}$ is the velocity, $p$ is the pressure, $\gamma$ is the ratio of specific heats (usually taken as $5/3$), $\vec{B}$ is the magnetic field, $\mathrm{k_B}$ is Boltzmann's constant, $\mathrm{m}$ is the mass, $\mathrm{T}$ is the temperature, and $\mu$ is the magnetic permeability of free space \citep{goedbloed2004}.
+where $\rho$ is the density, $\vec{v}$ is the velocity, $p$ is the pressure, $\gamma$ is the ratio of specific heats (usually taken as $5/3$), $\vec{B}$ is the magnetic field, $\mathrm{k_B}$ is Boltzmann's constant, $\mathrm{m}$ is the mass, $\mathrm{T}$ is the temperature, and $\mu$ is the magnetic permeability of free space~\citep{goedbloed2004}.
 
 
 \subsection{MHD Waves}\label{sec:MHDwaves}
-Just like a non-ionised fluid, which supports a sound wave, due to the restoring force of the pressure, plasma supports wave phenomena \citep{alfven1942}.
+Just like a non-ionised fluid, which supports a sound wave, due to the restoring force of the pressure, plasma supports wave phenomena~\citep{alfven1942}.
 Waves in plasmas also interact with the magnetic field, and the coupling of the magnetic field to the motion of the plasma.
-This leads to the presence of a wide variety of wave modes in plasma, dependent upon the geometry and physical properties of the plasma being perturbed \citep{jess2015}.
+This leads to the presence of a wide variety of wave modes in plasma, dependent upon the geometry and physical properties of the plasma being perturbed~\citep{jess2015}.
 For the analysis performed in this chapter we shall consider a plasma with a static, and uniform background, the magnetic field shall be of a constant strength and aligned solely with the $z$ axis.
 As will be demonstrated, this configuration leads to the existence of three wave modes, called the fast-magnetoacoustic wave, the slow-magnetoacoustic wave and the Alfv\'en wave.
+These are the only wave modes an infinite uniform plasma supports, in more complex geometries a wider variety of modes exist.
 
 In this section we are going to summarise the derivation of the MHD wave equation for a uniform plasma.
 The starting point for this analysis is the ideal MHD equations that are described in \cref{sec:MHD}.
@@ -102,7 +103,7 @@ This is achieved by substituting \cref{eq:lmhd_mass,eq:lmhd_energy,eq:lmhd_induc
 \begin{equation}
     \frac{\partial^2 \tilde{\vec{v}}}{\partial t^2} - \left( (\vec{b} \cdot \nabla)^2 \vec{I} + (b^2 + c^2) \nabla\nabla - \vec{b} \cdot \nabla (\nabla\vec{b} + \vec{b}\nabla) \right) \cdot \tilde{\vec{v}} = 0,\label{eq:mhdwaveeq}
 \end{equation}
-where $\vec{I}$ is the identity matrix, $\vec{b}$ is the Alfv\'en speed given in \cref{eq:alfvenspeed} and $c$ is the sound speed given in \cref{eq:soundspeed} \citep{goedbloed2004}.
+where $\vec{I}$ is the identity matrix, $\vec{b}$ is the Alfv\'en speed given in \cref{eq:alfvenspeed} and $c$ is the sound speed given in \cref{eq:soundspeed}~\citep{goedbloed2004}.
 This equation can be solved using plane wave solutions, i.e. solutions of the form $\rho(\vec{r}, t) = \hat{\rho} e^{i(\vec{k}\cdot\vec{r} - \omega t)}$, which equate to performing the following substitutions into \cref{eq:mhdwaveeq}: $\frac{\partial}{\partial t} \rightarrow - i \omega$ and $\nabla \rightarrow i \vec{k}$.
 Which, given in matrix form yields the relation:
 \begin{equation}
@@ -291,7 +292,7 @@ The slow mode perturbs, predominately, the component of the velocity perpendicul
 \subsection{Calculating Wave Flux}\label{sec:waveflux}
 
 To calculate the relative strengths of the excited waves we compute the `wave energy flux' vector everywhere in the domain.
-To do this we use the equation for the wave energy flux given in equation (2.14) of \cite{leroy1985}.
+To do this we use the equation for the wave energy flux given in equation (2.14) of~\cite{leroy1985}.
 This equation can be written using notation similar to the rest of this thesis, by applying $\vec{H} = \vec{B}/\mu_0$ and the vector identity $\vec{a} \times (\vec{b} \times \vec{c}) = \vec{a} \cdot \vec{c}\vec{b} - \vec{a} \cdot \vec{b}\vec{c}$.
 The result is given in \cref{eq:wave_energy} below.
 \begin{equation}
@@ -301,8 +302,8 @@ The result is given in \cref{eq:wave_energy} below.
 where a subscript $b$ represents a background variable, a tilde represents a perturbation from the background conditions and $p_k$ represents kinetic pressure.
 
 The validity of this equation for the wave energy flux is widely discussed, %TODO: Ref
-while it can be derived by linearising the total MHD energy flux to the second order, as described in \cite{leroy1985}, it is only one of many solutions to the fundamental energy conservation equation.
-This fact is discussed in detail in Section 4 of \cite{bogdan2003}, where the utility of this method of calculating wave energy flux for numerical simulations of the solar atmosphere is considered.
+while it can be derived by linearising the total MHD energy flux to the second order, as described in~\cite{leroy1985}, it is only one of many solutions to the fundamental energy conservation equation.
+This fact is discussed in detail in Section 4 of~\cite{bogdan2003}, where the utility of this method of calculating wave energy flux for numerical simulations of the solar atmosphere is considered.
 \cite{bogdan2003} compares the above definition of the wave energy flux to the total nonlinear MHD energy flux, it is shown that the total energy flux is dominated by a `stationary flow` of energy, or local effects, rather than the energy contained in the wave like phenomena that this thesis wishes to study.
 It is because of this that this method of quantifying the energy contained within the MHD waves generated in the simulation domain is chosen.
 It should not however, be taken as a perfect metric, which is why it is chosen only to use \cref{eq:wave_energy} to calculate the relative strengths of the wave modes.
@@ -385,14 +386,14 @@ The approach the SAC code takes is to use additional terms in the MHD equations 
 
 \section{Sheffield Advanced Code}\label{sec:SAC}
 
-This thesis uses the Sheffield Advanced Code (SAC) \citep{shelyag2008} for all MHD simulations.
+This thesis uses the Sheffield Advanced Code (SAC)~\citep{shelyag2008} for all MHD simulations.
 The SAC code solves the ideal MHD equations, for a plasma with static background conditions.
 This approach enables the code to solve for small perturbations, while the background conditions vary by orders of magnitude through the solar atmosphere.
 The successful application of this approach is clearly dependant upon a realistic, magnetohydrostatic background condition.
 The construction of this background is described in \cref{sec:mhsbackground}.
 
 The SAC code was developed to simulate MHD waves as solutions to the ideal MHD equations given in \cref{eq:imhd_mass,eq:imhd_induction} with a static background.
-Therefore, the equations solved by SAC are a rearranged version of the ideal MHD equations and are given below \citep[taken from][]{shelyag2008},
+Therefore, the equations solved by SAC are a rearranged version of the ideal MHD equations and are given below~\citep[taken from][]{shelyag2008},
 \begin{equation}
 \frac{\partial\tilde{\rho}}{\partial t}+\nabla\cdot[\mathbf{v}(\rho_{b}+\tilde{\rho})]=0+D_{\rho}(\tilde{\rho}),
 \end{equation}
@@ -427,7 +428,7 @@ The first major change between these equations and the ones given in \cref{eq:im
 This allows the study of the perturbations on top of a static background.
 Another, more subtle, change is the move to the energy density per-unit volume $e$ and more importantly the addition of various $D$ terms.
 
-The $D$ terms in the SAC equations are hyper-diffusion or hyper-viscous terms that enforce numerical stability upon the equations, they are adapted from \cite{nordlund1995} and shall not be replicated here in detail, however, they are described in \citet{shelyag2008}.
+The $D$ terms in the SAC equations are hyper-diffusion or hyper-viscous terms that enforce numerical stability upon the equations, they are adapted from~\cite{nordlund1995} and shall not be replicated here in detail, however, they are described in \citet{shelyag2008}.
 The function of the diffusive and viscous terms are to smooth out any deviations from the solution on a local scale to a larger scale, thereby reducing the compounding of the error keeping the solution stable.
 There are secondary effects from using this type of numerical stability enforcement, primarily that if the diffusion terms are too high it can lead to damping of the actual solution and deviation of the approximation from the correct solution, also in regions of rapid change such as shocks it adds an extra non-physical diffusion to the shock.
 However by choosing a minimum value of the coefficients to maintain stability these effects can be reduced to an acceptable level, especially for the linear wave studies presented in this thesis.
