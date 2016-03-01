@@ -385,9 +385,13 @@ There is a wide variety of methods used to numerically approximate derivatives, 
 This simplicity means it can be implemented in a very computationally efficient manner, however, it also means that the solution can become unstable.
 
 Instability in the calculation of derivatives occurs when a small error in the calculation of the derivative at one point on the mesh is amplified as the calculation proceeds on to subsequent points.
-This error can be removed in one of two primary ways; it can be avoided altogether by employing a different numerical approximation to the derivative, normally one better suited to the properties of the equations or physical parameters of the solution; or it can be numerically suppressed by artificially compensating for it.
-The field of developing numerical approximations to derivatives is very large, and there are many different options available.
-The approach the SAC code takes is to use additional terms in the MHD equations to counteract any instability, this is discussed in \cref{sec:SAC}.
+This effect is a consequence of explicit schemes for solving partial differential equations numerically.
+One condition for stability of an explicit time stepping scheme is the Courant-Friedrichs-Lewy (CFL) condition, which imposes a limit on the size of the time step used to solve the equations based on the speed of perturbations in the domain.
+This condition is not sufficient to ensure stability however, and depending on the type of the solver and the physical simulation further methods may have to be employed to ensure numerical stability.
+In the Sheffield Advanced Code (SAC) (see \cref{sec:SAC}), an explicit time scheme and an explicit central-difference finite difference scheme is employed.
+To ensure the stability of the solution in space when using the central difference scheme SAC adds artificial diffusion and viscosity terms to the MHD equations, which act to stabalise the solution at the very small scales.
+This is discussed more in the next section, but will by necessity have some impact on the physicality of the solutions.
+This effect however is tuned to be very small and is discussed in~\citep{shelyag2008}.
 
 
 \section{Sheffield Advanced Code}\label{sec:SAC}

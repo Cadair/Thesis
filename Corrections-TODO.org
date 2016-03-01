@@ -60,7 +60,8 @@ CLOSED: [2016-02-16 Tue 16:09]
 CLOSED: [2016-02-16 Tue 16:10]
 ** DONE As far as I can ascertain the equations in the thesis are correct.%%p.18,Eq.(2.72): I think the central difference scheme in this equation is ONLY 3rd order accurate, not 4th?
 CLOSED: [2016-02-16 Tue 15:01]
-** TODO  %%p.18, the section on numerical stability is a bit mysterious to me. Are you refereeing to the CFL condition due to the explicitness of the scheme? Are the ‘additional terms’ you mention involving some artificial dissipation?
+** DONE Expanded discussion and made it more relevant to SAC %%p.18, the section on numerical stability is a bit mysterious to me. Are you refereeing to the CFL condition due to the explicitness of the scheme? Are the ‘additional terms’ you mention involving some artificial dissipation?
+CLOSED: [2016-03-01 Tue 12:55]
 ** DONE Fixed.%%p.19, section 2.3: here you seem to use the alternative notation again for background and linear perturbation? or is this not the linear perturbation?
 CLOSED: [2016-01-25 Mon 15:43]
 ** DONE Fixed.%%p.19, Eq.(2.75) there is a scalar product dot (\cdot) too much in the RHS.
