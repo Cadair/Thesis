@@ -7,7 +7,6 @@
 \begin{pycode}[chapter2]
 ch2 = texfigure.Manager(pytex, number=2, base_path='./Chapter2/')
 \end{pycode}
-	
 
 \section{Magnetohydrodynamics}\label{sec:MHD}
 
@@ -20,7 +19,7 @@ Connected to this is the assumption that the temperature of the electrons and th
 Secondly, the MHD description is only valid in a certain window of temporal and length scales.
 The characteristic length of the plasma has to be sufficiently large so that the particle motion around the magnetic field can be ignored.
 The temporal scales also have to be substantially longer than the frequency of the kinetic motions.
-However, the temporal scale has to be short enough that the slow dissipative effects, such as resistive decay of the magnetic field, can be neglected.
+However, the temporal scale has to be short enough that the slow dissipative effects, such as restive decay of the magnetic field, can be neglected.
 Two other approximations are made, which enable the description of the plasma as a single fluid: the quasi-neutrality assumption, which is the assumption that there are very similar numbers of positive and negative charges present in the plasma; and the assumptions that the relative velocities of the positive and negative charges are small.
 Finally, but very importantly, it is assumed that the plasma is non-relativistic, i.e. the motions of the plasma are substantially smaller than the speed of light.
 The application of all these assumptions leads to a formulation of the equations governing the motion of the plasma based on Maxwell's equations and the equations of gas dynamics, these are the ideal MHD equations, which are given below:
@@ -48,6 +47,45 @@ subject to
     &&\text{(Ideal Gas Law)}                    
 \end{align}
 where $\rho$ is the density, $\vec{v}$ is the velocity, $p$ is the pressure, $\gamma$ is the ratio of specific heats (usually taken as $5/3$), $\vec{B}$ is the magnetic field, $\mathrm{k_B}$ is Boltzmann's constant, $\mathrm{m}$ is the mass, $\mathrm{T}$ is the temperature, and $\mu$ is the magnetic permeability of free space~\citep{goedbloed2004}.
+
+As these MHD equations form the base for all the simulations and analysis to follow in this thesis, it is worth considering if the assumptions made when forming the equations hold in the photosphere and chromosphere of the Sun where we will be studying wave propagation.
+To consider the validity of the equations, we need to pick a set of characteristic parameters for the region of the Sun over which to assess the validity of the equations.
+To do this the photosphere is chosen, and the parameters from the~\cite{{vernazza1981}} model C are used, along with this we choose a length scale of 1km and a velocity of $1$ km s$^{-1}$, the values used below are tabulated in \cref{table:MHDvalues}.
+As discussed earlier there are a number of conditions that must be met for the single fluid MHD equations to be valid:
+\begin{enumerate}
+\item Velocities are non-relativistic. This is definitely true for all the simulations in this thesis, where velocity amplitudes are $< 1$km s$^{-1}$.
+\item The density must be high enough that collisions are frequent and that the number of charged particles within a Debye radius is large $4\pi n\lambda_D^3 / 3 >> 1$~\citep{priest2014}.
+\item Length scales must be substantially longer than the characteristic lengths of plasma motions, the longest of which is the ion gyro-radius.
+\item Time scales must be substantially longer than the characteristic plasma time scales, the longest of which is the ion gyro-frequency.
+\item The plasma must be totally ionised and quasi-neutral.
+\end{enumerate}
+
+Using the parameters in \cref{table:MHDvalues} it can be demonstrated that condition two is met, $4\pi n\lambda_D^3 / 3 = 9.4384331 \times 10^{15} >> 1$.
+The ion gyro-frequency can then be calculated using $\displaymath \Omega_i = \frac{ZeB}{m_i}$, assuming that $Z=1$ $\displaymath \Omega_i = \frac{eB}{m_i} = 14368250\ \text{s}^{-1} \equiv P_i = 6.9597896\times 10^{-8}\ \text{s} << 1\ \text{s}$, thereby satisfying condition three.
+Condition four can be satisfied by showing that $\displaymath R_i = \frac{V_0}{\Omega_i} = \frac{1\ \text{km s}^{-1}}{14368250\ \text{s}^{-1}} = 6.9597896\times10^{-5}\ \text{m} << 1$ km.
+ 
+Condition five, that of complete ionisation and quasi-neutrality is not met in the photosphere, as you can clearly see in \cref{table:MHDvalues}, $n_e \neq n_i$.
+The ionisation ration in the photosphere and low-chromosphere, up to $2000$ km in height above the photosphere varies from $10^{-4}$ to $\approx 1$~\citep{priest2014}.
+The sensitivity of the MHD equations to this ionisation ratio can be compensated for under a regime with very high collision rates, where the neutrals and the ionised species have similar bulk properties due to collisions.
+This is largely true in the photosphere, at least in the relatively low-strength magnetic field structures studied in this thesis however, it ceases to be true in the chromosphere where the collision rate is substantially lower.~\citep{khomenko2014}
+This has large potential effects on wave propagation in the region of the solar atmosphere to be simulated in this thesis.
+These effects and specifically the affects they have on wave generation and propagation are still a relatively young area of study, and have often been ignored in wave propagation studies in the past.
+Various work has been performed on the effects of this \emph{ambipolar diffusion} caused by this low ionisation ratio on the different types of MHD waves, \emph{i.e.}~\cite{kumar2003,soler2010,zaqarashvili2011}.
+To better simulate the physics of the chromosphere and include this ambipolar diffusion effect, multi-fluid MHD could be employed, such as that described in~\cite{khomenko2014}.
+In this thesis, the MHD equations as described above will be employed, and the assumption of total ionisation or very high collision rates will be made.
+This decision allows the use of existing single-fluid mathematical and computational models, as well as utilising the MHD wave analysis described in \cref{sec:MHDwaves}.
+
+\begin{table}[]
+\centering
+\begin{tabular}{ll}
+Parameter & Characteristic Value \\
+          &                      \\
+          &                      \\
+          &                     
+\end{tabular}
+\caption{Table of characteristic values of plasma parameters in the photospheric region of the simulations to be performed.}
+\label{table:MHDvalues}
+\end{table}
 
 
 \subsection{MHD Waves}\label{sec:MHDwaves}

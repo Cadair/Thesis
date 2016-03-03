@@ -19,9 +19,12 @@ CLOSED: [2016-01-25 Mon 12:09]
 CLOSED: [2016-01-25 Mon 12:16]
 
 * Questions on Chapter 2: Background
-** TODO  %%p.7, middle: can you give an idea on the typical time and length scales in the photosphere/chromosphere/corona and what you mean by ‘sufficiently large’ then?
-** TODO  %%You should include a quantitative check of the satisfaction of the assumptions to show the MHD model can indeed be used in this situation, i.e. all the assumptions that are made to derive the MHD equations are satisfied!
-** TODO  %%p.7, l.-6: are the relative velocities of positive and negative charges small, given the statements above and the large discrepancy between the mass of electrons and ions?
+** DONE Added in table 2.1%%p.7, middle: can you give an idea on the typical time and length scales in the photosphere/chromosphere/corona and what you mean by ‘sufficiently large’ then?
+CLOSED: [2016-03-03 Thu 17:55]
+** DONE Added. Also added a discussion regarding ionisation ratio and effects on MHD waves.%%You should include a quantitative check of the satisfaction of the assumptions to show the MHD model can indeed be used in this situation, i.e. all the assumptions that are made to derive the MHD equations are satisfied!
+CLOSED: [2016-03-03 Thu 17:56]
+** DONE done.%%p.7, l.-6: are the relative velocities of positive and negative charges small, given the statements above and the large discrepancy between the mass of electrons and ions?
+CLOSED: [2016-03-03 Thu 17:56]
 ** DONE Fixed. %%Eq.(2.4): the B should be in bold as it is a vector!
 CLOSED: [2016-01-25 Mon 14:01]
 ** DONE Added extra clarification.%%p.8,l.-11: you mention ‘a wide variety of wave modes in plasma’(cf. Jess et al. 2015), but a few lines down you claim there are only 3 wave modes? Where did the other go?
