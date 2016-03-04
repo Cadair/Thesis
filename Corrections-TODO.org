@@ -128,7 +128,8 @@ CLOSED: [2016-02-15 Mon 11:40]
 * Questions on Chapter 7: Conclusions and future work
 ** DONE Added section about boundary conditions to Future work.%%What if the driver would be on B instead of on v? It should be equivalent in ideal MHD. But did you try it?
 CLOSED: [2016-03-04 Fri 11:16]
-** TODO p.81, bottom: again, you did not fit the observed spiraling inter-granular lane flows as these are flows, not oscillations!!?
+** DONE The text says that Bonet et. al fit the data, and that the driver is based around that fit. Added a sentence or two on the flow limitation.p.81, bottom: again, you did not fit the observed spiraling inter-granular lane flows as these are flows, not oscillations!!?
+CLOSED: [2016-03-04 Fri 11:27]
 ** TODO p.83: What about the effects of partial ionization? You think it is not important? The ionization degree is only 10-4 in the photosphere…!
 ** TODO And what about nonlinear effects? It is not clear if the linearization is justified here. For larger perturbations you surely will get shock waves developing here. Are these observed?
 ** TODO And what about trying to calculate the entire spectrum of a MBP? In fact, could this be done by just giving it a random initial perturbation and then Fourier analyzing the response? The eigenmodes should all be excited this way…
