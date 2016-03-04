@@ -68,7 +68,14 @@ Specifically, for the linear wave modes studied the magnetic field perturbations
 This effect is not accounted for in the boundary conditions implemented by the SAC code, so the boundary conditions may introduce some coupling between the wave modes.
 This effect and the coupling between the velocity and magnetic field could be investigated by driving the magnetic field as opposed to the velocity, as in an ideal plasma for linear waves the effects of this should be identical.
 
-More fundamentally, the magnetic configuration itself could be varied.
+As discussed in \cref{sec:MHD} the ideal, single-fluid MHD equations used throughout this thesis do not take into account the very low ionisation ration ($\approx 10^{-4}$) in the photosphere and the combination of low ionisation and low density in the chromosphere.
+Taking this effect into account, especially when considering the wave energy flux in the chromosphere, is likely to have a significant impact on the results presented.
+Changing to a multi-fluid MHD model however, would require major improvements and changes to the SAC code.
+There is starting to appear some work on simulating MHD waves using the multi-fluid approach \emph{e.g.}~\cite{khomenko2014,shelyag2016}.
+This approach in the low-atmosphere, coupled with the traditional single-fluid approach in the low corona will be important in obtaining a full picture of wave propagation and damping in the solar atmosphere.
+If MHD waves are to be driven as simulated in this thesis, and then propagate into the corona, the effects of partial ionisation in the low atmosphere will have to be considered, as this is likely to have a significant impact on the amplitudes of the waves as they encounter the transition region.
+
+More fundamentally, the work presented in this thesis could be extended by varying the magnetic field configuration.
 With the work performed in \cite{gent2013,gent2014} it is trivial and computationally efficient to calculate multiple stable background atmospheres.
 The atmosphere used in this work, is limited to below the transition region, because the expansion properties of the magnetic field, as used, would cause the pressure and density to become un-physical above this region.
 Therefore, a different more self-consistent atmosphere should be built and the effects of the changing expansion rate on the wave generation studied.
