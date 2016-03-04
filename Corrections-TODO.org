@@ -132,7 +132,8 @@ CLOSED: [2016-03-04 Fri 11:16]
 CLOSED: [2016-03-04 Fri 11:27]
 ** DONE Added discussion on literature about multi-fluid sims.%%p.83: What about the effects of partial ionization? You think it is not important? The ionization degree is only 10-4 in the photosphere…!
 CLOSED: [2016-03-04 Fri 11:56]
-** TODO And what about nonlinear effects? It is not clear if the linearization is justified here. For larger perturbations you surely will get shock waves developing here. Are these observed?
+** DONE Added comment in Future work.%%And what about nonlinear effects? It is not clear if the linearization is justified here. For larger perturbations you surely will get shock waves developing here. Are these observed?
+CLOSED: [2016-03-04 Fri 12:23]
 ** TODO And what about trying to calculate the entire spectrum of a MBP? In fact, could this be done by just giving it a random initial perturbation and then Fourier analyzing the response? The eigenmodes should all be excited this way…
 
 * Remark:
