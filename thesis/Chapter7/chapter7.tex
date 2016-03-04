@@ -61,6 +61,11 @@ When varying the FWHM of the driving profile it would be important to reconsider
 This would involve moving the $G(x,y,z)$ term out of the constant of proportionality, and accounting for it when selecting the amplitude.
 The results of this study would be interesting, especially when analysing the difference between the flux surfaces closest to the centre of the magnetic flux tube, to the ones further away.
 
+An effect that has not been explored in this thesis, is the effects of the boundary conditions on the results of the simulations.
+Specifically, for the linear wave modes studied the magnetic field perturbations and the velocity pertubations should be tightly coupled.
+This effect is not accounted for in the boundary conditions implemented by the SAC code, so the boundary conditions may introduce some coupling between the wave modes.
+This effect and the coupling between the velocity and magnetic field could be investigated by driving the magnetic field as opposed to the velocity, as in an ideal plasma for linear waves the effects of this should be identical.
+
 More fundamentally, the magnetic configuration itself could be varied.
 With the work performed in \cite{gent2013,gent2014} it is trivial and computationally efficient to calculate multiple stable background atmospheres.
 The atmosphere used in this work, is limited to below the transition region, because the expansion properties of the magnetic field, as used, would cause the pressure and density to become un-physical above this region.
