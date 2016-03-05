@@ -48,7 +48,10 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
-mpl.rcParams['font.family'] = 'fourier'
+mpl.rcParams['text.usetex'] = True
+mpl.rcParams['text.latex.unicode'] = True
+mpl.rcParams['font.family'] = 'serif'
+mpl.rcParams['font.serif'] = ['fourier'] 
 mpl.rcParams['pgf.preamble'] += [r'\renewcommand{\vec}{\mathbf}']
 
 import astropy.units as u

@@ -289,7 +289,7 @@ slc = yt.SlicePlot(ds, 'z', 'magnetic_field_strength', origin='center-domain',
                    width=(0.5, "Mm"))
 slc.set_figure_size(texfigure.figsize(pytex, scale=0.8)[0])
 
-slc.set_cmap('all', 'Oranges')
+slc.set_cmap('all', 'plasma')
 bmax = ds.all_data().quantities.extrema("magnetic_field_strength")[1]
 print(bmax, file=sys.stderr)
 slc.annotate_contour('magnetic_field_strength', take_log=False,
