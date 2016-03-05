@@ -158,7 +158,9 @@ mm = sunpy.map.Map(ch1.data_file('gband_image_00200.fits'))
 mm = mm.submap([-440,440]*u.arcsec, [-440,440]*u.arcsec)
 #mm.plot_settings['cmap'] = 'plasma'
 mm.plot_settings['title'] = ''
+mm.plot_settings['norm'] = plt.Normalize(vmin=0.6, vmax=1.8)
 mm.plot()
+#plt.colorbar()
 
 fig.tight_layout()
 fig.subplots_adjust(bottom=0.15)

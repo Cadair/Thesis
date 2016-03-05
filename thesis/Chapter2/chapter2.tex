@@ -5,6 +5,7 @@
 \chapter{Background}\label{ch:background}  %Title of the Second Chapter
 
 \begin{pycode}[chapter2]
+from __future__ import print_function
 ch2 = texfigure.Manager(pytex, number=2, base_path='./Chapter2/')
 \end{pycode}
 
@@ -75,13 +76,33 @@ To better simulate the physics of the chromosphere and include this ambipolar di
 In this thesis, the MHD equations as described above will be employed, and the assumption of total ionisation or very high collision rates will be made.
 This decision allows the use of existing single-fluid mathematical and computational models, as well as utilising the MHD wave analysis described in \cref{sec:MHDwaves}.
 
+\begin{pycode}[chapter2]
+import astropy.constants as c
+T = 6420*u.K
+V = 1e4*u.m/u.s
+ni = (1.66e17 * 1/u.cm**3).si
+ne = (6.433e13 * 1/u.cm**3).si
+B = 150*u.mT
+Oi = ((c.e.si * 150*u.mT) / c.m_p).decompose()
+Ri = (1e4*(u.m/u.s) / Oi).decompose()
+lD = (np.sqrt((c.eps0 * c.k_B * 6420*u.K) / ((ni + ne) * c.e.si**2))).decompose()
+t = 1*u.s
+\end{pycode}
+
 \begin{table}[]
 \centering
-\begin{tabular}{ll}
+\begin{tabular}{l|l}
 Parameter & Characteristic Value \\
-          &                      \\
-          &                      \\
-          &                     
+\hline
+Temperature             & \py[chapter2]|T._repr_latex_()|  \\[5pt]
+Velocity                & \py[chapter2]|V._repr_latex_()|  \\[5pt]
+Magnetic Field          & \py[chapter2]|B._repr_latex_()|  \\[5pt]
+Time Scale              & \py[chapter2]|t._repr_latex_()|  \\[5pt]
+Ion Number Density      & \py[chapter2]|ni._repr_latex_()| \\[5pt]
+Electron Number Density & \py[chapter2]|ne._repr_latex_()| \\[5pt]
+Ion gyro-frequency      & \py[chapter2]|Oi._repr_latex_()| \\[5pt]
+Ion gyro-radius         & \py[chapter2]|Ri._repr_latex_()| \\[5pt]
+Debye Length            & \py[chapter2]|lD._repr_latex_()| \\[5pt]
 \end{tabular}
 \caption{Table of characteristic values of plasma parameters in the photospheric region of the simulations to be performed.}
 \label{table:MHDvalues}
@@ -104,7 +125,7 @@ Our static background conditions are described by \cref{eq:linearize} below,
 \begin{equation}\label{eq:linearize}
     \begin{aligned}                                                    
         \vec{B} &= \vec{B}_b + \tilde{\vec{B}}(\vec{r},t),\\
-        \vec{v} &= 0 + \tilde{{v}}(\vec{r},t),\\
+        \vec{v} &= \vec{0} + \tilde{{v}}(\vec{r},t),\\
         p &= p_b + \tilde{p}(\vec{r},t),\\
         \rho &= \rho_b + {\tilde{\rho}}(\vec{r},t),\\
     \end{aligned}
@@ -434,7 +455,7 @@ This effect however is tuned to be very small and is discussed in~\citep{shelyag
 
 \section{Sheffield Advanced Code}\label{sec:SAC}
 
-This thesis uses the Sheffield Advanced Code (SAC)~\citep{shelyag2008} for all MHD simulations.
+This thesis uses the Sheffield Advanced Code (SAC)~\citep{shelyag2008} for all MHD simulations, SAC is based on the VAC code~\citep{toth1996}.
 The SAC code solves the ideal MHD equations, for a plasma with static background conditions.
 This approach enables the code to solve for small perturbations, while the background conditions vary by orders of magnitude through the solar atmosphere.
 The successful application of this approach is clearly dependant upon a realistic, magnetohydrostatic background condition.
@@ -452,7 +473,7 @@ Therefore, the equations solved by SAC are a rearranged version of the ideal MHD
 \frac{\partial\tilde{e}}{\partial t}+\nabla\cdot[\mathbf{v}(\tilde{e}+e_{b})-\mathbf{\tilde{B}\tilde{B}}\cdot\mathbf{v}+\mathbf{v}\tilde{p_{t}}]-\nabla[(\mathbf{\tilde{B}B}_{b}+\mathbf{B}_{b}\mathbf{\tilde{B}})\cdot\mathbf{v}]+p_{tb}\nabla\mathbf{v}-\mathbf{B}_{b}\mathbf{B}_{b}\nabla\mathbf{v}=\tilde{\rho}\mathbf{g}+D_{e}(\tilde{e}),
 \end{equation}
 \begin{equation}
-\frac{\partial\mathbf{\tilde{B}}}{\partial t}+\nabla\cdot[\mathbf{v}(\mathbf{\tilde{B}}+\mathbf{B}_{b})-(\mathbf{\tilde{B}}+\mathbf{B}_{b})\mathbf{v}=0+D_{B}(\mathbf{\tilde{B}}).
+\frac{\partial\mathbf{\tilde{B}}}{\partial t}+\nabla\cdot[\mathbf{v}(\mathbf{\tilde{B}}+\mathbf{B}_{b})-(\mathbf{\tilde{B}}+\mathbf{B}_{b})\mathbf{v}]=0+D_{B}(\mathbf{\tilde{B}}).
 \end{equation}
 Where:
 \begin{equation}
