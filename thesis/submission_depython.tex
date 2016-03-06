@@ -1,0 +1,2583 @@
+% ******************************* PhD Thesis Template **************************
+% Please have a look at the README.md file for info on how to use the template
+
+\documentclass[a4paper,12pt,fourier,authoryear,custommargin]{Classes/PhDThesisPSnPDF}
+
+% ******************************************************************************
+% ******************************* Class Options ********************************
+% *********************** See README for more details **************************
+% ******************************************************************************
+
+% `a4paper'(The University of Cambridge PhD thesis guidelines recommends a page
+% size a4 - default option) or `a5paper': A5 Paper size is also allowed as per
+% the Cambridge University Engineering Deparment guidelines for PhD thesis
+%
+% `11pt' or `12pt'(default): Font Size 10pt is NOT recommended by the University
+% guidelines
+%
+% `oneside' or `twoside'(default): Printing double side (twoside) or single
+% side.
+%
+% `print': Use `print' for print version with appropriate margins and page
+% layout. Leaving the options field blank will activate Online version.
+%
+% `index': For index at the end of the thesis
+%
+% `draft': For draft mode without loading any images (same as draft in book)
+%
+% `draftmode': Special draft mode with line numbers, images, and water mark with
+% timestamp and custom text. Position of the text can also be modified.
+%
+% `abstract': To generate only the title page and abstract page with
+% dissertation title and name, to submit to the Student Registry
+%
+% `chapter`: This option enables only the specified chapter and it's references
+%  Useful for review and corrections.
+%
+% ************************* Custom Page Margins ********************************
+%
+% `custommargin`: Use `custommargin' in options to activate custom page margins,
+% which can be defined in the preamble.tex. Custom margin will override
+% print/online margin setup.
+%
+% *********************** Choosing the Fonts in Class Options ******************
+%
+% `times' : Times font with math support. (The Cambridge University guidelines
+% recommend using times)
+%
+% `fourier': Utopia Font with Fourier Math font (Font has to be installed)
+%            It's a free font.
+%
+% `customfont': Use `customfont' option in the document class and load the
+% package in the preamble.tex
+%
+% default or leave empty: `Latin Modern' font will be loaded.
+%
+% ********************** Choosing the Bibliography style ***********************
+%
+% `authoryear': For author-year citation eg., Krishna (2013)
+%
+% `numbered': (Default Option) For numbered and sorted citation e.g., [1,5,2]
+%
+% `custombib': Define your own bibliography style in the `preamble.tex' file.
+%              `\RequirePackage[square, sort, numbers, authoryear]{natbib}'.
+%              This can be also used to load biblatex instead of natbib
+%              (See Preamble)
+%
+% **************************** Choosing the Page Style *************************
+%
+% `default (leave empty)': For Page Numbers in Header (Left Even, Right Odd) and
+% Chapter Name in Header (Right Even) and Section Name (Left Odd). Blank Footer.
+%
+% `PageStyleI': Chapter Name next & Page Number on Even Side (Left Even).
+% Section Name & Page Number in Header on Odd Side (Right Odd). Footer is empty.
+%
+% `PageStyleII': Chapter Name on Even Side (Left Even) in Header. Section Number
+% and Section Name in Header on Odd Side (Right Odd). Page numbering in footer
+
+
+% ********************************** Preamble **********************************
+% Preamble: Contains packages and user-defined commands and settings
+%
+% ******************************************************************************
+% ****************************** Custom Margin *********************************
+
+% Add `custommargin' in the document class options to use this section
+% Set {innerside margin / outerside margin / topmargin / bottom margin}  and
+% other page dimensions
+\ifsetCustomMargin
+  \RequirePackage[left=40mm,right=25mm,top=35mm,bottom=30mm]{geometry}
+  \setFancyHdr % To apply fancy header after geometry package is loaded
+\fi
+
+% *****************************************************************************
+% ******************* Fonts (like different typewriter fonts etc.)*************
+
+% Add `customfont' in the document class option to use this section
+
+\ifsetCustomFont
+  % Set your custom font here and use `customfont' in options. Leave empty to
+  % load computer modern font (default LaTeX font).
+  \RequirePackage{libertine}
+\fi
+
+% *****************************************************************************
+% **************************** Custom Packages ********************************
+
+
+
+% ************************* Algorithms and Pseudocode **************************
+
+%\usepackage{algpseudocode}
+
+
+% ********************Captions and Hyperreferencing / URL **********************
+
+% Captions: This makes captions of figures use a boldfaced small font.
+%\RequirePackage[small,bf]{caption}
+
+\RequirePackage[labelsep=space,tableposition=top]{caption}
+\renewcommand{\figurename}{Fig.} %to support older versions of captions.sty
+
+
+% *************************** Graphics and figures *****************************
+
+%\usepackage{rotating}
+%\usepackage{wrapfig}
+
+% Uncomment the following two lines to force Latex to place the figure.
+% Use [H] when including graphics. Note 'H' instead of 'h'
+%\usepackage{float}
+%\restylefloat{figure}
+
+% Subcaption package is also available in the sty folder you can use that by
+% uncommenting the following line
+% This is for people stuck with older versions of texlive
+%\usepackage{sty/caption/subcaption}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{pgf}
+\usepackage{import}
+
+% ********************************** Table *************************************
+\usepackage{booktabs} % For professional looking tables
+%\usepackage{longtable}
+%\usepackage{multicol}
+%\usepackage{multirow}
+%\usepackage{tabularx}
+
+
+% ***************************** Math and SI Units ******************************
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{siunitx} % use this package module for SI units
+
+
+% ******************************* Line Spacing *********************************
+
+% Choose linespacing as appropriate. Default is one-half line spacing as per the
+% University guidelines
+
+% \doublespacing
+% \onehalfspacing
+% \singlespacing
+
+
+% ************************ Formatting / Footnote *******************************
+
+%\usepackage[perpage]{footmisc} %Range of footnote options
+
+
+% *****************************************************************************
+% *************************** Bibliography  and References ********************
+% Must be loaded after amsmath
+\usepackage{hyperref}  
+\usepackage{cleveref} %Referencing without need to explicitly state fig /table
+\crefname{equation}{Equation}{Equations}
+\crefname{figure}{Figure}{Figures}
+\crefname{section}{Section}{Section}
+\crefname{chapter}{Chapter}{Chapter}
+\crefname{table}{Table}{Table}
+
+% Add `custombib' in the document class option to use this section
+\ifuseCustomBib
+   \RequirePackage[square, sort, numbers, authoryear]{natbib} % CustomBib
+
+% If you would like to use biblatex for your reference management, as opposed to the default `natbibpackage` pass the option `custombib` in the document class. Comment out the previous line to make sure you don't load the natbib package. Uncomment the following lines and specify the location of references.bib file
+
+% \RequirePackage[backend=biber, style=numeric-comp, citestyle=numeric, sorting=nty, natbib=true]{biblatex}
+% \bibliography{References/references} %Location of references.bib only for biblatex
+
+\fi
+
+
+% changes the default name `Bibliography` -> `References'
+\renewcommand{\bibname}{References}
+
+% *****************************************************************************
+% *************** Changing the Visual Style of Chapter Headings ***************
+% This section on visual style is from https://github.com/cambridge/thesis
+
+% Uncomment the section below. Requires titlesec package.
+
+%\RequirePackage{titlesec}
+%\newcommand{\PreContentTitleFormat}{\titleformat{\chapter}[display]{\scshape\Large}
+%{\normalfont\Large\filleft{\chaptertitlename} \Huge\thechapter}
+%{1ex}{}
+%[\vspace{1ex}\titlerule]}
+%\newcommand{\ContentTitleFormat}{\titleformat{\chapter}[display]{\scshape\huge}
+%{\Large\filleft{\normalfont\chaptertitlename} \Huge\thechapter}{1ex}
+%{\titlerule\vspace{1ex}\filright}
+%[\vspace{1ex}\titlerule]}
+%\newcommand{\PostContentTitleFormat}{\PreContentTitleFormat}
+%\PreContentTitleFormat
+
+
+% ******************************************************************************
+% ************************* User Defined Commands ******************************
+% ******************************************************************************
+
+% *********** To change the name of Table of Contents / LOF and LOT ************
+
+%\renewcommand{\contentsname}{My Table of Contents}
+%\renewcommand{\listfigurename}{My List of Figures}
+%\renewcommand{\listtablename}{My List of Tables}
+\renewcommand{\vec}{\mathbf}
+
+% ********************** TOC depth and numbering depth *************************
+
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+
+
+% ******************************* Nomenclature *********************************
+
+% To change the name of the Nomenclature section, uncomment the following line
+
+%\renewcommand{\nomname}{Symbols}
+
+
+% ********************************* Appendix ***********************************
+
+% The default value of both \appendixtocname and \appendixpagename is `Appendices'. These names can all be changed via:
+
+%\renewcommand{\appendixtocname}{List of appendices}
+%\renewcommand{\appendixname}{Appndx}
+
+% ******************************** Draft Mode **********************************
+
+% Uncomment to disable figures in `draftmode'
+%\setkeys{Gin}{draft=true}  % set draft to false to enable figures in `draft'
+
+% These options are active only during the draft mode
+% Default text is "Draft"
+%\SetDraftText{DRAFT}
+
+% Default Watermark location is top. Location (top/bottom)
+%\SetDraftWMPosition{bottom}
+
+% Draft Version - default is v1.0
+%\SetDraftVersion{v1.1}
+
+% Draft Text grayscale value (should be between 0-black and 1-white)
+% Default value is 0.75
+%\SetDraftGrayScale{0.8}
+
+\hyphenpenalty 3000
+\exhyphenpenalty 3000 % ***************************** PythonTeX **************************************
+%
+\clearpage{}%
+\clearpage{}%
+%
+
+
+% ************************ Thesis Information & Meta-data **********************
+% Thesis title and author information, refernce file for biblatex
+%
+% ************************ Thesis Information & Meta-data **********************
+%% The title of the thesis
+\title{Simulations of Magnetohydrodynamic Waves Driven by Photospheric Motions}
+%\texorpdfstring is used for PDF metadata. Usage:
+%\texorpdfstring{LaTeX_Version}{PDF Version (non-latex)} eg.,
+%\texorpdfstring{$sigma$}{sigma}
+
+%% The full name of the author
+\author{Stuart J. Mumford}
+
+%% Department (eg. Department of Engineering, Maths, Physics)
+\dept{School of Mathematics and Statistics}
+
+%% University and Crest
+\university{The University of Sheffield}
+\crest{\includegraphics[width=0.25\textwidth]{University_Crest}}
+
+%% You can redefine the submission text:
+% Default as per the University guidelines: This dissertation is submitted for
+% the degree of Doctor of Philosophy
+%\renewcommand{\submissiontext}{change the default text here if needed}
+
+%% Full title of the Degree
+\degree{Doctor of Philosophy}
+
+%% Submission date
+% Default is set as {\monthname[\the\month]\space\the\year}
+%\degreedate{2014} 
+
+\college{\mbox{Supervisor: Robertus Erd\'elyi}}
+
+%% Meta information
+%\subject{LaTeX} \keywords{{LaTeX} {PhD Thesis} {Engineering} {University of
+%Cambridge}}
+ 
+% ***************************** Abstract Separate ******************************
+% To printout only the titlepage and the abstract with the PhD title and the
+% author name for submission to the Student Registry, use the `abstract' option in
+% the document class.
+
+\ifdefineAbstract
+ \pagestyle{empty}
+ \includeonly{Preamble/declaration, Abstract/abstract}
+\fi
+
+% ***************************** Chapter Mode ***********************************
+% The chapter mode allows user to only print particular chapters with references
+% Title, Contents, Frontmatter are disabled by default
+% Useful option to review a particular chapter or to send it to supervisior.
+% To use choose `chapter' option in the document class
+
+\ifdefineChapter
+ \includeonly{Chapter4/chapter4}
+\fi
+
+% ******************************** Front Matter ********************************
+\begin{document}
+
+\frontmatter
+
+\begin{titlepage}
+
+\maketitle
+
+\end{titlepage}
+
+%
+\clearpage{}%
+% ******************************* Thesis Dedidcation ********************************
+
+\begin{dedication}
+
+For both my grandfathers, neither of whom got to read this.
+
+\end{dedication}
+\clearpage{}%
+%
+
+%\include{Preamble/declaration}
+%
+\clearpage{}%
+% ************************** Thesis Acknowledgements *****************************
+
+\begin{acknowledgements}      
+
+Writing this thesis, and performing the research it contains would not have been possible without the help of a large number of people and organisations.
+On this page I will attempt to provide credit where credit is due.
+
+The first and most important credit goes to Heather my wife, whose patience I have no doubt tested over the last four years, and especially in the last few months as I have been writing up.
+Without her support I would have given up or gone insane a long time ago.
+Credit must also go to the rest of my family, who have always given me a lot of love and support.
+Next, I would like to thank my supervisor Robertus who has always provided guidance when I have required it and has come around to a more Pythonic way of thinking.
+On top of this a special note of thanks goes to Viktor Fedun, who has provided me with a large amount of the technical knowledge I needed to use the SAC code and has always been willing to go above and beyond to lend me a hand.
+Lastly, thanks goes to Fred Gent, who brought a fresh perspective to things and helped me a lot with writing Python tools to make SAC easier to use.
+
+Worthy of a page each are all of the fantastic software packages which have made my life easier over the last four years.
+A very special mention has to go out to the SunPy community \citep{thesunpycommunity2015a}.
+While only a small section of this document is dedicated to my work on that project, the people in the SunPy community, especially Russ, Steven, Jack, Albert, David, Andy and Dan deserve a lot of credit for giving me such an excellent distraction from my research.
+I only hope that I can continue to contribute to the future of observational solar physics for a long time.
+
+The rest of the scientific Python community can not escape without thanks, yt \citep{turk2011}, Mayavi \citep{ramachandran2011}, SciPy \citep{jones2001}, matplotlib \citep{hunter2007}, IPython \citep{perez2007}, scikit-image \citep{vanderwalt2014} and Astropy \citep{theastropycollaboration2013} have all made my life substantially easier.
+The yt community have helped me immensely since I met some of them at SciPy 2013, I just wish I had discovered how very useful yt was about 9 months earlier!
+Mayavi has done an excellent job of preventing me from having to learn C++ to use VTK and once you understand it, it's a phenomenally powerful piece of software.
+scikit-image, gets a special mention for letting me sit with them and enjoy two very fun sprint sessions at SciPy 2013 and EuroSciPy 2014.
+Astropy deserves a special mention for being a very supportive community and being so welcoming to myself and the SunPy project. Special thanks goes to Thomas Robitaille who got me involved in organising an excellent conference in Leiden and has always been on the end of an internet messaging service to lend a hand.
+Finally, credit must go to the PythonTeX \citep{poore2015} project, which has made writing this document substantially easier, as all the Python code for all the figures and data is contained inside the LaTeX source code.
+
+Lastly, I have to thank the whole of the H23 crew, the original H23c group, Nabil, Chris, Sky and Aditi and the rest of the H23 people, including Freddie, Stevie, Alex, Sam and Rahul who have all had the misfortune of sharing an office with me while my code was broken.
+Sam deserves a special mention for coming to join me after undergrad and taking me out on enough bike rides to keep me sane.
+Thanks to everyone who has helped me have an excellent four years of hard work, but a lot of fun.
+
+\end{acknowledgements}
+\clearpage{}%
+%
+
+%
+\clearpage{}%
+% ************************** Thesis Abstract *****************************
+\begin{abstract}
+This thesis investigates the properties of various modelled photospheric motions as generation mechanisms for magnetohydrodynamic (MHD) waves in the low solar atmosphere.
+The solar atmosphere is heated to million-degree temperatures, yet there is no fully understood heating mechanism which can provide the $\approx 300$ W/m$^2$ required to keep the quiet corona at its observed temperatures.
+MHD waves are one mechanism by which this energy could be provided to the upper solar atmosphere, however, these waves need to be excited.
+The excitation of these waves, in or below the photosphere is a complex interaction between the plasma and the magnetic field embedded within it.
+
+This thesis studies a model of a small-scale magnetic flux tube based upon a magnetic bright point (MBP).
+These features are very common in the photosphere and have been observed to be affected by the plasma motions.
+The modelled flux tube has a foot point magnetic field strength of $120$ mT and a FWHM of $90$ km, and is embedded in a realistic, stratified solar atmosphere based upon the VALIIIc model.
+
+To better understand the excitation of MHD waves in this type of magnetic structures, a selection of velocity profiles are implemented to excite waves.
+Initially a study of five different driving profiles was performed.
+A uniform torsional driver as well as Archimedean and logarithmic spiral drivers which mimic observed torsional motions in the solar photosphere, along with vertical and horizontal drivers to mimic different motions caused by convection in the photosphere.
+The results are then analysed using a novel method for extracting the parallel, perpendicular and azimuthal components of the perturbations, which caters to both the linear and non-linear cases.
+Employing this method yields the identification of the wave modes excited in the numerical simulations and enables a comparison of excited modes via velocity perturbations and wave energy flux.
+The wave energy flux distribution is calculated, to enable the quantification of the relative strengths of excited modes.
+The torsional drivers primarily excite Alfv\'en modes ($\approx 60$\% of the total flux) with contributions from the slow mode.
+The horizontal and vertical drivers primarily excite slow and fast modes respectively, with small variations dependent upon flux surface radius.
+
+This analysis is then applied to more in depth studies of the logarithmic spiral driver.
+Firstly, five different values for the $B_L$ spiral expansion factor are chosen which control how rapidly the spiral expands.
+Larger values of $B_L$ make the driving profile more radial.
+The results of this analysis show that the Alfv\'en wave is the dominant wave for lower values of the expansion factor, whereas, for the higher values the parallel component is dominant.
+This transition occurs within the range of the observational constraints, demonstrating that under realistic conditions spiral drivers may not excite most of their wave flux in the Alfv\'en mode.
+
+Finally, the logarithmic spiral is further studied, but with a variety of different periods.
+Ten periods from $30$ to $300$ seconds are chosen, and the simulations are again analysed using the flux surface method employed previously.
+The results of this study are minimal variation in the percentage wave flux in each mode, with no more than $20$ \% variation in any mode for any flux surface studied.
+Within this small variation, some non-linear changes in the wave flux were observed, especially around the more important small periods.
+Due to the short life time of the MBPs it is thought the short period waves would have more effect and therefore this non-linear variation in wave flux could have some impact on the modes present in the solar atmosphere.
+
+\end{abstract}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\clearpage{}%
+%
+
+
+% *********************** Adding TOC and List of Figures ***********************
+
+\tableofcontents
+
+%\listoffigures
+
+%\listoftables
+
+% \printnomenclature[space] space can be set as 2.5cm between symbol and
+% description
+%\printnomencl
+
+% ******************************** Main Matter *********************************
+\mainmatter
+
+%
+\clearpage{}%
+% !TeX root = ../smumford_thesis.tex
+%*****************************************************************************************
+%*********************************** First Chapter ***************************************
+%*****************************************************************************************
+\label{ch:Intro}
+\chapter{Introduction}  %Title of the First Chapter
+
+
+%********************************** %First Section  **************************************
+\section{The Sun} %Section - 1.1
+The Sun has been the subject of study by humanity since the dawn of civilisation.
+The processes in the Sun and in its atmosphere have a direct impact on life on Earth.
+The radiation that reaches the Earth provides the energy life needs to flourish and the interaction of the solar wind with the upper atmosphere generates the aurora.
+Modern study of the Sun focuses on understanding the processes that drive changes in the Sun such as total radiation output and dramatic events such as solar flares or coronal mass ejections.
+
+The properties and behaviour of the Sun change dramatically with distance from the centre of the Sun.
+The core of the Sun is where the nuclear fusion reaction occurs, this region is the source of energy for the Sun and the rest of the plasma above this layer transports this energy to the photosphere and beyond.
+Above the solar core, the first large region of plasma, is the region where energy transport by radiation dominates, this region is very dense and it takes a single high-energy photon approximately $170,000$ years to travel outwards from the core to the photosphere \citep{priest2014}.
+This radiative zone extends out to $0.7$ R$_\odot$ (solar radii) \citep{priest2014}, at that point a narrow region called the tachocline exists, where the plasma stops rotating as a solid body, and starts rotating with different velocities at different latitudes.
+Above this tachocline radial energy transport is dominated by convective motions.
+This convective zone extends out to the visible surface or photosphere.
+The convective plasma motions that move hot plasma up to the photosphere are responsible for a lot of the interesting features and properties of the photosphere and higher layers of the solar atmosphere.
+The photosphere is the point where the Sun becomes mostly transparent to light
+It is defined as the region where $\frac{2}{3}$ of the light can escape the solar atmosphere entirely.
+It is the photosphere and the layers above it that have the most direct influence on the Earth.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.9\linewidth]{Chapter1/Figs/Sun_poster}
+\caption{A schematic diagram of the structure of the Sun. \citep{kelvinsong2015}}
+\label{fig:sun_poster}
+\end{figure}
+
+
+The solar atmosphere is often described as various distinctive vertically stratified layers, the lowest of which is the photosphere.
+At the top of the photosphere there is a point named the temperature minimum.
+At this point the temperature of the Sun is at its lowest, around $4,500$ K.
+Above the photosphere, there is a region called the chromosphere, so named because of the colourful emission lines, such as H$\alpha$ which dominate its emission.
+From the chromosphere upwards a drastic change in plasma properties occur.
+The plasma density drops rapidly and the temperature increases.
+This region is named the transition region and is the focus of much study.
+Above the transition region, is the solar corona, which is a low density, high temperature region, were the effects of magnetic field are dominant.
+A diagram showing the structure of the solar atmosphere is shown in \cref{fig:sun_poster}, the changes in temperature and density from the photosphere to the low corona are shown in Figure~\ref{fig:atmos}.
+
+
+
+\begin{figure}[h]
+    \centering
+    \IfFileExists{/home/stuart/GitHub/Thesis/thesis/Chapter1/Figs/Chapter1-Figure1-atmos.pgf}{\import{/home/stuart/GitHub/Thesis/thesis/Chapter1/Figs/}{Chapter1-Figure1-atmos.pgf}}{}
+    \caption{Density (blue) and temperature (green) profiles of the solar atmosphere, above the photosphere, combining the \cite{mcwhirter1975} and \cite{vernazza1981} models.}
+    \label{fig:atmos}
+\end{figure}
+
+The solar corona (Figure~\ref{fig:aia171}) is very hot, with temperatures exceeding even 10 million degrees Kelvin, however, it is also very rarefied, with densities of the order of $10^{-12}$$\frac{\text{kg}}{\text{m}^3}$.
+This means that the energy density of the corona is much lower than that of the lower layers of the solar atmosphere, \textit{e.g.} the photosphere, where the temperature is of the order of $5,000$ K.
+In spite of this the quiet Sun, solar corona requires a constant energy input in the region of $300$ W/m$^2$ \citep{priest2014} to maintain its high temperatures.
+There is currently no fully understood mechanism which transports this energy, from the photosphere, through the transition region and into the corona. \citep{aschwanden2007,erdelyi2007,parnell2012}
+%REF: lit-reviews
+The energy transport in the Sun is understood up to just above the photosphere, where it is mainly dominated by either radiation or convection.
+In the layers of the atmosphere above the temperature minimum, there is no longer an obvious mechanism transporting the observed quantities of energy.
+Convection and conduction are both unable to transport enough energy due to the density being too low.
+Radiation is also ruled out due to the optical depth being too high, due to the low density.
+While certain regions of the chromosphere have more complex thermal characteristics, the statements above hold for the corona.
+Therefore, other energy transport mechanisms have to be heating the solar atmosphere, from the low chromosphere, to the corona.
+
+
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter1/Figs/Chapter1-Figure2-aia171.pdf}
+    \caption{The solar corona at 17.1 nm, showing plasma in the region of 1 million degrees Kelvin. Taken by the AIA instrument on the SDO spacecraft on 06 Mar 2016 at 12:27. \citep{pesnell2012,thesunpycommunity2015a}.}
+    \label{fig:aia171}
+\end{figure}
+
+
+\section{Coronal Heating}
+
+To maintain the temperature of the solar atmosphere, especially the corona, energy has to be transported from the photosphere upwards.
+The mechanism by which this happens is largely unknown, however, it is very widely accepted that it involves the solar magnetic field.
+%TODO: Ref: SkyLab?
+One key reason for this is that, to a first order approximation, the magnetic field in the solar atmosphere extends vertically away from the Sun.
+It therefore connects the layers of the solar atmosphere together, providing a potential corridor for non-thermal energy transport.
+
+The magnetic field is thought to be generated in the tachocline, the region between the radiative and convection zones.
+It then is convected up with the plasma to the photosphere, where it emerges and forms magnetic structures on various scales in the atmosphere.
+These structures range from small Magnetic Bright Points (MBPs) to massive coronal loops, with lengths up to a few $100$ Mm.
+
+Initially, we can think of the plasma in the solar atmosphere as perfectly conducting, meaning that the field lines are `frozen-in' to the plasma.
+This means that if one parcel of plasma is connected to a magnetic field line, it will be connected to that same field line for all time.
+The effect this has, is that plasma motions move the field lines, and magnetic forces affect the plasma.
+Considering the photosphere, the top of the convection zone, where hot plasma tied to magnetic field is rising, cooling and then sinking.
+We can foresee a situation where this turbulent motion at the photosphere transfers kinetic energy from the plasma into the magnetic field.
+
+Two leading mechanisms have been proposed, by which this energy given to the magnetic field could heat the atmosphere: magnetic reconnection and magnetohydrodynamic (MHD) waves.
+Magnetic reconnection is where the plasma is no longer perfectly conducting and the `frozen-in' condition no longer applies.
+The magnetic field, under high stress, will reconfigure itself and in the process transfer a large amount of energy into plasma motions.
+This reconnection mechanism is widely thought to be the driving forces behind some of the largest explosive events observed on the Sun, such as Coronal Mass Ejections (CMEs) and solar flares.
+It is also thought to be a good way to transfer magnetic energy into the plasma in the corona.
+The second, MHD waves, are the focus of the rest of this thesis.
+MHD waves have the potential to heat the corona by using the magnetic structures that span the solar atmosphere as wave guides.
+MHD waves excited in, or below, the photosphere, then travel up along the magnetic field lines.
+Higher up in the atmosphere these wave motions, by some mechanism, transfer their energy into the surrounding plasma.
+These waves can occur on all scales of magnetic structures, from small-scale photospheric flux tubes, to giant coronal loops.
+The driving mechanism for both these energy transfer mechanisms are the plasma motions in, and below, the photosphere.
+It is therefore important to understand the properties of the solar photosphere.
+
+\section{The Photosphere} 
+
+%TODO: Source?
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter1/Figs/Chapter1-Figure3-gband.pdf}
+    \caption{A G-Band image of the solar photosphere.}
+    \label{fig:gband}
+\end{figure}
+
+The photosphere is a highly dynamic place where hot plasma, having risen through the convection zone, cools and then sinks.
+The plasmas interaction with the magnetic field in the photosphere is obvious through various structures observed in the photosphere.
+These structures vary from the large sunspots, which can be multiple times the size of the Earth, to the small MBPs. %TODO:Ref
+As well as these magnetic structures there are various scales of convection cells observed in the photosphere, commonly named granulation.
+Granulation is the result of small-scale convection, where the hot plasma rises in the centre of the convective cell and then cools and sinks around the edges.
+The smallest and most prominent scale of granulation is shown in Figure~\ref{fig:gband}.
+
+The fact that the plasma and the magnetic field are generally locked together, means that the convective motions of the plasma have an effect on the magnetic field in the photosphere.
+The horizontal motion of the plasma at the top of the granulation cells, as it moves from the hot core to the cool edges, causes a build-up of magnetic field in the lanes between these cells.
+It is in these regions that MBPs are formed, by this accumulation of magnetic field. \citep{shelyag2004,keys2013}
+%TODO: Ref Keyes Thesis?
+
+MBPs are one structure of particular importance for the rest of this thesis.
+Small-scale magnetic structures, like MBPs, are exceedingly common over the solar photosphere and therefore could have a cumulative effect if they are conduits for even small amounts of energy into the higher regions of the atmosphere.
+In combination with this, they are highly dynamic structures, formed in the chaotic inter-granular lanes, where the plasma is driven by the horizontal convective motions as well as the down drafts from the sinking plasma.
+These plasma motions, in combination with the magnetic fields, are almost certain to drive MHD waves of some variety. 
+This thesis is going to explore the generation of MHD waves in photospheric magnetic structures similar in properties to a MBP.
+
+\Cref{ch:background} will provide the theoretical background, while \cref{ch:methodology} describes the numerical configuration and analysis methodology for the simulations that are described in \cref{ch:drivers,ch:expfac,ch:period}, and the conclusions are summarised in \cref{ch:conclusions}.
+Finally, in \cref{ch:sunpy} a new tool for solar physics data analysis, SunPy, is discussed.
+\clearpage{}%
+%
+
+%
+\clearpage{}%
+% !TeX root = ../smumford_thesis.tex
+%*****************************************************************************************
+%*********************************** Second Chapter ***************************************
+%*****************************************************************************************
+
+\chapter{Background}\label{ch:background}  %Title of the Second Chapter
+
+	
+
+%********************************** %First Section  **************************************
+\section{Magnetohydrodynamics}\label{sec:MHD}
+
+Ideal magnetohydrodynamics (MHD) is the description of a plasma as a single perfectly conducting fluid.
+This description of the plasma has certain constraints on its validity.
+For the purposes of study in this thesis, the ideal MHD equations are a very applicable description of the plasma in the solar atmosphere.
+The first assumption the MHD description makes regarding the nature of the solar plasma is that it behaves like a fluid.
+This means that there are very frequent collisions between the particles that comprise the plasma.
+Connected to this is the assumption that the temperature of the electrons and the ions are equal, implying that there are frequent interactions between the two species, and that the plasma can be treated as a single fluid.
+Secondly, the MHD description is only valid in a certain window of temporal and length scales.
+The characteristic length of the plasma has to be sufficiently large so that the particle motion around the magnetic field can be ignored.
+The temporal scales also have to be substantially longer than the frequency of the kinetic motions.
+However, the temporal scale has to be short enough that the slow dissipative effects, such as resistive decay of the magnetic field, can be neglected.
+Two other approximations are made, which enable the description of the plasma as a single fluid: the quasi-neutrality assumption, which is the assumption that there are very similar numbers of positive and negative charges present in the plasma; and the assumptions that the relative velocities of the positive and negative charges are small.
+Finally, but very importantly, it is assumed that the plasma is non-relativistic, i.e. the motions of the plasma are substantially smaller than the speed of light.
+The application of all these assumptions leads to a formulation of the equations governing the motion of the plasma based on Maxwell's equations and the equations of gas dynamics, these are the ideal MHD equations, which are given below:
+\newcommand{\condev}{\left(\frac{\partial}{\partial t} + \vec{v}\cdot\nabla\right)}
+
+\begin{align}                                                  
+    \dfrac{\partial \rho }{\partial t} + \nabla \cdot (\rho \vec{v}) = 0,
+    &&\text{(Mass Conservation)}\label{eq:imhd_mass}\\
+    %                               
+    \rho  \condev\vec{v} + \nabla p - \dfrac{1}{\mu}(\nabla \times \vec{B}) \times \vec{B} - \rho \vec{g} = 0,
+    &&\text{(Equation of Motion)}\label{eq:imhd_motion}\\
+    %
+    \frac{\partial p}{\partial t} + \vec{v}\cdot\nabla p + \gamma p \nabla \cdot \vec{v}  = 0,
+    &&\text{(Energy Equation)}\label{eq:imhd_equation}\\
+    %
+    \dfrac{\partial \mathrm{B}}{\partial t} - \nabla \times (\vec{v} \times \vec{B}) = 0,
+    &&\text{(Induction Equation)}\label{eq:imhd_induction}
+\end{align}
+subject to
+\begin{align}
+    \nabla \cdot \vec{B} = 0,
+    &&\text{(Solenoidal Condition)}\\
+    %
+    p = \mathrm{k_B} \dfrac{\rho}{\mathrm{m}} \mathrm{T},
+    &&\text{(Ideal Gas Law)}                    
+\end{align}
+where $\rho$ is the density, $\vec{v}$ is the velocity, $p$ is the pressure, $\gamma$ is the ratio of specific heats (usually taken as $5/3$), $\vec{B}$ is the magnetic field, $\mathrm{k_B}$ is Boltzmann's constant, $\mathrm{m}$ is the mass, $\mathrm{T}$ is the temperature, and $\mu$ is the magnetic permeability of free space \citep{goedbloed2004}.
+
+
+\subsection{MHD Waves}\label{sec:MHDwaves}
+Just like a non-ionised fluid, which supports a sound wave, due to the restoring force of the pressure, plasma supports wave phenomena \citep{alfven1942}.
+Waves in plasmas also interact with the magnetic field, and the coupling of the magnetic field to the motion of the plasma.
+This leads to the presence of a wide variety of wave modes in plasma, dependent upon the geometry and physical properties of the plasma being perturbed \citep{jess2015}.
+For the analysis performed in this chapter we shall consider a plasma with a static, and uniform background, the magnetic field shall be of a constant strength and aligned solely with the $z$ axis.
+As will be demonstrated, this configuration leads to the existence of three wave modes, called the fast-magnetoacoustic wave, the slow-magnetoacoustic wave and the Alfv\'en wave.
+
+In this section we are going to summarise the derivation of the MHD wave equation for a uniform plasma.
+The starting point for this analysis is the ideal MHD equations that are described in \cref{sec:MHD}.
+Our static background conditions are described by \cref{eq:linearize} below,
+\begin{equation}\label{eq:linearize}
+    \begin{aligned}                                                    
+        \vec{B} &= \vec{B}_0 + \vec{B}_1(\vec{r},t),\\
+        \vec{v} &= 0 + \vec{v}_1(\vec{r},t),\\
+        p &= p_0 + {p_1}(\vec{r},t),\\
+        \rho &= \rho_0 + {\rho_1}(\vec{r},t),\\
+    \end{aligned}
+\end{equation}
+where the subscript $0$ denotes a background quantity, and the subscript $1$ denotes a perturbation to this quantity.
+The perturbation is much smaller than the background quantity.
+Substituting \cref{eq:linearize} into the ideal MHD equations and neglecting 2nd order or higher terms and any gradients of the homogeneous background quantities, leads to the linearised MHD equations given below,
+\begin{align}                                                         
+    \dfrac{\partial \rho_1 }{\partial t} + \rho_0 (\nabla \cdot \vec{v}_1) =       
+    0,
+    &&\text{(Mass Conservation)}\label{eq:lmhd_mass}\\
+    %
+    \rho_0 \dfrac{\partial \vec{v}_1}{\partial t} =
+    -\nabla p_1 + \dfrac{1}{\mu}(\nabla \times \vec{B}_1) \times \vec{B}_0,
+    &&\text{(Equation of Motion)}\label{eq:lmhd_motion}\\
+    %
+    \dfrac{\partial p_1}{\partial t} + \gamma p_0 \left( \nabla \cdot \vec{v}_1 \right) = 0,
+    &&\text{(Energy Equation)}\label{eq:lmhd_energy}\\
+    %
+    \dfrac{\partial \mathrm{B}_1}{\partial t} = \nabla \times (\vec{v}_1 \times \vec{B}_0),
+    &&\text{(Induction Equation)}\label{eq:lmhd_induction}\\
+    %
+    \nabla \cdot \vec{B}_1 = 0.
+    &&\text{(Solenoidal Condition)}\label{eq:lmhd_solenoid}              
+\end{align}
+The sound speed and the Alfv\'en speed for the static background state are given by 
+\begin{align}
+    c &\equiv \sqrt{\frac{\gamma p_0}{\rho_0}},\label{eq:soundspeed}\\
+    \vec{b} &\equiv \frac{\vec{B}_0}{\sqrt{\rho_0}},\label{eq:alfvenspeed}
+\end{align}
+respectively.
+
+To simplify the analysis and, with the aim of describing the velocity perturbations in \cref{sec:Vpert}, it is helpful to describe the system of linearised MHD equations just in terms of the velocity $\vec{v}$.
+This is achieved by substituting \cref{eq:lmhd_mass,eq:lmhd_energy,eq:lmhd_induction} into \cref{eq:lmhd_motion}, which gives
+\begin{equation}
+    \frac{\partial^2 \vec{v}_1}{\partial t^2} - \left( (\vec{b} \cdot \nabla)^2 \vec{I} + (b^2 + c^2) \nabla\nabla - \vec{b} \cdot \nabla (\nabla\vec{b} + \vec{b}\nabla) \right) \cdot \vec{v}_1 = 0,\label{eq:mhdwaveeq}
+\end{equation}
+where $\vec{I}$ is the identity matrix, $\vec{b}$ is the Alfv\'en speed given in \cref{eq:alfvenspeed} and $c$ is the sound speed given in \cref{eq:soundspeed} \citep{goedbloed2004}.
+This equation can be solved using plane wave solutions, i.e. solutions of the form $\rho(\vec{r}, t) = \hat{\rho} e^{i(\vec{k}\cdot\vec{r} - \omega t)}$, which equate to performing the following substitutions into \cref{eq:mhdwaveeq}: $\frac{\partial}{\partial t} \rightarrow - i \omega$ and $\nabla \rightarrow i \vec{k}$.
+Which, given in matrix form yields the relation:
+\begin{equation}
+\begin{pmatrix}
+    &-k_\perp(b^2+c^2)-k_\parallel^2 b^2			& 0			& -k_\perp k_\parallel c^2\\
+    & 0									&-k_\parallel b^2	& 0\\
+    &-k_\perp k_\parallel c^2					& 0			& -k_\parallel c^2
+\end{pmatrix}
+\begin{pmatrix}
+v_\parallel\\
+v_\perp\\
+v_\phi
+\end{pmatrix}
+= - \omega^2
+\begin{pmatrix}
+v_\parallel\\
+v_\perp\\
+v_\phi
+\end{pmatrix}.\label{eq:eigenvalue}
+\end{equation}
+%TODO Post-Submission: Calculate the determinant of the eigenvalue eqn.
+To obtain non-trivial solutions the determinant of \cref{eq:eigenvalue} is calculated,
+\begin{equation}
+    (\omega - k_\parallel^2 b^2)\left( \omega^4 - k^2(b^2+c^2)\omega^2 + k_\parallel k^2b^2c^2 \right) = 0,
+\end{equation}
+where $k = k_\parallel + k_\perp$.
+
+Three physically interesting solutions can be found to \cref{eq:eigenvalue}, by equating the two terms, in brackets, to zero.
+The first term $(\omega - k_\parallel^2 b^2)$ leads to the Alfv\'en wave solution:
+\begin{align}
+\omega^2_A &= k^2_\parallel b^2,\\
+\omega_A &= \pm k_\parallel b,
+\label{eq:omegaA}
+\end{align}
+where the positive solution is forward-propagating and the negative solution backward-propagating.
+The second term leads to two solutions, describing propagation in both directions. 
+Taking the square root of the second term, and then solving the quadratic,
+\begin{equation}
+    \omega^2_{s,f} = \frac{1}{2}k^2(b^2+c^2)\left(1 \pm \sqrt{1 - \sigma (k^2_\parallel/k^2)}\right)
+    \label{eq:omegasf}
+\end{equation}
+where
+\begin{equation}
+    \sigma=\frac{4b^2c^2}{(b^2 + c^2)^2}
+    \label{eq:sigmasf}
+\end{equation}
+which are the fast and slow magneto-acoustic modes, for the positive and negative solutions, respectively.
+
+These three modes, and the $\omega = 0$ entropy mode are all the oscillatory solutions supported by a plasma with a uniform background.
+In \cref{sec:Vpert}, the perturbation of the velocity vector caused by oscillations is identified, which will be used throughout this thesis for identification of these modes.
+
+
+\subsection{Velocity Perturbations}\label{sec:Vpert}
+
+The following chapters use the components of the velocity perturbation to identify and characterise the wave modes in the numerical domain.
+In this section it shall be shown that the three wave modes derived in the last section each perturb a different component of the velocity with respect to the magnetic field vector.
+
+First, consider the Alfv\'en wave, with its eigenfrequencies given by \cref{eq:omegaA}.
+Substituting \cref{eq:omegaA} into \cref{eq:eigenvalue} we can clearly see that the only component of the velocity perturbed by the Alfv\'en wave is the $v_\phi$ component, or that perpendicular to the plane of $\vec{k}$.
+
+Next, considering the slow and fast modes, and starting from \cref{eq:omegasf}, the velocity perturbations can be calculated.
+Substituting \cref{eq:omegasf} into the eigenvalue equation leads to the following relationship between $v_\perp$ and $v_\parallel$:
+\begin{equation}
+    v_\parallel = \alpha_{s,f} \frac{k_\parallel}{k_\perp}v_\perp,
+    \label{eq:vyvz}
+\end{equation}
+where
+\begin{equation}
+    \alpha_{s,f} = 1 - \frac{k^2b^2}{\omega^2_{s,f}}.
+    \label{eq:alphasf}
+\end{equation}
+
+At this stage it is helpful to make a simplifying assumption about the domain in which we wish to derive this relationship.
+In \cref{sec:mhsbackground}, the physical domain to be modelled in this thesis will be described such that it is entirely below the transition region and has plasma $\beta > 1$ everywhere.
+In this region of the solar atmosphere the plasma pressure or kinetic pressure is much larger than the magnetic pressure.
+In other words, the kinetic effects dominate the dynamics of the plasma.
+This is called the high-$\beta$ regime, as $\displaystyle\beta = \frac{p_k}{p_m}$, or $\displaystyle\beta = \frac{2c^2}{\gamma b^2}$ in terms of $c$ and $\vec{b}$ as defined in \cref{eq:soundspeed,eq:alfvenspeed} above, so in a high-$\beta$ regime it is clear that $c^2 >> b^2$.
+This assumption can be used to simplify \cref{eq:omegasf} because $(c^2 + b^2) \approx c^2$.
+Applying this assumption to \cref{eq:sigmasf} and then to \cref{eq:omegasf}:
+
+\begin{align}
+    \sigma &\approx \frac{4b^2c^2}{(b^2+c^2)^2}\\
+           &\approx \frac{4b^2c^2}{c^4}\\
+           &\approx \frac{4b^2}{c^2}
+\end{align}
+
+\begin{align}
+    \omega^2_{s,f} =& \frac{1}{2}k^2(b^2+c^2)\left(1 \pm \sqrt{1 - \sigma \frac{k^2_\parallel}{k^2}}\,\right),\\
+                   =& \frac{1}{2}k^2c^2\left(1 \pm \sqrt{1 - \frac{4b^2}{c^2} \frac{k^2_\parallel}{k^2}}\,\right),\\
+\end{align}
+Let,
+\begin{align}
+    \delta =& \frac{4b^2}{c^2} \frac{k^2_\parallel}{k^2},\notag\\
+\end{align}
+such that,
+\begin{align}
+    \omega^2_{s,f} =& \frac{1}{2}k^2c^2\left(1 \pm (1 - \delta)^{\frac{1}{2}}\,\right).\label{eq:omegasf-highb1}
+\end{align}
+Performing a Taylor expansion of $(1-\delta)^{\frac{1}{2}}$ and considering $\delta << 1$, gives,
+\begin{align}
+    f(\delta) &= f(0) + f^\prime(0) + O(\delta^2),\notag\\
+    %
+    (1-\delta)^{\frac{1}{2}} &= 1 + \frac{1}{2}\delta + O(\delta^2),\\
+                             &= 1 + \frac{1}{2}\frac{4b^2}{c^2} \frac{k^2_\parallel}{k^2} + O(\delta^2),\\
+    (1-\delta)^{\frac{1}{2}} &= 1 + \frac{2b^2}{c^2} \frac{k^2_\parallel}{k^2} + O(\delta^2).
+\end{align}
+Substituting this back into \cref{eq:omegasf-highb1} one obtains,
+\begin{align}
+    \omega^2_{s,f} =& \frac{1}{2}k^2c^2\left(1 \pm \left(1 - \frac{2b^2}{c^2} \frac{k^2_\parallel}{k^2}\right)\right).
+\end{align}
+
+It is at this point the slow mode and the fast mode need to be considered in isolation.
+The fast mode is the solution where the positive root is taken, and the slow mode the negative root.
+Considering the slow mode first:
+\begin{align}
+    \omega^2_{s} =& \frac{1}{2}k^2c^2\left(1 - \left(1 - \frac{2b^2}{c^2} \frac{k^2_\parallel}{k^2}\right)\right),\\
+    =& \frac{1}{2}k^2c^2\left(\frac{2b^2k^2_\parallel}{k^2c^2}\right),\\
+    \omega^2_{s} =& b^2k^2_\parallel.
+\end{align}
+Then the fast mode:
+\begin{align}
+    \omega^2_{f} =& \frac{1}{2}k^2c^2\left(1 + \left(1 - \frac{2b^2}{c^2} \frac{k^2_\parallel}{k^2}\right)\right)\\
+                 =& \frac{1}{2}k^2c^2\left(2 - \frac{2b^2}{c^2} \frac{k^2_\parallel}{k^2}\right)\\
+                 =& k^2c^2 - \frac{k^2c^2b^2}{c^2}\frac{k^2_\parallel}{k^2}\\
+                 =& k^2c^2 - k^2b^2\frac{k^2_\parallel}{k^2}.
+\end{align}
+Applying the high $\beta$ approximation $c^2 >> b^2$,
+\begin{align}
+   \omega^2_{f} =& k^2c^2.
+\end{align}
+Having simplified $\omega_{s,f}$, $\alpha_{s,f}$ can be calculated:
+\begin{align}
+    \alpha_s =& 1 - \frac{k^2b^2}{\omega^2_s}\\
+             =& 1 - \frac{k^2b^2}{b^2k_\parallel^2}\\
+             =& 1 - \frac{k^2}{k_\parallel^2}\\
+             =& 1 - \frac{k^2_\parallel + k^2_\perp}{k^2_\parallel}\\
+             =& 1 - \frac{k_\parallel^2}{k_\parallel^2} + \frac{k^2_\perp}{k^2_\parallel}\\
+             =& \frac{k^2_\perp}{k^2_\parallel},
+\end{align}
+
+\begin{align}
+    \alpha_f =& 1 - \frac{k^2b^2}{\omega^2_f}\\
+    =& 1 - \frac{k^2b^2}{k^2c^2}\\
+    =& 1 - \frac{b^2}{c^2}.
+\end{align}
+Again, considering the high-$\beta$ approximation, $\displaystyle\frac{b^2}{c^2} << 1$
+\begin{align}
+    \alpha_f =& 1.
+\end{align}
+
+Substituting into \cref{eq:vyvz} for the slow mode the following relation is obtained:
+\begin{align}
+    v_\parallel =& \alpha_s \frac{k_\parallel}{k_\perp}v_\perp\\
+                =& \frac{k^2_\perp}{k^2_\parallel}\frac{k_\parallel}{k_\perp}v_\perp\\
+                =& \frac{k_\perp}{k_\parallel}v_\perp,
+\end{align}
+and, for the fast mode:
+\begin{align}
+    v_\parallel =& \alpha_f \frac{k_\parallel}{k_\perp}v_\perp\\
+                =& \frac{k_\parallel}{k_\perp}v_\perp.
+\end{align}
+
+Finally, to demonstrate the relative strength of the parallel and perpendicular modes the following ratio is calculated:
+\begin{equation}
+    \frac{|v_z|}{|v_x|+|v_z|}.
+\end{equation}
+For the fast mode this becomes:
+\begin{align}
+\frac{|v_\parallel|}{|v_\perp|+|v_\parallel|} &= \frac{\frac{k_\parallel}{k_\perp}|v_\perp|}{|v_\perp|+\frac{k_\parallel}{k_\perp}|v_\perp|},\\
+&= \frac{\frac{k_\parallel}{k_\perp}}{1+\frac{k_\parallel}{k_\perp}},\\
+&= \frac{1}{\frac{k_\perp}{k_\parallel}+1}.
+\end{align}
+By assuming that the waves propagate parallel to the magnetic field, i.e. upwards through the atmosphere, implying $k_\parallel >> k_\perp$, and $\displaystyle \frac{k_\perp}{k_\parallel} << 1$ it can be seen that $|v_\parallel| >> |v_\perp|$, and therefore the fast mode can be seen to perturb the parallel component of the velocity.
+
+However, for the slow mode this becomes:
+\begin{align}
+    \frac{|v_\parallel|}{|v_\perp|+|v_\parallel|} &= \frac{\frac{k_\perp}{k_\parallel}|v_\perp|}{|v_\perp|+\frac{k_\perp}{k_\parallel}|v_\perp|},\\
+    &= \frac{\frac{k_\perp}{k_\parallel}}{1+\frac{k_\perp}{k_\parallel}},\\
+    &= \frac{1}{\frac{k_\parallel}{k_\perp} + 1},
+\end{align}
+Again, assuming that $k_\parallel >> k_\perp$, \textit{i.e.} $\displaystyle \frac{k_\parallel}{k_\perp} >> 1$, so that for the slow mode, $|v_\parallel| << |v_\perp|$.
+The slow mode perturbs, predominately, the component of the velocity perpendicular to the magnetic field.  
+
+
+\subsection{Calculating Wave Flux}\label{sec:waveflux}
+
+To calculate the relative strengths of the excited waves we compute the `wave energy flux' vector everywhere in the domain.
+To do this we use the equation for the wave energy flux given in equation (2.14) of \cite{leroy1985}.
+This equation can be written using notation similar to the rest of this thesis, by applying $\vec{H} = \vec{B}/\mu_0$ and the vector identity $\vec{a} \times (\vec{b} \cdot \vec{c}) = \vec{a} \cdot \vec{c}\vec{b} - \vec{a} \cdot \vec{b}\vec{c}$.
+The result is given in \cref{eq:wave_energy} below.
+\begin{equation}
+\vec{F}_{\textbf{wave}} \equiv \widetilde{p}_k \vec{v} + \frac{1}{\mu_0} \left(\vec{B}_b \cdot \vec{\widetilde{B}}\right) \vec{v} - \frac{1}{\mu_0}\left(\vec{v} \cdot \vec{\widetilde{B}} \right) \vec{B}_b,
+\label{eq:wave_energy}
+\end{equation}
+where a subscript $b$ represents a background variable, a tilde represents a perturbation from the background conditions and $p_k$ represents kinetic pressure.
+
+The validity of this equation for the wave energy flux is widely discussed, %TODO: Ref
+while it can be derived by linearising the total MHD energy flux to the second order, as described in \cite{leroy1985}, it is only one of many solutions to the fundamental energy conservation equation.
+This fact is discussed in detail in Section 4 of \cite{bogdan2003}, where the utility of this method of calculating wave energy flux for numerical simulations of the solar atmosphere is considered.
+\cite{bogdan2003} compares the above definition of the wave energy flux to the total nonlinear MHD energy flux, it is shown that the total energy flux is dominated by a `stationary flow` of energy, or local effects, rather than the energy contained in the wave like phenomena that this thesis wishes to study.
+It is because of this that this method of quantifying the energy contained within the MHD waves generated in the simulation domain is chosen.
+It should not however, be taken as a perfect metric, which is why it is chosen only to use \cref{eq:wave_energy} to calculate the relative strengths of the wave modes.
+This analysis provides the desired result: an understanding of how the different plasma conditions and wave drives change the spectra of MHD wave modes generated, while eliminating any concern about the accuracy of \cref{eq:wave_energy} when accounting for absolute energy values.
+
+
+
+\section{Computational Methods}\label{sec:numericalmethods}
+Differential equations are part of the fundamental language of physics, from their origins describing motion in Newton's laws to the MHD equations which describe the dynamics of plasma in the Sun. 
+Often coupled systems of differential equations cannot be solved analytically either at all or without making large assumptions about the nature of the system, such as the geometry.
+The most widely known system of equations that cannot be solved analytically is the three body problem, where, described by Newton's laws, three masses interact with each other via gravity.
+The numerical solutions to this problem allowed the revolution in modern space flight, and the launch of the two Voyager probes on their `grand tour' of the solar system.
+Numerical solutions to the MHD equations are widely used to gain an insight into systems which are too complex to allow analytical solutions of the equations.
+This section covers the basic principals of numerical approximations to differentials and some of the limitations of this method.
+
+A differential is the gradient of a function over an infinitesimally small range.
+The numerical approximation takes this range and makes it finite, calculating the differential from an approximation of some kind, the most simple being a finite difference approximation.
+The finite difference approach is the one used in this thesis and commonly for computational fluid dynamics problems, it approximates the differential by calculating the gradient over a finite length in space.
+In multiple dimensions this changes to calculating the derivative over a finite grid, the resolution of which determines the accuracy of the solution.
+
+
+
+
+\subsection{Finite Difference Method}
+
+The definition of a derivative is $f'(x)=\lim\limits _{\Delta_{x}\to0}\frac{f(x+\Delta_{x})-f(x)}{\Delta_{x}}$; the finite difference method approximates this equation by making $\Delta_{x}$ finite.
+The general form of a finite difference equation is $f(x+b)-f(x+a)$. The two simplest variations on this equation are the forward and backward differences, $\Delta_{+}f=f(x+\Delta_x)-f(x)$ and $\Delta_{-}f=f(x-\Delta_x)-f(x)$, respectively.
+These two types of equations can be used to approximate the derivative, $f'(x)\approx\frac{f(x+\Delta_{x})-f(x)}{\Delta_{x}}$ for a forward difference and $f'(x)\approx\frac{f(x)-f(x-\Delta_{x})}{\Delta_{x}}$ for a backward difference.
+
+These equations can be derived from a Taylor expansion of $f(x\pm\Delta_{x})$,
+\begin{align}
+f(x-\Delta_{x}) & = f(x)-\Delta_{x}f'(x)+\frac{\Delta_{x}^{2}f''(x)}{2!}-\frac{\Delta_{x}^{3}f'''(x)}{3!}+\frac{\Delta_{x}^{4}f^{iv}(x)}{4!}+...\label{eq:TaylorForward}\\
+f(x+\Delta_{x}) & = f(x)+\Delta_{x}f'(x)+\frac{\Delta_{x}^{2}f''(x)}{2!}+\frac{\Delta_{x}^{3}f'''(x)}{3!}+\frac{\Delta_{x}^{4}f^{iv}(x)}{4!}+...\label{eq:TaylorBackward}
+\end{align}
+
+
+The forward difference equation is the first-order truncation of the $f(x+\Delta_{x})$ Taylor series, and likewise for the backward difference.
+From this it can be seen that the truncation error of a forward and backward difference approximation is $O(\Delta_{x})$, and that the accuracy could be improved by increasing the number of terms included.
+
+Another way to fundamentally reduce the error, while maintaining the first-order nature of these solutions is to combine the forward and backward difference into a central difference approximation of the form  $f(x)=\frac{1}{2} \left(f(x + \Delta x) + f(x - \Delta x)\right)$.
+To first order the result is 
+\begin{equation}
+f'(x)=\frac{f(x+\Delta_{x})-f(x-\Delta_{x})}{2\Delta_{x}}.\label{eq:First Order CD}
+\end{equation}
+This formulation has error $O(\Delta_{x}^{2})$ due to the combination of the two Taylor series expansions.
+The accuracy of the solution is important, for it determines how well the computed solution represents the true solution.
+The most obvious way to increase the accuracy of the solution is to increase the number of terms included from the Taylor expansion of the forward and backward differences.
+
+The Sheffield Advanced Code (SAC), described in \cref{sec:SAC} uses the 4th order central difference scheme to calculate the spatial derivatives.
+Below the derivation of a fourth-order central difference scheme in one dimension is given.
+Starting from \cref{eq:TaylorForward,eq:TaylorBackward} and subtracting the second from the first, to the fourth order gives,
+\begin{equation}
+f(x+\Delta_{x})-f(x-\Delta_{x})=2\Delta_{x}f'(x)+\frac{2\Delta_{x}^{3}f'''(x)}{3!}+O(\Delta_{x}^{4}).\label{eq:centraldifferencedx}
+\end{equation}
+The second step is then to calculate the same subtraction for $2\Delta_{x}$ which can be written as
+\begin{equation}
+f(x+2\Delta_{x})-f(x-2\Delta_{x})=4\Delta_{x}f'(x)+\frac{16\Delta_{x}^{3}f'''(x)}{3!}+O(\Delta_{x}^{4}).\label{eq:CentralDifference2dx}
+\end{equation}
+Finally, subtracting \cref{eq:CentralDifference2dx} from $8\times$(\cref{eq:centraldifferencedx}) and rearranging for $f'(x)$ gives
+\begin{equation}
+f'(x)=\frac{8f(x+\Delta_{x})-8f(x-\Delta_{x})-f(x+2\Delta_{x})+f(x-2\Delta_{x})}{12\Delta_{x}}+O(\Delta_{x}^{4}),\label{eq:4thOrderCentralDifferenceUniform}
+\end{equation}
+which is the fourth order central difference scheme in one dimension for a uniform spacing of $\pm\Delta_{x}$.
+This scheme can be expanded into $n$ dimensions by using the basic property of differentiation $\frac{\partial^{2}u}{\partial x\partial y}=\frac{\partial}{\partial x}\left(\frac{\partial u}{\partial y}\right)=\frac{\partial}{\partial y}\left(\frac{\partial u}{\partial x}\right)$.
+This scheme provides good accuracy while being computationally efficient.
+However, as discussed in the next section, it suffers with some numerical stability constraints.
+
+
+\subsubsection{Numerical Stability}
+
+Due to the nature of the approximations used in numerical calculation of derivatives, some schemes are limited in their ability to provide an accurate solution in certain conditions.
+There is a wide variety of methods used to numerically approximate derivatives, this section has dealt with one of the most conceptually and mathematically simple methods.
+This simplicity means it can be implemented in a very computationally efficient manner, however, it also means that the solution can become unstable.
+
+Instability in the calculation of derivatives occurs when a small error in the calculation of the derivative at one point on the mesh is amplified as the calculation proceeds on to subsequent points.
+This error can be removed in one of two primary ways; it can be avoided altogether by employing a different numerical approximation to the derivative, normally one better suited to the properties of the equations or physical parameters of the solution; or it can be numerically suppressed by artificially compensating for it.
+The field of developing numerical approximations to derivatives is very large, and there are many different options available.
+The approach the SAC code takes is to use additional terms in the MHD equations to counteract any instability, this is discussed in \cref{sec:SAC}.
+
+
+\section{Sheffield Advanced Code}\label{sec:SAC}
+
+This thesis uses the Sheffield Advanced Code (SAC) \citep{shelyag2008} for all MHD simulations.
+The SAC code solves the ideal MHD equations, for a plasma with static background conditions.
+This approach enables the code to solve for small perturbations, while the background conditions vary by orders of magnitude through the solar atmosphere.
+The successful application of this approach is clearly dependant upon a realistic, magnetohydrostatic background condition.
+The construction of this background is described in \cref{sec:mhsbackground}.
+
+The SAC code was developed to simulate MHD waves as solutions to the ideal MHD equations given in \cref{eq:imhd_mass,eq:imhd_induction} with a static background.
+Therefore, the equations solved by SAC are a rearranged version of the ideal MHD equations and are given below \citep[taken from][]{shelyag2008},
+\begin{equation}
+\frac{\partial\tilde{\rho}}{\partial t}+\nabla\cdot[\mathbf{v}(\rho_{b}+\tilde{\rho})]=0+D_{\rho}(\tilde{\rho}),
+\end{equation}
+\begin{equation}
+\frac{\partial[(\rho_{b}+\tilde{\rho})\mathbf{v}]}{\partial t}+\nabla\cdot[\mathbf{v}(\rho_{b}+\tilde{\rho})\mathbf{v}-\mathbf{\tilde{B}\tilde{B}}]-\nabla[\mathbf{\tilde{B}}\mathbf{B}_{b}+\mathbf{B}_{b}\mathbf{\tilde{B}}]+\nabla\tilde{p_{t}}=\tilde{\rho}\mathbf{g}+D_{\rho v}[(\tilde{\rho}+\rho_{b})\mathbf{v}],
+\end{equation}
+\begin{equation}
+\frac{\partial\tilde{e}}{\partial t}+\nabla\cdot[\mathbf{v}(\tilde{e}+e_{b})-\mathbf{\tilde{B}\tilde{B}}\cdot\mathbf{v}+\mathbf{v}\tilde{p_{t}}]-\nabla[(\mathbf{\tilde{B}B}_{b}+\mathbf{B}_{b}\mathbf{\tilde{B}})\cdot\mathbf{v}]+p_{tb}\nabla\mathbf{v}-\mathbf{B}_{b}\mathbf{B}_{b}\nabla\mathbf{v}=\tilde{\rho}\mathbf{g}\cdot+D_{e}(\tilde{e}),
+\end{equation}
+\begin{equation}
+\frac{\partial\mathbf{\tilde{B}}}{\partial t}+\nabla\cdot[\mathbf{v}(\mathbf{\tilde{B}}+\mathbf{B}_{b})-(\mathbf{\tilde{B}}+\mathbf{B}_{b})\mathbf{v}=0+D_{B}(\mathbf{\tilde{B}}).
+\end{equation}
+Where:
+\begin{equation}
+\tilde{p_{t}}=\tilde{p_{k}}+\frac{\tilde{\mathbf{B}}^{2}}{2}+\mathbf{B}_{b}\mathbf{\tilde{B}},
+\end{equation}
+is the total perturbation pressure, and: 
+\begin{equation}
+\tilde{p}_{k}=(\gamma-1)\left(\tilde{e}-\frac{(\tilde{\rho}+\rho_{b})\mathbf{v}}{2}-\mathbf{B}_b\mathbf{\tilde{B}}+-\frac{\tilde{\mathbf{B}}^{2}}{2}\right),
+\end{equation}
+so,
+\begin{equation}
+\tilde{p}_{t}=(\gamma-1)\left[\tilde{e}-\frac{(\tilde{\rho}+\rho_{b})\mathbf{v}^{2}}{2}\right]-(\gamma-2)\left(\mathbf{B}_{b}\mathbf{\tilde{B}}+\frac{\tilde{\mathbf{B}}^{2}}{2}\right),
+\end{equation}
+and,
+\begin{equation}
+p_{tb}=(\gamma-1)e_{b}-(\gamma-2)\frac{\mathbf{B}_{b}^{2}}{2}
+\end{equation}
+is total background pressure.
+
+The first major change between these equations and the ones given in \cref{eq:imhd_mass,eq:imhd_induction} is the addition of the background and perturbation variables for each term.
+This allows the study of the perturbations on top of a static background.
+Another, more subtle, change is the move to the energy density per-unit volume $e$ and more importantly the addition of various $D$ terms.
+
+The $D$ terms in the SAC equations are hyper-diffusion or hyper-viscous terms that enforce numerical stability upon the equations, they are adapted from \cite{nordlund1995} and shall not be replicated here in detail, however, they are described in \citet{shelyag2008}.
+The function of the diffusive and viscous terms are to smooth out any deviations from the solution on a local scale to a larger scale, thereby reducing the compounding of the error keeping the solution stable.
+There are secondary effects from using this type of numerical stability enforcement, primarily that if the diffusion terms are too high it can lead to damping of the actual solution and deviation of the approximation from the correct solution, also in regions of rapid change such as shocks it adds an extra non-physical diffusion to the shock.
+However by choosing a minimum value of the coefficients to maintain stability these effects can be reduced to an acceptable level, especially for the linear wave studies presented in this thesis.
+
+\clearpage{}%
+%
+
+%
+\clearpage{}%
+% !TeX root = ../smumford_thesis.tex
+%*****************************************************************************************
+%*********************************** Third Chapter ***************************************
+%*****************************************************************************************
+\chapter{Methodology}\label{ch:methodology}  %Title of the Second Chapter
+
+
+\section{Magnetohydrostatic Background Conditions}\label{sec:mhsbackground}
+
+The numerical simulations performed for the MHD wave mode analysis in this thesis all make use of the ability of SAC (\cref{sec:SAC}, \citealt{shelyag2008}) to solve for perturbations on top of a static MHD equilibria.
+To perform these experiments, a background atmosphere needs to be constructed.
+Quiet Sun regions were chosen for study, therefore this section details the construction of an atmosphere representative of the quiet Sun.
+This choice reduces the complexity of the modelled magnetic field and should allow for more accurate separation of the MHD wave effect from any other energy transfer processes, such as bulk flows.
+
+The first step in constructing a static model for the solar atmosphere is to understand the hydrodynamic properties of the background plasma.
+Models of properties such as the density and pressure have been created for various heights in the solar atmosphere, based on observations and theory.
+The profile used in this thesis is the \cite{vernazza1981} model C, which covers the range of heights in the solar atmosphere from the photosphere ($0$ km) to $2.5$ Mm above the photosphere.
+A plot of the density, pressure and temperature from this model is shown in \cref{fig:val3c}.
+
+
+
+\begin{figure}[h]
+    \centering
+    \IfFileExists{/home/stuart/GitHub/Thesis/thesis/Chapter3/Figs/Chapter3-Figure1-val3c.pgf}{\import{/home/stuart/GitHub/Thesis/thesis/Chapter3/Figs/}{Chapter3-Figure1-val3c.pgf}}{}
+    \caption{Graph of the \cite{vernazza1981} model C showing the density (blue), pressure (green), and temperature (red). The solid lines show the interpolated values used to construct the numerical model, at the resolution of the numerical domain.}
+    \label{fig:val3c}
+\end{figure}
+
+On top of this hydrostatic background, a magnetic field is required to study MHD waves.
+The type of magnetic phenomena to be investigated are small scale photospheric structures that occur frequently over the disk of the Sun.
+Magnetic Bright Points (MBPs) were chosen as an observational feature to use as a guide for the background model, since they are well studied and there are good estimates of their physical properties.
+\cite{feng2013} performed a study of Photospheric Bright Points (PBPs), which are assumed to be analogous to MBPs, using the Dutch Open Telescope, and found that the peak of the log-normal distribution gave a diameter of $232\pm40$ km for the quiet Sun.
+They also show that $50$\% of the PBPs they analysed had the major axis of their ellipse less than $1.5$ times longer than the minor axis, showing that they are to a first approximation circular, however, with some PBPs having quite a large deviation from this approximation.
+\cite{utz2013} performed a similar study investigating the average magnetic field strength of MBPs using the Hinode SOT instrument.
+They find that in a quiet Sun region the average magnetic field strength of a MBP is $135.0 \pm 1.0$ mT.
+\cite{sanchezalmeida2004} also performed a statistical study of MBPs, finding that in their sample that most MBPs have lifetimes of less than 10 minutes.
+They also note, and present some evidence, that this is probably an upper bound estimate, and true lifetimes may be shorter.
+
+
+
+
+
+% Fred's shortcuts
+\newcommand{\BO}{{B_{0z}}}
+\newcommand{\GO}{{G}}
+\newcommand{\bc}{{b_{00}}}
+\newcommand{\bF}{{b_{01}}}
+\newcommand{\za}{{z_{1}}}
+\newcommand{\bb}{{b_{02}}}
+\newcommand{\zb}{{z_{2}}}
+
+From this information, and taking into account the properties of the hydrostatic background chosen, a magnetic field can be constructed with properties similar to the MBPs.
+The 3D magnetic field will be generated using work of \cite{gent2013, gent2014}, and the implementation of that paper in the pysac library\footnote{https://github.com/SWAT-Sheffield/pysac}.
+The magnetic field will be constructed as a self-similar field, in the same manner as \cite{schluter1958}, it is constructed for an axis-symmetric flux tube, with a Gaussian radial profile given in \cref{eq:G}.
+The vertical profile of the magnetic field, along the axis of the flux tube is given in \cref{eq:BO} as a summation of two exponentials, one for controlling the profile in the low atmosphere and one for controlling the profile in the upper atmosphere.
+The magnetic field is therefore specified by \cref{eq:Bxyz,eq:f,eq:G,eq:r,eq:BO}, which are modified versions of the equations presented in \cite{gent2014}, simplified for a single flux tube model.
+
+\begin{equation}\label{eq:Bxyz}
+\begin{aligned}
+B_{bx} &= -S(x-x_0) {\, \BO\GO \:} \frac{\partial \BO}{\partial z},
+\\
+B_{by} &= -S(y-y_0) {\, \BO\GO \:} \frac{\partial \BO}{\partial z},
+\\        
+B_{bz} &= \phantom{-}S{\BO^2\GO  \,} + \bc,
+\end{aligned}
+\end{equation}
+
+
+\begin{align}
+f &= \frac{r^2 B_0z^2}{2},  \label{eq:f}
+\\
+G &= \exp\left(-\frac{f}{f_0^2}\right),  \label{eq:G}
+\\
+r \,   &= \sqrt{(x-x )^2+(y-y )^2},\\  \label{eq:r}
+\end{align}
+
+\begin{equation}\label{eq:BO}
+\BO = 
+\bF\exp\left(-\frac{z}{\za}\right)\,
++
+\bb\exp\left(-\frac{z}{\zb}\right),
+\end{equation}
+where $B_{bi}$ are the components of the background magnetic field; $f_0$ is the horizontal scaling length; $x_0,y_0,z_0$ are the coordinates of the footpoint of the field where $z_0=0$ which is considered to be the photosphere as shown in \cref{fig:val3c}; $b_{01}$ and $b_{02}$ are two real constants that sum to $1$ and specify the relative strength of the two exponentials controlling the vertical field strength profile, while $z_1$ and $z_2$ control the field strength profile with height; finally $S$ is the footpoint field strength.
+Similarly to \cite{gent2014} a uniform background field ($\bc$) is also added to the model.
+This weak ambient vertical field provides for a more realistic atmosphere, instead of an atmosphere where there is only one magnetic flux tube present.
+The parameters used in constructing the background atmosphere in this thesis are given in \cref{tab:bgparams}.
+
+\begin{table}
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline Parameter & Value \\ 
+        \hline $\bc$ & $0.55 \; \mathrm{mT}$
+\\ 
+        \hline $\bF$ & $0 \; \mathrm{}$
+\\ 
+        \hline $\bb$ & $1 \; \mathrm{}$
+\\ 
+        \hline $f_0$ & $0.03938 \; \mathrm{Mm}$
+\\ 
+        \hline $\za$ & $0.4 \; \mathrm{Mm}$
+\\ 
+        \hline $\zb$ & $0.25 \; \mathrm{Mm}$
+\\
+        \hline $S$   & $143.6 \; \mathrm{mT}$
+\\
+        \hline
+    \end{tabular}
+    
+    \caption{Table showing all the parameters for \cref{eq:Bxyz,eq:f,eq:G,eq:r,eq:BO} used in constructing the background atmosphere for the simulations in this thesis.}
+    \label{tab:bgparams}
+\end{table}
+
+
+
+
+
+\begin{figure*}
+    \centering
+    
+
+    \begin{subfigure}[b]{\columnwidth}
+        \IfFileExists{/home/stuart/GitHub/Thesis/thesis/Chapter3/Figs/Chapter3-Figure2-bmag-footpoint.pgf}{\import{/home/stuart/GitHub/Thesis/thesis/Chapter3/Figs/}{Chapter3-Figure2-bmag-footpoint.pgf}}{}
+        \caption{1D slice through the centre of the domain. The green line shows a fitted gaussian to the numerical domain. The cyan lines show the FWHM and the magenta line shows the FWTM. \citep{theastropycollaboration2013}}
+        \label{fig:bmag-footpoint}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.8\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter3/Figs/Chapter3-Figure3-bmag-cut_Slice_z_magnetic_field_strength.pdf}
+        \caption{This image shows the the magnetic field magntitude from a 2D slice through domain. The black line shows the FWHM and the green line shows the FWTM of the gaussian profile.}
+        \label{fig:bmag-cut}
+    \end{subfigure}
+    \caption{Magnetic field strength plots for the photospheric layer in the numerical domain.}
+    \label{fig:guassian}
+\end{figure*}
+
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter3/Figs/Chapter3-Figure4-alf2d_Slice_x_alfven_speed.pdf}
+    \caption{Vertical slice through the background atmosphere, with the Alfv\'en Speed shown in the background with magnetic field lines overplotted in blue.}
+    \label{fig:alf2d}
+\end{figure}
+
+%TODO: check these numbers
+The result of this flux tube construction is a 2D Gaussian profile for the cross-sectional magnetic field, with a full width at half maximum (FWHM) of $\approx$ $90 \; \mathrm{km}$, and a full width at a 10th of maximum (FWTM) of $170 \; \mathrm{km}$
+at the photosphere, which corresponds to the lower bound of the observations in \cite{sanchezalmeida2004}.
+The primary reason for the smaller footpoint, in comparison with the observations in \cite{utz2013}, is the hydrodynamical model used for the photosphere, which has an upper limit to the amount of magnetic pressure it can support.
+Plots of the magnetic field strength in the photosphere are shown in \cref{fig:guassian}, for both a 1D and 2D profile.
+A vertical slice through the background atmosphere is then shown in \cref{fig:alf2d}, with the structure of the magnetic field shown over-plotted on the Alfv\'en speed.
+As can be seen in \cref{fig:alf2d,fig:domain-3d}, the magnetic field expands non-linearly as the kinetic pressure decreases with height.
+It should also be noted that the background atmosphere has been constructed up to $1.6$ Mm above the photosphere defined in \cite{vernazza1981}.
+This is a deliberate choice to exclude the region where the plasma $\beta = 1$.
+The reasons for this choice lie in the studies to be performed using this atmosphere: this thesis is explicitly studying the generation of MHD waves in the photosphere and chromosphere and not their propagation into the higher layers of the solar atmosphere.
+It is therefore easier to exclude the very interesting, but also complex physics that occurs around the $\beta = 1$ region.
+
+Once the magnetic field has been constructed, the final step in constructing the background atmosphere is to `add' the magnetic field to the hydrostatic background.
+To achieve this in a way that creates a physical and magnetohydrostatic background atmosphere, the physical effects of the presence of the magnetic field on the plasma must be taken into account.
+This is done using the principal of magnetohydrostatic equilibrium as described by \cref{eq:mhs-condition},
+
+\begin{equation}
+\nabla P = 
+\nabla p + \nabla \frac{|\vec{B}|^2}{2\mu_0} - (\vec{B}\cdot\nabla)
+{\frac{\vec{B}}{\mu_0} }
+= \rho \vec{g}, 
+\label{eq:mhs-condition}
+\end{equation}
+%\nabla P = (\mathbf{B}\cdot \nabla)\mathbf{B} + \nabla\left(\frac{\mathbf{B}^2}{2}\right) + \nabla p = \rho\mathbf{g},
+which describes the pressure balance between the kinetic and magnetic forces present in a MHD plasma;
+where $P$ is the total pressure, $p$ is the kinetic pressure $\rho$ is the density, $g$ is the acceleration due to gravity (assumed to be constant), and $\mu_0$ is the vacuum magnetic permeability coefficient.
+The solution to this equation with the magnetic field specified above is derived in \cite{gent2013,gent2014}.
+
+
+The numerical domain chosen for the work presented in this thesis is $2.0 \times 2.0 \times 1.6$ Mm in size in the $x$, $y$ and $z$ directions, with a resolution of $128^3$ grid points, giving a physical size of $15.6\ \times\ 15.6\ \times\ 12.5$ km$^3$ for each grid cell.
+A 3D rendering of the domain is shown in \cref{fig:domain-3d}, which shows the extent of the domain, the magnetic field geometry and the background density and thermal pressure.
+
+
+
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter3/Figs/Chapter3-Figure101-domain-3d.png}
+    \caption{A 3D view of the background atmosphere. Magnetic field lines are shown in green (log scale) with their seed points plotted as blue dots, density (log scale) in yellow-black and thermal pressure (log scale) in yellow-blue. The full width at half, tenth and 100th of maximum are shown in red contours at the base of domain.}
+    \label{fig:domain-3d}
+\end{figure}
+
+\section{Flux Surfaces}\label{sec:fluxsurfaces}
+
+Once the background atmosphere has been constructed and simulations performed, it is necessary to be able to identify and quantify the MHD waves excited by the various drivers.
+This section describes the analysis method developed for the research presented in this thesis, which the proceeding chapters will utilize.
+
+As shown in \cref{sec:Vpert}, MHD waves propagating through a plasma cause perturbations in velocity.
+As the perturbation velocity is one of the physical variables calculated by the SAC code, this fact provides a mechanism by which we can identify the waves in the simulation domain.
+However, the challenge is decomposing the velocity vector, calculated by SAC in the reference frame of the simulation domain ($V_x$, $V_y$, $V_z$) into the frame of the magnetic field \textit{i.e.} a velocity parallel to the magnetic field, $V_\parallel$, perpendicular to the magnetic field, $V_\perp$, and a component perpendicular to the magnetic field in the other plane $V_\phi$, in which the waves are mathematically described.
+
+Considering this problem more closely, the $V_\parallel$ component is trivial to calculate, as it is the projection of $\vec{V}$ onto $\vec{B}$.
+$V_\phi$, the azimuthal component, can be defined as $V_\phi = V_\parallel \times V_\perp$.
+Therefore, the challenging component to calculate is $V_\perp$, the component perpendicular to the magnetic field.
+When only a two dimensional system is considered \citep[e.g.][]{bogdan2003,fedun2011,shelyag2012}, the vector perpendicular to the magnetic field is well defined, as it is perpendicular to the parallel vector in the one degree of freedom available to it.
+In three dimensions however, there is a whole plane perpendicular to the parallel vector.
+It is therefore obvious that some other construct is needed.
+
+The chosen solution to finding the $V_\perp$ vector is to numerically construct a magnetic flux tube.
+A flux tube is a mathematical construct within a magnetic field that encloses a constant amount of magnetic flux over its whole length.
+Flux tubes, as a consequence of the fact they contain a fixed amount of magnetic flux, trace the field and move with the magnetic field lines.
+A flux tube constructed in the numerical domain would have a boundary, a `flux surface' which would allow the computation of a normal vector from this surface.
+The magnetic field described in \cref{sec:mhsbackground}, has a Gaussian profile, and is therefore continuous at every point in the domain.
+This means that there is no defined `edge' upon which to draw a flux surface, meaning that it is possible to define any number of arbitrary flux surfaces at any point in the domain.
+
+
+
+The flux surface would be constructed numerically in the domain, and therefore would be a series of small planes connected together to form the surface.
+The equation of a plane is defined by three arbitrary points in a Cartesian geometry, $x_{1,2,3}$, $y_{1,2,3}$, and $y_{1,2,3}$, where the numerical subscript denotes the index of the point; the normal vector $\vec{n}=(a,b,c)$ and a constant $d$:
+\begin{equation}
+	ax_{1,2,3}+by_{1,2,3}+cz_{1,2,3}+d=0.
+    \label{eq:plane}
+\end{equation}
+\Cref{eq:plane} can therefore be used to calculate the normal vector to the numerically constructed flux surface.
+Taking the three points which define the plane and setting $d=0$ leads to a set of simultaneous equations which can be solved for $\vec{n}$.
+
+\subsection{Constructing Flux Surfaces Numerically}
+
+This section describes the numerical construction of the flux surfaces, and the set of normal vectors defined upon them.
+This implementation employs the Visualisation Tool Kit (VTK\footnote{VTK 6.1 (\url{www.vtk.org})}) and the MayaVi package \citep{ramachandran2011} to provide a high-level Python interface to VTK.
+A flux surface is defined as the set of field lines which form a boundary of a flux tube.
+Due to the fact that the magnetic field, as constructed in \cref{sec:mhsbackground}, is continuous the choice of `boundary' is arbitrary, as any boundary could be chosen.
+The process of computing these flux surfaces is illustrated in \cref{fig:circ-seeds,fig:fieldlines,fig:flux-surface,fig:zoomed-surface,fig:zoomed-glyphs}.
+
+The first step, shown in \cref{fig:circ-seeds} as blue dots, is the selection of the seed points for the field lines.
+This effectively defines the location of the flux surface.
+For the background conditions described in \cref{sec:mhsbackground} the magnetic field is axisymmetric, therefore a circle of seed points is chosen at the top of the domain, centred around the axis of the magnetic field defined in \cref{sec:mhsbackground}.
+The radius of this circle defines which arbitrary flux surface is constructed.
+
+The second step (\cref{fig:fieldlines}) is the tracing of the field lines from the given seed points through the domain.
+This calculation is performed using the \verb|vtkStreamTracer| class, using the Runge Kutta 4 integrator, integrating backwards along the field lines.
+
+The third step is the construction of a surface from the set of field lines traced in step 2.
+The result of this is shown in \cref{fig:flux-surface}.
+The surface is generated using the \\ \verb|vtkRuledSurfaceFilter|, which, as configured, connects each point in field line $f_i$ with the two adjacent points in field line $f_{i+1}$.
+This is then repeated for each field line calculated, and between the last and first field lines.
+A zoomed in view of the constructed surface is shown in \cref{fig:zoomed-surface} with the edges of the component polygons shown.
+The result of the \verb|vtkRuledSurfaceFilter| is a series of triangles connecting each point in adjoining field lines.
+
+Finally, now that a set of triangular planes have been defined between the field lines, normal vectors can be extracted.
+This is done automatically by\\ \verb|vtkRuledSurfaceFilter|, however, the orientation of the vector can vary.
+Therefore a check is implemented in the pipeline to ensure the normal vector is always orientated away from the original axis of the background magnetic field.
+The resulting normal vectors are shown in \cref{fig:zoomed-glyphs}
+
+The number of normal vectors calculated is dependant on the number of triangles, which is, in turn, determined by the number of seed points and the step size of the field line integrator.
+The number of seed points used is $100$ for all the analysis in this thesis.
+The resolution of the integrator is left at the default as calculated by VTK.
+
+Once the normal vectors have been constructed, it is simple to compute the azimuthal vector from the magnetic field unit vector, and the normal vector $\vec{n_\phi}= \vec{n_\perp} \times \vec{n_\parallel}$ where $\vec{n_\perp},\ \vec{n_\parallel} $ are also both unit vectors. 
+Using  $\vec{n_\perp},\ \vec{n_\parallel}$ and $\vec{n_\phi}$ it  is possible to project any vector quantity calculated in the simulations into this reference frame, and use it for the analysis of MHD waves.
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.58\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter3/Figs/Chapter3-Figure102-circ-seeds.png}
+    \caption{Due to the axisymmetric nature of the background field, an axisymmetric ring of seed points is chosen. This example uses a ring at a radius of $936$ km from the centre of the domain.}
+    \label{fig:circ-seeds}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.58\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter3/Figs/Chapter3-Figure103-fieldlines.png}
+    \caption{The seed points are then used to trace field lines. The field lines naturally form a flux surface by definition.}
+    \label{fig:fieldlines}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.58\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter3/Figs/Chapter3-Figure104-flux-surface.png}
+    \caption{Once the field lines have been traced a surface is constructed from small polygons (triangles) using the vtkRuledSurfaceFilter algorithm.}
+    \label{fig:flux-surface}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.58\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter3/Figs/Chapter3-Figure105-zoomed-surface.png}
+    \caption{This figure shows the outlines of the triangles of which the surface comprises.}
+    \label{fig:zoomed-surface}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.58\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter3/Figs/Chapter3-Figure106-zoomed-glyphs.png}
+    \caption{By using the surface triangles, a vector normal to the surface can be calculated at each vertex. This is done automatically by the vtkRuledSurfaceFilter algorithm.}
+    \label{fig:zoomed-glyphs}
+\end{figure}
+
+\clearpage{}%
+%
+
+%
+\clearpage{}%
+% !TeX root = ../smumford_thesis.tex
+%*****************************************************************************************
+%********************************** Fourth Chapter ***************************************
+%*****************************************************************************************
+
+\chapter[MHD Waves excited by Different Photospheric Drivers]{MHD Waves excited by Different Photospheric Drivers \footnote{This chapter is based on Mumford et al. (2015) with permission from the copyright holder.}}\label{ch:drivers}
+
+
+\section{Driving Waves from the Photosphere}\label{sec:5drivers}
+
+As discussed in \cref{ch:background} the plasma conditions in the photosphere are conducive to the generation of MHD waves.
+The photosphere is seeded with small-scale magnetic features and dynamic plasma motions as a result of the photospheric granulation.
+In this chapter the motions that are common in the inter-granular lanes will be studied for their potential ability to drive MHD waves in small scale magnetic flux tubes.
+Considering the physical conditions of the inter-granular lanes, where parcels of hot plasma rise, expand and then sink down these lanes.
+It is possible to imagine the motions present: vertical motion caused by rising and sinking plasma; horizontal motion caused by the expansion and contraction of the plasma as it cools; and spiralling motion in which plasma sinks down magnetic field lines, analogous to that of water down a plug hole.
+
+The horizontal and vertical motions are commonly observed in high-resolution observations, the spiralling motions were observed in an inter-granular lane by \cite{bonet2008, bonet2010} and various types of spirals have been observed in the higher layers of the atmosphere by \cite{wedemeyer-bohm2009,wedemeyer-bohm2012,wedemeyer2013}.
+These different types of spiral observed in the atmosphere will be modelled by a variety of drivers.
+A circular driver, an Archemedian spiral, a spiral which expands by a fixed amount for each rotation, and a logarithmic spiral where the spiral expands by an exponentially increasing amount with every rotation will be simulated.
+As well as these circular and spiral drivers, a horizontal and vertical driver will be simulated, to model the rising of the plasma, and the horizontal granular buffeting observed in the inter-granular lanes.
+
+To drive waves in the numerical domain described in \cref{sec:mhsbackground}, the plasma has to be `moved' by numerically adding a velocity field to the domain.
+This is done by adding the desired velocity field to a 3D region close to the bottom of the domain, within the modelled photosphere.
+This velocity field is attenuated with a Gaussian profile in three dimensions and is located at the centre of the domain, aligned with the foot point of the magnetic field.
+This velocity field is then multiplied by a sine function to make it periodic. The generic form of the driver is given in \cref{eq:generic_driver}:
+\begin{equation}
+	V(x,y,z) = F(x,y,z) \ e^{-\left(\frac{z^2}{\Delta z^2} + \frac{x^2}{\Delta x^2} + \frac{y^2}{\Delta y^2}\right)} \sin \left(2\pi \frac{t}{P}\right),
+	\label{eq:generic_driver}
+\end{equation}
+where, $V(x,y,z)$ is the output velocity field, $F(x,y,x)$ is an arbitrary function which defines the form of the driver, $\Delta x$, $\Delta y$, $\Delta z$ are the half-widths of the Gaussian function in the three spatial dimensions, and $P$ is the period of the driver.
+The values used for the width of the Gaussians are fixed through out this thesis and are: $\Delta x = \Delta y = 0.1$ Mm and $\Delta z = 0.05$, the origin of the driver is at $z = 100$ km above the photosphere.
+
+The five representative driving motions, horizontal, vertical, circular, Archemedian spiral and logarithmic spiral are then defined by the form of $F(x,y,z)$. For the horizontal and vertical drivers $F(x,y,z)$ is a constant in the direction of the motion, $x$ for horizontal and $z$ for vertical, for the spiral drivers the forms of $F(x,y,z)$ are given for the circular driver in \cref{eq:Suni},
+
+\begin{subequations}
+	\begin{align}
+		F(x) &= A \frac{y}{\sqrt{x^2 + y^2}},\\
+		F(y) &= - A \frac{x}{\sqrt{x^2 + y^2}},
+	\end{align}
+	\label{eq:Suni}
+\end{subequations}
+the logarithmic spiral in \cref{eq:Slog},
+\begin{subequations}
+	\begin{align}
+		F(x) &= A \frac{\cos(\theta + \phi)}{\sqrt{x^2 + y^2}},\\
+		F(y) &= - A \frac{\sin(\theta + \phi)}{\sqrt{x^2 + y^2}},\\
+			&\text{where}\notag\\
+			&\theta = \tan^{-1}\left(\frac{y}{x}\right),\ \phi = \tan^{-1}\left(\frac{1}{B_L}\right).\notag	
+	\end{align}
+	\label{eq:Slog}
+\end{subequations}
+and the Archemedian spiral in \cref{eq:Sarch},
+\begin{subequations}
+	\begin{align}
+		F(x) &= A \frac{B_Ax}{x^2 + y^2} \frac{y}{\sqrt{x^2 + y^2}},\\
+		F(y) &= - A \frac{B_Ay}{x^2 + y^2} \frac{x}{\sqrt{x^2 + y^2}}.
+	\end{align}
+	\label{eq:Sarch}
+\end{subequations}
+$B_A = 0.005$ and $B_L = 0.05$ are dimensionless expansion parameters for the Archemedian  and logarithmic spirals, respectively.
+The amplitude $A$ of all the drivers is set to $10$ ms$^{-1}$ for all the simulations performed in this chapter and the period is fixed at $240$ s.
+The period of $240$ s was chosen arbitrarily, but primarily to allow for two complete periods within the $600$ s run time of the simulations, with a small margin.
+Visualisations of these velocity fields can be seen in \cref{fig:driver_figs}.
+%TODO: No quiver plot in this image?!
+
+
+\begin{figure*}
+    \centering
+    
+
+    \begin{subfigure}[b]{0.7\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter4/Figs/Chapter4-Figure1-log.pdf}
+        \caption{Logarithmic spiral velocity field with expansion factor $B_L=0.05$}
+        \label{fig:log}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.7\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter4/Figs/Chapter4-Figure2-arch.pdf}
+        \caption{Archemdian spiral velocity field with expansion factor $B_A=0.005$}
+        \label{fig:arch}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.7\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter4/Figs/Chapter4-Figure3-uniform.pdf}
+        \caption{Uniform spiral velocity field}
+        \label{fig:uniform}
+    \end{subfigure}
+    \caption{Horizontal cuts through the spiral driver at the peak amplitude height $z = 0.01$ Mm for the three torsional drivers. Red lines are streamlines of the velocity vector field, overplotted on the velocity magnitude $|V|$.}
+    \label{fig:driver_figs}
+\end{figure*}
+
+\section{Running and Analysing Simulations}
+
+Five simulations, one for each driver profile, were performed using the SAC code as described in \cref{sec:SAC}.
+These simulations were performed using the background conditions described in \cref{sec:mhsbackground} on a $128^3$ grid with physical dimensions of $2.0 \times\ 2.0\ \times\ 1.6$ Mm$^3$ in the $x$, $y$ and $z$ directions respectively, and with an origin in the $z$ direction of $0.061$ Mm above the photosphere.
+The plasma was driven using the different drivers described in \cref{sec:5drivers} continuously for the $600$ s of physical time simulated.
+
+Once the MHD simulations were complete, the data was loaded into the Python flux surface analysis pipeline, as described in \cref{sec:fluxsurfaces}, which then calculated the velocity perturbation and wave flux vectors in the frame of the flux surfaces, which are analysed in \cref{sec:driveranalysis}.
+
+\begin{figure}[H]
+    \begin{subfigure}[b]{0.95\columnwidth}
+        \centering
+        \includegraphics[width=0.55\columnwidth]{Chapter4/Figs/Mayavi_Slog_p240_A10_r60_vphi_00150.png}
+        \caption{Snapshot at $t=154$ s}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.95\columnwidth}
+        \centering
+        \includegraphics[width=0.55\columnwidth]{Chapter4/Figs/Mayavi_Slog_p240_A10_r60_vphi_00450.png}
+        \caption{Snapshot at $t=461$ s}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.95\columnwidth}
+        \centering
+        \includegraphics[width=0.55\columnwidth]{Chapter4/Figs/Mayavi_Slog_p240_A10_r60_vphi_00586.png}
+        \caption{Snapshot at  $t=600$ s}
+    \end{subfigure}
+    \caption{Snapshots at three time steps of a 3D render of the simulation domain for the logarithmic spiral driver with a flux tube radius of $r = 936$ km (at the top of the computational domain). Shown in the domain are magnetic field lines and field strength contours in cyan, as well as the velocity vector field at the peak height of the driver shown as green and black arrows at the base, and the reconstructed surface coloured with the azimuthal velocity component ($V_\phi$).}
+    \label{fig:frames_Suni_vphi}
+\end{figure}
+
+\subsection{Analysing Wave Excitation}\label{sec:driveranalysis}
+The results of applying the analysis discussed in \cref{sec:fluxsurfaces} is shown in \cref{fig:frames_Suni_vphi}, as snapshots at times $154$, $461$ and $600 \text{ s}$ of the wave propagation along the flux surface, as generated by a logarithmic spiral driver with a period of $240$ s.
+The strength and positions of these perturbations change as the simulations progress and the wave fronts travel along the tube. 
+Also shown is a vector plane at the peak vertical height of the driver, which illustrates the velocity field driving the oscillations.
+To analyse the propagation of separate wave modes the velocity components along a single magnetic field line on the flux surface were extracted and time-distance diagrams for each component were constructed. 
+One magnetic field line is chosen at the beginning of the simulation and the values on the polygons between this field line and an adjacent field line are extracted for each time-step and presented as the time-distance diagrams in \cref{fig:All-TD-wave-30}.
+The perturbations are assumed to be linear, therefore no correction is made for the (vertical) movement of the surface itself.
+This assumption is verified by calculating the variation in the coordinates for the polygons at each time-step and it is found to be substantially less than one grid point for all the results presented here.
+
+%TODO: R: More text here
+\subsubsection{Mode Identification}
+To aid in identifying the observed MHD wave modes the phase speed of the perturbations in the time-distance diagrams shall be considered initially.
+To aid in the analysis of \cref{fig:All-TD-wave-30} the Alfv\'en speed $v_A$ and sound speed $c_s$, as well as the speed of the fast magneto-acoustic wave (fast speed) $v_f^2 = \sqrt{c_s^2 + v_A^2}$ and the slow speed $v_s^{-2} = \sqrt{c_s^{-2} + v_A^{-2}}$ are overplotted for the equilibrium background, starting at $60$ s, the first peak of the driver amplitude. 
+It should be noted that these speeds are an approximation of the simulated system because of the non-constant, non-uniform, non-straight magnetic field in a stratified solar atmosphere, where one would expect the observed phase speed to deviate from these first-order estimations, as can be seen in \cref{fig:All-TD-wave-30}.
+
+First, the horizontal driver is considered (\cref{fig:All-TD-wave-30:horiz}), in the most detail. 
+In the $V_\parallel$ component we expect to see the fast mode being the dominant mode, which is observed.
+There is also a weaker presence of a perturbation with a phase speed closer to that of the Alfv\'en and slow speeds but offset from the starting point of the over-plotted lines.
+This is attributed to the coupling of the wave modes in our non-homogeneous plasma.
+In the $V_\perp$ component the presence of a slow mode travelling close to the slow speed $v_s$ (solid line).
+This mode is the dominant contribution in this panel and is much more pronounced than the parallel component. 
+Finally, the azimuthal velocity component ($V_\phi$) has a very small contribution, of an order of magnitude less, travelling at the Alfv\'en speed, which is attributed to the driver not being perfectly centred upon the flux tube axis.
+
+Comparing the results of the wave excitation by the vertical driver to that of the horizontal driver, it is easy to draw parallels in the description.
+However, there are some key differences. 
+In this case, of wave excitation by the vertical driver, most of the perturbation is in the $V_\parallel$ velocity component, with a much stronger contribution from the fast mode ($\approx 20 \times$ stronger than $V_\perp$).
+There is also evidence of a rapidly spatially attenuated mode observed in the top panel of \cref{fig:All-TD-wave-30:vert}.
+This spatial damping is attributed to the expansion of the magnetic flux tube, and the dispersion of the wave energy over a wider volume as the tube expands.
+The $V_\perp$ component on the vertical driver's time-distance diagram is very weak, with only a weak fast mode component easily visible, apart from some reflection from the top boundary after $\approx300$ s. 
+Finally, the vertical driver's $V_\phi$ component is, like its horizontally driven $V_\phi$ counterpart, substantially weaker than the other two components.
+
+Next, the results of the three simulations with torsional drivers are analysed.
+The time-distance diagrams for the three different torsional drivers have similar properties; the vast majority of the perturbation for all the torsional drivers is, as expected, in the $V_\phi$ component.
+The time-distance diagrams for the uniform torsional and the Archimedean spiral driver, \cref{fig:All-TD-wave-30:Suni,fig:All-TD-wave-30:Sarch}, have in their $V_\parallel$ component clear evidence of both the fast mode travelling close to the fast speed, and another very weak mode travelling close to the slow speed.
+This is attributed to the same wave mode coupling as observed in the horizontal driver's time-distance diagram. 
+The logarithmic spiral simulation has a more predominant signature in the $V_\parallel$ velocity component, where the rapidly spatially damped slow mode is the predominant signal, similar to that observed in the case of the vertical driver. 
+In all three torsional drivers there is a notable presence of the slow mode in the $V_\perp$ component.
+While the $V_\phi$ component is clearly dominant, the strong signals in the two other components demonstrates that even the circular driver can excite non Alfv\'en modes.
+
+To gain a clearer understanding of the relative strength of each wave mode identified in \cref{fig:All-TD-wave-30} we now calculate the percentage wave energy flux carried by each component.
+
+
+
+
+\begin{figure*}
+    \centering
+    
+
+    \begin{subfigure}[b]{0.9\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter4/Figs/Chapter4-Figure4-All-TD-wave-30:horiz.pdf}
+        \caption{Horizontal Driver}
+        \label{fig:All-TD-wave-30:horiz}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.9\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter4/Figs/Chapter4-Figure5-All-TD-wave-30:vert.pdf}
+        \caption{Vertical Driver}
+        \label{fig:All-TD-wave-30:vert}
+    \end{subfigure}
+    \caption{}
+    \label{fig:}
+\end{figure*}
+
+\begin{figure*}
+    \centering
+\ContinuedFloat
+    
+
+    \begin{subfigure}[b]{0.9\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter4/Figs/Chapter4-Figure6-All-TD-wave-30:Suni.pdf}
+        \caption{Circular Driver}
+        \label{fig:All-TD-wave-30:Suni}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.9\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter4/Figs/Chapter4-Figure7-All-TD-wave-30:Sarch.pdf}
+        \caption{Archemedian Spiral Driver}
+        \label{fig:All-TD-wave-30:Sarch}
+    \end{subfigure}
+    \caption{}
+    \label{fig:}
+\end{figure*}
+
+\begin{figure*}
+    \centering
+\ContinuedFloat
+    
+
+    \begin{subfigure}[b]{0.9\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter4/Figs/Chapter4-Figure8-All-TD-wave-30:Slog.pdf}
+        \caption{Logarithmic Spiral Driver}
+        \label{fig:All-TD-wave-30:Slog}
+    \end{subfigure}
+    \caption{Decomposed velocity perturbation time-distance diagrams along the flux surface at radius $r = 468$ km for all simulated drivers. Horizontal black lines are plasma-$\beta$ contours, over-plotted are characteristic background speeds, the dot-dashed line is the fast speed ($v_f$), the dashed line is the sound speed ($c_s$), the dotted line is the Alfv\'en speed ($v_A$) and the solid line is the slow speed ($v_t$).}
+    \label{fig:All-TD-wave-30}
+\end{figure*}
+
+
+\subsection{Wave Energy Flux}\label{sec:energy_flux}
+
+
+
+\begin{figure*}
+    \centering
+    
+
+    \begin{subfigure}[b]{0.9\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter4/Figs/Chapter4-Figure9-All-Flux-percent-TD:horiz.pdf}
+        \caption{Horizontal Driver}
+        \label{fig:All-Flux-percent-TD:horiz}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.9\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter4/Figs/Chapter4-Figure10-All-Flux-percent-TD:vert.pdf}
+        \caption{Vertical Driver}
+        \label{fig:All-Flux-percent-TD:vert}
+    \end{subfigure}
+    \caption{}
+    \label{fig:}
+\end{figure*}
+
+\begin{figure*}
+    \centering
+\ContinuedFloat
+    
+
+    \begin{subfigure}[b]{0.9\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter4/Figs/Chapter4-Figure11-All-Flux-percent-TD:Suni.pdf}
+        \caption{Circular Driver}
+        \label{fig:All-Flux-percent-TD:Suni}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.9\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter4/Figs/Chapter4-Figure12-All-Flux-percent-TD:Sarch.pdf}
+        \caption{Archemedian Spiral Driver}
+        \label{fig:All-Flux-percent-TD:Sarch}
+    \end{subfigure}
+    \caption{}
+    \label{fig:}
+\end{figure*}
+
+\begin{figure*}
+    \centering
+\ContinuedFloat
+    
+
+    \begin{subfigure}[b]{0.9\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter4/Figs/Chapter4-Figure13-All-Flux-percent-TD:Slog.pdf}
+        \caption{Logarithmic Spiral Driver}
+        \label{fig:All-Flux-percent-TD:Slog}
+    \end{subfigure}
+    \caption{Decomposed wave energy flux time-distance diagrams along the flux surface at radius $r = 468$ km (approximately central in the flux tube) for all simulated drivers. The three components of energy flux ($F_\parallel$, $F_\perp$ and $F_\phi$) are calculated, then, the proportion for each component is shown for a strip up the flux surface.}
+    \label{fig:All-Flux-percent-TD}
+\end{figure*}
+
+To calculate the relative strengths of the excited waves the `wave energy flux' vector is computed everywhere in the domain using \cref{eq:wave_energy} (see \cref{sec:waveflux} for a discussion on this choice).
+Once the wave energy flux has been computed, it is decomposed into parallel, perpendicular and azimuthal components using the same method as the velocity vector. 
+Using the analysis method outlined in \cref{sec:driveranalysis} time-distance diagrams are computed for the relative wave energy flux (see \cref{fig:All-Flux-percent-TD}). 
+Due to the ratio nature of the data being displayed in \cref{fig:All-Flux-percent-TD}, the plots are filtered such that all points where $F^2 < 10^{-5}$ are masked from display.
+This prevents the early points in the simulation biasing the results when no pertubations have yet reached those points in the domain.
+This filtering is also applied to the calculation of the average wave energy flux.
+
+
+
+
+\begin{figure}[h]
+    \centering
+    \IfFileExists{/home/stuart/GitHub/Thesis/thesis/Chapter4/Figs/Chapter4-Figure14-flux-bar-graph.pgf}{\import{/home/stuart/GitHub/Thesis/thesis/Chapter4/Figs/}{Chapter4-Figure14-flux-bar-graph.pgf}}{}
+    \caption{Percentage total available energy flux comparison (calculated using \cref{eq:wave_energy}), for all drivers and all flux surfaces. The $F_\parallel$ component is shown as green, the $F_\perp$ component is shown in red and the $F_\phi$ component is shown in blue.}
+    \label{fig:flux-bar-graph}
+\end{figure}
+
+
+By studying \cref{fig:All-Flux-percent-TD,fig:flux-bar-graph} we find that for the wave modes excited by the horizontal driver $58.0$\% of the energy flux is in the perpendicular component $F_\perp$ which is attributed to the slow mode.
+The rest of the flux is in the parallel component $F_\parallel$. 
+The vertical driver simulation has $86.2$\% of the energy flux in the $F_\parallel$ component, identified as the fast sausage mode, with the $F_\perp$ component only contributing $13.1$\%. 
+The simulations with spiral drivers all have between $40$\% and $60$\% of their energy flux in the azimuthal component $F_\phi$. 
+The logarithmic spiral source excites a slightly higher percentage of the flux in the slow mode and the fast mode, in comparison to the uniform torsional and Archimedean spiral driver.
+
+The summarised energy flux results, and their equivalents for different flux tube radii are shown in \cref{fig:flux-bar-graph}.
+With reasonable accuracy we can attribute each of the energy flux components shown to one or two MHD wave modes.
+The $F_\parallel$ component is generally the fast mode. 
+The $F_\perp$ component is almost exclusively excited by the slow mode.
+Finally, the $F_\phi$ is attributed to the Alfv\'en mode.
+Another interesting result is that the type of spiral driver used has a minimal impact upon the amount of flux in each wave mode (see \cref{fig:flux-bar-graph}).
+The two spiral drivers had comparable flux and wave mode profiles to the circular driver, showing that the two spirals did not generate extra, non-Alfv\'en modes.
+This could be dependent upon the spiral expansion factor used in the logarithmic and Archimedean spirals, which could be the subject of a further parameter study.
+
+\subsection{Flux Tube Radius}
+The plasma properties vary within the computational domain due to the magnetic field configuration.
+This also means that the wave propagation on the surface of a flux tube is dependent upon its radius. 
+The radius of the flux tube is defined at the top of the domain as its initial radius.
+There are an arbitrary number of definable flux tube surfaces in our domain as defined from the top outer edge of the domain inwards. 
+To demonstrate the difference in propagation caused by the change in plasma properties, especially $\beta$, over the domain all the analysis was performed for three different flux tubes, with radii of $r=936$ km, $r=468$ km and  $r=156$ km; These radii are chosen to represent a good spectrum across the domain.
+
+The results of the flux calculations are summarised in \cref{fig:flux-bar-graph}.
+The smallest radius flux tube, shown in the top panel, shows that, for the torsional driver simulations, less azimuthal ($F_\phi$) flux is generated closer to the axis of the flux tube. 
+This is expected due to a higher magnetic pressure towards the axis of the tube; the flux is, instead, excited evenly in the parallel ($F_\parallel$) and perpendicular ($F_\perp$) components as predominately fast and slow modes. 
+For higher radii surfaces the $F_\parallel$ component dominates the $F_\perp$ component; as the distance from the axis increases the influence of the slow mode decreases.
+In the case of the horizontal and vertical drivers, most of the flux is excited in the slow and fast modes respectively.
+In the horizontal case, for the larger radius tube, the fast mode, in the $F_\parallel$ component, again begins to dominate the slow mode, in the $F_\perp$ component.
+
+%TODO: R: More text here
+\section{Conclusion}
+This chapter has presented 3D numerical simulations showing wave propagation from simulated photospheric drivers, up through the low solar atmosphere towards the transition region.
+Simulations were run mimicking five types of photospheric motions: horizontal, vertical, uniform torsional, Archimedean and logarithmic spiral velocity fields were modelled.
+The resulting perturbations were analysed, the wave modes identified and their percentage wave energy flux contribution determined. 
+It has been shown that for all drivers with a torsional component the main contribution to the flux was the Alfv\'en wave.
+While the vertical driver mainly excited the fast modes and the horizontal driver primarily generated the slow mode, in these high $\beta$ simulations.
+
+This chapter studied three torsional drivers, the circular driver, the Archemedian spiral and the logarithmic spiral.
+It is interesting to note that these driving profiles do not exclusively excite the Alfv\'en mode.
+In fact they excite less than $60$ \% of the total wave flux into the Alfv\'en mode.
+This result demonstrates that these physical driving velocity fields, with a Gaussian profile generate a more varied set of modes than an analytical eigenmode driver.
+Also this means that it is highly probable that a complete spectrum of MHD modes are omni-present in the low solar atmosphere, and all with non-negligible magnitudes.
+On top of this, the lack of variation between the types of spiral drivers is interesting.
+It would have been logical to hypothesise that the spiral drivers would generate significantly less Alfv\'en mode flux than the simpler circular driver, however, this is not the case.
+It is probable that the selection of relatively low expansion factors for the spirals has a significant bearing on this result and this therefore will become the study of the next chapter.
+
+In this chapter some arbitrary choices were made regarding the parameters for the driver profiles.
+The first of these was the choice of amplitude $A=10$ ms$^{-1}$, this choice, while arbitrary, is largely redundant, because as mentioned, the wave modes under study are linear in nature, this means that the properties of the wave should scale linearly with amplitude.
+The other choices made, namely the choice of $B_L = 0.05$ and $P=240$ s are going to be the study of the next two chapters.
+
+
+\clearpage{}%
+%
+
+%
+\clearpage{}%
+% !TeX root = ../smumford_thesis.tex
+%*****************************************************************************************
+%*********************************** Fith Chapter ****************************************
+%*****************************************************************************************
+
+\chapter[Effects of Expansion Factor on Logarithmic Spiral MHD Wave Excitation]{Effects of Expansion Factor on Logarithmic Spiral MHD Wave Excitation \footnote{This chapter is based on Mumford and Erd\'elyi (2015) which is licensed under the terms of the CC-BY 4.0 License.}}\label{ch:expfac}
+
+
+This chapter will investigate the effect of logarithmic spiral-type velocity drivers in the solar photosphere and their properties as MHD wave generation mechanisms.
+\Cref{ch:drivers} studied five representative photospheric velocity fields as drivers for MHD waves.
+It was concluded that the logarithmic, Archemedian and uniform spiral drivers all generate similar ($\pm 10\%$) excited energy fluxes.
+One of the parameters selected arbitrarily in \cref{ch:drivers} was the expansion factors for the logarithmic and Archemedian spirals.
+This chapter analyses the effects of the spiral expansion factor on the MHD waves generated by these velocity fields, motivated by the observational studies and constraints of \cite{bonet2008}.
+In \cite{bonet2008} magnetic bright points (MBPs) were observed spiralling in an inter-granular lane, where cold plasma sinks down into the convection zone.
+\cite{bonet2008} fit the observed locations of the MBP with time to the equation for a logarithmic spiral, shown in \cref{eq:log_spiral},
+\begin{equation}
+\theta = \frac{1}{B_L}\ln\left(\frac{r}{a}\right),
+\label{eq:log_spiral}
+\end{equation}
+\citep{feynman1964} where $r$ is the radius of the spiral and $a$ is a positive real constant, and obtained a value of $B_L^{-1} = 6.4 \pm 1.6 = B_L = 0.15$ for the dimensionless expansion factor parameter.
+
+In \cite{bonet2010} a larger sample of photospheric vortices were studied, despite not fitting spirals to the observed motions, a number density of photospheric vortices was calculated as $d \simeq 3.1 \times 10^{-3}$ vortices Mm$^{-2}$ minute$^{-1}$, which therefore provides an upper limit of the number of logarithmic spiral-like vortices in the solar photosphere.
+
+This chapter investigates the role of the spiral expansion factor ($B_L$) in the generation of MHD waves in a non-potential Gaussian magnetic flux tube, embedded in a realistic stratified solar atmosphere.
+The observational result of \cite{bonet2008} is used as a starting point and values $\pm 3\times$ and $\pm 10\times$ that value are then employed to give five points in the parameter space, centred around their result, which is illustrated in \cref{fig:B-L-values}.
+
+
+\section{Simulation Configuration}\label{sec:simconfig}
+The numerical domain used for the simulations described in this chapter is identical to that used in \cref{ch:drivers} and described in \cref{sec:mhsbackground}.
+This magnetohydrostatic background is perturbed during the simulations using a 3D Gaussian weighted logarithmic spiral velocity driver, as described by \cref{eq:slog5,eq:Slog}:
+\begin{subequations}
+    \begin{align}
+    V_x &= A \frac{\cos(\theta + \phi)}{\sqrt{x^2 + y^2}}\ e^{-\left(\frac{z^2}{\Delta z^2} + \frac{x^2}{\Delta x^2} + \frac{y^2}{\Delta y^2}\right)} \sin \left(2\pi \frac{t}{P}\right),\\
+    V_y &= - A \frac{\sin(\theta + \phi)}{\sqrt{x^2 + y^2}}\ e^{-\left(\frac{z^2}{\Delta z^2} + \frac{x^2}{\Delta x^2} + \frac{y^2}{\Delta y^2}\right)} \sin \left(2\pi \frac{t}{P}\right),
+    \end{align}
+    \label{eq:slog5}
+\end{subequations}
+where:
+\begin{equation*}
+\theta = \tan^{-1}\left(\frac{y}{x}\right),\ \phi = \tan^{-1}\left(\frac{1}{B_L}\right),\notag	
+\end{equation*}
+$A=\frac{20}{\sqrt{3}}$, $\Delta x = \Delta y = 0.1$ Mm and $\Delta z = 0.05$ and $P=180$ s.
+$B_L$ is the logarithmic spiral expansion factor discussed above  \citep{mumford2015}.
+
+\Cref{fig:All_log_spirals} shows the calculated velocity profiles for the peak vertical height of the driver.
+Overplotted on these profiles are streamlines that trace a logarithmic spiral with different expansion factors.
+
+
+
+\begin{figure}[h]
+    \centering
+    \IfFileExists{/home/stuart/GitHub/Thesis/thesis/Chapter5/Figs/Chapter5-Figure1-B-L-values.pgf}{\import{/home/stuart/GitHub/Thesis/thesis/Chapter5/Figs/}{Chapter5-Figure1-B-L-values.pgf}}{}
+    \caption{The parameter space of $B_L$ used in this work, with the $x$-axis on a logarithmic scale. The green error bars show the fit uncertainty of the value observed by \citet{bonet2008}.}
+    \label{fig:B-L-values}
+\end{figure}
+
+
+
+\begin{figure*}
+    \centering
+    
+
+    \begin{subfigure}[b]{0.495\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter5/Figs/Chapter5-Figure2-driver-0-015.pdf}
+        \caption{$B_L = 0.015$}
+        \label{fig:driver-0-015}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.495\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter5/Figs/Chapter5-Figure3-driver-0-05.pdf}
+        \caption{$B_L = 0.05$}
+        \label{fig:driver-0-05}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.495\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter5/Figs/Chapter5-Figure4-driver-0-15.pdf}
+        \caption{$B_L = 0.15$}
+        \label{fig:driver-0-15}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.495\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter5/Figs/Chapter5-Figure5-driver-0-45.pdf}
+        \caption{$B_L = 0.45$}
+        \label{fig:driver-0-45}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.495\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter5/Figs/Chapter5-Figure6-driver-1-5.pdf}
+        \caption{$B_L = 1.5$}
+        \label{fig:driver-1-5}
+    \end{subfigure}
+    \caption{Cuts in the [$x$-$y$] plane through the driving velocity field. The magnitude of velocity is plotted in blue with velocity vectors overplotted in black and a streamline seeded at the centre plotted in red. A plot is shown for each value of $B_L$ used in the simulations.}
+    \label{fig:All_log_spirals}
+\end{figure*}
+
+\section{Analysis}\label{sec:analysis}
+
+The analysis of these simulations proceeds in the same manner as the analysis described in \cref{sec:fluxsurfaces,sec:driveranalysis}.
+The flux surfaces are constructed and the velocity vector and wave flux vectors are decomposed in to the flux surface frame.
+These vectors are then used to identify and quantify the wave modes propagating within the domain, as described in \cref{sec:Vpert}.
+The wave flux vector, calculated using \cref{eq:wave_energy}, is used to quantify the relative strengths of the components, as discussed in \cref{sec:waveflux}.
+
+%TODO: R: more details (in terms of Physics) (2x)
+\subsection{Results}\label{subsec:expfac-results}
+
+To assist in the visualisation and analysis of the results provided by the flux surfaces the vector components along one field line are extracted for all time steps.
+These data are then plotted as time-distance diagrams, as described in \cref{sec:driveranalysis}, the resulting figures are show in \cref{fig:TD-velocity-r30,fig:TD-flux-r30}.
+
+Combining the decomposed velocity vector plotted in \cref{fig:TD-velocity-r30} and the decomposed wave flux vector plotted in \cref{fig:TD-flux-r30} we can reliably describe the nature of the waves generated in the simulations.
+Overplotted on all panels in \cref{fig:TD-velocity-r30,fig:TD-flux-r30} are the phase speeds for the background conditions, the dot-dashed line is the fast speed $v_f$, the dashed line is the sound speed $c_s$, the dotted line is the Alfv\'en speed $v_A$ and the solid line is the slow speed $v_s$.
+By comparing these characteristic phase speeds to the ridges in the time-distance diagrams it can be seen that in the panels for the torsional component (third panel in each figure), the dominant perturbation travels with the Alfv\'en speed (solid line).
+This perturbation is interpreted as an Alfv\'en wave.
+For the perpendicular component (second panels) it can be seen that the dominant perturbation travels with the fast speed (dashed line), therefore this perturbation could be interpreted as a fast mode.
+It can be inferred that this perturbation is more likely to be a sausage mode perturbation due to the radial nature of the driver, in that it should not perturb the axis of the flux tube and, that we observe no significant displacement on the flux surfaces during the simulation.
+The most interesting result is shown for the parallel component (top panel in each figure), where for lower values of $B_L$, the amplitudes are low, but the perturbations that are present travel with the fast speed (dotted line).
+However, as $B_L$ increases the perturbations change form.
+There seems to appear a second, superimposed perturbation travelling with a speed close to that of the slow (or tube) speeds.
+This second perturbation seems to grow proportionally to $B_L$, and can be seen to be dominant in \cref{fig:TD-flux-r30-045,fig:TD-flux-r30-15}.
+
+The wave flux graphs in \cref{fig:TD-flux-r30} are components normalised to the magnitude of the wave flux vector, thus showing the relative strengths of the components.
+Taking \cref{fig:TD-flux-r30-0015} for the $B_L=0.015$ spiral it can be seen that most of the excited wave flux is in the azimuthal component, associated with the Alfv\'en wave.
+As the expansion factor ($B_L$) increases, the driver becomes more radial, and the flux starts to shift from the azimuthal component into the parallel component.
+This is interpreted as a change of the dominant mode from the torsional Alfv\'en wave into a superposition of the fast and slow modes, with dominant velocity perturbations parallel to the field lines.
+It can be seen that within the parameter range observed in \cite{bonet2008} and the simulations spanning this range (shown in \cref{fig:TD-velocity-r30-015,fig:TD-velocity-r30-045}), the parallel component becomes substantially more dominant.
+This means that the change in the spectrum of excited MHD wave modes is sensitive to the expansion factor of a spiral driver, in the region of the expansion factors observed in the photosphere.
+
+In \cref{ch:drivers} it was observed that there is a small but significant percentage of the wave energy flux contained in the perpendicular component.
+This appears to be inversely coupled to the spiral expansion factor of the driver, as it decreases proportionally with the azimuthal wave flux component.
+The size of the perpendicular component is also inversely proportional to the initial radius of the flux surface, as can be seen by its decrease in the three panels of \cref{fig:expfac-flux-comparison}.
+
+
+
+\begin{figure*}
+    \centering
+    
+
+    \begin{subfigure}[b]{0.9\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter5/Figs/Chapter5-Figure7-TD-velocity-r30-0015.pdf}
+        \caption{$B_L = 0.015$}
+        \label{fig:TD-velocity-r30-0015}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.9\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter5/Figs/Chapter5-Figure8-TD-velocity-r30-005.pdf}
+        \caption{$B_L = 0.05$}
+        \label{fig:TD-velocity-r30-005}
+    \end{subfigure}
+    \caption{}
+    \label{fig:}
+\end{figure*}
+
+\begin{figure*}
+    \centering
+\ContinuedFloat
+    
+
+    \begin{subfigure}[b]{0.9\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter5/Figs/Chapter5-Figure9-TD-velocity-r30-015.pdf}
+        \caption{$B_L = 0.15$}
+        \label{fig:TD-velocity-r30-015}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.9\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter5/Figs/Chapter5-Figure10-TD-velocity-r30-045.pdf}
+        \caption{$B_L = 0.45$}
+        \label{fig:TD-velocity-r30-045}
+    \end{subfigure}
+    \caption{}
+    \label{fig:}
+\end{figure*}
+
+\begin{figure*}
+    \centering
+\ContinuedFloat
+    
+
+    \begin{subfigure}[b]{0.9\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter5/Figs/Chapter5-Figure11-TD-velocity-r30-15.pdf}
+        \caption{$B_L = 1.5$}
+        \label{fig:TD-velocity-r30-15}
+    \end{subfigure}
+    \caption{Velocity time-distance diagrams for all simulated values of $B_L$ for the surface with an initial top radius of $468$ km. Shown in green are the phase speeds for the background conditions, the dot-dashed line is the fast speed $v_f$, the dashed line is the sound speed $c_s$, the dotted line is the Alfv\'en speed $v_A$ and the solid line is the slow speed $v_s$. Note that plasma $\beta > 1$ for all heights in the domain.}
+    \label{fig:TD-velocity-r30}
+\end{figure*}
+
+
+
+\begin{figure*}
+    \centering
+    
+
+    \begin{subfigure}[b]{0.9\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter5/Figs/Chapter5-Figure12-TD-flux-r30-0015.pdf}
+        \caption{$B_L = 0.015$}
+        \label{fig:TD-flux-r30-0015}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.9\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter5/Figs/Chapter5-Figure13-TD-flux-r30-005.pdf}
+        \caption{$B_L = 0.05$}
+        \label{fig:TD-flux-r30-005}
+    \end{subfigure}
+    \caption{}
+    \label{fig:}
+\end{figure*}
+
+\begin{figure*}
+    \centering
+\ContinuedFloat
+    
+
+    \begin{subfigure}[b]{0.9\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter5/Figs/Chapter5-Figure14-TD-flux-r30-015.pdf}
+        \caption{$B_L = 0.15$}
+        \label{fig:TD-flux-r30-015}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.9\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter5/Figs/Chapter5-Figure15-TD-flux-r30-045.pdf}
+        \caption{$B_L = 0.45$}
+        \label{fig:TD-flux-r30-045}
+    \end{subfigure}
+    \caption{}
+    \label{fig:}
+\end{figure*}
+
+\begin{figure*}
+    \centering
+\ContinuedFloat
+    
+
+    \begin{subfigure}[b]{0.9\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter5/Figs/Chapter5-Figure16-TD-flux-r30-15.pdf}
+        \caption{$B_L = 1.5$}
+        \label{fig:TD-flux-r30-15}
+    \end{subfigure}
+    \caption{Normalised wave energy flux time-distance diagrams for all simulated values of $B_L$ for the surface with an initial top radius of $468$ km. Shown in blue are the phase speeds for the background conditions, the dot-dashed line is the fast speed $v_f$, the dashed line is the sound speed $c_s$, the dotted line is the Alfv\'en speed $v_A$ and the solid line is the slow speed $v_s$. Note that plasma $\beta > 1$ for all heights in the domain.}
+    \label{fig:TD-flux-r30}
+\end{figure*}
+
+
+This change in excitation of MHD waves is summarised in \cref{fig:expfac-flux-comparison}, where the average value of normalised wave flux $\displaystyle\frac{F_{\parallel, \perp, \phi}^2}{F_\parallel^2 + F_\perp^2 + F_\phi^2}$ over all time is plotted.
+\Cref{fig:expfac-flux-comparison} shows that, between the values of $B_L=0.15$ and $B_L=0.45$ there is a turning point where the torsional component becomes less dominant, with expansion factors larger than $B_L=0.15$ having the parallel component being the dominant component.
+This turning point occurs within the range of the fitted spirals in \cite{bonet2008} and, therefore, implies that photospheric spirals may indeed generate a variety of different MHD modes with varying strengths.
+
+
+
+\begin{figure}[h]
+    \centering
+    \IfFileExists{/home/stuart/GitHub/Thesis/thesis/Chapter5/Figs/Chapter5-Figure17-expfac-flux-comparison.pgf}{\import{/home/stuart/GitHub/Thesis/thesis/Chapter5/Figs/}{Chapter5-Figure17-expfac-flux-comparison.pgf}}{}
+    \caption{Comparison of percentage square wave energy flux for all simulations and all calculated flux surfaces, plotted against spiral expansion factor on a log scale. The parallel component of wave energy flux is shown as blue circles, the perpendicular component as green dashes and the azimuthal component as red crosses. The green shaded region shows the fit uncertainty in the value observed in \citet{bonet2008}}
+    \label{fig:expfac-flux-comparison}
+\end{figure}
+
+%TODO: R: more here
+\section{Conclusions}
+
+This chapter presented a parameter study of the logarithmic spiral expansion factor.
+This parameter controls how tightly wound the logarithmic spiral is, a series of values were chosen around an observed value from \cite{bonet2008}.
+The simulations that were run with expansion factors less than $B_L=0.15$ (the value in \cite{bonet2008}), result in the Alfv\'en wave being dominant, with the exception of the $156$ km flux surface.
+The behaviour of the wave modes on the $156$ km flux surface is worthy of note, the $F_\phi$ and $F_\perp$ components, attributed to the Alfv\'en and slow modes respectively, track each other closely for all values of the expansion factor.
+This has two potential interpretations, firstly, that the slow mode and the Alfv\'en mode, close to the axis of the magnetic flux tube are both weakened equally as the expansion factor increases or secondly, that there is some coupling between the perturbations in both the $F_\phi$ and $F_\perp$ components.
+It can be seen that this link between the $F_\phi$ and $F_\perp$ components can not be seen in the results from the $936$ km surface, and to a substantially lesser extent in the $468$ km surface results.
+
+As the expansion factor increases beyond $B_L=0.15$ the $F_\parallel$ component becomes dominant, with $\approx 80$\% of the flux being in the $F_\parallel$ component for $B_L=1.5$ and the $156$ km surface.
+As can be seen in \cref{fig:All_log_spirals} the driver profile for $B_L=1.5$ is largely radial, making it expected that some significant change in the wave mode distribution would occur.
+The results shown in \cref{fig:TD-velocity-r30-15,fig:TD-flux-r30-15} resemble those of the vertical driver simulated in \cref{ch:drivers} and the results in \cref{fig:All-TD-wave-30:Slog,fig:All-Flux-percent-TD:Slog}.
+This is probably a result of the spherical geometry of the problem, and it is interpreted by the author as both drivers exciting sausage mode oscillations.
+
+
+The next chapter will investigate the relative strengths of the wave modes as period is varied for the logarithmic spiral driver.
+
+\clearpage{}%
+%
+
+%
+\clearpage{}%
+% !TeX root = ../smumford_thesis.tex
+%*****************************************************************************************
+%*********************************** Sixth Chapter ***************************************
+%*****************************************************************************************
+
+\chapter{Effects of Period on MHD Wave Generation from a Logarithmic Spiral Driver}\label{ch:period}
+
+\Cref{ch:drivers,ch:expfac} studied the effects of the driving velocity profile and the logarithmic spiral expansion factor ($B_L$) on the MHD wave excitation.
+In both of these previous chapters, arbitrary periods were chosen, in this chapter the effect of this choice of period on the wave excitation by the logarithmic driver is studied.
+The solar photosphere is populated with an outstanding variety of different frequency wave modes.
+Acoustic (p-mode) waves have a wide frequency spectra, with a peak power at 5 minutes \citep{leighton1962}, and a large number of MHD waves at different frequencies have been observed in the low solar atmosphere; \cite{Freij2014,Dorotovic2014} observe oscillations in magnetic pores at periods ranging from 3 minutes to 25 minutes; \cite{morton2011} observe sausage modes with periods ranging from $30$ to $447$ seconds; and \cite{fujimura2009} observe oscillations with periods between $3$ and $6$ minutes in pores and between $4$ and $9$ minutes in the inter-granular lanes.
+Multiple other studies have also observed oscillations at different frequencies  \cite[e.g.][]{mathioudakis2013,reznikova2012,morton2012,mcintosh2011,zaqarashvili2009,jess2009,vecchio2007,kobanov2006,bogdan2006}.
+It is therefore interesting to study a range of possible frequencies for the driving motions, to see what effects this has on the excitation of MHD waves.
+
+\section{Simulation Configuration}\label{sec:periodconfig}
+This chapter employs the same magnetohydrostatic background as \cref{ch:drivers,ch:expfac} which is described in \cref{sec:mhsbackground}.
+The plasma is also driven by the same logarithmic spiral driver as given in \cref{eq:Slog,eq:slog5}, the expansion factor is selected as the central point of the parameter sweep performed in \cref{ch:expfac}, $B_L=0.15$.
+A plot of the driver profile is shown in \cref{fig:slog-profile}.
+
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter6/Figs/Chapter6-Figure1-slog-profile.pdf}
+    \caption{Horizontal velocity profile of the logarithmic spiral driver with expansion factor $B_L = 0.15$. The normalised magnitude of velocity is shown by the colour map and the cyan arrows follow the vector field. The red line is a velocity streamline seeded in the centre of the domain.}
+    \label{fig:slog-profile}
+\end{figure}
+
+This chapter aims to vary the period ($P$) of the driver, and measure the effects on the wave excitation, however, varying the period of the driver will vary the total amount of energy added to the domain by the driver.
+This would therefore heavily bias the analysis of the results, so it important that the amplitude of the driver is varied along with the period to maintain a constant energy input.
+Below, the relationship between the period ($P$) and amplitude ($A$) is derived to maintain a constant amount of kinetic energy ($E_k$) over the run time of the simulation ($T$) assuming $T = nP$, where $n$ is an integer.
+
+The kinetic energy for any point in space at any instant in time is given by:
+\begin{equation}
+    E_k = \frac{1}{2}\ m\ v^2\label{eq:Ek}
+\end{equation}
+where $m$ is the mass and $v$ is the velocity.
+$E_k$ can be computed over an arbitrary volume $V$, which leads to:
+\begin{equation}
+    m = \rho(x,y,z)\ V.\label{eq:mass}
+\end{equation}
+The simulations are perturbed by a driver with the following general profile:
+\begin{equation}
+    v(x,y,z,t) = A\ G(x,y,z) \sin \left( \frac{2\pi t}{P} \right),\label{eq:vprofile}
+\end{equation}
+where $A$ is the amplitude of the velocity and $G(x,y,z)$ is a normalised spatial distribution.
+Substituting \cref{eq:vprofile} into \cref{eq:Ek} for velocity and integrating for all time gives,
+\begin{align}
+    E_{T}(x,y,z) &= \int_T \frac{1}{2}\ \rho(x,y,z)\ V\ A^2\ G^2(x,y,z)\ \sin^2\left(\frac{2\pi t}{P} \right) dt \\
+    &= \frac{1}{2}\ \rho(x,y,z)\ V\ A^2\ G^2(x,y,z) \int_T \sin^2\left(\frac{2\pi t}{P} \right) dt \\
+    & = \frac{1}{2}\ \rho(x,y,z)\ V\ A^2\ G^2(x,y,z) \left[ \frac{1}{2}T - \frac{P}{8\pi} \sin \left(\frac{4\pi T}{P} \right) \right]
+\end{align}
+recalling $T = nP$ this simplifies to 
+\begin{equation}
+    E_{T}(x,y,z) = \frac{nP}{4}\ \rho(x,y,z)\ V\ A^2\ G^2(x,y,z), \label{eq:Et_xyz}
+\end{equation}
+
+To calculate the total energy input to the numerical domain \cref{eq:Et_xyz} needs to be integrated over all space in the numerical domain.
+In the chosen background equilibrium the profile $\rho(x,y,z)$ is given by a numerical calculation from a reference background and modified for the presence of the magnetic flux tube.
+This means that \cref{eq:Et_xyz} can only be numerically integrated and therefore, can be written as:
+\begin{equation}
+    E_T = \frac{nPA^2V}{4}\ \left( \sum_{x,y,z} \rho(x,y,z)\ G^2(x,y,z) \right),\label{eq:ET}
+\end{equation}
+\Cref{eq:ET} provides a relationship between the amplitude and period of the driver, however, it can be simplified by considering that many of the variables remain constant for each simulation performed in this chapter.
+For all simulations run in this chapter the driver is the same, meaning $G(x,y,z)$ is constant, the background conditions and therefore $\rho(x,y,z)$ are also constant as is the numerical domain and therefore $V$.
+It is therefore possible to let,
+\begin{equation}
+    Q = \frac{V}{4} \sum_{x,y,z} \rho(x,y,z)\ G^2(x,y,z)
+\end{equation}
+where $Q$ is a constant.
+Substituting this into \cref{eq:ET} the final result is obtained:
+\begin{align}
+    E_T &= nPA^2\ Q, \\
+    A^2 &= \frac{1}{E_T n Q} \frac{1}{P} \\
+    A^2 &\propto \frac{1}{P}
+\end{align}
+
+Using the arbitrary amplitude selected in \cref{ch:drivers} of $10$ ms$^{-1}$ for the $240$ s driver, the desired amplitude for each of the periods selected can be calculated relative to this.
+The result of these calculations is shown in \cref{tab:period-amp}.
+Periods varying from $30$ to $300$ seconds are chosen in increments of $30$ seconds, this provides 10 points in the parameter space.
+The upper limit of $300$ seconds was chosen to give two complete periods within the $600$ second upper lifetime estimate given in \cite{sanchezalmeida2004}.
+The $300$ second limit was also partly chosen for practical purposes; with the background atmosphere described in \cref{sec:mhsbackground} and run times over $600$ s some reflections effects from the top numerical boundary start to affect the results.
+
+\begin{table}
+    \centering
+    \begin{tabular}{cc}
+        Period [seconds] & Amplitude [ms$^{-1}$] 	\\ \hline
+        $30.0$           & $20\sqrt{2}$           	\\[2ex]
+        $60.0$           & $20$  		            \\[2ex]
+        $90.0$           & $20\sqrt{\frac{2}{3}}$  \\[2ex]
+        $120.0$          & $10\sqrt{2}$        	\\[2ex]
+        $150.0$          & $4\sqrt{10}$            \\[2ex]
+        $180.0$          & $\frac{20}{\sqrt{3}}$   \\[2ex]
+        $210.0$          & $20\sqrt{\frac{2}{7}}$  \\[2ex]
+        $240.0$          & $10$                 	\\[2ex]
+        $270.0$          & $\frac{20}{3}\sqrt{2}$  \\[2ex]
+        $300.0$          & $4\sqrt{5}$           	\\[2ex]
+        % $330.0$          & $20\sqrt{\frac{2}{11}}$ \\[2ex]
+    \end{tabular}
+    \caption{Tabulation of the period and amplitude pairs used in this work such that total kinetic energy input remains constant.}
+    \label{tab:period-amp}
+\end{table}
+
+\section{Results}\label{subsec:results}
+
+To analyse the MHD wave generation effectively the relative strength of each component must be parametrised for the different periods of driver.
+To do this we decompose the velocity and the wave energy flux as described in \cref{sec:waveflux} onto the surface of the flux surfaces as detailed in \cref{sec:fluxsurfaces}.
+The velocity decomposition allows us to analyse the generated modes and identify what types of modes are in the generated spectra.
+The wave energy flux analysis is presented in terms of $F^2_j$ percentages, this allows for a neat visualisation showing the relative strengths of each component, where the three components sum to $100\%$.
+
+To make visualisation and analysis of the surfaces easier the values of the decomposed parameters are shown for one field line for all time steps in the simulation.
+In \cref{fig:TD-vel-r30} the values of velocity are shown in the form of time-distance diagrams for these field line strips, in \cref{fig:TD-fwave-r30} the decomposed square wave flux is shown. Overlaid on both sets of plots are the characteristic phase speeds of a uniform plasma; the Alfv\'en speed $v_A$ and sound speed $c_s$, as well as the fast speed $v_f = \sqrt{c_s^2 + v_A^2}$ and the slow speed $v_s = \sqrt{c_s^{-2} + v_A^{-2}}$.
+While these speeds will deviate from the true wave speeds in the inhomogeneous simulation domain, they provide a useful guide.
+
+It is clear from the $V_\phi$ (lowest) frames in \cref{fig:TD-vel-r30} that the dominant perturbation is travelling at approximately the Alfv\'en speed, we can therefore reliably deduce that the torsional component of the velocity is, as expected, the Alfv\'en wave.
+The $V_\perp$ (second) panels also show a wave front propagating at the slow speed. For the high-$\beta$ plasma, in the sub-chromosphere region of the solar atmosphere, this is the velocity component that is perturbed by the slow wave in a uniform plasma (as described in \cref{sec:Vpert}).
+It can be noted that as the period gets longer this perturbation becomes more pronounced in the $V_\perp$ panel.
+In the shorter-period frames ($30$s and $90$s) there is a lower-amplitude front propagating close to the fast or sound speeds.
+This is attributed to the coupling of the fast and slow wave modes due to the inhomogeneity of the plasma.
+Finally, in the $V_\parallel$ (top) panels, there is not one dominant wave front, however evidence of two wave fronts, one propagating at the slow speed and one at the fast speed can be discerned.
+The front propagating with the fast speed can be attributed to the fast mode, as in a uniform high-$\beta$ plasma the fast mode would perturb the parallel component of the velocity vector.
+As with the $V_\perp$ component the existence of the slow mode is attributed to the non-uniform nature of the simulation domain.
+
+
+The identification of the wave modes in the velocity perturbations can inform the analysis of the wave flux time-distance diagrams in \cref{fig:TD-fwave-r30}.
+In \cref{fig:TD-fwave-r30} the total square wave flux is calculated as the sum of the square of each component, $ F^2 = F_\parallel^2 + F_\perp ^2  + F_\phi^2$, the square of each component is then normalised by this square total to give a percentage value for each component.
+This is then plotted along one field line, like the velocity components.
+
+
+The percentage wave flux shown in \cref{fig:TD-fwave-r30}, can be combined with the analysis of \cref{fig:TD-vel-r30} to determine the relative strengths of the wave modes.
+In comparison to the upper panels of \cref{fig:TD-vel-r30}, where it was difficult to distinguish between the fronts travelling at the fast and slow speeds, in the $F^2_\parallel$ (top) panel of \Cref{fig:TD-fwave-r30} it is clear that the component with the most flux is the fast mode.
+However, this signal is dominated by the slow mode perturbation in the $F_\perp$ component.
+\Cref{fig:TD-fwave-r30} also shows that in the $F^2_\perp$ (middle) panel, the flux is more evenly shared between the two superimposed components, with the ratio apparently changing dependant upon period.
+This observation should be considered when drawing conclusions from the relative strength of the $F^2_\parallel$ component.
+The $F^2_\phi$ (bottom) panel is again dominated by the Alfv\'en component.
+
+In \cref{fig:period-flux} a summary of the average percentage square wave flux is presented for each of the 10
+simulations performed.
+The average value was taken for one field line for all time throughout the simulation.
+The three panels of \cref{fig:period-flux} are for three flux surfaces seeded at different initial radii at the top of the domain, showing results for different parts of the simulation domain.
+In all three panels it can be seen that the averages for the perpendicular component (green dashes), remain constant with respect to period.
+While the torsional (red crosses) and parallel (blue dots) components fluxes are clearly period dependant.
+Recalling the analysis of \cref{fig:TD-vel-r30,fig:TD-fwave-r30} from above, we can attribute the perpendicular flux to the slow wave, the parallel flux to the fast wave and the torsional flux to the Alfv\'en wave.
+We can therefore conclude that the relative strengths of the fast mode and the Alfv\'en mode are period dependant, with the Alfv\'en mode overall dominating more at larger periods.
+While the growth in relative strength of the Alfv\'en mode is reasonably linear for the $156$ km radius flux surface, the larger flux surfaces show some non-linear variation in average wave flux. 
+The percentage of the flux in the torsional component, which is dominant for all periods, only varies by $<10$ \% for the $936$ and $468$ km flux surfaces.
+For the $156$ km flux surface the variation is larger, $\approx 20$ \%.
+
+
+
+\begin{figure*}
+    \centering
+    
+
+    \begin{subfigure}[b]{0.79\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter6/Figs/Chapter6-Figure2-TD-vel-r30_p30-0.pdf}
+        \caption{Period: $30.0$ s amplitude: $20\sqrt{2}$ ms$^{{-1}}$}
+        \label{fig:TD-vel-r30-p30-0}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.79\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter6/Figs/Chapter6-Figure3-TD-vel-r30_p60-0.pdf}
+        \caption{Period: $60.0$ s amplitude: $20$ ms$^{{-1}}$}
+        \label{fig:TD-vel-r30-p60-0}
+    \end{subfigure}
+    \caption{}
+    \label{fig:TD-vel-r30}
+\end{figure*}
+
+\begin{figure*}
+    \centering
+\ContinuedFloat
+    
+
+    \begin{subfigure}[b]{0.79\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter6/Figs/Chapter6-Figure4-TD-vel-r30_p90-0.pdf}
+        \caption{Period: $90.0$ s amplitude: $20\sqrt{\frac{2}{3}}$ ms$^{{-1}}$}
+        \label{fig:TD-vel-r30-p90-0}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.79\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter6/Figs/Chapter6-Figure5-TD-vel-r30_p120-0.pdf}
+        \caption{Period: $120.0$ s amplitude: $10\sqrt{2}$ ms$^{{-1}}$}
+        \label{fig:TD-vel-r30-p120-0}
+    \end{subfigure}
+    \caption{}
+    \label{fig:TD-vel-r30-c}
+\end{figure*}
+
+\begin{figure*}
+    \centering
+\ContinuedFloat
+    
+
+    \begin{subfigure}[b]{0.79\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter6/Figs/Chapter6-Figure6-TD-vel-r30_p150-0.pdf}
+        \caption{Period: $150.0$ s amplitude: $4\sqrt{10}$ ms$^{{-1}}$}
+        \label{fig:TD-vel-r30-p150-0}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.79\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter6/Figs/Chapter6-Figure7-TD-vel-r30_p180-0.pdf}
+        \caption{Period: $180.0$ s amplitude: $\frac{20}{\sqrt{3}}$ ms$^{{-1}}$}
+        \label{fig:TD-vel-r30-p180-0}
+    \end{subfigure}
+    \caption{}
+    \label{fig:TD-vel-r30-c}
+\end{figure*}
+
+\begin{figure*}
+    \centering
+\ContinuedFloat
+    
+
+    \begin{subfigure}[b]{0.79\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter6/Figs/Chapter6-Figure8-TD-vel-r30_p210-0.pdf}
+        \caption{Period: $210.0$ s amplitude: $20\sqrt{\frac{2}{7}}$ ms$^{{-1}}$}
+        \label{fig:TD-vel-r30-p210-0}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.79\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter6/Figs/Chapter6-Figure9-TD-vel-r30_p240-0.pdf}
+        \caption{Period: $240.0$ s amplitude: $10$ ms$^{{-1}}$}
+        \label{fig:TD-vel-r30-p240-0}
+    \end{subfigure}
+    \caption{}
+    \label{fig:TD-vel-r30-c}
+\end{figure*}
+
+\begin{figure*}
+    \centering
+\ContinuedFloat
+    
+
+    \begin{subfigure}[b]{0.79\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter6/Figs/Chapter6-Figure10-TD-vel-r30_p270-0.pdf}
+        \caption{Period: $270.0$ s amplitude: $\frac{20}{3}\sqrt{2}$ ms$^{{-1}}$}
+        \label{fig:TD-vel-r30-p270-0}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.79\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter6/Figs/Chapter6-Figure11-TD-vel-r30_p300-0.pdf}
+        \caption{Period: $300.0$ s amplitude: $4\sqrt{5}$ ms$^{{-1}}$}
+        \label{fig:TD-vel-r30-p300-0}
+    \end{subfigure}
+    \caption{Velocity time-distance diagrams for six different period and amplitude combinations are plotted, in each pane three components of velocity are plotted for a flux surface of $r=468$ km. Shown in green are the phase speeds for the background conditions, the dot-dashed line is the fast speed $v_f$, the dashed line is the sound speed $c_s$, the dotted line is the Alfv\'en speed $v_a$ and the solid line is the slow speed $v_s$.}
+    \label{fig:TD-vel-r30-c}
+\end{figure*}
+
+
+
+
+
+\begin{figure*}
+    \centering
+    
+
+    \begin{subfigure}[b]{0.79\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter6/Figs/Chapter6-Figure12-TD_wave_r30_p30-0.pdf}
+        \caption{Period: $30.0$ s amplitude: $20\sqrt{2}$ ms$^{{-1}}$}
+        \label{fig:TD-wave-r30-p30-0}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.79\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter6/Figs/Chapter6-Figure13-TD_wave_r30_p60-0.pdf}
+        \caption{Period: $60.0$ s amplitude: $20$ ms$^{{-1}}$}
+        \label{fig:TD-wave-r30-p60-0}
+    \end{subfigure}
+    \caption{}
+    \label{fig:TD-fwave-r30}
+\end{figure*}
+
+\begin{figure*}
+    \centering
+\ContinuedFloat
+    
+
+    \begin{subfigure}[b]{0.79\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter6/Figs/Chapter6-Figure14-TD_wave_r30_p90-0.pdf}
+        \caption{Period: $90.0$ s amplitude: $20\sqrt{\frac{2}{3}}$ ms$^{{-1}}$}
+        \label{fig:TD-wave-r30-p90-0}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.79\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter6/Figs/Chapter6-Figure15-TD_wave_r30_p120-0.pdf}
+        \caption{Period: $120.0$ s amplitude: $10\sqrt{2}$ ms$^{{-1}}$}
+        \label{fig:TD-wave-r30-p120-0}
+    \end{subfigure}
+    \caption{}
+    \label{fig:TD-fwave-r30-c}
+\end{figure*}
+
+\begin{figure*}
+    \centering
+\ContinuedFloat
+    
+
+    \begin{subfigure}[b]{0.79\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter6/Figs/Chapter6-Figure16-TD_wave_r30_p150-0.pdf}
+        \caption{Period: $150.0$ s amplitude: $4\sqrt{10}$ ms$^{{-1}}$}
+        \label{fig:TD-wave-r30-p150-0}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.79\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter6/Figs/Chapter6-Figure17-TD_wave_r30_p180-0.pdf}
+        \caption{Period: $180.0$ s amplitude: $\frac{20}{\sqrt{3}}$ ms$^{{-1}}$}
+        \label{fig:TD-wave-r30-p180-0}
+    \end{subfigure}
+    \caption{}
+    \label{fig:TD-fwave-r30-c}
+\end{figure*}
+
+\begin{figure*}
+    \centering
+\ContinuedFloat
+    
+
+    \begin{subfigure}[b]{0.79\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter6/Figs/Chapter6-Figure18-TD_wave_r30_p210-0.pdf}
+        \caption{Period: $210.0$ s amplitude: $20\sqrt{\frac{2}{7}}$ ms$^{{-1}}$}
+        \label{fig:TD-wave-r30-p210-0}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.79\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter6/Figs/Chapter6-Figure19-TD_wave_r30_p240-0.pdf}
+        \caption{Period: $240.0$ s amplitude: $10$ ms$^{{-1}}$}
+        \label{fig:TD-wave-r30-p240-0}
+    \end{subfigure}
+    \caption{}
+    \label{fig:TD-fwave-r30-c}
+\end{figure*}
+
+\begin{figure*}
+    \centering
+\ContinuedFloat
+    
+
+    \begin{subfigure}[b]{0.79\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter6/Figs/Chapter6-Figure20-TD_wave_r30_p270-0.pdf}
+        \caption{Period: $270.0$ s amplitude: $\frac{20}{3}\sqrt{2}$ ms$^{{-1}}$}
+        \label{fig:TD-wave-r30-p270-0}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.79\columnwidth}
+        \includegraphics[width=0.95\columnwidth]{/home/stuart/GitHub/Thesis/thesis/Chapter6/Figs/Chapter6-Figure21-TD_wave_r30_p300-0.pdf}
+        \caption{Period: $300.0$ s amplitude: $4\sqrt{5}$ ms$^{{-1}}$}
+        \label{fig:TD-wave-r30-p300-0}
+    \end{subfigure}
+    \caption{Percentage square wave flux along one field line is plotted over the length of the simulation, for different period and amplitude combinations. Shown in green are the phase speeds for the background conditions, the dot-dashed line is the fast speed $v_f$, the dashed line is the sound speed $c_s$, the dotted line is the Alfv\'en speed $v_a$ and the solid line is the slow speed $v_s$.}
+    \label{fig:TD-fwave-r30-c}
+\end{figure*}
+
+
+
+
+\begin{figure}[h]
+    \centering
+    \IfFileExists{/home/stuart/GitHub/Thesis/thesis/Chapter6/Figs/Chapter6-Figure22-period-flux.pgf}{\import{/home/stuart/GitHub/Thesis/thesis/Chapter6/Figs/}{Chapter6-Figure22-period-flux.pgf}}{}
+    \caption{Average percentage square wave flux plotted against period. For each vector component on the flux surface the value of the wave flux squared along one field line is taken and then the fraction of the square total calculated, and then averaged over an integer number of periods, shown in brackets on the x axis. This provides a high-level overview of the relative strengths of each mode. The azimuthal component is shown as red crosses, the parallel component as blue circles and the perpendicular component is shown as green dashes. The top panel displays the average wave flux for the flux surface closest to the centre of the domain at $r=156$ km the second panel at $r=468$ km and the bottom panel at $r=936$ km.}
+    \label{fig:period-flux}
+\end{figure}
+
+
+\section{Conclusion}\label{sec:conclusion}
+
+In this chapter the same logarithmic spiral driver that was studied in \cref{ch:drivers,ch:expfac}, with the oscillatory period of the driver varied.
+\Cref{fig:period-flux} gives an overview of the results, it shows that overall the percentage of the wave flux attributed to the Alfv\'en wave only varies by $<20$ \%.
+It is interesting to note that the slow mode perturbation seen in the $V_\perp$ panels of \cref{fig:TD-vel-r30} becomes more prominent in the longer period simulations.
+While this observation is not clearly presented in the average wave flux results (\cref{fig:period-flux}), some evidence of this shift can be seen in the wave flux time-distance diagrams in \cref{fig:TD-fwave-r30}.
+In spite of this result however, it does not appear to make a significant difference to the total amount of energy in the different identified wave modes.
+It appears therefore that the period of the logarithmic spiral driver is not as critical to the wave modes it excites as the expansion factor or indeed the driving profile.
+
+The small ($<20$\%) variation in the Alfv\'en mode flux is largely non-linear for short periods ($<180$ s).
+However, the variation becomes more linear at shorter periods for the flux surfaces that are closer to the centre of the domain.
+The presence of this variation at short periods is most interesting because of the relative importance of these periods.
+If the lifetime of MBPs is short, $<10$ minutes \citep{sanchezalmeida2004}, then the shorter period modes have a larger chance of being excited and surviving for multiple periods.
+This non-linearity is therefore an interesting result, with potential effects on the strength of the wave modes present in the low chromosphere.
+When analysing these results however it is important to remember a limitation of the analysis.
+The percentage square wave flux was averaged over an integer number of periods to ensure a constant total amount of kinetic energy was added to the domain (see \cref{sec:periodconfig}).
+However, the total run time of all the simulations was fixed at $600$ s, this means that the shorter period simulations were averaged over a larger number of periods than the long period ones.
+There does however, seem to be no correlation between the non-linearity and the number of periods averaged over.
+This result should be investigated further to confirm its validity.
+
+
+
+
+\clearpage{}%
+%
+
+%
+\clearpage{}%
+% !TeX root = ../smumford_thesis.tex
+%*****************************************************************************************
+%********************************** Seventh Chapter ***************************************
+%*****************************************************************************************
+
+\chapter{Conclusions and Future Work}\label{ch:conclusions}
+
+\section{Summary and Conclusions}
+
+This thesis has studied the generation of magnetohydrodynamic waves in the solar photosphere, and their propagation from the photosphere to the base of the chromosphere.
+In \cref{ch:drivers}, five different photospheric drivers were used to excite MHD waves.
+The vertical driver was found to excite primarily fast mode perturbations in the $V_\parallel$ component of the velocity.
+The horizontal driver primarily excited slow mode perturbations in the perpendicular ($V_\perp$) component.
+The three torsional drivers, a circular driver as well as Archemedian and logarithmic spirals all excited between $40$ and $60$ \% of their wave flux in the Alfv\'en mode, with the rest distributed between the fast and slow modes.
+The uniformly low proportion of excited Alfv\'en wave for all the torsional drivers has an interesting implications for the generation of the widely sort after Alfv\'en wave.
+If even idealised circular motions in the photosphere only excite $\approx 45$\% of their wave flux in the Alfv\'en mode, then the estimates of the total amount of available Alfv\'en flux, which could propagate through the chromosphere at potentially heat it and the corona, may be overestimated.
+
+\Cref{ch:expfac} continued the study of the logarithmic spiral driver.
+In this chapter, the expansion factor was varied and the effects on the distribution of excited wave modes studied.
+In \cref{ch:drivers} the expansion factor was arbitrarily chosen to be $B_L = 0.05$, in \cref{ch:expfac} a variety of expansion factors were simulated based around the observational results of \cite{bonet2008}.
+This study observed MBPs spiralling in a inter-granular lane, a logarithmic spiral was fitted to the observed locations of the MBP and a expansion factor of $B_L^{-1} = 6.4 \pm 1.6 = B_L = 0.15$ calculated.
+Unlike the logarithmic spiral driver used in \cref{ch:drivers}, not all the expansion factors simulated in \cref{ch:expfac} resulted in the Alfv\'en wave being the dominant mode.
+In fact, the midpoint of the parameter space studied, $B_L = 0.15$ was the last point simulated where the Alfv\'en mode was dominant, for the two points with higher expansion factors the fast mode was the dominant mode.
+This accentuates the results of \cref{ch:drivers}, in that even less Alfv\'en flux is generated for driver profiles based on observational data.
+If a distribution of expansion factors are present in the photosphere around the observed expansion factor $B_L = 0.15$ a large proportion of these vortexes would be generating more fast mode flux than Alfv\'en flux.
+
+\Cref{ch:period} varied the driving period of the logarithmic spiral driver, while keeping the expansion factor at $B_L = 0.15$, in line with the simulations presented in \cref{ch:expfac}.
+The period choices in \cref{ch:drivers,ch:expfac} were $240$ and $180$ s respectively, both of these were selected arbitrarily.
+To cover a good range of the period parameter space, $10$ periods were selected varying from $30$ to $300$ seconds, in steps of $30$ s.
+The upper limit of $300$ seconds being chosen for a combination of physical and practical purposes.
+The maximum lifetime of the MBPs observed by \cite{sanchezalmeida2004} was $10$ minutes, so setting the upper limit as $300$ s allows for two complete periods with this upper bound of MBP lifetime.
+In addition to this, running simulations for a much longer time period leads to interference by some reflection from the top numerical boundary.
+The effects of the period on the excited wave mode distribution were varied.
+The Alfv\'en fluxes varied up to a maximum of $20$\% for the narrowest flux surface, and substantially less than that for the other two wider surfaces.
+Interestingly, however, there was some variation in the form of the observed wave fronts in the velocity time-distance diagrams.
+At higher periods there is a small shift in the velocity perturbations from the fast mode to the slow mode ($V_\parallel$ to $V_\perp$).
+This observation is not really reflected in the average wave flux results, however, there was a small increase in the perpendicular component for the last $3$ or $4$ periods in the sample.
+Overall, it can be concluded that while the period has some effect on the wave modes generated, especially close to the axis of the flux tube, the effect is much less pronounced than for the other changes made to the driver in this thesis.
+
+When considering the conclusion of this thesis, namely that spiral drivers excite a spectra of wave modes, it is worth keeping in mind the limitations of the analysis.
+Primarily, the limitation of the spatial extent of the data studied.
+Due to the need to construct flux surfaces to successfully decompose the vector quantities into a reference frame that lends itself to the analysis of MHD wave modes, these wave modes can, by definition, only be analysed on the constructed surfaces.
+Throughout this thesis, three representative surfaces have been used to understand the dynamics at different points throughout the domain.
+However, when considering the results, especially in \cref{ch:period}, where interesting results were observed close to the axis of the magnetic flux tube, it would be advantageous to be able to study the variation of the analysis continuously through the domain.
+
+Beyond this fundamental limitation of the analysis method applied, the theoretical description of the plasma used to interpret the results presents some limitations.
+Firstly, a uniform field approximation was described in \cref{ch:background}, this is an over-simplification of the numerical domain, where a plasma with some degree of spherical symmetry, in a stratified atmosphere was studied.
+While much theory exists surrounding the nature of MHD waves in spherical geometry, this too would prove inadequate to analytically describe the plasma conditions in the simulation, indeed this is the purpose of numerical experiments.
+However, some further analysis using this theory could be performed, especially utilising the spatial coordinates of the flux surfaces in the domain, to measure the displacement of the surface from the equilibria.
+
+\section{Future Work}
+
+The research documented in this thesis has explored a variety of parameters of the velocity fields that drive waves in the solar atmosphere.
+The logarithmic spiral driver was studied the most intensely with the period and its expansion factor both analysed.
+The scope for future work is vast, with substantially more parameters that could be varied.
+One set of parameters which has remained constant over all the simulations run in this thesis is the FWHM of the Gaussian driving volume.
+This parameter defines in what volume the majority  of the driving energy is added to the simulation.
+In this thesis, this volume has been quite small, meaning most of the energy has been added close to the centre of the magnetic flux tube.
+This may not be completely physical, because the plasma motions in the photosphere are not limited to the volume of a MBP, or even the inter-granular lane in which they are embedded.
+When varying the FWHM of the driving profile it would be important to reconsider the analysis undertaken in \cref{ch:period} to ensure the total kinetic energy remained constant.
+This would involve moving the $G(x,y,z)$ term out of the constant of proportionality, and accounting for it when selecting the amplitude.
+The results of this study would be interesting, especially when analysing the difference between the flux surfaces closest to the centre of the magnetic flux tube, to the ones further away.
+
+More fundamentally, the magnetic configuration itself could be varied.
+With the work performed in \cite{gent2013,gent2014} it is trivial and computationally efficient to calculate multiple stable background atmospheres.
+The atmosphere used in this work, is limited to below the transition region, because the expansion properties of the magnetic field, as used, would cause the pressure and density to become un-physical above this region.
+Therefore, a different more self-consistent atmosphere should be built and the effects of the changing expansion rate on the wave generation studied.
+If an atmosphere was constructed which had the same footpoint properties, \textit{e.g.} magnetic field strength and FWHM, the author hypothesises that the effects on the wave flux profiles would be minimal.
+However, it is more than possible that the changes in plasma properties in the higher regions of the simulation domain would cause some deviation from the results presented in this thesis.
+
+Finally, an interesting avenue for future study is to construct more complex background atmospheres from multiple flux tubes, such as in \cite{gent2014} and future extensions to that work.
+This would allow for construction of an atmosphere based on observation data of the magnetic field, and more interestingly co-aligned observations of the photospheric velocity field.
+While these results would more accurately mimic the reality of the solar surface they would present significant challenges in the analysis of the simulations.
+The magnetic flux surface algorithm presented in \cref{sec:fluxsurfaces} is capable of selecting any flux surface even in a highly unstructured domain.
+This would enable similar analysis to that of this thesis, however care would have to be taken in the interpretation.
+\clearpage{}%
+%
+
+%
+\clearpage{}%
+% !TeX root = ../smumford_thesis.tex
+%*****************************************************************************************
+%*********************************** Eigth Chapter ***************************************
+%*****************************************************************************************
+%\begin{pycode}[chapter8]
+%from __future__ import print_function
+%ch8 = texfigure.Manager(pytex, number=8, base_path='./Chapter8/')
+%\end{pycode}
+
+\chapter{SunPy: A Tool for Open Solar Physics}\label{ch:sunpy}
+
+The SunPy project \citep{thesunpycommunity2015a} aims to facilitate and promote the use and development of a community-led, free and open-source solar data-analysis software based on the scientific Python environment.
+Utilizing the scientific Python environment which has an extensive tool-set, allows for the creation of high-quality data-analysis software package for Solar Physics.
+The adoption of Python as a scientific programming language is, in part, due to that fact that Python is a free, general-purpose, powerful, and easy-to-learn high-level programming language.
+This fact has fostered a large community that is slowly growing in many fields both inside and outside of science, where Python is also widely used in areas such as `big data' analytics, web development, and educational environments.
+
+A perfect example is the \texttt{pandas} \citep{mckinney2010, mckinney2012} Python package, which was started to simply analysis of financial data and has since grown into a generalised time-series data-analysis package.
+Further, Python has seen extensive adoption within the astronomy community \citep{greenfield2011} which is a field that shares many goals and challenges with the solar physics community.
+
+The development of a package such as SunPy is made possible by the rich ecosystem of scientific packages available in Python.
+Core packages such as \texttt{NumPy}, 
+\texttt{SciPy} \citep{jones2001}, and \texttt{matplotlib} \citep{hunter2007} provide the basic functionality expected of a scientific programming language, such as array manipulation, core numerical algorithms, and visualisation, respectively.
+Building upon these foundations, packages such as \texttt{astropy} \citep[astronomy;][]{theastropycollaboration2013}, \texttt{pandas} \citep[time-series;][]{mckinney2012}, and \texttt{scikit-image} \citep[image processing;][]{vanderwalt2014} provide more domain-specific functionality.
+
+Within Solar Physics, the SolarSoft (SSW) library \citep{freeland1998} is widely used, which is built upon the IDL (Interactive Data Language), a proprietary data-analysis environment. In contrast, SunPy is a open-source package that provides the \textit{core} tools for solar data analysis and aims to be a free and modern alternative.
+
+\section{Community Development}
+SunPy is a community developed package, the source code is hosted on GitHub \url{https://github.com/sunpy} and two mailing lists and an IRC channel serve as the projects communication channels.
+This collaborative nature of the project is its greatest strength.
+This chapter will my primary contributions to the project, but it is to be understood that they were all developed in a collaborative manner with the other members of the SunPy community.
+
+I have been involved heavily in the SunPy project for the past three years.
+During this time I have mentored three students through the Google Summer of Code and ESA Summer of Code in Space programs, founded the SunPy board as a governance structure for the project and served as lead developer.
+During my time as lead developer I have strived to integrate the SunPy project with the wider scientific community and especially the astrophysical community.
+I have contributed to many different projects to add or fix features for use by SunPy, especially in Astropy where I have helped guide design and creation of multiple features used in SunPy.
+
+\section{Representation of Imaging Data}
+
+One of the main submodules of SunPy is the `Map' submodule which presents a unified interface to different sources of imaging data.
+Most image data in solar physics is stored in the FITS (Flexible Image Transport System) file format \citep{pence2010}.
+However, even where data to be loaded by SunPy is in the FITS file format the critical information, the metadata, describing the observations is not stored in a consistent manner.
+Despite the development of standard ways to describe coordinate information in FITS files (FITS-WCS) \citep{greisen2002,thompson2006} data generated before these standards were adopted and other meta data not related to the coordinates of the images do not follow these standards.
+The problem of non-standard meta data is the primary motivator for the architecture of the SunPy `Map' submodule.
+
+The `Map' module employs the object orientated (OO) nature of the Python programming language to allow specific data sources, such as different instruments, to map their meta data to a standard SunPy interface to that data.
+The \verb|GenericMap| class defines this standard interface, it provides human readable properties to access common meta data, such as the FITS-WCS coordinate information and other common meta data such as instrument and date.
+The \verb|GenericMap| class defines these mappings using a strict interpretation of the standards and the most common conventions in solar physics.
+Specific instruments that deviate from these standards, or desire other specialisations, define a subclass of the \verb|GenericMap| class to override any properties to provide the correct information to the user in the standard manner.
+This design results in a class hierarchy where each instrument has a associated class, and the user would have to manually load the data into the correct class to obtain the desired behaviour.
+To improve the user experience a unified interface to the `Map' module was designed for the first official release of SunPy (v0.2).
+
+The function of this unified interface was to extract the data from a file provided by the user and load it into the correct class.
+The implementation of this original interface, named \verb|make_map| was complex and hard to extend.
+It is for this reason that for SunPy v0.3 the interface to the Map submodule was redesigned, a process which the I led.
+The new design of the `Map' module made use of a system where each subclass of \verb|GenericMap| registers itself with a `Factory' class upon its initilisation.
+This registration procedure supplies a function to the factory class to use to ascertain from the meta data which class should be used to interpret the data.
+The implementation of the \verb|RegisteredFactoryBase| was provided by a contributor to SunPy, and the integration of it into the `Map' module was performed by the author.
+The \verb|Map| class provides a high-level interface to the user, it is deisgned to be able to parse a wide variety of inputs, including filenames, filenames with wildcards, and raw data and meta data pairs.
+This flexibility makes it simple for the user to initialise a Map object specific to the data being loaded, without the user having to understand or appreciate the underlying architecture.
+This design also makes it simple for developers of SunPy or advanced users to create a Map class for a custom instrument or data source, and continue using their existing code.
+
+\section{Solar Physics Coordinate Systems}
+
+\cite{thompson2006} describes a set of commonly used coordinate systems for solar physics data analysis.
+These systems are frequently used by any person performing analysis of solar imaging data.
+As of SunPy v0.6 SunPy handles representation of these coordinate systems by pairs of floating point numbers, and the conversion between the systems by calls to functions where the extra information needed to perform the conversion is explicitly provided.
+This system, while functional for the current internal needs of the SunPy library, is not intuitive or powerful for the end users of the library.
+
+The Astropy library \citep{theastropycollaboration2013} in its v0.4 release provided a modular and general framework for the representation of celestial coordinate systems and the transformations between them.
+Prior to the development and subsequent release of this new submodule, the author collaborated with the Astropy developers to ensure that the design of this new system would be compatible with the requirements of solar physicists and the coordinate systems described in \cite{thompson2006}.
+The author also contributed to the implementation of the Astropy submodule, by co-writing the coordinate representation system.
+
+Since the development of the Astropy coordinates framework, I have led the work to implement the solar physics coordinates systems within the SunPy library.
+This work is expected to form a part of the upcoming v0.7 release of the SunPy library.
+The implementation of these systems presented some challenges specific to solar physics.
+The main convention difference between astronomy and solar astronomy is the `wrapping' of the longitude coordinate in spherical coordinate systems.
+In most astrophysical systems the longitude runs between $0^\circ$ and $360^\circ$, whereas in solar physical systems, including the most commonly used helio-projective system, the longitude coordinate takes values between $-180^\circ$ and $+180^\circ$.
+This difference in convention required subclassing the Astropy `Representation' classes to change the default values of the coordinate wrapping.
+This itself lead to extra requirements to sanitise inputs and ensure the Astropy library did not override the change in defaults.
+
+The second major solar physics specific challenge that was overcome in the implementation was the transition from the projective coordinate frame of imaging data to the three-dimensional solar centric coordinate systems commonly used to describe features independent of the location of the observer.
+The mathematics of this coordinate conversion are described in \cite{thompson2006}, and regularly utilised by a multitude of codes and analysis pipelines.
+The process however, is not without its assumptions and it was important in the design of the user interface that no flexibility was lost and all options exposed to the user.
+This required that the fundamental assumption of this conversion, that the Sun emits radiation on a solid sphere of known radius was customisable by the user.
+The assumption of a fixed radius sphere allows the calculation of the distance between an observer and the point on the sphere corresponding to a position in an image.
+This calculation of distance converts a two dimensional projective coordinate system into a three dimensional observer centric coordinate system, which in turn allows the conversion to different coordinate frames.
+This conversion step is only applied either when the user explicitly requests it without changing coordinate system, or when it is required to perform a coordinate transformation requested by the user.
+Conversion from the two dimensional to the three dimensional system uses the \verb|RSun| attribute of the \verb|HelioProjectiveFrame| class which allows the user to customise the physical radius of the Sun being observed.
+
+This implementation of the solar physics coordinate systems on top of the Astropy coordinates module provides a significant advantage to the SunPy library.
+Due to the coordinate independent nature of the design, tools that are built for astrophysical applications can support solar physics coordinate systems with no extra work required by the authors of these tools.
+This, therefore, provides both an excellent, user friendly interface to a set of very common solar physics coordinate representations and transformations while getting access to the high quality tools which make use of this framework.
+
+\section{The Future of SunPy}
+
+Adoption of the SunPy library by the wider solar physics community is predicated on the provision of high quality tools which enable new and exciting discoveries.
+The new features described in this chapter form part of the wider effort to enable solar physics data analysis within the Python ecosystem.
+The author has contributed to the SunPy library in many smaller ways, and has acted in the role of lead developer, while building the community around the project.
+
+\clearpage{}%
+%
+
+
+
+
+% ********************************** Back Matter *******************************
+% Backmatter should be commented out, if you are using appendices after References
+%\backmatter
+
+% ********************************** Bibliography ******************************
+\begin{spacing}{1.1}
+
+% To use the conventional natbib style referencing
+% Bibliography style previews: http://nodonn.tipido.net/bibstyle.php
+% Reference styles: http://sites.stat.psu.edu/~surajit/present/bib.htm
+
+\bibliographystyle{apalike}
+%\bibliographystyle{natbib} % use this to have URLs listed in References
+\cleardoublepage
+\bibliography{References/Thesis} % Path to your References.bib file
+
+
+% If you would like to use BibLaTeX for your references, pass `custombib' as
+% an option in the document class. The location of 'reference.bib' should be
+% specified in the preamble.tex file in the custombib section.
+% Comment out the lines related to natbib above and uncomment the following line.
+
+% \printbibliography[heading=bibintoc, title={References}]
+
+
+\end{spacing}
+
+% ********************************** Appendices ********************************
+
+\begin{appendices} % Using appendices environment for more functunality
+
+%\include{Appendix1/appendix1}
+
+\end{appendices}
+
+% *************************************** Index ********************************
+\printthesisindex % If index is present
+
+\end{document}
