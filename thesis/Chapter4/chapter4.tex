@@ -70,7 +70,6 @@ $B_A = 0.005$ and $B_L = 0.05$ are dimensionless expansion parameters for the Ar
 The amplitude $A$ of all the drivers is set to $10$ ms$^{-1}$ for all the simulations performed in this chapter and the period is fixed at $240$ s.
 The period of $240$ s was chosen arbitrarily, but primarily to allow for two complete periods within the $600$ s run time of the simulations, with a small margin.
 Visualisations of these velocity fields can be seen in \cref{fig:driver_figs}.
-%TODO: No quiver plot in this image?!
 \begin{pycode}[chapter4]
 from streamlines import Streamlines
 #Use Equation 1 to calculate the vector field in a 2D plane to plot it.
@@ -420,7 +419,7 @@ To calculate the relative strengths of the excited waves the `wave energy flux' 
 Once the wave energy flux has been computed, it is decomposed into parallel, perpendicular and azimuthal components using the same method as the velocity vector.
 Using the analysis method outlined in \cref{sec:driveranalysis} time-distance diagrams are computed for the relative wave energy flux (see \cref{fig:All-Flux-percent-TD}).
 Due to the ratio nature of the data being displayed in \cref{fig:All-Flux-percent-TD}, the plots are filtered such that all points where $F^2 < 10^{-5}$ are masked from display.
-This prevents the early points in the simulation biasing the results when no pertubations have yet reached those points in the domain.
+This prevents the early points in the simulation biasing the results when no perturbations have yet reached those points in the domain.
 This filtering is also applied to the calculation of the average wave energy flux.
 
 
