@@ -1,6 +1,7 @@
 Simulations of Magnetohydrodynamic Waves Driven by Photospheric Motions
 =======================================================================
 
+
 Code: [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.48891.svg)](http://dx.doi.org/10.5281/zenodo.48891)
 Thesis: [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.48888.svg)](http://dx.doi.org/10.5281/zenodo.48888)
 
@@ -14,14 +15,7 @@ Information
 
 This is based on the thesis template [here](https://github.com/kks32/phd-thesis-template).
 To run this you need Python 2.7 with PythonTex, PDFLaTeX and BibTeX.
-The dependancies needed are given in `conda_requirements.txt`, the following
-packages need to be installed in addition to the ones given in the 
-conda requirements folder:
-
-* [matplotlib](http://matplotlib.org/) >= 1.5.dev
-* [texfigure](https://github.com/Cadair/texfigure)
-* [pysac](https://github.com/SWAT-Sheffield/pysac)
-* [colormath](https://pypi.python.org/pypi/colormath/)
+The Python dependencies needed are given in `conda_requirements.txt`.
 
 ### Using conda
 
@@ -37,9 +31,24 @@ activate the new environment with:
 
 ### Obtaining the data
 
-Currently this is not accessible without my ssh key. This will be fixed as soon
-as I can work out a techincal way of doing it, and I have had a break.
+The data needed to run the Python code in this thesis is managed using [git-annex](https://git-annex.branchable.com/).
+Firstly, therefore, you will need to [install git-annex](https://git-annex.branchable.com/install/).
 
+Once you have installed git-annex you will need to have the
+[GitLab Repository](https://gitlab.com/Cadair/Thesis) as a remote, as this hosts
+the git-annex data. If you have already cloned from GitHub you will need to run:
+
+    git remote add gitlab git@gitlab.com:Cadair/Thesis.git
+    
+**NOTE:** You must have an ssh key configured on GitLab for git-annex to work.
+If you have cloned directly from the GitLab repository you can skip this step.
+
+once you have this remote run:
+
+    git fetch --all
+    git annex get
+
+to download the data.
 
 ### Building the Thesis
 
