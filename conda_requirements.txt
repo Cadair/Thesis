@@ -1,101 +1,136 @@
-# This file may be used to create an environment using:
-# $ conda create --name <env> --file <this file>
-# platform: linux-64
-apptools=4.2.1=py27_0
-astropy=1.0.4=np19py27_0
-beautiful-soup=4.3.2=py27_0
-bsddb=1.0=py27_0
-cairo=1.12.18=4
-certifi=14.05.14=py27_0
-configobj=5.0.6=py27_0
-contextlib2=0.4.0=py27_0
-db=5.3.28=0
-decorator=4.0.2=py27_0
-docopt=0.6.2=py27_0
-envisage=4.4.0=py27_1
-fastcache=1.0.2=py27_0
-fontconfig=2.11.1=4
-freetype=2.5.2=2
-funcsigs=0.4=py27_0
-glymur=0.8.2=py27_0
-h5py=2.5.0=np19py27_3
-hdf5=1.8.15.1=1
-ipykernel=4.0.3=py27_0
-ipython=4.0.0=py27_0
-ipython-notebook=3.2.1=py27_0
-ipython_genutils=0.1.0=py27_0
-ipywidgets=4.0.2=py27_0
-jinja2=2.8=py27_0
-jpeg=8d=0
-jsonschema=2.4.0=py27_0
-jupyter=1.0.0=py27_0
-jupyter_client=4.0.0=py27_0
-jupyter_console=4.0.0=py27_0
-jupyter_core=4.0.4=py27_0
-libgfortran=1.0=0
-libpng=1.6.17=0
-libsodium=0.4.5=0
-libtiff=4.0.2=1
-libxml2=2.9.2=0
-libxslt=1.1.28=0
-lxml=3.4.4=py27_0
-markupsafe=0.23=py27_0
-mayavi=4.4.0=np19py27_0
-mistune=0.7=py27_0
-mock=1.3.0=py27_0
-nbconvert=4.0.0=py27_0
-nbformat=4.0.0=py27_0
-networkx=1.10=py27_0
-notebook=4.0.2=py27_0
-numpy=1.9.2=py27_1
-openblas=0.2.14=1
-openssl=1.0.1k=1
-pandas=0.16.2=np19py27_0
-path.py=7.6=py27_0
-pbr=1.3.0=py27_0
-pexpect=3.3=py27_0
-pickleshare=0.5=py27_0
-pillow=2.9.0=py27_0
-pip=7.1.2=py27_0
-pixman=0.26.2=0
-ptyprocess=0.4=py27_0
-py=1.4.30=py27_0
-py2cairo=1.10.0=py27_2
-pyface=4.4.0=py27_0
-pygments=2.0.2=py27_0
-pyparsing=2.0.3=py27_0
-pyqt=4.11.3=py27_1
-pytest=2.7.2=py27_0
-python=2.7.10=0
-python-dateutil=2.4.2=py27_0
-pytz=2015.4=py27_0
-pyzmq=14.7.0=py27_0
-qt=4.8.6=3
-qtconsole=4.0.1=py27_0
-readline=6.2=2
-requests=2.7.0=py27_0
-scikit-image=0.11.3=np19py27_0
-scipy=0.16.0=np19py27_1
-setuptools=18.1=py27_0
-simplegeneric=0.8.1=py27_0
-sip=4.16.5=py27_0
-six=1.9.0=py27_0
-sqlalchemy=1.0.8=py27_0
-sqlite=3.8.4.1=1
-ssl_match_hostname=3.4.0.2=py27_0
-suds-jurko=0.6=py27_0
-sunpy=0.6=py27_0
-sympy=0.7.6=py27_0
-system=5.8=2
-terminado=0.5=py27_0
-tk=8.5.18=0
-tornado=4.2.1=py27_0
-traitlets=4.0.0=py27_0
-traits=4.4.0=py27_0
-traitsui=4.4.0=py27_0
-vtk=5.10.1=py27_1
-wcsaxes=0.6=py27_0
-wheel=0.24.0=py27_0
-yt=3.2=np19py27_0
-zeromq=4.0.5=0
-zlib=1.2.8=0
+name: thesis
+dependencies:
+- alabaster=0.7.7=py27_0
+- apptools=4.2.1=py27_0
+- astropy=1.0.4=np19py27_0
+- babel=2.2.0=py27_0
+- backports_abc=0.4=py27_0
+- beautiful-soup=4.3.2=py27_0
+- bsddb=1.0=py27_0
+- cairo=1.12.18=6
+- certifi=2015.9.6.2=py27_0
+- configobj=5.0.6=py27_0
+- contextlib2=0.4.0=py27_0
+- cycler=0.9.0=py27_0
+- db=5.3.28=0
+- decorator=4.0.6=py27_0
+- docopt=0.6.2=py27_0
+- docutils=0.12=py27_0
+- envisage=4.4.0=py27_1
+- fastcache=1.0.2=py27_0
+- fontconfig=2.11.1=5
+- freetype=2.5.5=0
+- funcsigs=0.4=py27_0
+- glymur=0.8.2=py27_0
+- h5py=2.5.0=np19py27_3
+- hdf5=1.8.15.1=2
+- ipykernel=4.2.2=py27_0
+- ipython=4.1.1=py27_0
+- ipython-notebook=4.0.4=py27_0
+- ipython_genutils=0.1.0=py27_0
+- ipywidgets=4.1.1=py27_0
+- jbig=2.1=0
+- jedi=0.9.0=py27_0
+- jinja2=2.8=py27_0
+- jpeg=8d=0
+- jsonschema=2.4.0=py27_0
+- jupyter=1.0.0=py27_1
+- jupyter_client=4.1.1=py27_0
+- jupyter_console=4.1.0=py27_0
+- jupyter_core=4.0.6=py27_0
+- libgfortran=1.0=0
+- libpng=1.6.17=0
+- libsodium=1.0.3=0
+- libtiff=4.0.6=1
+- libxml2=2.9.2=0
+- libxslt=1.1.28=0
+- lxml=3.5.0=py27_0
+- markupsafe=0.23=py27_0
+- matplotlib=1.5.1=np110py27_0
+- mayavi=4.4.0=np19py27_0
+- mistune=0.7.1=py27_0
+- mkl=11.3.1=0
+- mkl-rt=11.1=p0
+- mock=1.3.0=py27_0
+- nbconvert=4.1.0=py27_0
+- nbformat=4.0.1=py27_0
+- networkx=1.11=py27_0
+- nomkl=1.0=0
+- notebook=4.1.0=py27_0
+- numpy=1.10.4=py27_nomkl_0
+- openblas=0.2.14=3
+- openssl=1.0.2f=0
+- pandas=0.16.2=np19py27_0
+- path.py=8.1.2=py27_1
+- pbr=1.3.0=py27_0
+- pep8=1.7.0=py27_0
+- pexpect=3.3=py27_0
+- pickleshare=0.5=py27_0
+- pillow=3.1.1=py27_0
+- pip=8.0.2=py27_0
+- pixman=0.32.6=0
+- psutil=3.4.2=py27_0
+- ptyprocess=0.5=py27_0
+- py=1.4.31=py27_0
+- py2cairo=1.10.0=py27_2
+- pycairo=1.10.0=py27_0
+- pyface=4.4.0=py27_0
+- pyflakes=1.0.0=py27_0
+- pygments=2.1=py27_0
+- pyparsing=2.0.3=py27_0
+- pyqt=4.11.4=py27_1
+- pytest=2.8.5=py27_0
+- python=2.7.11=0
+- python-dateutil=2.4.2=py27_0
+- pytz=2015.7=py27_0
+- pyzmq=15.2.0=py27_0
+- qt=4.8.7=1
+- qtconsole=4.1.1=py27_0
+- readline=6.2=2
+- requests=2.9.1=py27_0
+- rope=0.9.4=py27_1
+- scikit-image=0.11.3=np19py27_0
+- scipy=0.16.0=np19py27_1
+- setuptools=19.6.2=py27_0
+- simplegeneric=0.8.1=py27_0
+- singledispatch=3.4.0.3=py27_0
+- sip=4.16.9=py27_0
+- six=1.10.0=py27_0
+- snowballstemmer=1.2.1=py27_0
+- sphinx=1.3.5=py27_0
+- sphinx_rtd_theme=0.1.9=py27_0
+- spyder=2.3.8=py27_0
+- sqlalchemy=1.0.11=py27_0
+- sqlite=3.9.2=0
+- ssl_match_hostname=3.4.0.2=py27_0
+- suds-jurko=0.6=py27_0
+- sunpy=0.6.1=py27_0
+- sympy=0.7.6=py27_0
+- system=5.8=2
+- terminado=0.5=py27_1
+- tk=8.5.18=0
+- tornado=4.3=py27_0
+- traitlets=4.1.0=py27_0
+- traits=4.4.0=py27_0
+- traitsui=4.4.0=py27_0
+- vtk=5.10.1=py27_1
+- wcsaxes=0.6=py27_0
+- wheel=0.29.0=py27_0
+- xz=5.0.5=0
+- yt=3.2=np19py27_0
+- zeromq=4.1.3=0
+- zlib=1.2.8=0
+- pip:
+  - backports-abc==0.4
+  - backports.ssl-match-hostname==3.4.0.2
+  - beautifulsoup4==4.3.2
+  - colormath==2.1.1
+  - ghp-import==0.4.1
+  - ipython-genutils==0.1.0
+  - jupyter-client==4.1.1
+  - jupyter-console==4.1.0
+  - jupyter-core==4.0.6
+  - pysac==0.3
+  - sphinx-rtd-theme==0.1.9
+  - texfigure==0.1
+

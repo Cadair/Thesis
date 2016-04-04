@@ -45,6 +45,7 @@ if arguments['paper'] or arguments['thesis']:
     os.system('pdflatex --shell-escape -interaction=batchmode {}.tex'.format(file_prefix))
     os.system('makeindex {0}.nlo -s nomencl.ist -o {0}.nls'.format(file_prefix))
     os.system('pdflatex -synctex=1 --shell-escape -interaction=batchmode {}.tex'.format(file_prefix))
+    os.system('pdflatex -synctex=1 --shell-escape -interaction=batchmode {}.tex'.format(file_prefix))
     if arguments['--view']:
         os.system('{} {}.pdf'.format(arguments['--viewer'], file_prefix))
     os.chdir('../')
