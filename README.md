@@ -17,7 +17,7 @@ To build this thesis you should be able to run:
     git clone git@gitlab.com:Cadair/Thesis.git
     cd Thesis
     git annex get
-    conda env create -f conda_requirements.txt
+    conda env create -f conda_requirements.yml
     source activate thesis
     python run.py thesis
     
@@ -43,7 +43,7 @@ You can build the thesis from inside a conda environment as long as you have
 TexLive and pythontex installed in your system path. You can create a conda 
 environment with the following command:
 
-`conda create -n thesis --file conda_requirements.txt`
+`conda env create -f conda_requirements.yml`
 
 activate the new environment with:
 
