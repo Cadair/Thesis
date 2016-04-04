@@ -1,6 +1,11 @@
 Simulations of Magnetohydrodynamic Waves Driven by Photospheric Motions
 =======================================================================
 
+Code: [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.48891.svg)](http://dx.doi.org/10.5281/zenodo.48891)
+Thesis: [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.48888.svg)](http://dx.doi.org/10.5281/zenodo.48888)
+
+
+
 This is the PhD Thesis of Stuart Mumford.
 
 
