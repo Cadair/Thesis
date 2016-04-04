@@ -9,6 +9,26 @@ Thesis: [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.48888.svg)](http://d
 
 This is the PhD Thesis of Stuart Mumford.
 
+Quick Start
+--------------
+
+To build this thesis you should be able to run:
+
+    git clone git@gitlab.com:Cadair/Thesis.git
+    cd Thesis
+    git annex get
+    conda env create -f conda_requirements.txt
+    source activate thesis
+    python run.py thesis
+    
+This assumes a few things:
+
+1. You have pythontex, pdfLaTeX and bibtex.
+2. You have conda installed.
+3. You have an ssh key configured for GitLab
+4. You have git-annex installed.
+
+If you need more information continue reading!
 
 Information
 -----------
