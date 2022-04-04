@@ -1,9 +1,1 @@
-[alias]
-    pushdata = annex copy --all --to cadair-media
-    pushdatac = annex copy --all --to cloud
-    pushcm = push --all cadair-media
-    pushcloud = push --all cloud
-    pushall = "!git push --all origin; git pushcm; git pushcloud; git pushdata; git pushdatac"
-[filter "dropoutput_ipynb"]
-    clean = .ipynb_output_filter.py
-    smudge = cat
+/annex/objects/SHA256E-s348--3e09da8196295b2b3f17810f46652333a276eb4f6adb3f06b39ef2bbb763304f

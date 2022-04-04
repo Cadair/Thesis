@@ -1,6 +1,1 @@
-{
-    "cmd": "python2 run.py",
-    "args": ["paper"],
-    "sh": true,
-    "cwd":  "{PROJECT_PATH}"
-}
+/annex/objects/SHA256E-s101--8e504aa788ba61aa266f7d40d5014f2d09e8770be150f8d86d1ff7c7e87dda8e.json
